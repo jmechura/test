@@ -1,3 +1,7 @@
-<p>
-  button works!
-</p>
+<button class="button">
+  <span class="button-content">
+    <img [src]="icon" class="button-icon" *ngIf="icon != undefined && iconPosition === 'left'">
+    {{label}}
+    <img [src]="icon" class="button-icon" *ngIf="icon != undefined && iconPosition === 'right'">
+  </span>
+</button>

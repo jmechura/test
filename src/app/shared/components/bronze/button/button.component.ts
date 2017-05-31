@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'mss-button',
@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
+
+  @Input() label: string;
+  @Input() icon: string;
+  @Input() iconPosition: 'left' | 'right' = 'left';
 }

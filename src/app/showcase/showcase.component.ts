@@ -6,4 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./showcase.component.scss']
 })
 export class ShowcaseComponent {
+
+  buttonClicksCounter = 0;
+
+  buttonClicked(): void {
+    this.buttonClicksCounter += 1;
+  }
 }

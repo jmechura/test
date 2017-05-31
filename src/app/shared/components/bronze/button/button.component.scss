@@ -1,0 +1,13 @@
+@import '../../../../theme';
+
+.button {
+  @include mss-button;
+
+  .button-content {
+    @include mss-button-content;
+
+    .button-icon {
+      @include mss-button-icon;
+    }
+  }
+}

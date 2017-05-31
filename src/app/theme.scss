@@ -1,0 +1,54 @@
+// Global defaults
+
+$primary-color: #492578;
+$contrast-color: #ffffff;
+$warn-color: #b00b13;
+
+$default-padding: 24px;
+
+// button
+@mixin mss-button {
+  width: auto;
+  height: auto;
+
+  padding: 12px;
+  margin: 6px;
+  border: none;
+  border-radius: 10px;
+
+  background-color: $primary-color;
+  color: $contrast-color;
+
+  box-shadow: none;
+  outline: none;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($primary-color, 10%);
+  }
+
+  &:active {
+    background-color: darken($primary-color, 10%);
+  }
+
+}
+
+@mixin mss-button-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  user-select: none;
+}
+
+@mixin mss-button-icon {
+  height: 16px;
+  width: 16px;
+
+  margin: 0 6px;
+}
+

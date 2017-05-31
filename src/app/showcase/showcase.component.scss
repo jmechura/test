@@ -6,7 +6,17 @@
 .showcase-container {
   padding: 24px;
   margin: 12px 24px;
-  width: 100%;
   border-radius: 10px;
   background-color: #cccccc;
+  display: flex;
+  flex-direction: column;
+
+  .showcase-row {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    border-bottom: 1px dashed black;
+    width: auto;
+  }
 }
