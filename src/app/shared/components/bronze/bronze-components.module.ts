@@ -39,6 +39,22 @@ import { RadioButtonComponent } from './radio-button/radio-button.component';
     FormsModule,
     HttpModule,
   ],
+  exports: [
+    AvatarComponent,
+    ButtonComponent,
+    IconButtonComponent,
+    InputComponent,
+    SelectComponent,
+    UploadInputComponent,
+    ProgressBarComponent,
+    CircularLoaderComponent,
+    SliderComponent,
+    ModalWindowComponent,
+    ToggleComponent,
+    CheckboxComponent,
+    RadioButtonGroupComponent,
+    RadioButtonComponent
+  ],
   providers: [],
 })
 export class BronzeComponentsModule {

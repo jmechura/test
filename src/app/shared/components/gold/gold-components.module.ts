@@ -16,6 +16,10 @@ import { AuthFormComponent } from './auth-form/auth-form.component';
     FormsModule,
     HttpModule,
   ],
+  exports: [
+    FormComponent,
+    AuthFormComponent,
+  ],
   providers: [],
 })
 export class GoldComponentsModule {

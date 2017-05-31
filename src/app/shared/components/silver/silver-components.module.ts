@@ -21,6 +21,13 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
     FormsModule,
     HttpModule,
   ],
+  exports: [
+    DataTableComponent,
+    TimePickerComponent,
+    LabeledInputComponent,
+    AutocompleteInputComponent,
+    DatePickerComponent,
+  ],
   providers: [],
 })
 export class SilverComponentsModule {
