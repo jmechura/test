@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'mss-checkbox',
@@ -6,4 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./checkbox.component.scss']
 })
 export class CheckboxComponent {
+
+  @Input() label: string;
+
+  @Input() checked: boolean;
+  @Output() checkedChange = new EventEmitter<boolean>();
+
+  checkboxClicked(): void {
+    this.checkedChange.emit(!this.checked);
+  }
 }

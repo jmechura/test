@@ -1,0 +1,9 @@
+@import 'theme';
+
+.progress-bar-container {
+  @include mss-progress-bar-container;
+
+  .progress-bar {
+    @include mss-progress-bar;
+  }
+}

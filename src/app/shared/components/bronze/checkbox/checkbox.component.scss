@@ -1,0 +1,17 @@
+@import 'theme';
+
+.checkbox-container {
+  @include mss-checkbox-container;
+
+  .checkbox {
+    @include mss-checkbox;
+
+    &.checked {
+      @include mss-checkbox-checked;
+    }
+  }
+
+  .checkbox-label {
+    @include mss-checkbox-label;
+  }
+}

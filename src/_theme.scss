@@ -1,0 +1,119 @@
+// Global defaults
+
+$default-background-color: #ffffff;
+$primary-color: #492578;
+$contrast-color: #ffffff;
+$warn-color: #b00b13;
+
+$default-padding: 24px;
+
+// ---------------- button ----------------
+
+@mixin mss-button {
+  width: auto;
+  height: auto;
+
+  padding: 12px;
+  margin: 6px;
+  border: none;
+  border-radius: 10px;
+
+  background-color: $primary-color;
+  color: $contrast-color;
+
+  box-shadow: none;
+  outline: none;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($primary-color, 10%);
+  }
+
+  &:active {
+    background-color: darken($primary-color, 10%);
+  }
+
+}
+
+@mixin mss-button-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  user-select: none;
+}
+
+@mixin mss-button-icon {
+  height: 16px;
+  width: 16px;
+
+  margin: 0 6px;
+}
+
+// ---------------- checkbox ----------------
+
+@mixin mss-checkbox-container {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+
+  padding: 10px;
+}
+
+@mixin mss-checkbox {
+  height: 15px;
+  width: 15px;
+
+  background-color: $contrast-color;
+
+  border: 1px solid $primary-color;
+  border-radius: 2px;
+
+  outline: none;
+  margin-right: 10px;
+}
+
+@mixin mss-checkbox-checked {
+  &::after {
+    position: relative;
+    left: 5px;
+    display: block;
+    content: '';
+    width: 4px;
+    height: 9px;
+    transform: rotate(45deg);
+    border-right: 2px solid $primary-color;
+    border-bottom: 2px solid $primary-color;
+    transition: border 0.5s;
+  }
+}
+
+@mixin mss-checkbox-label {
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+// ---------------- progress bar ----------------
+
+$progress-bar-height: 16px;
+
+@mixin mss-progress-bar-container {
+  width: 500px;
+  height: $progress-bar-height;
+  background-color: $default-background-color;
+  border-radius: $progress-bar-height;
+  box-shadow: none;
+  padding: $progress-bar-height * 0.2;
+}
+
+@mixin mss-progress-bar {
+  background-color: $primary-color;
+  height: $progress-bar-height;
+  border-radius: $progress-bar-height / 2;
+}

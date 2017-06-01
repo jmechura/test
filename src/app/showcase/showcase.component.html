@@ -1,9 +1,22 @@
 <h1 class="showcase-title">Component Showcase</h1>
 <div class="showcase-container">
+
+  <!--buttons-->
   <div class="showcase-row">
     <mss-button (click)="buttonClicked()" label="Button..."></mss-button>
     <mss-button (click)="buttonClicked()" label="...with icon..." icon="assets/icons/mock_icon.svg"></mss-button>
     <mss-button (click)="buttonClicked()" label="...on right." icon="assets/icons/mock_icon.svg" iconPosition="right"></mss-button>
-    <label>Clicks: {{buttonClicksCounter}}!</label>
+    <label class="showcase-label">Clicks: {{buttonClicksCounter}}!</label>
+  </div>
+
+  <div class="showcase-row">
+    <mss-checkbox [(checked)]="checkboxChecked" label="random checkbox"></mss-checkbox>
+    <label class="showcase-label">Checked: {{checkboxChecked}}</label>
+  </div>
+
+  <div class="showcase-row">
+    <mss-progress-bar [progress]="progress"></mss-progress-bar>
+    <button (click)="updateProgress(true)" class="showcase-label">+</button>
+    <button (click)="updateProgress(false)" class="showcase-label">-</button>
   </div>
 </div>

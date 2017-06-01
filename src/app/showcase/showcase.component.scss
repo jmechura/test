@@ -4,19 +4,28 @@
 }
 
 .showcase-container {
-  padding: 24px;
   margin: 12px 24px;
   border-radius: 10px;
-  background-color: #cccccc;
+  background-color: #dddddd;
   display: flex;
   flex-direction: column;
+  box-shadow: inset 0 0 10px #000000;
 
   .showcase-row {
+    margin: 12px 12px 0 12px;
+    padding: 12px;
     display: flex;
     align-items: center;
     justify-content: start;
     flex-direction: row;
-    border-bottom: 1px dashed black;
     width: auto;
+
+    &:not(:last-child) {
+      border-bottom: 1px dashed black;
+    }
+
+    .showcase-label {
+      margin-left: 30px;
+    }
   }
 }
