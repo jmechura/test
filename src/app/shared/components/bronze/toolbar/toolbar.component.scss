@@ -1,0 +1,10 @@
+@import 'theme';
+
+.toolbar-container {
+  @include mss-toolbar-container;
+
+  .toolbar-item {
+    @include mss-toolbar-item;
+
+  }
+}

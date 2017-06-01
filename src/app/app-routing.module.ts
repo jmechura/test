@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { PlatformComponent } from './platform/platform.component';
+import { ShowcaseComponent } from './showcase/showcase.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
-    children: []
+    children: [
+      {path: 'platform', component: PlatformComponent},
+      {path: 'showcase', component: ShowcaseComponent},
+    ]
   }
 ];
 
@@ -12,4 +17,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

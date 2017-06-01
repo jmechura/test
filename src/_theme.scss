@@ -6,7 +6,8 @@ $contrast-color: #ffffff;
 $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
 
-$default-padding: 24px;
+$default-margin: 12px;
+$default-padding: 12px;
 
 @mixin default-component-label {
   font-size: 14px;
@@ -20,8 +21,8 @@ $default-padding: 24px;
   width: auto;
   height: auto;
 
-  padding: 12px;
-  margin: 6px;
+  margin: $default-margin;
+  padding: $default-padding;
   border: none;
   border-radius: 10px;
 
@@ -63,18 +64,20 @@ $default-padding: 24px;
 
 // ---------------- checkbox ----------------
 
+$checkbox-size: 15px;
+
 @mixin mss-checkbox-container {
   cursor: pointer;
   user-select: none;
   display: flex;
   align-items: center;
 
-  padding: 10px;
+  margin: $default-margin;
 }
 
 @mixin mss-checkbox {
-  height: 15px;
-  width: 15px;
+  height: $checkbox-size;
+  width: $checkbox-size;
 
   background-color: $contrast-color;
 
@@ -120,6 +123,7 @@ $progress-bar-height: 16px;
   border-radius: $progress-bar-height;
   box-shadow: none;
   padding: $progress-bar-height * 0.2;
+  margin: $default-margin;
 }
 
 @mixin mss-progress-bar {
@@ -135,7 +139,7 @@ $toggle-width: 60px;
 $toggle-transition-time: .5s;
 
 @mixin mss-toggle-container {
-  padding: 12px;
+  margin: $default-margin;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -172,4 +176,46 @@ $toggle-transition-time: .5s;
 
 @mixin mss-toggle-label {
   @include default-component-label;
+}
+
+// ---------------- toolbar ----------------
+
+$toolbar-height: 60px;
+
+@mixin mss-toolbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: $toolbar-height;
+  width: 100%;
+  background-color: $primary-color;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: $default-padding;
+  box-sizing: border-box;
+}
+
+@mixin mss-toolbar-item {
+  color: $contrast-color;
+  padding: $default-padding;
+  cursor: pointer;
+  user-select: none;
+
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    background-color: rgba($contrast-color, 0.1);
+  }
+
+  &:active {
+    background-color: rgba($contrast-color, 0.2);
+  }
+}
+
+@mixin mss-content-container {
+  position: absolute;
+  top: $toolbar-height;
 }

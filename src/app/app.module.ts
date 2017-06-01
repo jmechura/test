@@ -10,11 +10,13 @@ import { BronzeComponentsModule } from './shared/components/bronze/bronze-compon
 import { SilverComponentsModule } from 'app/shared/components/silver/silver-components.module';
 import { GoldComponentsModule } from './shared/components/gold/gold-components.module';
 import { ShowcaseComponent } from './showcase/showcase.component';
+import { PlatformComponent } from './platform/platform.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShowcaseComponent,
+    PlatformComponent,
   ],
   imports: [
     BrowserModule,

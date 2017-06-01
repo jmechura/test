@@ -16,6 +16,7 @@ import { ToggleComponent } from './toggle/toggle.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { RadioButtonGroupComponent } from './radio-button-group/radio-button-group.component';
 import { RadioButtonComponent } from './radio-button/radio-button.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { RadioButtonComponent } from './radio-button/radio-button.component';
     ToggleComponent,
     CheckboxComponent,
     RadioButtonGroupComponent,
-    RadioButtonComponent
+    RadioButtonComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { RadioButtonComponent } from './radio-button/radio-button.component';
     ToggleComponent,
     CheckboxComponent,
     RadioButtonGroupComponent,
-    RadioButtonComponent
+    RadioButtonComponent,
+    ToolbarComponent
   ],
   providers: [],
 })

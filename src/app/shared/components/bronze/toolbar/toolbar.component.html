@@ -1,0 +1,5 @@
+<div class="toolbar-container">
+  <div *ngFor="let item of routes" (click)="redirect(item.link)" class="toolbar-item">
+    {{item.label}}
+  </div>
+</div>
