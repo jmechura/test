@@ -16,7 +16,12 @@
 
   <div class="showcase-row">
     <mss-progress-bar [progress]="progress"></mss-progress-bar>
-    <button (click)="updateProgress(true)" class="showcase-label">+</button>
-    <button (click)="updateProgress(false)" class="showcase-label">-</button>
+    <button (click)="updateProgress(true)" class="showcase-label">&nbsp;+&nbsp;</button>
+    <button (click)="updateProgress(false)" class="showcase-label">&nbsp;-&nbsp;</button>
+  </div>
+
+  <div class="showcase-row">
+    <mss-toggle [(toggled)]="toggled" label="random toggle"></mss-toggle>
+    <label class="showcase-label">Toggled: {{toggled}}</label>
   </div>
 </div>

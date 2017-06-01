@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'mss-toggle',
@@ -6,4 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./toggle.component.scss']
 })
 export class ToggleComponent {
+
+  @Input() label: string;
+
+  @Input() toggled = false;
+  @Output() toggledChange = new EventEmitter<boolean>();
+
+  toggleClick(): void {
+    this.toggledChange.emit(!this.toggled);
+  }
+
 }

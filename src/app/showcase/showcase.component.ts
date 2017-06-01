@@ -13,6 +13,8 @@ export class ShowcaseComponent {
 
   progress = 0.52;
 
+  toggled = false;
+
   buttonClicked(): void {
     this.buttonClicksCounter += 1;
   }

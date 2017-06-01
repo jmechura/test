@@ -1,3 +1,6 @@
-<p>
-  toggle works!
-</p>
+<div class="toggle-container" (click)="toggleClick()">
+  <div class="toggle-background" [ngClass]="{'toggled': toggled}">
+    <div class="toggle-button"></div>
+  </div>
+  <div class="toggle-label">{{label}}</div>
+</div>

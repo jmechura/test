@@ -4,8 +4,15 @@ $default-background-color: #ffffff;
 $primary-color: #492578;
 $contrast-color: #ffffff;
 $warn-color: #b00b13;
+$disabled-color: #aaaaaa;
 
 $default-padding: 24px;
+
+@mixin default-component-label {
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
 
 // ---------------- button ----------------
 
@@ -76,9 +83,7 @@ $default-padding: 24px;
 
   outline: none;
   margin-right: 10px;
-}
 
-@mixin mss-checkbox-checked {
   &::after {
     position: relative;
     left: 5px;
@@ -87,16 +92,21 @@ $default-padding: 24px;
     width: 4px;
     height: 9px;
     transform: rotate(45deg);
+    border: transparent;
+    transition: border 0.2s;
+  }
+
+}
+
+@mixin mss-checkbox-checked {
+  &::after {
     border-right: 2px solid $primary-color;
     border-bottom: 2px solid $primary-color;
-    transition: border 0.5s;
   }
 }
 
 @mixin mss-checkbox-label {
-  font-size: 14px;
-  font-weight: 400;
-  text-decoration: none;
+  @include default-component-label;
 }
 
 // ---------------- progress bar ----------------
@@ -116,4 +126,50 @@ $progress-bar-height: 16px;
   background-color: $primary-color;
   height: $progress-bar-height;
   border-radius: $progress-bar-height / 2;
+}
+
+// ---------------- toggle ----------------
+
+$toggle-button-size: 20px;
+$toggle-width: 60px;
+$toggle-transition-time: .5s;
+
+@mixin mss-toggle-container {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+@mixin mss-toggle-background {
+  height: $toggle-button-size;
+  width: $toggle-width;
+  background-color: $disabled-color;
+  border-radius: $toggle-button-size;
+  padding: $toggle-button-size * 0.1;
+  margin-right: 10px;
+  transition: background-color $toggle-transition-time;
+}
+
+@mixin mss-toggle-background-toggled {
+  background-color: $primary-color;
+}
+
+@mixin mss-toggle-button {
+  position: relative;
+  left: 0;
+  height: $toggle-button-size;
+  width: $toggle-button-size;
+  border-radius: 50%;
+  background-color: $contrast-color;
+  transition: left $toggle-transition-time;
+}
+
+@mixin mss-toggle-button-toggled {
+  left: $toggle-width - $toggle-button-size;
+}
+
+@mixin mss-toggle-label {
+  @include default-component-label;
 }

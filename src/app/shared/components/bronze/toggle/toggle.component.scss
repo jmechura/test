@@ -1,0 +1,25 @@
+@import 'theme';
+
+.toggle-container {
+  @include mss-toggle-container;
+
+  .toggle-background {
+    @include mss-toggle-background;
+
+    .toggle-button {
+      @include mss-toggle-button;
+    }
+
+    &.toggled {
+      @include mss-toggle-background-toggled;
+
+      .toggle-button {
+        @include mss-toggle-button-toggled;
+      }
+    }
+  }
+
+  .toggle-label {
+    @include mss-toggle-label;
+  }
+}
