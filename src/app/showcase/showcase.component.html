@@ -37,4 +37,23 @@
     <mss-input [(value)]="inputValue4" label="Such placeholder: " placeholder="much wow"></mss-input>
     <label class="showcase-label">Values: [{{inputValue1}}], [{{inputValue2}}], [{{inputValue3}}], [{{inputValue4}}]</label>
   </div>
+
+  <!--modal-window-->
+  <div class="showcase-row">
+    <label class="showcase-label"></label>
+    <button (click)="toggleModalShowing(0)" class="showcase-label">Show Modal</button>
+    <button (click)="toggleModalShowing(1)" class="showcase-label">Show Modal without overlay</button>
+
+    <mss-modal-window [(visible)]="modalShowing[0]">
+      <h2>Modal window</h2>
+      <div>{{loremIpsum}}</div>
+      <button (click)="toggleModalShowing(0)">Close</button>
+    </mss-modal-window>
+
+    <mss-modal-window [(visible)]="modalShowing[1]" [overlay]="false">
+      <h2>Modal window without overlay</h2>
+      <div>{{loremIpsum}}</div>
+      <button (click)="toggleModalShowing(1)">Close</button>
+    </mss-modal-window>
+  </div>
 </div>

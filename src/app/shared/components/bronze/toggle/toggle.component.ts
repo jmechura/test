@@ -15,5 +15,4 @@ export class ToggleComponent {
   toggleClick(): void {
     this.toggledChange.emit(!this.toggled);
   }
-
 }

@@ -23,5 +23,4 @@ export class ProgressBarComponent {
   getProgress(): string {
     return `${this.progress}%`;
   }
-
 }

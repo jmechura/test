@@ -141,6 +141,35 @@ $input-width: 250px;
   font-weight: 400;
 }
 
+// ---------------- modal window ----------------
+
+@mixin mss-modal-window-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin mss-modal-window-overlay-active {
+  background-color: rgba($disabled-color, 0.6);
+  pointer-events: auto;
+}
+
+@mixin mss-modal-window {
+  pointer-events: auto;
+  position: relative;
+  background-color: $default-background-color;
+  padding: 24px;
+  border-radius: 5px;
+  max-width: 50%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
 // ---------------- progress bar ----------------
 
 $progress-bar-height: 16px;

@@ -1,0 +1,13 @@
+@import 'theme';
+
+.modal-window-overlay {
+  @include mss-modal-window-overlay;
+
+  &.active {
+    @include mss-modal-window-overlay-active;
+  }
+
+  .modal-window {
+    @include mss-modal-window;
+  }
+}

@@ -1,3 +1,5 @@
-<p>
-  modal-window works!
-</p>
+<div class="modal-window-overlay" [ngClass]="{'active': overlay}" *ngIf="visible" (click)="closeModal()">
+  <div class="modal-window" (click)="$event.stopPropagation()">
+    <ng-content></ng-content>
+  </div>
+</div>
