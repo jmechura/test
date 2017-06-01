@@ -15,6 +15,11 @@ export class ShowcaseComponent {
 
   toggled = false;
 
+  inputValue1 = 'whatever';
+  inputValue2: number;
+  inputValue3= 'Input without label';
+  inputValue4: string;
+
   buttonClicked(): void {
     this.buttonClicksCounter += 1;
   }

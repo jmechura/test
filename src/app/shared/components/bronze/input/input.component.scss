@@ -1,0 +1,13 @@
+@import 'theme';
+
+.input-container {
+  @include mss-input-container;
+
+  .input-label {
+    @include mss-input-label;
+  }
+
+  .input {
+    @include mss-input;
+  }
+}
