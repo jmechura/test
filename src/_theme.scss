@@ -5,7 +5,8 @@ $primary-color: #492578;
 $contrast-color: #ffffff;
 $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
-$radio-animation-time: .25s;
+$animation-time: 0.25s;
+
 
 $default-margin: 12px;
 $default-padding: 12px;
@@ -148,6 +149,81 @@ $input-width: 250px;
   font-weight: 400;
 }
 
+// ---------------- select ----------------
+
+@mixin mss-arrow-rotate {
+  transform: rotate(90deg);
+}
+
+@mixin mass-select-arrow {
+  width: 14px;
+  height: 14px;
+  margin-left: 10px;
+  transition: transform $animation-time;
+}
+@mixin mss-select-button {
+  @include default-component-label;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 250px; // change it to 100% if you want to give it size from upper component
+  height: 100%;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid $primary-color;
+  background-color: $contrast-color;
+  padding: $default-padding;
+
+}
+
+@mixin mss-select-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+@mixin mss-select-content {
+  position: absolute;
+  z-index: 4;
+  max-height: 0;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: max-height $animation-time;
+  background-color: $contrast-color;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+}
+
+@mixin mss-show-select {
+  max-height: 250px;
+}
+
+@mixin mss-select-option {
+  padding: $default-padding;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-color;
+    background-color: rgba($disabled-color, 0.2);
+  }
+}
+
+@mixin mss-select-overlay {
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
 // ---------------- modal window ----------------
 
 @mixin mss-modal-window-overlay {
@@ -240,7 +316,7 @@ $inactive-color: rgba(0, 0, 0, 0.54);
 }
 
 @mixin mss-radio {
-  transition: transform $radio-animation-time ease-out;
+  transition: transform $animation-time ease-out;
   width: $radio-size;
   height: $radio-size;
   box-sizing: border-box;

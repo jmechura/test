@@ -1,3 +1,10 @@
-<p>
-  select works!
-</p>
+<div *ngIf="show" class="select-overlay" (click)="switchDropdown()"></div>
+<div class="select-container">
+  <button (click)="switchDropdown()" type="button" class="select-button">
+    <span>{{selectedOption ? option : showName}}</span>
+    <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
+  </button>
+  <div *ngIf="options.length > 0" [ngClass]="{'show': show}" class="select-content">
+    <a class="option" *ngFor="let item of options" (click)="selectOption(item.value)">{{item.label ? item.label : item.value}}</a>
+  </div>
+</div>

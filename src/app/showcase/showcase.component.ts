@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SelectItem } from '../shared/components/bronze/select/select.component';
 import { RadioItem } from '../shared/components/bronze/radio-button-group/radio-button-group.component';
 
 @Component({
@@ -20,6 +21,9 @@ export class ShowcaseComponent {
   inputValue2: number;
   inputValue3 = 'Input without label';
   inputValue4: string;
+
+  selectOptions: SelectItem[] = [{value: 'Such'}, {value: 'Select'}, {value: 'Much'}, {value: 'WOW'}];
+  selected: string;
 
   modalShowing: boolean[] = [false, false];
 
