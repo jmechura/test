@@ -1,3 +1,11 @@
-<p>
-  radio-button-group works!
-</p>
+<div *ngIf="options" class="radio-button-group-container">
+  <label *ngFor="let item of options" for="item.id" class="radio-button-container" [ngClass]="{'checked': item.id === selected}"
+         (click)="changeSelected($event, item.id)">
+    <div class="radio-button">
+      <div class="outer"></div>
+      <div class="inner"></div>
+    </div>
+    <input type="radio" id="item.id" name="item.id" class="radio-input">
+    <div class="radio-label">{{item.label ? item.label : item.id}}</div>
+  </label>
+</div>

@@ -15,7 +15,6 @@ import { ModalWindowComponent } from './modal-window/modal-window.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { RadioButtonGroupComponent } from './radio-button-group/radio-button-group.component';
-import { RadioButtonComponent } from './radio-button/radio-button.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
@@ -33,7 +32,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     ToggleComponent,
     CheckboxComponent,
     RadioButtonGroupComponent,
-    RadioButtonComponent,
     ToolbarComponent
   ],
   imports: [
@@ -55,7 +53,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     ToggleComponent,
     CheckboxComponent,
     RadioButtonGroupComponent,
-    RadioButtonComponent,
     ToolbarComponent
   ],
   providers: [],

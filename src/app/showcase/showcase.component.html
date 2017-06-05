@@ -29,6 +29,12 @@
     <label class="showcase-label">Toggled: {{toggled}}</label>
   </div>
 
+  <!--radio-button-group-->
+  <div class="showcase-row">
+    <mss-radio-button-group [options]="radioOptions" [(selected)]="radioSelected"></mss-radio-button-group>
+    <label class="showcase-label">Radio selected: {{radioSelected}}</label>
+  </div>
+
   <!--input-->
   <div class="showcase-row multiple">
     <mss-input [(value)]="inputValue1" label="Input: "></mss-input>

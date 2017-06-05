@@ -5,6 +5,7 @@ $primary-color: #492578;
 $contrast-color: #ffffff;
 $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
+$radio-animation-time: .25s;
 
 $default-margin: 12px;
 $default-padding: 12px;
@@ -194,6 +195,61 @@ $progress-bar-height: 16px;
   background-color: $primary-color;
   height: $progress-bar-height;
   border-radius: $progress-bar-height / 2;
+}
+
+// ---------------- radio-button-group ----------------
+
+$radio-size: 20px;
+$inactive-color: rgba(0, 0, 0, 0.54);
+
+@mixin mss-radio-button-group {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin mss-radio-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
+}
+
+@mixin mss-radio-button {
+  position: relative;
+  margin-right: $radio-size;
+  display: inline-block;
+  height: $radio-size;
+  width: $radio-size;
+}
+
+@mixin mss-inner-radio {
+  background-color: $primary-color;
+  transform: scale(0);
+  border: none;
+}
+
+@mixin mss-inner-scale {
+  transform: scale(.5);
+}
+
+@mixin mss-primary-checked-border {
+  border-color: $primary-color;
+}
+
+@mixin mss-radio {
+  transition: transform $radio-animation-time ease-out;
+  width: $radio-size;
+  height: $radio-size;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  border: 2px solid $inactive-color;
+
 }
 
 // ---------------- toggle ----------------

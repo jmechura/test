@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RadioItem } from '../shared/components/bronze/radio-button-group/radio-button-group.component';
 
 @Component({
   selector: 'mss-showcase',
@@ -21,6 +22,9 @@ export class ShowcaseComponent {
   inputValue4: string;
 
   modalShowing: boolean[] = [false, false];
+
+  radioOptions: RadioItem[] = [{id: 1}, {id: 'so'}, {id: 3}, {id: 'much'}, {id: 5}, {id: 'WOW'}];
+  radioSelected: number | string;
 
   loremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore' +
     ' et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ' +
