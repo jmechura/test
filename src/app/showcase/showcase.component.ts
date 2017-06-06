@@ -25,6 +25,8 @@ export class ShowcaseComponent {
   selectOptions: SelectItem[] = [{value: 'Such'}, {value: 'Select'}, {value: 'Much'}, {value: 'WOW'}];
   selected: string;
 
+  searchInputArray: string[] = ['Bulabasour', 'Charmander', 'Squirtle', 'Megicarp', 'Pidgey', 'Rattata', 'Pikachu', 'vulpix', 'Jigglypuff'];
+  selectedPokemon: string;
   modalShowing: boolean[] = [false, false];
 
   radioOptions: RadioItem[] = [{id: 1}, {id: 'so'}, {id: 3}, {id: 'much'}, {id: 5}, {id: 'WOW'}];

@@ -17,6 +17,17 @@ $default-padding: 12px;
   text-decoration: none;
 }
 
+// ---------------- autocomplete-input ----------------
+
+@mixin mss-autocomplete-container {
+  position: relative;
+  display: inline-block;
+}
+
+@mixin mss-upper-z-index {
+  z-index: 4;
+}
+
 // ---------------- avatar ----------------
 
 @mixin mss-avatar {
@@ -134,7 +145,7 @@ $input-width: 250px;
 @mixin mss-input-label {
   @include default-component-label;
   display: block;
-  width: 120px;
+  width: 130px;
 }
 
 @mixin mss-input {
@@ -205,11 +216,11 @@ $input-width: 250px;
   text-decoration: none;
   display: block;
   cursor: pointer;
+}
 
-  &:hover {
-    color: $primary-color;
-    background-color: rgba($disabled-color, 0.2);
-  }
+@mixin mss-key-select-option {
+  color: $primary-color;
+  background-color: rgba($disabled-color, 0.2);
 }
 
 @mixin mss-select-overlay {

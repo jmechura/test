@@ -1,3 +1,12 @@
-<p>
-  autocomplete-input works!
-</p>
+<div *ngIf="show" class="select-overlay" (click)="switchSelect()"></div>
+<div class="auto-complete-container" [ngClass]="{'show': show}">
+  <label for="search" class="search-label">{{label}}</label>
+  <div class="input-container">
+    <input type="text" id="search" name="search" class="search-input" [ngModel]="pattern" (ngModelChange)="changeInput($event)"
+           [placeholder]="placeholder" (focus)="switchSelect()" (keydown)="key($event)">
+    <div #autocompleteDropdown class="select-content">
+      <a class="option" *ngFor="let item of filteredSearchedItems; let i = index"
+         [ngClass]="{'selected': rowIndex === i}" (mouseover)="setRow(i)" (click)="selectOption(item)">{{item}}</a>
+    </div>
+  </div>
+</div>
