@@ -1,0 +1,33 @@
+@import 'theme';
+
+input[type='file'] {
+  display: none;
+}
+
+.input-container {
+  @include mss-input-container;
+
+  .input-label {
+    @include mss-input-label;
+  }
+
+  .file-upload-container {
+    @include mss-file-upload-container;
+
+    .file-name {
+      @include mss-file-name;
+    }
+  }
+
+  .file-upload-button {
+    @include mss-file-upload-button;
+  }
+
+  .file-upload-input {
+    @include mss-file-upload-input;
+  }
+
+  .icon {
+    @include mss-file-upload-icon;
+  }
+}

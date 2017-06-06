@@ -131,6 +131,60 @@ $checkbox-size: 15px;
   @include default-component-label;
 }
 
+// ---------------- file-upload ----------------
+
+@mixin mss-file-name {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+
+  border: 1px solid $primary-color;
+  background-color: $contrast-color;
+  padding: 6px;
+
+  overflow: hidden;
+}
+
+@mixin mss-file-upload-button {
+  display: flex;
+  height: 25px;
+  align-items: center;
+
+  padding: $default-padding;
+  border: none;
+  border-radius: 10px;
+  color: $contrast-color;
+  cursor: pointer;
+
+  background-color: $primary-color;
+}
+
+@mixin mss-file-upload-icon {
+  width: 20px;
+  padding-right: 5px;
+}
+
+@mixin mss-file-upload-input {
+  color: $contrast-color;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  height: 25px;
+  white-space: nowrap;
+
+  background-color: $primary-color;
+
+  padding: 6px;
+}
+
+@mixin mss-file-upload-container {
+  @include default-component-label;
+
+  display: flex;
+  width: 250px;
+}
+
 // ---------------- input ----------------
 
 $input-height: 25px;

@@ -70,8 +70,14 @@
       <button (click)="toggleModalShowing(1)">Close</button>
     </mss-modal-window>
   </div>
-
-  <div class="showcase-row">
+  
+  <!--upload input-->
+  <div class="showcase-row multiple">
+    <mss-upload-input [label]="'Upload type button'"></mss-upload-input>
+    <mss-upload-input [acceptFiles]="'image/*'" [type]="'input'" [label]="'Upload type input'"></mss-upload-input>
+  </div>
+  
+  <div class="showcase-row"> 
     <label class="showcase-label">Avatar:</label>
     <mss-avatar></mss-avatar>
   </div>

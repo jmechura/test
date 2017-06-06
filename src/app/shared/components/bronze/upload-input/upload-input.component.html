@@ -1,3 +1,11 @@
-<p>
-  upload-input works!
-</p>
+<div class="input-container">
+  <span class="input-label">{{label}}</span>
+  <label [for]="id" class="file-upload-container" >
+    <div [class]="'file-upload-' + type">
+      <img src="assets/icons/upload.svg" class="icon">
+      Upload file
+    </div>
+    <div *ngIf="type === 'input'" class="file-name"><span>{{fileName}}</span></div>
+  </label>
+  <input [id]="id" type="file" [accept]="acceptFiles" (change)="onFileChange($event)" class="input">
+</div>
