@@ -1,0 +1,21 @@
+@import 'theme';
+
+.slider-container {
+  @include mss-slider-container;
+
+  .slider {
+    @include mss-slider;
+
+    .slider-base {
+      @include mss-slider-base;
+    }
+
+    .slider-filled {
+      @include mss-slider-filled;
+    }
+
+    .slider-button {
+      @include mss-slider-button;
+    }
+  }
+}

@@ -26,7 +26,7 @@
   <!--toggle-->
   <div class="showcase-row">
     <mss-toggle [(toggled)]="toggled" label="random toggle"></mss-toggle>
-    <label class="showcase-label">Toggled: {{toggled}}</label>
+    <label class="showcase-label">Toggled: {{toggled}}.</label>
   </div>
 
   <!--radio-button-group-->
@@ -75,7 +75,16 @@
     <label class="showcase-label">Avatar:</label>
     <mss-avatar></mss-avatar>
   </div>
-
+  
+  <!--slider-->
+  <div class="showcase-row multiple">
+    <label class="showcase-label">Sliders</label>
+    <mss-slider [(value)]="sliderValue1"></mss-slider>
+    <label class="showcase-label">Slider1 value: {{sliderValue1}}.</label>
+    <mss-slider [(value)]="sliderValue2" [min]="slider2min" [max]="slider2max"></mss-slider>
+    <label class="showcase-label">Slider2 value: {{sliderValue2}}. Min: {{slider2min}}. Max: {{slider2max}}</label>
+  </div>
+  
   <div class="showcase-row">
     <mss-select  [options]="selectOptions" [(selectedOption)]="selected"></mss-select>
     <label class="showcase-label">selected: {{selected}}</label>

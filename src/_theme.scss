@@ -336,7 +336,65 @@ $inactive-color: rgba(0, 0, 0, 0.54);
   left: 0;
   border-radius: 50%;
   border: 2px solid $inactive-color;
+}
 
+// ---------------- slider ----------------
+
+$slider-width: 160px;
+$slider-base-height: 10px;
+$slider-button-size: 22px;
+$slider-padding: $default-padding;
+
+@mixin mss-slider-container {
+  padding: $slider-padding;
+  position: relative;
+  width: $slider-width;
+
+  &.grabbing {
+    cursor: grabbing;
+  }
+}
+
+@mixin mss-slider {
+  position: relative;
+  pointer-events: none;
+}
+
+@mixin mss-slider-base {
+  position: relative;
+
+  width: $slider-width;
+  height: $slider-base-height;
+  border-radius: $slider-base-height / 2;
+  background-color: $disabled-color;
+  pointer-events: none;
+}
+
+@mixin mss-slider-filled {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  height: $slider-base-height;
+  border-radius: $slider-base-height / 2;
+  background-color: $primary-color;
+  pointer-events: none;
+}
+
+@mixin mss-slider-button {
+  position: absolute;
+  top: (-$slider-button-size / 2) + ($slider-base-height / 2);
+
+  height: $slider-button-size;
+  width: $slider-button-size;
+  border-radius: 50%;
+  background-color: $contrast-color;
+  cursor: grab;
+  pointer-events: auto;
+
+  &.grabbing {
+    cursor: grabbing;
+  }
 }
 
 // ---------------- toggle ----------------

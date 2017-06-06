@@ -1,3 +1,9 @@
-<p>
-  slider works!
-</p>
+<div #sliderContainer class="slider-container" [ngClass]="{'grabbing': isMouseDown}"
+     (mouseup)="onPanEnd()" (mousedown)="onSliderMouseDown($event)">
+  <div class="slider">
+    <div #sliderBase class="slider-base"></div>
+    <div [style.width]="filledBarWidth" class="slider-filled"></div>
+    <div #sliderButton [style.left]="buttonPosition" class="slider-button" [ngClass]="{'grabbing': isMouseDown}"
+         (dragstart)="$event.preventDefault()" (mousedown)="onButtonMouseDown($event)"></div>
+  </div>
+</div>
