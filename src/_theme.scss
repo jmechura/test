@@ -1,5 +1,9 @@
 // Global defaults
 
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
 $default-background-color: #ffffff;
 $primary-color: #492578;
 $contrast-color: #ffffff;
@@ -7,11 +11,11 @@ $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
 $animation-time: 0.25s;
 
-
 $default-margin: 12px;
 $default-padding: 12px;
 
 @mixin default-component-label {
+  font-family: 'Roboto', sans-serif;
   font-size: 14px;
   font-weight: 400;
   text-decoration: none;
@@ -131,6 +135,128 @@ $checkbox-size: 15px;
   @include default-component-label;
 }
 
+// ---------------- data-table ----------------
+
+$header-background-color: #D7D7D7;
+$header-text-color: #888888;
+$row-text-color: #747474;
+$side-padding: 20px;
+$pages-padding: 8px 13px;
+$pager-active-color: #4C4C4C;
+
+@mixin mss-arrows-disabled {
+  display: none !important;
+}
+
+@mixin mss-arrow-position-fix {
+  position: relative;
+  top: 2px;
+}
+
+@mixin mss-contrast-link {
+  color: $contrast-color;
+  background-color: $pager-active-color;
+}
+
+@mixin mss-data-table-container {
+  width: 850px;
+  position: relative;
+}
+
+@mixin mss-data-table {
+  width: 100%;
+  margin-top: $default-margin;
+}
+
+@mixin mss-datatable-header {
+  background-color: $header-background-color;
+  color: $header-text-color;
+  font-weight: 600;
+  display: flex !important;
+  align-items: center;
+  padding: 0 $side-padding;
+}
+
+@mixin mss-datatable-body-row {
+  background-color: $contrast-color;
+  padding: 0 $side-padding;
+  color: $row-text-color;
+}
+
+@mixin mss-datatable-row-wrapper {
+  &:not(:last-child) {
+    border-bottom: 1px solid $header-background-color;
+  }
+}
+
+@mixin mss-datatable-body-cell {
+  display: flex !important;
+  align-items: center;
+  padding: 10px;
+  user-select: text !important;
+}
+
+@mixin mss-page-count {
+  display: none;
+}
+
+@mixin mss-datatable-footer {
+  margin-top: 20px;
+}
+
+@mixin mss-datatable-icon-right {
+  display: flex !important;
+  align-items: baseline;
+  &::before {
+    content: 'Další';
+    padding-right: 20px;
+  }
+}
+
+@mixin mss-datatable-icon-left {
+  display: flex !important;
+  align-items: baseline;
+  &::after {
+    content: 'Předchozí';
+    padding-left: 20px;
+  }
+}
+
+@mixin mss-datatable-pager {
+  text-align: left !important;
+}
+
+@mixin mss-pager-pages {
+  margin-right: 10px !important;
+}
+
+@mixin mss-page-link {
+  padding: $pages-padding !important;
+  background-color: $contrast-color;
+  border-radius: 5px;
+  text-decoration: none;
+  color: $pager-active-color;
+  font-weight: 600;
+}
+
+@mixin mss-skip-buttons {
+  display: none !important;
+}
+
+@mixin mss-data-table-select {
+  position: absolute;
+  right: 0;
+  top: calc(100% - 45px);
+}
+
+@mixin mss-table-female {
+  color: red;
+}
+
+@mixin mss-resize-handle {
+  display: none !important;
+}
+
 // ---------------- date picker ----------------
 
 $calendar-day-size: 30px;
@@ -222,6 +348,7 @@ $calendar-day-size: 30px;
   &:active {
     background-color: rgba($primary-color, 0.6);
   }
+
 }
 
 // ---------------- file-upload ----------------
@@ -319,6 +446,7 @@ $input-width: 250px;
   margin-left: 10px;
   transition: transform $animation-time;
 }
+
 @mixin mss-select-button {
   @include default-component-label;
 
@@ -351,7 +479,7 @@ $input-width: 250px;
   overflow-y: auto;
   transition: max-height $animation-time;
   background-color: $contrast-color;
-  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
 }
 
 @mixin mss-show-select {

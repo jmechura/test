@@ -24,7 +24,8 @@
         ]
       },
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/@swimlane/ngx-datatable/release/assets/icons.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
