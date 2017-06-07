@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { DataTableComponent } from './data-table/data-table.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
-import { LabeledInputComponent } from './labeled-input/labeled-input.component';
 import { AutocompleteInputComponent } from './autocomplete-input/autocomplete-input.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 
@@ -12,7 +11,6 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
   declarations: [
     DataTableComponent,
     TimePickerComponent,
-    LabeledInputComponent,
     AutocompleteInputComponent,
     DatePickerComponent,
   ],
@@ -24,7 +22,6 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
   exports: [
     DataTableComponent,
     TimePickerComponent,
-    LabeledInputComponent,
     AutocompleteInputComponent,
     DatePickerComponent,
   ],

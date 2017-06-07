@@ -1,3 +1,24 @@
-<p>
-  date-picker works!
-</p>
+<div class="date-picker-container">
+  <div class="date-picker-month-select-row">
+    <div class="arrow-button" (click)="monthSelect(false)">
+      <span><</span>
+    </div>
+    <div class="picked-month-label">{{selectedMonth.format('MMMM YYYY')}}</div>
+    <div class="arrow-button" (click)="monthSelect(true)">
+      <span>></span>
+    </div>
+  </div>
+  <div class="date-picker-calendar">
+    <div class="date-row header-row">
+      <div *ngFor="let day of dayHeaders" class="header-day">
+        <span>{{day}}</span>
+      </div>
+    </div>
+    <div *ngFor="let week of actualDaysInMonth" class="date-row">
+      <div *ngFor=" let day of week" class="date-day" (click)="pickDay(day)"
+      [ngClass]="{'selectedDate': isSelectedDate(day)}">
+        <span>{{day.date()}}</span>
+      </div>
+    </div>
+  </div>
+</div>

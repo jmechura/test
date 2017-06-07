@@ -131,6 +131,99 @@ $checkbox-size: 15px;
   @include default-component-label;
 }
 
+// ---------------- date picker ----------------
+
+$calendar-day-size: 30px;
+
+@mixin mss-date-picker-container {
+  background-color: $default-background-color;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@mixin mss-month-select-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $default-padding;
+  background-color: $primary-color;
+  color: $contrast-color;
+}
+
+@mixin mss-arrow-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  user-select: none;
+  height: 25px;
+  width: 25px;
+  margin: 0 6px;
+
+  &:hover {
+    background-color: rgba(white, 0.1);
+  }
+
+  &:active {
+    background-color: rgba(white, 0.2);
+  }
+}
+
+@mixin mss-picked-month-label {
+  @include default-component-label;
+}
+
+@mixin mss-date-picker-calendar {
+  display: flex;
+  flex-direction: column;
+  padding: $default-padding;
+}
+
+@mixin mss-date-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin mss-header-row {
+  border-bottom: 1px solid black;
+}
+
+@mixin mss-header-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  width: $calendar-day-size;
+  height: $calendar-day-size;
+}
+
+@mixin mss-date-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $calendar-day-size;
+  height: $calendar-day-size;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+
+  &.selectedDate {
+    background-color: $primary-color;
+    color: $contrast-color;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background-color: rgba($primary-color, 0.5);
+  }
+
+  &:active {
+    background-color: rgba($primary-color, 0.6);
+  }
+}
+
 // ---------------- file-upload ----------------
 
 @mixin mss-file-name {
