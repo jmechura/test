@@ -45,6 +45,10 @@ export class ShowcaseComponent {
   slider2max = 250;
 
   pickedDate: Moment = moment();
+  pickedTime: Moment = moment();
+
+  modalPickedDate: Moment = moment();
+  dateModalShowing = false;
 
   buttonClicked(): void {
     this.buttonClicksCounter += 1;

@@ -1,0 +1,21 @@
+@import 'theme';
+
+.time-picker-container {
+  @include mss-time-picker-container;
+
+  .unit-picker-container {
+    @include mss-unit-picker-container;
+
+    .arrow-icon {
+      @include mss-time-picker-arrow-button;
+    }
+
+    .time-unit-value {
+      @include mss-time-unit-value;
+    }
+  }
+
+  .clock-divider {
+    @include mss-clock-divider;
+  }
+}

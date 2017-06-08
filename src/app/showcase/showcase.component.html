@@ -108,4 +108,18 @@
     <label>Picked date: {{pickedDate.format('DD. MM. YYYY')}}</label>
     <mss-date-picker [(pickedDate)]="pickedDate"></mss-date-picker>
   </div>
+
+  <!--time-picker-->
+  <div class="showcase-row multiple">
+    <label>Picked time: {{pickedTime.format('hh: mm')}}</label>
+    <mss-time-picker [(pickedTime)]="pickedTime"></mss-time-picker>
+  </div>
+
+  <div class="showcase-row">
+    <button (click)="dateModalShowing = !dateModalShowing">Pick date</button>
+    <label class="showcase-label">Modal picked date: {{modalPickedDate.format('DD. MM. YYYY')}}</label>
+    <mss-modal-window [(visible)]="dateModalShowing">
+      <mss-date-picker [(pickedDate)]="modalPickedDate"></mss-date-picker>
+    </mss-modal-window>
+  </div>
 </div>

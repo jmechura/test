@@ -102,7 +102,7 @@ $checkbox-size: 15px;
   height: $checkbox-size;
   width: $checkbox-size;
 
-  background-color: $contrast-color;
+  background-color: $default-background-color;
 
   border: 1px solid $primary-color;
   border-radius: 2px;
@@ -304,6 +304,9 @@ $calendar-day-size: 30px;
   display: flex;
   flex-direction: column;
   padding: $default-padding;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border: 1px solid $primary-color;
 }
 
 @mixin mss-date-row {
@@ -410,6 +413,8 @@ $calendar-day-size: 30px;
 $input-height: 25px;
 $input-width: 250px;
 
+$input-text-color: #000000;
+
 @mixin mss-input-container {
   display: flex;
   align-items: center;
@@ -431,6 +436,9 @@ $input-width: 250px;
 
   font-size: 14px;
   font-weight: 400;
+
+  color: $input-text-color;
+  background-color: $default-background-color;
 }
 
 // ---------------- select ----------------
@@ -458,7 +466,7 @@ $input-width: 250px;
   cursor: pointer;
   outline: none;
   border: 1px solid $primary-color;
-  background-color: $contrast-color;
+  background-color: $default-background-color;
   padding: $default-padding;
 
 }
@@ -477,8 +485,8 @@ $input-width: 250px;
   overflow-x: hidden;
   overflow-y: auto;
   transition: max-height $animation-time;
-  background-color: $contrast-color;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+  background-color: $default-background-color;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
 }
 
 @mixin mss-show-select {
@@ -669,6 +677,45 @@ $slider-padding: $default-padding;
   &.grabbing {
     cursor: grabbing;
   }
+}
+
+// ---------------- time picker ----------------
+
+@mixin mss-time-picker-container {
+  background-color: $default-background-color;
+  padding: $default-padding;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+}
+
+@mixin mss-unit-picker-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin mss-time-picker-arrow-button {
+  user-select: none;
+  cursor: pointer;
+
+  &.arrow-down {
+    transform: rotate(180deg);
+  }
+}
+
+@mixin mss-time-unit-value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+@mixin mss-clock-divider {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 // ---------------- toggle ----------------

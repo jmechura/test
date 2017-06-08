@@ -1,3 +1,17 @@
-<p>
-  time-picker works!
-</p>
+<div class="time-picker-container">
+  <div class="unit-picker-container">
+    <img src="assets/icons/arrow-up.svg" class="arrow-icon" (click)="changeTime(true, 'hours')">
+    <div class="time-unit-value">
+      <span>{{time.format('HH')}}</span>
+    </div>
+    <img src="assets/icons/arrow-up.svg" class="arrow-icon arrow-down" (click)="changeTime(false, 'hours')">
+  </div>
+  <div class="clock-divider"><span>:</span></div>
+  <div class="unit-picker-container">
+    <img src="assets/icons/arrow-up.svg" class="arrow-icon" (click)="changeTime(true, 'minutes')">
+    <div class="time-unit-value">
+      <span>{{time.format('mm')}}</span>
+    </div>
+    <img src="assets/icons/arrow-up.svg" class="arrow-icon arrow-down" (click)="changeTime(false, 'minutes')">
+  </div>
+</div>
