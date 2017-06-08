@@ -1,0 +1,33 @@
+$login-background-color: #ffffff;
+$form-padding: 50px;
+
+.login-wrapper {
+  background: url(../../assets/mock/please.jpg) center center;
+  background-size: cover;
+}
+
+.login-container {
+  height: calc(100vh - 60px); //toolbar width
+  width: 100vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form {
+  background-color: rgba($login-background-color, 0.3);
+  padding: $form-padding;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 150px;
+  margin-bottom: 30px;
+}
+
+.input {
+  margin-bottom: 30px;
+}

@@ -413,7 +413,6 @@ $input-width: 250px;
 @mixin mss-input-container {
   display: flex;
   align-items: center;
-  margin: $default-margin
 }
 
 @mixin mss-input-label {
@@ -758,4 +757,5 @@ $toolbar-height: 60px;
 @mixin mss-content-container {
   position: absolute;
   top: $toolbar-height;
+  left: 0;
 }

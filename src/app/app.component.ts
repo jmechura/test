@@ -10,5 +10,6 @@ export class AppComponent {
   toolbarData = [
     {label: 'Platform', link: '/platform'},
     {label: 'Showcase', link: '/showcase'},
+    {label: 'Login', link: '/login'},
   ];
 }

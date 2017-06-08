@@ -11,6 +11,7 @@ import { SilverComponentsModule } from 'app/shared/components/silver/silver-comp
 import { GoldComponentsModule } from './shared/components/gold/gold-components.module';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { PlatformComponent } from './platform/platform.component';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PlatformComponent } from './platform/platform.component';
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    LoginModule,
 
     BronzeComponentsModule,
     SilverComponentsModule,

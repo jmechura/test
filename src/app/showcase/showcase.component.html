@@ -37,10 +37,10 @@
 
   <!--input-->
   <div class="showcase-row multiple">
-    <mss-input [(value)]="inputValue1" label="Input: "></mss-input>
-    <mss-input [(value)]="inputValue2" label="Number input: " type="number"></mss-input>
-    <mss-input [(value)]="inputValue3"></mss-input>
-    <mss-input [(value)]="inputValue4" label="Such placeholder: " placeholder="much wow"></mss-input>
+    <mss-input class="margin-row" [(value)]="inputValue1" label="Input: "></mss-input>
+    <mss-input class="margin-row" [(value)]="inputValue2" label="Number input: " type="number"></mss-input>
+    <mss-input class="margin-row" [(value)]="inputValue3"></mss-input>
+    <mss-input class="margin-row" [(value)]="inputValue4" label="Such placeholder: " placeholder="much wow"></mss-input>
     <label class="showcase-label">Values: [{{inputValue1}}], [{{inputValue2}}], [{{inputValue3}}], [{{inputValue4}}]</label>
   </div>
 
@@ -73,8 +73,8 @@
 
   <!--upload input-->
   <div class="showcase-row multiple">
-    <mss-upload-input [label]="'Upload type button'"></mss-upload-input>
-    <mss-upload-input [acceptFiles]="'image/*'" [type]="'input'" [label]="'Upload type input'"></mss-upload-input>
+    <mss-upload-input class="margin-row" [label]="'Upload type button'"></mss-upload-input>
+    <mss-upload-input class="margin-row" [acceptFiles]="'image/*'" [type]="'input'" [label]="'Upload type input'"></mss-upload-input>
   </div>
 
   <!--avatar-->
