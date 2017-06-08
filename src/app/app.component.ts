@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToolbarPosition } from './shared/components/bronze/toolbar/toolbar.component';
 
 @Component({
   selector: 'mss-root',
@@ -7,9 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+  toolbarPosition: ToolbarPosition = 'side';
+
   toolbarData = [
     {label: 'Platform', link: '/platform'},
     {label: 'Showcase', link: '/showcase'},
     {label: 'Login', link: '/login'},
+    {label: 'Settings', link: '/settings'},
   ];
 }

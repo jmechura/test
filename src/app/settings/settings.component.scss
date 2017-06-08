@@ -1,0 +1,60 @@
+@import 'theme';
+
+$current-balance-color: #6ab11d;
+$header-text-color: #4a4a4a;
+$text-color:#747474;
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 50px;
+  padding-top: 40px;
+}
+
+.current-balance-container {
+  display: flex;
+  font-size: 16px;
+  color: $text-color;
+}
+
+.current-balance {
+  color: $current-balance-color;
+  margin-left: 5px;
+}
+
+.header {
+  color: $header-text-color;
+  font-size: 36px;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  background-color: $default-background-color;
+  padding: 35px;
+}
+
+.info-form {
+  margin-bottom: 70px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input:not(:last-child) {
+  margin-bottom: 25px;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 550px;
+}
+
+.save {
+  align-self: flex-end;
+}

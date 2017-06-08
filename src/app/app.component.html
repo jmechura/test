@@ -1,4 +1,4 @@
-<div class="app-content-container">
+<div class="app-content-container" [ngClass]="{'side-toolbar': toolbarPosition === 'side', 'top-toolbar': toolbarPosition === 'top'}">
   <router-outlet></router-outlet>
 </div>
-<mss-toolbar [routes]="toolbarData"></mss-toolbar>
+<mss-toolbar [position]="toolbarPosition" [routes]="toolbarData"></mss-toolbar>

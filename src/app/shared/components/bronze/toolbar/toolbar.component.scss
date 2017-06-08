@@ -8,3 +8,23 @@
 
   }
 }
+
+.top {
+  @include mss-top;
+}
+
+.side {
+  @include mss-side;
+}
+
+.information {
+  @include mss-toolbar-information;
+
+  .logo {
+    @include mss-toolbar-logo;
+  }
+
+  .name {
+    @include mss-toolbar-name;
+  }
+}

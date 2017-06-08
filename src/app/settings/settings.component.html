@@ -1,0 +1,38 @@
+<div class="settings-container">
+  <div class="current-balance-container">
+    <img src="">
+    <div>Zůstatek na kartě:</div>
+    <div class="current-balance">{{currentBalance | number:'1.2-2'}} CZK</div>
+  </div>
+
+  <div class="header">Nastavení účtu</div>
+
+  <div class="form-wrapper">
+    <div class="form-container">
+      <form [formGroup]="infoForm" class="form info-form">
+        <mss-input formControlName="firstName" class="input" [(value)]="user.firstName" [label]="'Jméno'" [placeholder]="'Váše jméno'">
+        </mss-input>
+        <mss-input formControlName="surname" class="input" [(value)]="user.surname" [label]="'Příjmení'" [placeholder]="'Váše příjmení'">
+        </mss-input>
+        <mss-input formControlName="id" class="input" [type]="'number'" [(value)]="user.id" [label]="'ID'" [placeholder]="'Váše id'">
+        </mss-input>
+        <mss-input formControlName="email" class="input" [(value)]="user.email" [label]="'E-mail'" [placeholder]="'Váš email'">
+        </mss-input>
+        <mss-input formControlName="phone" class="input" [type]="'number'" [(value)]="user.phone" [label]="'TEL:'" [placeholder]="'Váš mobil'">
+        </mss-input>
+      </form>
+
+      <form [formGroup]="passwordForm" class="form password-form">
+        <mss-input formControlName="oldPassword" class="input" [(value)]="oldPassword" [label]="'Staré heslo'" [placeholder]="' '">
+        </mss-input>
+        <mss-input formControlName="newPassword" class="input" [(value)]="newPassword" [label]="'Nové heslo'" [placeholder]="' '">
+        </mss-input>
+        <mss-input formControlName="newPasswordConfirmation" class="input" [(value)]="newPasswordConfirmation" [label]="'Opakujte heslo'"
+                   [placeholder]="' '">
+        </mss-input>
+      </form>
+    </div>
+
+    <mss-button class="save" [label]="'ULOŽIT'"></mss-button>
+  </div>
+</div>

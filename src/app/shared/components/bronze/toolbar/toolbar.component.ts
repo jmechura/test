@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
+export type ToolbarPosition = 'side' | 'top';
+
 @Component({
   selector: 'mss-toolbar',
   templateUrl: './toolbar.component.html',
@@ -9,6 +11,7 @@ import { Router } from '@angular/router';
 export class ToolbarComponent {
 
   @Input() routes: { link: string, label: string }[];
+  @Input() position: ToolbarPosition = 'top';
 
   constructor(private router: Router) {
 

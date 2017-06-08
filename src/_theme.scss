@@ -10,6 +10,7 @@ $contrast-color: #ffffff;
 $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
 $animation-time: 0.25s;
+$primary-text-color: #747474;
 
 $default-margin: 12px;
 $default-padding: 12px;
@@ -766,20 +767,30 @@ $toggle-transition-time: .5s;
 
 // ---------------- toolbar ----------------
 
-$toolbar-height: 60px;
+$top-toolbar-height: 60px;
+$side-toolbar-width: 240px;
 
 @mixin mss-toolbar-container {
   position: fixed;
   top: 0;
   left: 0;
-  height: $toolbar-height;
-  width: 100%;
   background-color: $primary-color;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
   padding: $default-padding;
   box-sizing: border-box;
+}
+
+@mixin mss-top {
+  height: $top-toolbar-height;
+  width: 100%;
+  align-items: center;
+}
+
+@mixin mss-side {
+  width: $side-toolbar-width;
+  height: 100%;
+  flex-direction: column;
 }
 
 @mixin mss-toolbar-item {
@@ -803,6 +814,39 @@ $toolbar-height: 60px;
 
 @mixin mss-content-container {
   position: absolute;
-  top: $toolbar-height;
-  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #F2F2F2;
+
+  &.top-toolbar {
+    left: 0;
+    top: $top-toolbar-height;
+    height: calc(100% - #{$top-toolbar-height});
+  }
+
+  &.side-toolbar {
+    top: 0;
+    left: $side-toolbar-width;
+    width: calc(100% - #{$side-toolbar-width});
+  }
+}
+
+@mixin mss-toolbar-information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+@mixin mss-toolbar-logo {
+  width: 125px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+@mixin mss-toolbar-name {
+  font-size: 18px;
+  color: $primary-text-color;
+  margin-top: 15px;
+  margin-bottom: 50px;
 }

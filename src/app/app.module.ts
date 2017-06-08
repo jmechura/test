@@ -12,6 +12,7 @@ import { GoldComponentsModule } from './shared/components/gold/gold-components.m
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { PlatformComponent } from './platform/platform.component';
 import { LoginModule } from './login/login.module';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { LoginModule } from './login/login.module';
     HttpModule,
     AppRoutingModule,
     LoginModule,
+    SettingsModule,
 
     BronzeComponentsModule,
     SilverComponentsModule,

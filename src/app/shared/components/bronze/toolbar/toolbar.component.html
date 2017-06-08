@@ -1,4 +1,9 @@
-<div class="toolbar-container">
+<div [class]="'toolbar-container ' + position">
+  <div *ngIf="position === 'side'" class="information">
+    <img src="assets/mock/shrek.png"  class="logo">
+    <mss-avatar [avatarSize]="'90'" [photo]="'assets/mock/mock-avatar.jpg'"></mss-avatar>
+    <div class="name">Shrek</div>
+  </div>
   <div *ngFor="let item of routes" (click)="redirect(item.link)" class="toolbar-item">
     {{item.label}}
   </div>
