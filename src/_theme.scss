@@ -260,11 +260,11 @@ $pager-active-color: #4C4C4C;
 
 // ---------------- date picker ----------------
 
-$calendar-day-size: 30px;
+$calendar-day-size: 27px;
 
 @mixin mss-date-picker-container {
   background-color: $default-background-color;
-  border-radius: 8px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
@@ -304,7 +304,7 @@ $calendar-day-size: 30px;
 @mixin mss-date-picker-calendar {
   display: flex;
   flex-direction: column;
-  padding: $default-padding;
+  padding: 11px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   border: 1px solid $primary-color;
@@ -352,8 +352,60 @@ $calendar-day-size: 30px;
   &:active {
     background-color: rgba($primary-color, 0.6);
   }
-
 }
+
+// ---------------- date picker input ----------------
+$date-input-height: 38px;
+$date-input-width: 212px;
+$calendar-icon-size: 15px;
+
+@mixin mss-date-picker-input-container {
+  margin: $default-margin;
+}
+
+@mixin mss-date-input-label {
+  width: $date-input-width;
+  height: $date-input-height;
+  padding-left: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+}
+
+@mixin mss-calendar-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 38px;
+  width: 38px;
+  background-color: $primary-color;
+  user-select: none;
+}
+
+@mixin mss-calendar-icon {
+  height: $calendar-icon-size;
+  width: $calendar-icon-size;
+}
+
+@mixin mss-date-picker-dropdown-container {
+  position: absolute;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  padding-top: 10px;
+
+  &.hidden {
+    display: none;
+  }
+}
+
 
 // ---------------- file-upload ----------------
 

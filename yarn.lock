@@ -125,6 +125,10 @@
     magic-string "^0.19.0"
     source-map "^0.5.6"
 
+"@swimlane/ngx-datatable@^9.3.0":
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/@swimlane/ngx-datatable/-/ngx-datatable-9.3.0.tgz#aeb34bb72c2102236214b474cfd98082c51a9dd0"
+
 "@types/hammerjs@^2.0.34":
   version "2.0.34"
   resolved "https://registry.yarnpkg.com/@types/hammerjs/-/hammerjs-2.0.34.tgz#9cbac4f41cb039436141785e1be50b3ab10a04a9"

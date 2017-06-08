@@ -48,7 +48,6 @@ export class ShowcaseComponent {
   pickedTime: Moment = moment();
 
   modalPickedDate: Moment = moment();
-  dateModalShowing = false;
 
   buttonClicked(): void {
     this.buttonClicksCounter += 1;

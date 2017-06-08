@@ -5,16 +5,16 @@ import { HttpModule } from '@angular/http';
 import { DataTableComponent } from './data-table/data-table.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { AutocompleteInputComponent } from './autocomplete-input/autocomplete-input.component';
-import { DatePickerComponent } from './date-picker/date-picker.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BronzeComponentsModule } from '../bronze/bronze-components.module';
+import { DatePickerInputComponent } from './date-picker-input/date-picker-input.component';
 
 @NgModule({
   declarations: [
     DataTableComponent,
     TimePickerComponent,
     AutocompleteInputComponent,
-    DatePickerComponent,
+    DatePickerInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,8 +27,8 @@ import { BronzeComponentsModule } from '../bronze/bronze-components.module';
     DataTableComponent,
     TimePickerComponent,
     AutocompleteInputComponent,
-    DatePickerComponent,
     NgxDatatableModule,
+    DatePickerInputComponent,
   ],
   providers: [],
 })

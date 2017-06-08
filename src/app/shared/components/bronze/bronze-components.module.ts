@@ -16,6 +16,7 @@ import { ToggleComponent } from './toggle/toggle.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { RadioButtonGroupComponent } from './radio-button-group/radio-button-group.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { DatePickerComponent } from './date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     ToggleComponent,
     CheckboxComponent,
     RadioButtonGroupComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    DatePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     ToggleComponent,
     CheckboxComponent,
     RadioButtonGroupComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    DatePickerComponent,
   ],
   providers: [],
 })
