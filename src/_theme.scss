@@ -160,7 +160,6 @@ $pager-active-color: #4C4C4C;
 }
 
 @mixin mss-data-table-container {
-  width: 850px;
   position: relative;
 }
 
@@ -247,6 +246,8 @@ $pager-active-color: #4C4C4C;
 @mixin mss-data-table-select {
   position: absolute;
   right: 0;
+  display: flex;
+  align-items: center;
   top: calc(100% - 45px);
 }
 
@@ -256,6 +257,11 @@ $pager-active-color: #4C4C4C;
 
 @mixin mss-resize-handle {
   display: none !important;
+}
+
+@mixin mss-datatable-select-text {
+  padding-right: 10px;
+  color: $primary-text-color;
 }
 
 // ---------------- date picker ----------------

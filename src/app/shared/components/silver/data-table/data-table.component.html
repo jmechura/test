@@ -1,11 +1,13 @@
-<div class="data-table-container" #tableWrapper>
-  <input class="filter" type="text" [placeholder]="filterPlaceholder" (keyup)='updateFilter($event)'/>
+<div class="data-table-container">
   <ngx-datatable #table [columns]="columns" [loadingIndicator]="false"
                  [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="rowLimit" [rows]="rows">
     <ngx-datatable-column name="Name"></ngx-datatable-column>
     <ngx-datatable-column name="Company"></ngx-datatable-column>
-    <ngx-datatable-column name="Gender" headerClass="is-gender" [cellClass]="getCellClass"></ngx-datatable-column>
+    <ngx-datatable-column name="Gender" [cellClass]="getCellClass"></ngx-datatable-column>
   </ngx-datatable>
-  <mss-select class="datatable-select" [options]="rowLimitOptions" [selectedOption]="rowLimit" (selectedOptionChange)="changeLimit($event)">
-  </mss-select>
+  <div class="datatable-select">
+    <span class="select-text">Položek na stránku</span>
+    <mss-select [options]="rowLimitOptions" [selectedOption]="rowLimit" (selectedOptionChange)="changeLimit($event)">
+    </mss-select>
+  </div>
 </div>

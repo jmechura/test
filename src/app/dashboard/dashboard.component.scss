@@ -1,0 +1,27 @@
+@import 'theme';
+
+$header-text-color: #4a4a4a;
+$calendar-text-color: #747474;
+
+.dashboard-container {
+  padding: 40px 50px;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.header {
+  color: $header-text-color;
+  font-size: 36px;
+}
+
+.calendar-select {
+  @include default-component-label;
+  display: flex;
+  align-items: center;
+  color: $calendar-text-color;
+}

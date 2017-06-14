@@ -1,0 +1,16 @@
+<div class="dashboard-container">
+  <div class="header-row">
+    <div class="header">Přehled transakcí</div>
+    <div class="calendar-select">
+      <span>Od</span>
+      <mss-date-picker-input [(pickedDate)]="fromDate"></mss-date-picker-input>
+    </div>
+    <div class="calendar-select">
+      <span>Do</span>
+      <mss-date-picker-input [(pickedDate)]="toDate"></mss-date-picker-input>
+    </div>
+    <mss-select [options]="options" [selectedOption]="selected" (selectedOptionChange)="changeFilter($event)"></mss-select>
+  </div>
+
+  <mss-data-table *ngIf="fileterArray" [tableItems]="fileterArray"></mss-data-table>
+</div>

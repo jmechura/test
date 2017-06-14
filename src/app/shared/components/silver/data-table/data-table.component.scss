@@ -91,6 +91,10 @@
 
 .datatable-select {
   @include mss-data-table-select;
+
+  .select-text {
+    @include mss-datatable-select-text;
+  }
 }
 
 .is-female {

@@ -10,15 +10,14 @@ import { BronzeComponentsModule } from './shared/components/bronze/bronze-compon
 import { SilverComponentsModule } from 'app/shared/components/silver/silver-components.module';
 import { GoldComponentsModule } from './shared/components/gold/gold-components.module';
 import { ShowcaseComponent } from './showcase/showcase.component';
-import { PlatformComponent } from './platform/platform.component';
 import { LoginModule } from './login/login.module';
 import { SettingsModule } from './settings/settings.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShowcaseComponent,
-    PlatformComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +26,7 @@ import { SettingsModule } from './settings/settings.module';
     AppRoutingModule,
     LoginModule,
     SettingsModule,
+    DashboardModule,
 
     BronzeComponentsModule,
     SilverComponentsModule,

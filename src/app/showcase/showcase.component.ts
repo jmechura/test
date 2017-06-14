@@ -49,6 +49,22 @@ export class ShowcaseComponent {
 
   modalPickedDate: Moment = moment();
 
+  completeArray: any[] = [];
+  constructor() {
+    this.fetch((data) => {
+      this.completeArray = data;
+    });
+  }
+
+  fetch(cb: any): void {
+    const req = new XMLHttpRequest();
+    req.open('GET', `assets/mock/company.json`);
+    req.onload = () => {
+      cb(JSON.parse(req.response));
+    };
+    req.send();
+  }
+
   buttonClicked(): void {
     this.buttonClicksCounter += 1;
   }
