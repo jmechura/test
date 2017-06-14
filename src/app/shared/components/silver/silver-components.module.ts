@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -8,6 +7,7 @@ import { AutocompleteInputComponent } from './autocomplete-input/autocomplete-in
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BronzeComponentsModule } from '../bronze/bronze-components.module';
 import { DatePickerInputComponent } from './date-picker-input/date-picker-input.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { DatePickerInputComponent } from './date-picker-input/date-picker-input.
     DatePickerInputComponent,
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     HttpModule,
     NgxDatatableModule,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SelectItem } from '../shared/components/bronze/select/select.component';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 

@@ -1,11 +1,11 @@
 @import 'theme';
 
-input[type='file'] {
-  display: none;
-}
-
 .input-container {
   @include mss-input-container;
+
+  .input {
+    display: none;
+  }
 
   .input-label {
     @include mss-input-label;

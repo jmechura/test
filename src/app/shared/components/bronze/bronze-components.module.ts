@@ -1,4 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -17,6 +16,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import { RadioButtonGroupComponent } from './radio-button-group/radio-button-group.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
     DatePickerComponent,
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     HttpModule,
   ],

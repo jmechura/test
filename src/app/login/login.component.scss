@@ -2,12 +2,12 @@ $login-background-color: #ffffff;
 $form-padding: 50px;
 
 .login-wrapper {
-  background: url(../../assets/mock/please.jpg) center center;
+  background: url('../../assets/mock/please.jpg') center center;
   background-size: cover;
 }
 
 .login-container {
-  height: calc(100vh - 60px); //toolbar width
+  height: 100vh;
   width: 100vw;
 
   display: flex;

@@ -21,7 +21,7 @@
     width: auto;
 
     &:not(:last-child) {
-      border-bottom: 1px dashed black;
+      border-bottom: 1px dashed #000000;
     }
 
     .showcase-label {
