@@ -1,11 +1,7 @@
 // Global defaults
 
-* {
-  font-family: 'Roboto', sans-serif;
-}
-
 $default-background-color: #ffffff;
-$primary-color: #492578;
+$primary-color: #ec1c2d;
 $contrast-color: #ffffff;
 $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
@@ -17,9 +13,9 @@ $default-padding: 12px;
 
 @mixin default-component-label {
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 16px;
   text-decoration: none;
+  color: $primary-text-color;
 }
 
 // ---------------- autocomplete-input ----------------
@@ -41,16 +37,17 @@ $default-padding: 12px;
 
 // ---------------- button ----------------
 
-@mixin mss-button {
-  width: auto;
-  height: auto;
+$button-color: $primary-color;
 
-  margin: $default-margin;
+@mixin mss-button {
+  width: 100%;
+  height: 100%;
+
   padding: $default-padding;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
 
-  background-color: $primary-color;
+  background-color: $button-color;
   color: $contrast-color;
 
   box-shadow: none;
@@ -59,11 +56,11 @@ $default-padding: 12px;
   cursor: pointer;
 
   &:hover {
-    background-color: lighten($primary-color, 10%);
+    background-color: lighten($button-color, 10%);
   }
 
   &:active {
-    background-color: darken($primary-color, 10%);
+    background-color: darken($button-color, 10%);
   }
 }
 
@@ -72,7 +69,7 @@ $default-padding: 12px;
   justify-content: center;
   align-items: center;
 
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   text-decoration: none;
   user-select: none;
@@ -136,12 +133,12 @@ $checkbox-size: 15px;
 
 // ---------------- data-table ----------------
 
-$header-background-color: #D7D7D7;
+$header-background-color: #d7d7d7;
 $header-text-color: #888888;
 $row-text-color: #747474;
 $side-padding: 20px;
 $pages-padding: 8px 13px;
-$pager-active-color: #4C4C4C;
+$pager-active-color: #4c4c4c;
 
 @mixin mss-arrows-disabled {
   display: none !important;
@@ -267,6 +264,8 @@ $pager-active-color: #4C4C4C;
 // ---------------- date picker ----------------
 
 $calendar-day-size: 27px;
+$date-picker-main-color: #4a4a4a;
+$date-picker-selected-date-color: $primary-color;
 
 @mixin mss-date-picker-container {
   background-color: $default-background-color;
@@ -279,7 +278,7 @@ $calendar-day-size: 27px;
   justify-content: space-between;
   align-items: center;
   padding: $default-padding;
-  background-color: $primary-color;
+  background-color: $date-picker-main-color;
   color: $contrast-color;
 }
 
@@ -313,7 +312,7 @@ $calendar-day-size: 27px;
   padding: 11px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  border: 1px solid $primary-color;
+  border: 1px solid $date-picker-main-color;
 }
 
 @mixin mss-date-row {
@@ -346,27 +345,29 @@ $calendar-day-size: 27px;
   border-radius: 4px;
 
   &.selectedDate {
-    background-color: $primary-color;
+    background-color: $date-picker-selected-date-color;
     color: $contrast-color;
     font-weight: 600;
   }
 
   &:hover {
-    background-color: rgba($primary-color, 0.5);
+    background-color: rgba($date-picker-selected-date-color, 0.5);
   }
 
   &:active {
-    background-color: rgba($primary-color, 0.6);
+    background-color: rgba($date-picker-selected-date-color, 0.6);
   }
 }
 
 // ---------------- date picker input ----------------
+
 $date-input-height: 38px;
 $date-input-width: 212px;
-$calendar-icon-size: 15px;
+$date-picker-icon-background-color: #4a4a4a;
 
 @mixin mss-date-picker-input-container {
   margin: $default-margin;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 }
 
 @mixin mss-date-input-label {
@@ -389,15 +390,15 @@ $calendar-icon-size: 15px;
   justify-content: center;
   align-items: center;
 
-  height: 38px;
-  width: 38px;
-  background-color: $primary-color;
+  height: $date-input-height;
+  width: $date-input-height;
+  background-color: $date-picker-icon-background-color;
   user-select: none;
 }
 
 @mixin mss-calendar-icon {
-  height: $calendar-icon-size;
-  width: $calendar-icon-size;
+  color: $contrast-color;
+  font-size: 20px;
 }
 
 @mixin mss-date-picker-dropdown-container {
@@ -468,10 +469,9 @@ $calendar-icon-size: 15px;
 
 // ---------------- input ----------------
 
-$input-height: 25px;
-$input-width: 250px;
-
-$input-text-color: #000000;
+$input-height: 46px;
+$input-width: 100%;
+$border-color: #979797;
 
 @mixin mss-input-container {
   display: flex;
@@ -486,17 +486,18 @@ $input-text-color: #000000;
 }
 
 @mixin mss-input {
+  box-sizing: border-box;
   height: $input-height;
   width: $input-width;
-  padding: 6px;
+  padding: 13px 21px;
   outline: none;
-  border: none;
-  box-shadow: inset 0 0 3px $primary-color;
+  border: 1px solid $border-color;
+  border-radius: 5px;
 
   font-size: 14px;
   font-weight: 400;
 
-  color: $input-text-color;
+  color: $primary-text-color;
   background-color: $default-background-color;
 }
 
@@ -520,13 +521,15 @@ $input-text-color: #000000;
   justify-content: space-between;
   align-items: center;
 
-  width: 250px;
-  height: 100%;
+  width: 212px;
+  height: 38px;
   cursor: pointer;
   outline: none;
-  border: 1px solid $primary-color;
+  border-radius: 5px;
   background-color: $default-background-color;
   padding: $default-padding;
+  border: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 }
 
 @mixin mss-select-container {
@@ -544,7 +547,9 @@ $input-text-color: #000000;
   overflow-y: auto;
   transition: max-height $animation-time;
   background-color: $default-background-color;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  margin-top: 2px;
 }
 
 @mixin mss-show-select {
@@ -825,17 +830,22 @@ $toggle-transition-time: 0.5s;
 // ---------------- toolbar ----------------
 
 $top-toolbar-height: 60px;
-$side-toolbar-width: 240px;
+$side-toolbar-width: 236px;
+
+$toolbar-text-color: #a8a8a8;
+
+$content-background-color: #f2f2f2;
 
 @mixin mss-toolbar-container {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: $primary-color;
+  background-color: $default-background-color;
   display: flex;
   justify-content: flex-start;
-  padding: $default-padding;
+  padding: 28px;
   box-sizing: border-box;
+  box-shadow: 0 2px 33px 0 rgba(0, 0, 0, 0.08);
 }
 
 @mixin mss-top {
@@ -851,29 +861,39 @@ $side-toolbar-width: 240px;
 }
 
 @mixin mss-toolbar-item {
-  color: $contrast-color;
+  display: flex;
+  align-items: center;
+
+  color: $toolbar-text-color;
   padding: $default-padding;
   cursor: pointer;
   user-select: none;
 
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
+  text-transform: uppercase;
 
   &:hover {
-    background-color: rgba($contrast-color, 0.1);
-  }
-
-  &:active {
-    background-color: rgba($contrast-color, 0.2);
+    color: rgba($primary-color, 0.6);
   }
 }
 
+@mixin mss-toolbar-active-item {
+  color: $primary-color;
+}
+
+@mixin mss-toolbar-item-icon {
+  margin-right: 20px;
+  font-size: 25px;
+}
+
+//not used in gastrocard because it has both side and top toolbar
 @mixin mss-content-container {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: #F2F2F2;
+  background-color: $content-background-color;
 
   &.top-toolbar {
     left: 0;

@@ -5,6 +5,14 @@
 
   .toolbar-item {
     @include mss-toolbar-item;
+
+    &.active-item {
+      @include mss-toolbar-active-item;
+    }
+
+    .toolbar-item-icon {
+      @include mss-toolbar-item-icon;
+    }
   }
 }
 

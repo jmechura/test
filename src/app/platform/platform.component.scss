@@ -1,5 +1,68 @@
 @import 'theme';
 
+$content-header-height: 90px;
+
+$current-balance-color: #6ab11d;
+
+.content-header {
+  position: absolute;
+  top: 0;
+  left: $side-toolbar-width;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-sizing: border-box;
+  padding: 38px 50px;
+  height: $content-header-height;
+  width: calc(100% - #{$side-toolbar-width});
+
+  background-color: $content-background-color;
+
+  .current-balance-container {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: $primary-text-color;
+
+    .current-balance-icon {
+      margin-right: 20px;
+    }
+
+    .current-balance {
+      color: $current-balance-color;
+      margin-left: 5px;
+    }
+  }
+
+  .logout-container {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: $primary-text-color;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      color: darken($primary-text-color, 15%);
+    }
+
+    &:active {
+      color: lighten($primary-text-color, 10%);
+    }
+
+    .logout-icon {
+      margin-left: 20px;
+    }
+  }
+}
+
 .app-content-container {
-  @include mss-content-container;
+  position: absolute;
+  top: $content-header-height;
+  left: $side-toolbar-width;
+  width: calc(100% - #{$side-toolbar-width});
+  min-height: calc(100% - #{$content-header-height});
+  background-color: $content-background-color;
 }

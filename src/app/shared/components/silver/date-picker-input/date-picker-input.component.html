@@ -1,9 +1,9 @@
 <div class="date-picker-input-container">
   <div class="date-input-label" (click)="toggleCalendar()">
     <span>{{pickedDate.format('D. M. YYYY')}}</span>
-    <span class="calendar-icon-container">
-      <img src="assets/icons/calendar-icon.svg" class="calendar-icon">
-    </span>
+    <div class="calendar-icon-container">
+      <i class="material-icons calendar-icon">date_range</i>
+    </div>
   </div>
   <div class="date-picker-dropdown-container" [ngClass]="{hidden: calendarHidden}">
     <mss-date-picker [pickedDate]="pickedDate" (pickedDateChange)="submitDate($event)"></mss-date-picker>

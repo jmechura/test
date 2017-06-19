@@ -1,25 +1,13 @@
 @import 'theme';
 
-$current-balance-color: #6ab11d;
 $header-text-color: #4a4a4a;
-$text-color:#747474;
+$text-color: #747474;
 
 .settings-container {
   display: flex;
   flex-direction: column;
   padding-left: 50px;
   padding-top: 40px;
-}
-
-.current-balance-container {
-  display: flex;
-  font-size: 16px;
-  color: $text-color;
-}
-
-.current-balance {
-  color: $current-balance-color;
-  margin-left: 5px;
 }
 
 .header {

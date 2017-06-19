@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mss-login',
@@ -12,10 +13,14 @@ export class LoginComponent {
   password: string;
   loginForm: FormGroup;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private router: Router) {
     this.loginForm = fb.group({
       email: ['', Validators.email],
       password: ''
     });
+  }
+
+  login(): void {
+    this.router.navigateByUrl('/platform');
   }
 }

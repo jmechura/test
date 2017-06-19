@@ -1,3 +1,15 @@
+<div class="content-header">
+  <div class="current-balance-container">
+    <i class="material-icons current-balance-icon">credit_card</i>
+    <div>Zůstatek na kartě:</div>
+    <div class="current-balance">{{currentBalance | number:'1.2-2'}} CZK</div>
+  </div>
+
+  <div class="logout-container" (click)="logOut()">
+    <span>Odhlásit se</span>
+    <i class="material-icons logout-icon">power_settings_new</i>
+  </div>
+</div>
 <div class="app-content-container" [ngClass]="{'side-toolbar': toolbarPosition === 'side', 'top-toolbar': toolbarPosition === 'top'}">
   <router-outlet></router-outlet>
 </div>

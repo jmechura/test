@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import * as Hammer from 'hammerjs';
 
 
@@ -7,7 +7,7 @@ import * as Hammer from 'hammerjs';
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss']
 })
-export class SliderComponent implements AfterViewInit {
+export class SliderComponent implements OnInit {
 
   @Input() value: number;
   @Output() valueChange = new EventEmitter<number>();
@@ -21,7 +21,7 @@ export class SliderComponent implements AfterViewInit {
 
   isMouseDown = false;
 
-  private sliderButtonSize = 16;
+  private sliderButtonSize = 22;
   private buttonOffset = 0;
 
   get position(): number {
@@ -57,7 +57,7 @@ export class SliderComponent implements AfterViewInit {
     this.position = Math.floor(((this.max - this.min) / 100) * pos) + this.min;
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.sliderButtonSize = this.sliderButton.nativeElement.scrollWidth;
     const width = this.sliderBase.nativeElement.scrollWidth;
     this.buttonOffset = this.sliderButton.nativeElement.offsetLeft;

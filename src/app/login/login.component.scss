@@ -2,7 +2,7 @@ $login-background-color: #ffffff;
 $form-padding: 50px;
 
 .login-wrapper {
-  background: url('../../assets/mock/please.jpg') center center;
+  background: url('../../assets/images/background.jpg') center center;
   background-size: cover;
 }
 
@@ -16,7 +16,7 @@ $form-padding: 50px;
 }
 
 .login-form {
-  background-color: rgba($login-background-color, 0.3);
+  background-color: $login-background-color;
   padding: $form-padding;
   display: flex;
   flex-direction: column;
@@ -25,9 +25,15 @@ $form-padding: 50px;
 
 .logo {
   width: 150px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 .input {
   margin-bottom: 30px;
+  width: 450px;
+}
+
+.login-button {
+  width: 450px;
+  height: 66px;
 }

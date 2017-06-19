@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 
@@ -9,7 +9,7 @@ const DAYS_SHORT = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss']
 })
-export class DatePickerComponent implements AfterViewInit {
+export class DatePickerComponent implements OnInit {
 
   @Input() pickedDate: Moment = moment();
   @Output() pickedDateChange = new EventEmitter<Moment>();
@@ -19,7 +19,7 @@ export class DatePickerComponent implements AfterViewInit {
 
   selectedMonth: Moment = moment().date(1);
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.selectedMonth = moment(this.pickedDate).date(1);
     this.actualDaysInMonth = this.constructCalendar();
   }

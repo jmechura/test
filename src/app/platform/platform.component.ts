@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ToolbarPosition } from '../shared/components/bronze/toolbar/toolbar.component';
+import { Router } from '@angular/router';
 
 const ROUTE_PREFIX = '/platform';
 
@@ -10,11 +11,21 @@ const ROUTE_PREFIX = '/platform';
 })
 export class PlatformComponent {
 
+  currentBalance = 0;
+
   toolbarPosition: ToolbarPosition = 'side';
 
   toolbarData = [
-    {label: 'Showcase', link: ROUTE_PREFIX + '/showcase'},
-    {label: 'Dashboard', link: ROUTE_PREFIX + '/dashboard'},
-    {label: 'Settings', link: ROUTE_PREFIX + '/settings'},
+    {label: 'Showcase', link: ROUTE_PREFIX + '/showcase', icon: 'view_list'},
+    {label: 'Dashboard', link: ROUTE_PREFIX + '/dashboard', icon: 'dashboard'},
+    {label: 'Settings', link: ROUTE_PREFIX + '/settings', icon: 'settings'},
   ];
+
+  constructor(private router: Router) {
+
+  }
+
+  logOut(): void {
+    this.router.navigateByUrl('/login');
+  }
 }
