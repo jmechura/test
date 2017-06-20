@@ -2,6 +2,7 @@
 
 $default-background-color: #ffffff;
 $primary-color: #ec1c2d;
+$secondary-color: #4a4a4a;
 $contrast-color: #ffffff;
 $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
@@ -10,6 +11,26 @@ $primary-text-color: #747474;
 
 $default-margin: 12px;
 $default-padding: 12px;
+
+$positive-number-color: #6ab11d;
+$negative-number-color: $warn-color;
+
+.mss-view-container {
+  padding: 40px 50px;
+}
+
+.mss-title {
+  color: $secondary-color;
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.mss-form-container {
+  display: flex;
+  flex-direction: column;
+  background-color: $default-background-color;
+  padding: 35px;
+}
 
 @mixin default-component-label {
   font-family: 'Roboto', sans-serif;
@@ -473,6 +494,8 @@ $input-height: 46px;
 $input-width: 100%;
 $border-color: #979797;
 
+$input-label-width: 200px;
+
 @mixin mss-input-container {
   display: flex;
   align-items: center;
@@ -482,7 +505,7 @@ $border-color: #979797;
   @include default-component-label;
 
   display: block;
-  width: 130px;
+  width: $input-label-width;
 }
 
 @mixin mss-input {

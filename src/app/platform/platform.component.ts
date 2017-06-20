@@ -16,9 +16,10 @@ export class PlatformComponent {
   toolbarPosition: ToolbarPosition = 'side';
 
   toolbarData = [
+    {label: 'Přehled', link: ROUTE_PREFIX + '/dashboard', icon: 'dashboard'},
+    {label: 'Moje Karta', link: ROUTE_PREFIX + '/card', icon: 'credit_card'},
+    {label: 'Nastavení', link: ROUTE_PREFIX + '/settings', icon: 'settings'},
     {label: 'Showcase', link: ROUTE_PREFIX + '/showcase', icon: 'view_list'},
-    {label: 'Dashboard', link: ROUTE_PREFIX + '/dashboard', icon: 'dashboard'},
-    {label: 'Settings', link: ROUTE_PREFIX + '/settings', icon: 'settings'},
   ];
 
   constructor(private router: Router) {

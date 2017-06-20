@@ -8,6 +8,7 @@ import { BronzeComponentsModule } from '../shared/components/bronze/bronze-compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlatformRoutingModule } from './platform-routing.module';
 import { ShowcaseComponent } from './showcase/showcase.component';
+import { CardViewComponent } from './card-view/card-view.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { ShowcaseComponent } from './showcase/showcase.component';
     DashboardComponent,
     SettingsComponent,
     ShowcaseComponent,
+    CardViewComponent,
   ]
 })
 export class PlatformModule { }

@@ -4,6 +4,7 @@ import { ShowcaseComponent } from './showcase/showcase.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NgModule } from '@angular/core';
 import { PlatformComponent } from './platform.component';
+import { CardViewComponent } from './card-view/card-view.component';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,8 @@ export const routes: Routes = [
     {path: 'dashboard', component: DashboardComponent},
     {path: 'showcase', component: ShowcaseComponent},
     {path: 'settings', component: SettingsComponent},
-    {path: '', redirectTo: 'showcase', pathMatch: 'full'}
+    {path: 'card', component: CardViewComponent},
+    {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
   ]
   }
 ];

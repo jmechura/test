@@ -1,0 +1,64 @@
+@import 'theme';
+
+.form-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.mss-form-container {
+  margin-right: 30px;
+}
+
+.pin-input {
+  margin-bottom: 25px;
+}
+
+.pin-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card-view-button {
+  width: 212px;
+}
+
+.card-status-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px;
+}
+
+.card-status-label {
+  color: $primary-text-color;
+}
+
+.card-status-enabled {
+  color: $positive-number-color;
+
+  &.card-status-disabled {
+    color: $negative-number-color;
+  }
+}
+
+.confirmation-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+
+  .confirm-button {
+    margin-right: 12px;
+  }
+}
+
+.card-modal-title {
+  color: $primary-text-color;
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+
+.card-modal-text {
+  color: $primary-text-color;
+  font-size: 16px;
+}
