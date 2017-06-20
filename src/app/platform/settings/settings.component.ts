@@ -16,6 +16,10 @@ export class SettingsComponent {
   oldPassword: string;
   newPassword: string;
   newPasswordConfirmation: string;
+  newQuestion: string;
+  newAnswer: string;
+
+  questionSwitch = false;
 
   constructor(fb: FormBuilder) {
     this.infoForm = fb.group({
@@ -30,6 +34,18 @@ export class SettingsComponent {
       oldPassword: '',
       newPassword: '',
       newPasswordConfirmation: '',
+      newQuestion: [{value: '', disabled: true}],
+      newAnswer: [{value: '', disabled: true}],
     });
+  }
+
+  changeState(): void {
+    if (this.questionSwitch) {
+      this.passwordForm.controls['newQuestion'].enable();
+      this.passwordForm.controls['newAnswer'].enable();
+    } else {
+      this.passwordForm.controls['newQuestion'].disable();
+      this.passwordForm.controls['newAnswer'].disable();
+    }
   }
 }

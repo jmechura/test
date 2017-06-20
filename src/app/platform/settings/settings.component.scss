@@ -7,7 +7,6 @@ $text-color: #747474;
   display: flex;
   flex-direction: column;
   padding-left: 50px;
-  padding-top: 40px;
 }
 
 .header {
@@ -20,29 +19,43 @@ $text-color: #747474;
 .form-container {
   display: flex;
   flex-direction: column;
-  background-color: $default-background-color;
-  padding: 35px;
-}
+  max-width: 550px;
+  width: 100%;
 
-.info-form {
-  margin-bottom: 70px;
+  &:not(:last-child) {
+    margin-right: 30px;
+
+    .form {
+      height: 378px;
+    }
+  }
 }
 
 .form {
+  background-color: $default-background-color;
+  padding: 35px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 70px;
 }
 
-.input:not(:last-child) {
-  margin-bottom: 25px;
+.input {
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 25px;
+  }
 }
 
 .form-wrapper {
   display: flex;
-  flex-direction: column;
-  max-width: 550px;
+  flex-wrap: wrap;
 }
 
 .save {
   align-self: flex-end;
+  margin-bottom: 30px;
+  width: 212px;
 }

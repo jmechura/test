@@ -20,6 +20,8 @@ export class InputComponent implements ControlValueAccessor {
   @Input() value: string | number;
   @Output() valueChange = new EventEmitter<string | number>();
 
+  disabled = false;
+
   private changeCallback: any;
   private touchedCallback: any;
 
@@ -50,5 +52,9 @@ export class InputComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
     this.touchedCallback = fn;
+  }
+
+  setDisabledState(disabled: boolean): void {
+    this.disabled = disabled;
   }
 }
