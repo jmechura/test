@@ -2,9 +2,9 @@
   <div class="login-container">
     <form [formGroup]="loginForm" class="login-form">
       <img class="logo" src="assets/images/logo.svg">
-      <mss-input formControlName="email" class="input" [(value)]="email" [placeholder]="'Váš email'"></mss-input>
-      <span *ngIf="loginForm.invalid && loginForm.touched">You're doomed</span>
-      <mss-input formControlName="password" class="input" [(value)]="password" [placeholder]="'Heslo'"></mss-input>
+      <mss-input formControlName="username" class="input" [(value)]="username" [placeholder]="'Uživatelské jméno'"></mss-input>
+      <span *ngIf="loginForm.invalid && loginForm.touched">Nesprávne zadané jmnéno</span>
+      <mss-input formControlName="password" class="input" type="password" [(value)]="password" [placeholder]="'Heslo'"></mss-input>
       <mss-button class="login-button" label="PŘIHLÁSIT SE" (click)="login()"></mss-button>
     </form>
   </div>

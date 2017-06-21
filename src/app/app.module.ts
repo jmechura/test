@@ -11,6 +11,11 @@ import { SilverComponentsModule } from 'app/shared/components/silver/silver-comp
 import { GoldComponentsModule } from './shared/components/gold/gold-components.module';
 import { LoginModule } from './login/login.module';
 import { PlatformModule } from './platform/platform.module';
+import { StoreModule } from '@ngrx/store';
+import { authReducer } from './shared/reducers/auth.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffect } from './shared/effects/auth.effect';
+import { ApiService } from './shared/services/api.service';
 
 @NgModule({
   declarations: [
@@ -27,8 +32,14 @@ import { PlatformModule } from './platform/platform.module';
     BronzeComponentsModule,
     SilverComponentsModule,
     GoldComponentsModule,
+    StoreModule.provideStore({
+      auth: authReducer
+    }),
+    EffectsModule.runAfterBootstrap(AuthEffect)
   ],
-  providers: [],
+  providers: [
+    ApiService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
