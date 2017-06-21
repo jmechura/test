@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
+import { AccountModel } from '../../../models/account.model';
 
 export type ToolbarPosition = 'side' | 'top';
 
@@ -13,6 +14,8 @@ export class ToolbarComponent implements OnDestroy {
 
   @Input() routes: { link: string, label: string, icon: string }[];
   @Input() position: ToolbarPosition = 'top';
+
+  @Input() userData: AccountModel;
 
   private unsubscribe$ = new Subject<void>();
   activeRoute = '';

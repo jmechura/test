@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestMethod, Headers, Response } from '@angular/http';
+import { Headers, Http, RequestMethod, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 
@@ -16,7 +16,8 @@ function parseResponse(response: Response): any {
 @Injectable()
 export class ApiService {
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) {
+  }
 
   request(method: RequestMethod, path: string, payload?: any): Observable<any> {
     const authToken = localStorage.getItem(TOKEN_STORAGE_KEY);
@@ -35,5 +36,9 @@ export class ApiService {
 
   post(path: string, payload: any): Observable<any> {
     return this.request(RequestMethod.Post, path, payload);
+  }
+
+  put(path: string, payload: any): Observable<any> {
+    return this.request(RequestMethod.Put, path, payload);
   }
 }

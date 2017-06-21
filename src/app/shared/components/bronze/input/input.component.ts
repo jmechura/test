@@ -25,6 +25,7 @@ export class InputComponent implements ControlValueAccessor {
   private changeCallback: any;
   private touchedCallback: any;
 
+
   get inputValue(): string | number {
     return this.value;
   }
@@ -43,7 +44,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    this.value = obj;
+    // This function has to be here, but we don't want it to do anything...
   }
 
   registerOnChange(fn: any): void {

@@ -16,6 +16,8 @@ import { authReducer } from './shared/reducers/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffect } from './shared/effects/auth.effect';
 import { ApiService } from './shared/services/api.service';
+import { accountReducer } from './shared/reducers/account.reducer';
+import { AccountEffect } from './shared/effects/account.effect';
 
 @NgModule({
   declarations: [
@@ -33,9 +35,11 @@ import { ApiService } from './shared/services/api.service';
     SilverComponentsModule,
     GoldComponentsModule,
     StoreModule.provideStore({
-      auth: authReducer
+      auth: authReducer,
+      account: accountReducer,
     }),
-    EffectsModule.runAfterBootstrap(AuthEffect)
+    EffectsModule.runAfterBootstrap(AuthEffect),
+    EffectsModule.runAfterBootstrap(AccountEffect),
   ],
   providers: [
     ApiService,

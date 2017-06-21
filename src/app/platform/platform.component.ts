@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ToolbarPosition } from '../shared/components/bronze/toolbar/toolbar.component';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../shared/models/app-state.model';
 import { authActions } from '../shared/reducers/auth.reducer';
 import { TOKEN_STORAGE_KEY } from '../shared/services/api.service';
+import { Subject } from 'rxjs/Subject';
+import { accountActions } from '../shared/reducers/account.reducer';
+import { StateModel } from '../shared/models/state.model';
+import { AccountModel } from '../shared/models/account.model';
 
 const ROUTE_PREFIX = '/platform';
 
@@ -13,11 +17,13 @@ const ROUTE_PREFIX = '/platform';
   templateUrl: './platform.component.html',
   styleUrls: ['./platform.component.scss']
 })
-export class PlatformComponent {
+export class PlatformComponent implements OnDestroy {
 
   currentBalance = 0;
 
   toolbarPosition: ToolbarPosition = 'side';
+
+  account: AccountModel;
 
   toolbarData = [
     {label: 'Přehled', link: ROUTE_PREFIX + '/dashboard', icon: 'dashboard'},
@@ -27,8 +33,28 @@ export class PlatformComponent {
     {label: 'Showcase', link: ROUTE_PREFIX + '/showcase', icon: 'view_list'},
   ];
 
-  constructor(private router: Router, private store: Store<AppState>) {
+  private unsubscribe$ = new Subject<void>();
 
+  constructor(private router: Router, private store: Store<AppState>) {
+    this.store.dispatch({type: accountActions.ACCOUNT_API_GET});
+
+    this.store.select('account').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error}: StateModel<AccountModel>) => {
+        if (error) {
+          console.error('Account API call returned error', error);
+          return;
+        }
+
+        if (data != undefined) {
+          this.account = data;
+        }
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   logOut(): void {

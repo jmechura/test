@@ -3,38 +3,42 @@
 
   <div class="form-wrapper">
     <div class="form-container">
-      <form [formGroup]="infoForm" class="form">
-        <mss-input formControlName="firstName" class="input" [(value)]="user.firstName" [label]="'Jméno'" [placeholder]="'Váše jméno'">
+      <form [formGroup]="infoForm" class="form" *ngIf="account">
+        <mss-input formControlName="id" class="input" [type]="'number'" [value]="editAccount.id" [label]="'ID'" [placeholder]="'Vaše id'">
         </mss-input>
-        <mss-input formControlName="surname" class="input" [(value)]="user.surname" [label]="'Příjmení'" [placeholder]="'Váše příjmení'">
+        <mss-input formControlName="firstName" class="input" [(value)]="editAccount.firstName" [label]="'Jméno'"
+                   [placeholder]="'Vaše jméno'">
         </mss-input>
-        <mss-input formControlName="id" class="input" [type]="'number'" [(value)]="user.id" [label]="'ID'" [placeholder]="'Váše id'">
+        <mss-input formControlName="surname" class="input" [(value)]="editAccount.lastName" [label]="'Příjmení'"
+                   [placeholder]="'Vaše příjmení'">
         </mss-input>
-        <mss-input formControlName="email" class="input" [(value)]="user.email" [label]="'E-mail'" [placeholder]="'Váš email'">
+        <mss-input formControlName="email" class="input" [(value)]="editAccount.email" [label]="'E-mail'" [placeholder]="'Váš email'">
         </mss-input>
-        <mss-input formControlName="phone" class="input" [type]="'number'" [(value)]="user.phone" [label]="'TEL:'"
-                   [placeholder]="'Váš mobil'">
+        <mss-input formControlName="phone" class="input" [(value)]="editAccount.phone" [label]="'TEL:'" [placeholder]="'Váš mobil'">
         </mss-input>
       </form>
-      <mss-button class="save" [label]="'ULOŽIT'"></mss-button>
+      <mss-button class="save" [label]="'ULOŽIT'" (click)="updateUser()"></mss-button>
     </div>
     <div class="form-container">
       <form [formGroup]="passwordForm" class="form">
-        <mss-input formControlName="oldPassword" class="input" [(value)]="oldPassword" [label]="'Staré heslo'" [placeholder]="' '">
-        </mss-input>
-        <mss-input formControlName="newPassword" class="input" [(value)]="newPassword" [label]="'Nové heslo'" [placeholder]="' '">
-        </mss-input>
-        <mss-input formControlName="newPasswordConfirmation" class="input" [(value)]="newPasswordConfirmation" [label]="'Opakujte heslo'"
+        <mss-input formControlName="oldPassword" class="input" type="password" [(value)]="oldPassword" [label]="'Staré heslo'"
                    [placeholder]="' '">
+        </mss-input>
+        <mss-input formControlName="newPassword" class="input" type="password" [(value)]="newPassword" [label]="'Nové heslo'"
+                   [placeholder]="' '">
+        </mss-input>
+        <mss-input formControlName="newPasswordConfirmation" class="input" type="password" [(value)]="newPasswordConfirmation"
+                   [label]="'Opakujte heslo'" [placeholder]="' '">
         </mss-input>
         <mss-toggle (click)="changeState()" [label]="'Chcete změnit i kontrolni otázku ?'" [(toggled)]="questionSwitch"></mss-toggle>
-        <mss-input formControlName="newQuestion" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newQuestion" [label]="'Nová otázka'" [placeholder]="' '">
+        <mss-input formControlName="newQuestion" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newQuestion"
+                   [label]="'Nová otázka'" [placeholder]="' '">
         </mss-input>
-        <mss-input formControlName="newAnswer" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newAnswer" [label]="'Nová odpověd'"
-                   [placeholder]="' '">
+        <mss-input formControlName="newAnswer" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newAnswer"
+                   [label]="'Nová odpověd'" [placeholder]="' '">
         </mss-input>
       </form>
-      <mss-button class="save" [label]="'ULOŽIT'"></mss-button>
+      <mss-button class="save" [label]="'ULOŽIT'" (click)="updatePassword()"></mss-button>
     </div>
   </div>
 </div>
