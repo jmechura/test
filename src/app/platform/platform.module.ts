@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PlatformRoutingModule } from './platform-routing.module';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { CardViewComponent } from './card-view/card-view.component';
+import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { CardViewComponent } from './card-view/card-view.component';
     SettingsComponent,
     ShowcaseComponent,
     CardViewComponent,
+    EmployeeManagementComponent,
   ]
 })
 export class PlatformModule { }

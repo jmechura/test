@@ -3,6 +3,10 @@
 .button {
   @include mss-button;
 
+  &.disabled {
+    @include mss-button-disabled;
+  }
+
   .button-content {
     @include mss-button-content;
 

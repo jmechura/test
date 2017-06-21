@@ -23,6 +23,7 @@ export class PlatformComponent {
     {label: 'Přehled', link: ROUTE_PREFIX + '/dashboard', icon: 'dashboard'},
     {label: 'Moje Karta', link: ROUTE_PREFIX + '/card', icon: 'credit_card'},
     {label: 'Nastavení', link: ROUTE_PREFIX + '/settings', icon: 'settings'},
+    {label: 'Zaměstnanci', link: ROUTE_PREFIX + '/employees', icon: 'group'},
     {label: 'Showcase', link: ROUTE_PREFIX + '/showcase', icon: 'view_list'},
   ];
 

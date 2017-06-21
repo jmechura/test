@@ -85,6 +85,19 @@ $button-color: $primary-color;
   }
 }
 
+@mixin mss-button-disabled {
+  opacity: 0.5;
+  cursor: default;
+
+  &:hover {
+    background-color: $button-color;
+  }
+
+  &:active {
+    background-color: $button-color;
+  }
+}
+
 @mixin mss-button-content {
   display: flex;
   justify-content: center;
@@ -201,7 +214,9 @@ $pager-active-color: #4c4c4c;
 
 @mixin mss-datatable-row-wrapper {
   &:not(:last-child) {
-    border-bottom: 1px solid $header-background-color;
+    .datatable-body-row {
+      border-bottom: 1px solid $header-background-color;
+    }
   }
 }
 

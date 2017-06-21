@@ -1,4 +1,4 @@
-<button class="button">
+<button class="button" [ngClass]="{'disabled': disabled}">
   <span class="button-content">
     <img [src]="icon" class="button-icon" *ngIf="icon != undefined && iconPosition === 'left'">
     {{label}}

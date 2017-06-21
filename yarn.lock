@@ -96,6 +96,12 @@
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.1.3.tgz#eb9d1c302a0172815f9a573310d9be0bdeb845ae"
 
+"@angular/language-service@^4.2.3":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-4.2.3.tgz#f31515c53d86b77c89a1ca449cc3c36e5e204200"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/platform-browser-dynamic@^4.0.0":
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.1.3.tgz#3c13fdcf591d487f6efdc1d46913f280c6d8c2ec"

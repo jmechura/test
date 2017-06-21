@@ -9,5 +9,6 @@ export class ButtonComponent {
 
   @Input() label: string;
   @Input() icon: string;
+  @Input() disabled = false;
   @Input() iconPosition: 'left' | 'right' = 'left';
 }

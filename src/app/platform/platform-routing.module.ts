@@ -5,6 +5,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { NgModule } from '@angular/core';
 import { PlatformComponent } from './platform.component';
 import { CardViewComponent } from './card-view/card-view.component';
+import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
     {path: 'showcase', component: ShowcaseComponent},
     {path: 'settings', component: SettingsComponent},
     {path: 'card', component: CardViewComponent},
+    {path: 'employees', component: EmployeeManagementComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
   ]
   }
