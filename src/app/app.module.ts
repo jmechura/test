@@ -16,6 +16,8 @@ import { authReducer } from './shared/reducers/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffect } from './shared/effects/auth.effect';
 import { ApiService } from './shared/services/api.service';
+import { cardReducer } from './shared/reducers/card.reducer';
+import { CardEffect } from './shared/effects/card.effect';
 import { accountReducer } from './shared/reducers/account.reducer';
 import { AccountEffect } from './shared/effects/account.effect';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -31,6 +33,7 @@ import { transactionEbankReducer } from './shared/reducers/transactionEbank.redu
 import { TransactionEbankEffect } from './shared/effects/transactionEbank.effect';
 import { transactionTransferReducer } from './shared/reducers/transactionTransfer.reducer';
 import { TransactionTransferEffect } from './shared/effects/transactionTransfer.effect';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +52,7 @@ import { TransactionTransferEffect } from './shared/effects/transactionTransfer.
     GoldComponentsModule,
     StoreModule.provideStore({
       auth: authReducer,
+      card: cardReducer,
       account: accountReducer,
       transactionCodes: transactionCodeReducer,
       transactionStates: transactionStateReducer,
@@ -58,6 +62,7 @@ import { TransactionTransferEffect } from './shared/effects/transactionTransfer.
       transactionTransfers: transactionTransferReducer
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
+    EffectsModule.runAfterBootstrap(CardEffect),
     EffectsModule.runAfterBootstrap(AccountEffect),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(TransactionCodeEffect),

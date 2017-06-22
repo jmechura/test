@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { PlatformComponent } from './platform.component';
 import { CardViewComponent } from './card-view/card-view.component';
 import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
+import { EmployerCardComponent } from './employer-card/employer-card.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 
 export const routes: Routes = [
@@ -16,8 +17,9 @@ export const routes: Routes = [
     {path: 'settings', component: SettingsComponent},
     {path: 'card', component: CardViewComponent},
     {path: 'employees', component: EmployeeManagementComponent},
+    {path: 'employer-card', component: EmployerCardComponent},
     {path: 'transaction/:id', component: TransactionDetailComponent},
-    {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
+    {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   ]
   }
 ];

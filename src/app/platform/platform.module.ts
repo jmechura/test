@@ -10,6 +10,7 @@ import { PlatformRoutingModule } from './platform-routing.module';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { CardViewComponent } from './card-view/card-view.component';
 import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
+import { EmployerCardComponent } from './employer-card/employer-card.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
     ShowcaseComponent,
     CardViewComponent,
     EmployeeManagementComponent,
+    EmployerCardComponent,
     TransactionDetailComponent,
   ]
 })

@@ -1,0 +1,13 @@
+<div class="employer-card-container">
+  <div *ngIf="rows" class="data-table-container">
+    <ngx-datatable #table [columns]="columns" [externalPaging]="true" [loadingIndicator]="loading" [count]="tableData.totalElements"
+                   [offset]="tableData.number" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [limit]="rowLimit" [rows]="rows" (page)="setPage($event)">
+    </ngx-datatable>
+    <div class="datatable-select">
+      <span class="select-text">Položek na stránku</span>
+      <mss-select [options]="rowLimitOptions" [selectedOption]="rowLimit" (selectedOptionChange)="changeLimit($event)">
+      </mss-select>
+    </div>
+  </div>
+</div>
