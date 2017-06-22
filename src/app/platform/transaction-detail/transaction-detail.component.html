@@ -1,0 +1,19 @@
+<div class="transaction-container">
+  <div class="header-row">
+    Transakce - asdadd545454ad5a4sd54ad54a35d4ad
+  </div>
+
+  <div class="content-container">
+    <div class="column">
+      <mss-list class="list" [data]="data.basic">Basic information</mss-list>
+      <mss-list class="list" [data]="data.issuer" (clicked)="goToDetail($event)">Issuer</mss-list>
+      <mss-list class="list" [data]="data.acquirer" (clicked)="goToDetail($event)">Acquirer</mss-list>
+      <mss-list class="list" [data]="data.terminal">Terminal</mss-list>
+    </div>
+    <div class="column">
+      <mss-list class="list" [data]="data.amount">Amount</mss-list>
+      <mss-list class="list" [data]="data.identification">Identification</mss-list>
+      <mss-list class="list" [data]="data.cardHolder">Card Holder</mss-list>
+    </div>
+  </div>
+</div>

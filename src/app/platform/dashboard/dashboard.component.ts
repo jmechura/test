@@ -1,14 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { AppState } from '../../shared/models/app-state.model';
+import { Store } from '@ngrx/store';
+import { transactionActions } from '../../shared/reducers/transaction.reducer';
+import { Subject } from 'rxjs/Subject';
+import { StateModel } from '../../shared/models/state.model';
+import { Transaction } from '../../shared/models/transaction.model';
 
 @Component({
   selector: 'mss-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy {
 
   options: SelectItem[] = [{value: 'all'}, {value: 'female'}, {value: 'male'}];
   selected = 'all';
@@ -16,12 +22,23 @@ export class DashboardComponent {
   fileterArray: any[] = [];
   fromDate: Moment = moment();
   toDate: Moment = moment();
+  private unsubscribe = new Subject<void>();
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
     this.fetch((data) => {
       this.completeArray = data;
       this.fileterArray = data;
     });
+
+    this.store.dispatch({type: transactionActions.TRANSACTION_GET, payload: {}});
+    this.store.select('transactions').takeUntil(this.unsubscribe).subscribe(
+      (data: StateModel<Transaction>) => {
+        if (data.error) {
+          console.error(data.error);
+          return;
+        }
+      }
+    );
   }
 
   fetch(cb: any): void {
@@ -48,5 +65,10 @@ export class DashboardComponent {
       default :
         break;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

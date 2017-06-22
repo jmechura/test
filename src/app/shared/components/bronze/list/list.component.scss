@@ -1,0 +1,44 @@
+@import 'theme';
+
+$line-padding: 12px;
+$line-font-size: 15px;
+$divider-color: rgba($primary-text-color, 0.3);
+
+.container {
+  .title {
+    color: $secondary-color;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  .line {
+    display: flex;
+    align-items: center;
+    font-size: $line-font-size;
+    padding: $line-padding;
+    background-color: $default-background-color;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $divider-color;
+    }
+
+    .label {
+      width: 150px;
+      overflow: hidden;
+      color: darken($primary-text-color, 10%);
+      padding-right: $line-padding;
+      border-right: 1px solid $divider-color;
+    }
+
+    .value {
+      flex-grow: 1;
+      color: $primary-text-color;
+      padding-left: $line-padding*2;
+
+      &.clickable {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+}

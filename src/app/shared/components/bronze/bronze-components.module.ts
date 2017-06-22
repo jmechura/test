@@ -17,6 +17,7 @@ import { RadioButtonGroupComponent } from './radio-button-group/radio-button-gro
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { CommonModule } from '@angular/common';
+import { ListComponent } from './list/list.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CommonModule } from '@angular/common';
     RadioButtonGroupComponent,
     ToolbarComponent,
     DatePickerComponent,
+    ListComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +59,7 @@ import { CommonModule } from '@angular/common';
     RadioButtonGroupComponent,
     ToolbarComponent,
     DatePickerComponent,
+    ListComponent
   ],
   providers: [],
 })
