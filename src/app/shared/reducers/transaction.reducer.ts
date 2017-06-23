@@ -1,6 +1,7 @@
 import { StateModel } from '../models/state.model';
 import { Transaction } from '../models/transaction.model';
 import { Action } from '@ngrx/store';
+import { Pagination } from '../models/pagination.model';
 
 export const transactionActions = {
   TRANSACTION_GET: 'TRANSACTION_GET',
@@ -8,9 +9,10 @@ export const transactionActions = {
   TRANSACTION_FAIL: 'TRANSACTION_FAIL'
 };
 
-const INITIAL_STATE: StateModel<Transaction> = {error: null, loading: false};
+const INITIAL_STATE: StateModel<Pagination<Transaction>> = {error: null, loading: false};
 
-export function transactionReducer(state: StateModel<Transaction> = INITIAL_STATE, action: Action): StateModel<Transaction> {
+export function transactionReducer(state: StateModel<Pagination<Transaction>> = INITIAL_STATE,
+                                   action: Action): StateModel<Pagination<Transaction>> {
   // TODO: add pagination
   switch (action.type) {
     case transactionActions.TRANSACTION_GET:

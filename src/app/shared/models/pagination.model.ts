@@ -9,20 +9,14 @@ export interface Pagination<T> {
   totalPages: number;
 }
 
-export interface ServerPagination {
+export interface ServerPagination<T> {
   pagination: {
     number: number;
     numberOfPages: number;
     start: number;
   };
   search: {
-    predicateObject: {
-      cardGroupCode: string;
-      cln: string;
-      issuerCode: string;
-      lastname: string;
-      state: string;
-    }
+    predicateObject: T;
   };
   sort: {};
 }

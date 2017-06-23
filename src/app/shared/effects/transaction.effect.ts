@@ -16,15 +16,7 @@ export class TransactionsEffect {
       .ofType(transactionActions.TRANSACTION_GET)
       .switchMap(action => this.api.post(
         TRANSACTION_ENDPOINT,
-        {
-          pagination: {
-            number: 10,
-            numberOfPages: 0,
-            start: 0
-          },
-          sort: {},
-          search: action.payload
-        })
+        action.payload)
         .map(res => ({type: transactionActions.TRANSACTION_SUCCESS, payload: res}))
         .catch((res) => Observable.of({type: transactionActions.TRANSACTION_FAIL, payload: res}))
       );

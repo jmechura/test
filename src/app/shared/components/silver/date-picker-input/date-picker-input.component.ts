@@ -22,4 +22,8 @@ export class DatePickerInputComponent {
     this.pickedDateChange.emit(moment(newDate));
     this.toggleCalendar();
   }
+
+  get dateLabel(): string {
+    return this.pickedDate != null ? this.pickedDate.format('D. M. YYYY') : 'Vyberte datum';
+  }
 }

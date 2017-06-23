@@ -8,6 +8,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BronzeComponentsModule } from '../bronze/bronze-components.module';
 import { DatePickerInputComponent } from './date-picker-input/date-picker-input.component';
 import { CommonModule } from '@angular/common';
+import { TabsComponent } from './tabs/tabs.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
     TimePickerComponent,
     AutocompleteInputComponent,
     DatePickerInputComponent,
+    TabsComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,7 @@ import { CommonModule } from '@angular/common';
     AutocompleteInputComponent,
     NgxDatatableModule,
     DatePickerInputComponent,
+    TabsComponent,
   ],
   providers: [],
 })

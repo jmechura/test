@@ -5,13 +5,74 @@ $calendar-text-color: #747474;
 
 .dashboard-container {
   padding: 40px 50px;
+
+  .data-table-container {
+    .cell.clickable {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .search-button {
+    width: 200px;
+  }
 }
 
 .header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+}
+
+.filter-container {
+  display: flex;
+
+  .tabs-row {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+
+    .tabs {
+      width: 80%;
+    }
+
+    .buttons {
+      display: flex;
+      width: 20%;
+      padding: 0 10px;
+      justify-content: flex-end;
+    }
+  }
+
+  .content {
+    margin: 25px 0 20px 0;
+    display: flex;
+
+    &.column {
+      flex-direction: column;
+    }
+
+    .row {
+      display: flex;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+
+    .filter-item {
+      margin-right: 30px;
+
+      &.input {
+        max-width: 454px; // remove
+      }
+
+      .label {
+        margin-right: 12px;
+      }
+    }
+  }
 }
 
 .header {
@@ -26,3 +87,4 @@ $calendar-text-color: #747474;
   align-items: center;
   color: $calendar-text-color;
 }
+

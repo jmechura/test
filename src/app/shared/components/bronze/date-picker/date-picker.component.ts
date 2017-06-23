@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 
@@ -9,20 +9,26 @@ const DAYS_SHORT = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss']
 })
-export class DatePickerComponent implements OnInit {
+export class DatePickerComponent {
 
-  @Input() pickedDate: Moment = moment();
+  @Input()
+  set pickedDate(newDate: Moment) {
+    this.storedDate = newDate;
+    this.selectedMonth = this.storedDate != null ? moment(this.storedDate).date(1) : moment().date(1);
+    this.actualDaysInMonth = this.constructCalendar();
+  }
   @Output() pickedDateChange = new EventEmitter<Moment>();
+
+  get pickedDate(): Moment {
+    return this.storedDate;
+  }
+
+  private storedDate: Moment;
 
   dayHeaders = DAYS_SHORT;
   actualDaysInMonth: Moment[][];
 
   selectedMonth: Moment = moment().date(1);
-
-  ngOnInit(): void {
-    this.selectedMonth = moment(this.pickedDate).date(1);
-    this.actualDaysInMonth = this.constructCalendar();
-  }
 
   /**
    * Fills [][] with Moment objects representing currently selected month
@@ -55,6 +61,9 @@ export class DatePickerComponent implements OnInit {
   }
 
   isSelectedDate(day: Moment): boolean {
+    if (this.pickedDate == null) {
+      return false;
+    }
     return moment(this.pickedDate).isSame(moment(day), 'day');
   }
 }

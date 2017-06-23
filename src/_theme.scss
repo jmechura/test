@@ -402,7 +402,6 @@ $date-input-width: 212px;
 $date-picker-icon-background-color: #4a4a4a;
 
 @mixin mss-date-picker-input-container {
-  margin: $default-margin;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 }
 
@@ -540,6 +539,7 @@ $input-label-width: 200px;
 }
 
 // ---------------- select ----------------
+$select-height: $input-height;
 
 @mixin mss-arrow-rotate {
   transform: rotate(90deg);
@@ -560,7 +560,7 @@ $input-label-width: 200px;
   align-items: center;
 
   width: 212px;
-  height: 38px;
+  height: $select-height;
   cursor: pointer;
   outline: none;
   border-radius: 5px;
@@ -778,6 +778,42 @@ $slider-padding: $default-padding;
   &.grabbing {
     cursor: grabbing;
   }
+}
+
+// ---------------- tabs ----------------
+
+@mixin mss-tabs-container {
+  width: 100%;
+}
+
+@mixin mss-tabs-header-row {
+  height: 45px;
+  width: 100%;
+  display: flex;
+}
+
+@mixin mss-tabs-item {
+  flex-grow: 1;
+  flex-basis: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: $default-background-color;
+  color: $primary-text-color;
+  text-transform: uppercase;
+  font-size: 16px;
+
+  &.selected {
+    background-color: $default-background-color;
+  }
+}
+
+@mixin mss-tabs-line {
+  height: 5px;
+  background-color: $primary-color;
+  position: relative;
+  transition: left 0.5s;
 }
 
 // ---------------- time picker ----------------

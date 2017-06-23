@@ -17,3 +17,11 @@ export interface Card {
   track2: string;
   type: string;
 }
+
+export interface CardPredicateObject {
+  cardGroupCode: string;
+  cln: string;
+  issuerCode: string;
+  lastname: string;
+  state: string;
+}

@@ -1,0 +1,17 @@
+@import 'theme';
+
+.tabs-container {
+  @include mss-tabs-container;
+
+  .tabs-header-row {
+    @include mss-tabs-header-row;
+
+    .tabs-item {
+      @include mss-tabs-item;
+    }
+  }
+
+  .line {
+    @include mss-tabs-line;
+  }
+}

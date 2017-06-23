@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { StateModel } from '../../shared/models/state.model';
 import { cardActions } from '../../shared/reducers/card.reducer';
 import { Pagination, ServerPagination } from '../../shared/models/pagination.model';
-import { Card } from '../../shared/models/card.model';
+import { Card, CardPredicateObject } from '../../shared/models/card.model';
 
 @Component({
   selector: 'mss-employer-card',
@@ -33,7 +33,7 @@ export class EmployerCardComponent implements OnDestroy {
   rowLimit = 10;
   loading = false;
   tableData: Pagination<Card>;
-  payload: ServerPagination = {
+  payload: ServerPagination<CardPredicateObject> = {
     pagination: {
       number: this.rowLimit,
       numberOfPages: 0,

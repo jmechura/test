@@ -1,0 +1,8 @@
+<div class="tabs-container">
+  <div class="tabs-header-row">
+    <div class="tabs-item" [ngClass]="{'selected': selected === i}" *ngFor="let item of items; let i = index;" (click)="move(i)">
+      {{item}}
+    </div>
+  </div>
+  <div class="line" [style.width.%]="100/items.length" [style.left.%]="lineStart"></div>
+</div>
