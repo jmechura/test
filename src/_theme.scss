@@ -783,6 +783,7 @@ $slider-padding: $default-padding;
 // ---------------- tabs ----------------
 
 @mixin mss-tabs-container {
+  background-color: $default-background-color;
   width: 100%;
 }
 

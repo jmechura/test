@@ -22,17 +22,17 @@ import { accountReducer } from './shared/reducers/account.reducer';
 import { AccountEffect } from './shared/effects/account.effect';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { transactionCodeReducer } from './shared/reducers/transactionCode.reducer';
-import { TransactionCodeEffect } from './shared/effects/transactionCode.effect';
+import { TransactionCodeEffect } from './shared/effects/transaction-code.effect';
 import { transactionStateReducer } from './shared/reducers/transactionState.reducer';
-import { TransactionStateEffect } from './shared/effects/transactionState.effect';
+import { TransactionStateEffect } from './shared/effects/transaction-state.effect';
 import { transactionTypeReducer } from './shared/reducers/transactionType.reducer';
-import { TransactionTypeEffect } from './shared/effects/transactionType.effect';
+import { TransactionTypeEffect } from './shared/effects/transaction-type.effect';
 import { transactionReducer } from './shared/reducers/transaction.reducer';
 import { TransactionsEffect } from './shared/effects/transaction.effect';
 import { transactionEbankReducer } from './shared/reducers/transactionEbank.reducer';
-import { TransactionEbankEffect } from './shared/effects/transactionEbank.effect';
+import { TransactionEbankEffect } from './shared/effects/transaction-ebank.effect';
 import { transactionTransferReducer } from './shared/reducers/transactionTransfer.reducer';
-import { TransactionTransferEffect } from './shared/effects/transactionTransfer.effect';
+import { TransactionTransferEffect } from './shared/effects/transaction-transfer.effect';
 
 
 @NgModule({
