@@ -8,6 +8,7 @@ import { CardViewComponent } from './card-view/card-view.component';
 import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
 import { EmployerCardComponent } from './employer-card/employer-card.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
+import { MerchantsComponent } from './merchants/merchants.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,7 @@ export const routes: Routes = [
     {path: 'employees', component: EmployeeManagementComponent},
     {path: 'employer-card', component: EmployerCardComponent},
     {path: 'transaction/:id', component: TransactionDetailComponent},
+    {path: 'merchants', component: MerchantsComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   ]
   }

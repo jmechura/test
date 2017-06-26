@@ -5,13 +5,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SilverComponentsModule } from '../shared/components/silver/silver-components.module';
 import { BronzeComponentsModule } from '../shared/components/bronze/bronze-components.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlatformRoutingModule } from './platform-routing.module';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { CardViewComponent } from './card-view/card-view.component';
 import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
 import { EmployerCardComponent } from './employer-card/employer-card.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
+import { MerchantsComponent } from './merchants/merchants.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
     PlatformRoutingModule,
     BronzeComponentsModule,
     SilverComponentsModule,
+    FormsModule,
     ReactiveFormsModule,
   ],
   declarations: [
@@ -30,6 +32,8 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
     EmployeeManagementComponent,
     EmployerCardComponent,
     TransactionDetailComponent,
+    MerchantsComponent,
   ]
 })
-export class PlatformModule { }
+export class PlatformModule {
+}

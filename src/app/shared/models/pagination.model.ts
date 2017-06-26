@@ -9,7 +9,7 @@ export interface Pagination<T> {
   totalPages: number;
 }
 
-export interface ServerPagination<T> {
+export interface RequestOptions<T> {
   pagination: {
     number: number;
     numberOfPages: number;

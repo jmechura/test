@@ -23,3 +23,19 @@ export function fillEmployee(): User {
     email: '',
   };
 }
+
+
+export interface UserPredicateObject {
+  cardGroupCode?: string;
+  cln?: string;
+  email?: string;
+  firstName?: string;
+  issuerCode?: string;
+  langKey?: string;
+  lastName?: string;
+  login?: string;
+  merchantCode?: string;
+  networkCode?: string;
+  orgUnitCode?: string;
+  terminalCode?: string;
+}

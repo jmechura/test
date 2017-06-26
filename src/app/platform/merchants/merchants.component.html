@@ -1,0 +1,123 @@
+<div class="mss-view-container">
+
+  <!--header-->
+  <div class="header-row">
+    <div class="mss-title">Obchodníci</div>
+    <mss-button label="Přidat obchodníka" (click)="toggleNewMerchantModal($event)"></mss-button>
+  </div>
+
+  <!--merchants data table-->
+  <div class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [limit]="rowLimit" [rows]="rows"
+                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
+
+      <ngx-datatable-column name="Jméno" prop="name">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.name"/>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="code" name="Kód">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.code"/>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="ico" name="IČO">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.ico"/>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="city" name="Město">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.city"/>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="email" name="Email">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.email"/>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="state" name="Stav">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <mss-toggle [(toggled)]="merchantState" *ngIf="editedRow === row.$$index"></mss-toggle>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Upravit" [width]="70">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <div class="edit-buttons-container">
+            <i (click)="startEditing(row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
+            <i class="material-icons table-icon" (click)="cancelEditing()" *ngIf="editedRow === row.$$index">clear</i>
+            <i class="material-icons table-icon" (click)="submitEdit()" *ngIf="editedRow === row.$$index">check</i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    <div class="datatable-select">
+      <span class="select-text">Položek na stránku</span>
+      <mss-select [options]="rowLimitOptions" [selectedOption]="rowLimit" (selectedOptionChange)="changeLimit($event)">
+      </mss-select>
+    </div>
+  </div>
+
+</div>
+
+
+<!--Add new merchant modal-->
+<mss-modal-window [(visible)]="newMerchantModalShowing">
+  <div class="new-merchant-form-title">Přidat obchodníka</div>
+  <form [formGroup]="newMerchantForm" class="new-merchant-form">
+    <div class="new-merchant-inputs">
+      <div class="new-merchant-input-side">
+        <mss-input formControlName="name" [(value)]="newMerchant.name" label="Jméno*" [warn]="isPresent('name')"></mss-input>
+        <div class="merchant-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
+        <mss-input formControlName="code" [(value)]="newMerchant.code" label="Kód*" [warn]="isPresent('code')"></mss-input>
+        <div class="merchant-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
+        <mss-input formControlName="bankAccount" [(value)]="newMerchant.bankAccount" label="Číslo účtu"></mss-input>
+        <div class="merchant-validation-label"></div>
+        <mss-input formControlName="ico" [(value)]="newMerchant.ico" label="IČO"></mss-input>
+        <div class="merchant-validation-label"></div>
+        <mss-input formControlName="dic" [(value)]="newMerchant.dic" label="DIČ"></mss-input>
+        <div class="merchant-validation-label"></div>
+        <mss-input formControlName="note" [(value)]="newMerchant.note" label="Poznámka"></mss-input>
+        <div class="merchant-validation-label"></div>
+      </div>
+      <div class="new-merchant-input-side">
+        <mss-input formControlName="country" [(value)]="newMerchant.country" label="Země"></mss-input>
+        <div class="merchant-validation-label"></div>
+        <mss-input formControlName="region" [(value)]="newMerchant.region" label="Región"></mss-input>
+        <div class="merchant-validation-label"></div>
+        <mss-input formControlName="city" [(value)]="newMerchant.city" label="Město"></mss-input>
+        <div class="merchant-validation-label"></div>
+        <mss-input formControlName="zip" [(value)]="newMerchant.zip" label="PSČ"></mss-input>
+        <div class="merchant-validation-label"></div>
+        <mss-input formControlName="street" [(value)]="newMerchant.street" label="Adresa"></mss-input>
+        <div class="merchant-validation-label"></div>
+        <mss-input formControlName="email" [(value)]="newMerchant.email" label="E-mail"></mss-input>
+        <div class="merchant-validation-label"><span *ngIf="isValidEmail('email')">Zle zadaný email</span></div>
+        <mss-input formControlName="phone" [(value)]="newMerchant.phone" label="Tel. číslo"></mss-input>
+        <div class="merchant-validation-label"></div>
+      </div>
+    </div>
+    <div class="new-merchant-buttons">
+      <mss-button label="Zavřít" class="new-merchant-button" (click)="toggleNewMerchantModal()"></mss-button>
+      <mss-button label="Přidat" class="new-merchant-button" (click)="addMerchant()" [disabled]="newMerchantForm.invalid"></mss-button>
+    </div>
+  </form>
+</mss-modal-window>

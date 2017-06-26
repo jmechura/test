@@ -9,5 +9,9 @@
 
   .input {
     @include mss-input;
+
+    &.input-warn {
+      @include mss-input-warn;
+    }
   }
 }

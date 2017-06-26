@@ -1,4 +1,6 @@
 <div class="input-container">
   <label *ngIf="label" for="input" class="input-label">{{label}}</label>
-  <input id="input" [type]="type" [(ngModel)]="inputValue" (blur)="touched()" [placeholder]="placeholder" class="input" [disabled]="disabled">
+  <input id="input" [type]="type" [(ngModel)]="inputValue" (blur)="touched()"
+         [placeholder]="placeholder" [disabled]="disabled"
+         class="input" [ngClass]="{'input-warn': warn}">
 </div>

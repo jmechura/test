@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
 import { StateModel } from '../../shared/models/state.model';
 import { cardActions } from '../../shared/reducers/card.reducer';
-import { Pagination, ServerPagination } from '../../shared/models/pagination.model';
+import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { Card, CardPredicateObject } from '../../shared/models/card.model';
 
 @Component({
@@ -33,7 +33,7 @@ export class EmployerCardComponent implements OnDestroy {
   rowLimit = 10;
   loading = false;
   tableData: Pagination<Card>;
-  payload: ServerPagination<CardPredicateObject> = {
+  payload: RequestOptions<CardPredicateObject> = {
     pagination: {
       number: this.rowLimit,
       numberOfPages: 0,

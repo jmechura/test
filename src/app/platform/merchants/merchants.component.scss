@@ -1,0 +1,73 @@
+@import 'theme';
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+
+  .mss-title {
+    margin: 0;
+  }
+}
+
+.new-merchant-form-title {
+  color: $primary-text-color;
+  font-size: 25px;
+  padding: 18px 24px 0 24px;
+}
+
+.new-merchant-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+
+  .new-merchant-inputs {
+    display: flex;
+    justify-content: space-between;
+
+    .new-merchant-input-side {
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+
+      .merchant-validation-label {
+        color: $warn-color;
+        height: 18px;
+        padding-top: 2px;
+        font-size: 12px;
+        text-align: right;
+      }
+    }
+  }
+
+  .new-merchant-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+
+    .new-merchant-button {
+      width: 160px;
+      margin-left: 24px;
+    }
+  }
+}
+
+.table-input {
+  outline: none;
+  background-color: transparent;
+  border: none;
+  color: $row-text-color;
+  font-size: 14px;
+}
+
+.edit-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.table-icon {
+  cursor: pointer;
+}

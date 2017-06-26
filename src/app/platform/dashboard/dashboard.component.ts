@@ -10,7 +10,7 @@ import { Transaction, TransactionSearch } from '../../shared/models/transaction.
 import { transactionCodesActions } from '../../shared/reducers/transactionCode.reducer';
 import { transactionTypesActions } from '../../shared/reducers/transactionType.reducer';
 import { transactionStatesActions } from '../../shared/reducers/transactionState.reducer';
-import { Pagination, ServerPagination } from '../../shared/models/pagination.model';
+import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Router } from '@angular/router';
 
@@ -86,11 +86,13 @@ export class DashboardComponent implements OnDestroy {
    * Stored transaction data with pagination information
    */
   tableData: Pagination<Transaction>;
+
   /**
    * Pagination and search object for requests, pagination is also used for setting table pagination
-   * @type {{pagination: {number: number; numberOfPages: number; start: number}; search: {predicateObject: {}}; sort: {}}}
+   * @type {{pagination: {number: number; numberOfPages: number; start: number};
+   * search: {predicateObject: ({}&TransactionSearch)}; sort: {}}}
    */
-  pagination: ServerPagination<TransactionSearch> = {
+  pagination: RequestOptions<TransactionSearch> = {
     pagination: {
       number: 10,
       numberOfPages: 0,

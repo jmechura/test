@@ -41,4 +41,8 @@ export class ApiService {
   put(path: string, payload: any): Observable<any> {
     return this.request(RequestMethod.Put, path, payload);
   }
+
+  delete(path: string): Observable<any> {
+    return this.request(RequestMethod.Delete, path);
+  }
 }

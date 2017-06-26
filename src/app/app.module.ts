@@ -32,6 +32,8 @@ import { TransactionsEffect } from './shared/effects/transaction.effect';
 import { transactionEbankReducer } from './shared/reducers/transactionEbank.reducer';
 import { TransactionEbankEffect } from './shared/effects/transaction-ebank.effect';
 import { transactionTransferReducer } from './shared/reducers/transactionTransfer.reducer';
+import { merchantsReducer } from './shared/reducers/merchant.reducer';
+import { MerchantsEffect } from './shared/effects/merchant.effect';
 import { TransactionTransferEffect } from './shared/effects/transaction-transfer.effect';
 
 
@@ -59,7 +61,8 @@ import { TransactionTransferEffect } from './shared/effects/transaction-transfer
       transactionTypes: transactionTypeReducer,
       transactions: transactionReducer,
       transactionEbank: transactionEbankReducer,
-      transactionTransfers: transactionTransferReducer
+      transactionTransfers: transactionTransferReducer,
+      merchants: merchantsReducer,
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -71,6 +74,7 @@ import { TransactionTransferEffect } from './shared/effects/transaction-transfer
     EffectsModule.runAfterBootstrap(TransactionsEffect),
     EffectsModule.runAfterBootstrap(TransactionEbankEffect),
     EffectsModule.runAfterBootstrap(TransactionTransferEffect),
+    EffectsModule.runAfterBootstrap(MerchantsEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [

@@ -14,8 +14,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class InputComponent implements ControlValueAccessor {
 
   @Input() label: string;
-  @Input() placeholder = 'Please insert value';
+  @Input() placeholder = 'Prosím zadejte hodnotu';
   @Input() type = 'text';
+  @Input() warn = false;
 
   @Input() value: string | number;
   @Output() valueChange = new EventEmitter<string | number>();

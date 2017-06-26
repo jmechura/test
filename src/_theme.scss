@@ -536,6 +536,15 @@ $input-label-width: 200px;
 
   color: $primary-text-color;
   background-color: $default-background-color;
+
+  &::placeholder {
+    color: #cdcdcd;
+    font-style: italic;
+  }
+}
+
+@mixin mss-input-warn {
+  border-color: $warn-color;
 }
 
 // ---------------- select ----------------
@@ -620,6 +629,8 @@ $select-height: $input-height;
 
 // ---------------- modal window ----------------
 
+$modal-window-z-index: 999;
+
 @mixin mss-modal-window-overlay {
   position: fixed;
   top: 0;
@@ -630,6 +641,7 @@ $select-height: $input-height;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: calc(#{$modal-window-z-index} - 1);
 }
 
 @mixin mss-modal-window-overlay-active {
@@ -645,6 +657,7 @@ $select-height: $input-height;
   border-radius: 5px;
   max-width: 50%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  z-index: $modal-window-z-index;
 }
 
 // ---------------- progress bar ----------------
@@ -859,11 +872,11 @@ $slider-padding: $default-padding;
 // ---------------- toggle ----------------
 
 $toggle-button-size: 20px;
-$toggle-width: 40px;
+$toggle-width: 44px;
+$toggle-padding: 2px;
 $toggle-transition-time: 0.5s;
 
 @mixin mss-toggle-container {
-  margin: $default-margin;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -871,12 +884,13 @@ $toggle-transition-time: 0.5s;
 }
 
 @mixin mss-toggle-background {
-  height: $toggle-button-size;
+  height: calc(#{$toggle-button-size} + #{$toggle-padding * 2});
   width: $toggle-width;
   background-color: $disabled-color;
   border-radius: $toggle-button-size;
-  padding: $toggle-button-size * 0.1;
+  padding: $toggle-padding;
   margin-right: 10px;
+  box-sizing: border-box;
   transition: background-color $toggle-transition-time;
 }
 
@@ -895,7 +909,7 @@ $toggle-transition-time: 0.5s;
 }
 
 @mixin mss-toggle-button-toggled {
-  left: $toggle-width - $toggle-button-size;
+  left: $toggle-width - $toggle-button-size - $toggle-padding * 2;
 }
 
 @mixin mss-toggle-label {

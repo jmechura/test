@@ -6,6 +6,7 @@ import { AccountModel } from './account.model';
 import { Transaction } from './transaction.model';
 import { Ebank } from './ebank.model';
 import { Transfer } from './transfer.model';
+import { MerchantModel } from './merchant.model';
 
 export interface AppState {
   transactionCodes: StateModel<string[]>;
@@ -17,4 +18,5 @@ export interface AppState {
   card: StateModel<Pagination<Card>>;
   auth: StateModel<AuthModel>;
   account: StateModel<AccountModel>;
+  merchants: StateModel<Pagination<MerchantModel>>;
 }
