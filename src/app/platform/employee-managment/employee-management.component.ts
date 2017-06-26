@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { fillEmployee, User } from '../../shared/models/user.model';
@@ -7,11 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'mss-employee-management',
   templateUrl: './employee-management.component.html',
-  styleUrls: [
-    './employee-management.component.scss',
-    '../../shared/components/silver/data-table/data-table.component.scss'
-  ],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./employee-management.component.scss'],
 })
 export class EmployeeManagementComponent {
 

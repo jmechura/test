@@ -30,7 +30,9 @@
         <mss-input formControlName="newPasswordConfirmation" class="input" type="password" [(value)]="newPasswordConfirmation"
                    [label]="'Opakujte heslo'" [placeholder]="' '">
         </mss-input>
-        <mss-toggle (click)="changeState()" [label]="'Chcete změnit i kontrolni otázku ?'" [(toggled)]="questionSwitch"></mss-toggle>
+        <mss-toggle (click)="changeState()" [label]="'Chcete změnit i kontrolni otázku ?'"
+                    [(toggled)]="questionSwitch" class="toggle-container">
+        </mss-toggle>
         <mss-input formControlName="newQuestion" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newQuestion"
                    [label]="'Nová otázka'" [placeholder]="' '">
         </mss-input>

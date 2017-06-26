@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../shared/models/app-state.model';
@@ -13,11 +13,7 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 @Component({
   selector: 'mss-merchants',
   templateUrl: './merchants.component.html',
-  styleUrls: [
-    './merchants.component.scss',
-    '../../shared/components/silver/data-table/data-table.component.scss',
-  ],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./merchants.component.scss'],
 })
 export class MerchantsComponent implements OnDestroy {
 

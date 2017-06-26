@@ -1,36 +1,19 @@
-// Global defaults
+// ---------------- general ----------------
 
-$default-background-color: #ffffff;
 $primary-color: #ec1c2d;
 $secondary-color: #4a4a4a;
 $contrast-color: #ffffff;
 $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
-$animation-time: 0.25s;
+$default-background-color: #ffffff;
 $primary-text-color: #747474;
-
-$default-margin: 12px;
-$default-padding: 12px;
-
 $positive-number-color: #6ab11d;
 $negative-number-color: $warn-color;
 
-.mss-view-container {
-  padding: 40px 50px;
-}
+$animation-time: 0.25s;
 
-.mss-title {
-  color: $secondary-color;
-  font-size: 36px;
-  margin-bottom: 15px;
-}
-
-.mss-form-container {
-  display: flex;
-  flex-direction: column;
-  background-color: $default-background-color;
-  padding: 35px;
-}
+$default-margin: 12px;
+$default-padding: 12px;
 
 @mixin default-component-label {
   font-family: 'Roboto', sans-serif;
@@ -72,7 +55,6 @@ $button-color: $primary-color;
   color: $contrast-color;
 
   box-shadow: none;
-  outline: none;
 
   cursor: pointer;
 
@@ -138,7 +120,6 @@ $checkbox-size: 15px;
   border: 1px solid $primary-color;
   border-radius: 2px;
 
-  outline: none;
   margin-right: 10px;
 
   &::after {
@@ -186,10 +167,6 @@ $pager-active-color: #4c4c4c;
 @mixin mss-contrast-link {
   color: $contrast-color;
   background-color: $pager-active-color;
-}
-
-@mixin mss-data-table-container {
-  position: relative;
 }
 
 @mixin mss-data-table {
@@ -276,25 +253,12 @@ $pager-active-color: #4c4c4c;
   display: none !important;
 }
 
-@mixin mss-data-table-select {
-  position: absolute;
-  right: 0;
-  display: flex;
-  align-items: center;
-  top: calc(100% - 45px);
-}
-
 @mixin mss-table-female {
   color: $warn-color;
 }
 
 @mixin mss-resize-handle {
   display: none !important;
-}
-
-@mixin mss-datatable-select-text {
-  padding-right: 10px;
-  color: $primary-text-color;
 }
 
 // ---------------- date picker ----------------
@@ -415,7 +379,6 @@ $date-picker-icon-background-color: #4a4a4a;
   justify-content: space-between;
   align-items: center;
   background-color: $contrast-color;
-  box-sizing: border-box;
   cursor: pointer;
   position: relative;
 }
@@ -439,7 +402,6 @@ $date-picker-icon-background-color: #4a4a4a;
 @mixin mss-date-picker-dropdown-container {
   position: absolute;
   overflow: hidden;
-  box-sizing: border-box;
   z-index: 3;
   padding-top: 10px;
 
@@ -464,7 +426,7 @@ $date-picker-icon-background-color: #4a4a4a;
 
 @mixin mss-file-upload-button {
   display: flex;
-  height: 25px;
+  height: 45px;
   align-items: center;
 
   padding: $default-padding;
@@ -487,7 +449,7 @@ $date-picker-icon-background-color: #4a4a4a;
 
   display: flex;
   align-items: center;
-  height: 25px;
+  height: 45px;
   white-space: nowrap;
 
   background-color: $primary-color;
@@ -523,11 +485,9 @@ $input-label-width: 200px;
 }
 
 @mixin mss-input {
-  box-sizing: border-box;
   height: $input-height;
   width: $input-width;
   padding: 13px 21px;
-  outline: none;
   border: 1px solid $border-color;
   border-radius: 5px;
 
@@ -571,7 +531,6 @@ $select-height: $input-height;
   width: 212px;
   height: $select-height;
   cursor: pointer;
-  outline: none;
   border-radius: 5px;
   background-color: $default-background-color;
   padding: $default-padding;
@@ -672,6 +631,7 @@ $progress-bar-height: 16px;
   box-shadow: none;
   padding: $progress-bar-height * 0.2;
   margin: $default-margin;
+  box-sizing: content-box;
 }
 
 @mixin mss-progress-bar {
@@ -890,7 +850,6 @@ $toggle-transition-time: 0.5s;
   border-radius: $toggle-button-size;
   padding: $toggle-padding;
   margin-right: 10px;
-  box-sizing: border-box;
   transition: background-color $toggle-transition-time;
 }
 

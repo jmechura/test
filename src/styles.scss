@@ -1,8 +1,63 @@
+@import 'theme';
+
 body, html {
   margin: 0;
   padding: 0;
+  height: 100%;
+}
+
+body {
+  line-height: 1.2;
 }
 
 * {
   font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+// stylelint-disable-next-line selector-no-type, rule-empty-line-before
+input {
+  border: none;
+  background: none;
+}
+
+// view classes
+
+.mss-view-container {
+  padding: 40px 50px;
+}
+
+.mss-title {
+  color: $secondary-color;
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.mss-form-container {
+  display: flex;
+  flex-direction: column;
+  background-color: $default-background-color;
+  padding: 35px;
+}
+
+// data-table related classes
+
+.data-table-container {
+  position: relative;
+}
+
+.datatable-select {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  top: calc(100% - 45px);
+
+  .select-text {
+    padding-right: 10px;
+    color: $primary-text-color;
+  }
 }

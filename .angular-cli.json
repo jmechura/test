@@ -24,6 +24,7 @@
         ]
       },
       "styles": [
+        "data-table.scss",
         "styles.scss",
         "../node_modules/@swimlane/ngx-datatable/release/assets/icons.css"
       ],

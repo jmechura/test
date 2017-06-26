@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { Moment } from 'moment';
 import { AppState } from '../../shared/models/app-state.model';
@@ -39,11 +39,7 @@ const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
 @Component({
   selector: 'mss-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: [
-    './dashboard.component.scss',
-    '../../shared/components/silver/data-table/data-table.component.scss'
-  ],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnDestroy {
 

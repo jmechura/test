@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { AppState } from '../../shared/models/app-state.model';
@@ -12,12 +12,7 @@ import { Card, CardPredicateObject } from '../../shared/models/card.model';
 @Component({
   selector: 'mss-employer-card',
   templateUrl: './employer-card.component.html',
-  styleUrls: [
-    './employer-card.component.scss',
-    '../../shared/components/silver/data-table/data-table.component.scss'
-  ],
-  encapsulation: ViewEncapsulation.None,
-
+  styleUrls: ['./employer-card.component.scss']
 })
 
 export class EmployerCardComponent implements OnDestroy {

@@ -13,7 +13,6 @@ $current-balance-color: $positive-number-color;
   justify-content: space-between;
   align-items: center;
 
-  box-sizing: border-box;
   padding: 38px 50px;
   height: $content-header-height;
   width: calc(100% - #{$side-toolbar-width});

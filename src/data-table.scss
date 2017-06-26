@@ -1,0 +1,87 @@
+@import 'theme';
+
+.ngx-datatable {
+  @include mss-data-table;
+}
+
+.resize-handle {
+  @include mss-resize-handle;
+}
+
+.datatable-header {
+  @include mss-datatable-header;
+}
+
+.datatable-body-row {
+  @include mss-datatable-body-row;
+}
+
+.datatable-body-cell {
+  @include mss-datatable-body-cell;
+}
+
+.page-count {
+  @include mss-page-count;
+}
+
+.datatable-row-wrapper {
+  @include mss-datatable-row-wrapper;
+}
+
+.datatable-footer {
+  @include mss-datatable-footer;
+}
+
+/* stylelint-disable selector-no-type */
+
+.datatable-pager {
+  @include mss-datatable-pager;
+
+  .disabled {
+    @include mss-arrows-disabled;
+  }
+
+  li {
+    &:first-child, &:last-child {
+      @include mss-skip-buttons;
+    }
+
+    &:nth-child(2) {
+      @include mss-pager-pages;
+
+      a {
+        @include mss-datatable-icon-left;
+
+        .datatable-icon-left {
+          @include mss-arrow-position-fix;
+        }
+      }
+    }
+
+    &:nth-last-child(2) {
+      @include mss-pager-pages;
+
+      a {
+        @include mss-datatable-icon-right;
+
+        .datatable-icon-right {
+          @include mss-arrow-position-fix;
+        }
+      }
+    }
+  }
+
+  .pages {
+    @include mss-pager-pages;
+
+    &.active {
+      a {
+        @include mss-contrast-link;
+      }
+    }
+  }
+
+  a {
+    @include mss-page-link;
+  }
+}
