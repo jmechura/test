@@ -16,17 +16,6 @@
     cursor: pointer;
   }
 
-  .default {
-    cursor: default;
-    opacity: 0.5;
-  }
-
-  .changed {
-    color: $positive-number-color;
-    cursor: pointer;
-    opacity: 1;
-  }
-
   .datatable-body-cell-label {
     width: 100%;
   }

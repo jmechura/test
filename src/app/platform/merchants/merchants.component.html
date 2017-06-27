@@ -63,7 +63,7 @@
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
             <i (click)="startEditing(row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
-            <i class="material-icons table-icon" (click)="cancelEditing()" *ngIf="editedRow === row.$$index">clear</i>
+            <i class="material-icons table-icon" (click)="cancelEditing()" *ngIf="editedRow === row.$$index">not_interested</i>
             <i class="material-icons table-icon" (click)="submitEdit()" *ngIf="editedRow === row.$$index">check</i>
           </div>
         </ng-template>

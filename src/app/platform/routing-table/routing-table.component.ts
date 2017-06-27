@@ -30,7 +30,8 @@ export class RoutingTableComponent implements OnDestroy {
   newTable: RoutingTable = {name: '', description: ''};
   newTableForm: FormGroup;
   private unsubscribe$ = new Subject<void>();
-  edit = '';
+  edit = null;
+  editModel: string;
   formerData: RoutingTable[] = [];
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -69,21 +70,20 @@ export class RoutingTableComponent implements OnDestroy {
     return this.rows.some(item => item.name === control.value) ? {uniqueName: true} : null;
   }
 
-  descriptionChanged(row: any): boolean {
-    return this.formerData[row.$$index].description !== this.rows[row.$$index].description;
+  editing(index: number): void {
+    this.editModel = this.rows[index].description;
+    this.edit = index;
   }
 
-  editing(edit: string): void {
-    this.edit = edit;
+  clearEdit(): void {
+    this.edit = null;
+    this.editModel = '';
   }
 
-  updateValue(event: any, row: any): void {
-    this.edit = '';
-    this.rows[row.$$index].description = event.target.value;
-  }
-
-  saveTable(row: any): void {
-    this.store.dispatch({type: routingTableActions.ROUTING_TABLE_API_PUT, payload: this.rows[row.$$index]});
+  saveTable(index: number): void {
+    this.rows[index].description = this.editModel;
+    this.store.dispatch({type: routingTableActions.ROUTING_TABLE_API_PUT, payload: this.rows[index]});
+    this.clearEdit();
   }
 
   changeLimit(limit: number): void {
