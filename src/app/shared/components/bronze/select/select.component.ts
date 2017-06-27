@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface SelectItem {
   label?: string;
@@ -8,9 +9,14 @@ export interface SelectItem {
 @Component({
   selector: 'mss-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss']
+  styleUrls: ['./select.component.scss'],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => SelectComponent),
+    multi: true,
+  }]
 })
-export class SelectComponent {
+export class SelectComponent implements ControlValueAccessor {
   /**
    * name of dropdown which is shown before selection
    * @type {string}
@@ -29,6 +35,9 @@ export class SelectComponent {
 
   show = false;
 
+  private changeCallback: any;
+  private touchedCallback: any;
+
   get option(): string | number {
     if (this.options.length > 0 && this.selectedOption) {
       const option = this.options.find(item => this.selectedOption === item.value);
@@ -38,10 +47,32 @@ export class SelectComponent {
 
   selectOption(selected: number | string): void {
     this.selectedOptionChange.emit(selected);
+    if (this.changeCallback) {
+      this.changeCallback(selected);
+    }
+    this.touched();
     this.switchDropdown();
   }
 
   switchDropdown(): void {
     this.show = !this.show;
+  }
+
+  touched(): void {
+    if (this.touchedCallback) {
+      this.touchedCallback();
+    }
+  }
+
+  writeValue(obj: any): void {
+    // This function has to be here, but we don't want it to do anything...
+  }
+
+  registerOnChange(fn: any): void {
+    this.changeCallback = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.touchedCallback = fn;
   }
 }

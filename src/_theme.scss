@@ -249,12 +249,13 @@ $pager-active-color: #4c4c4c;
   font-weight: 600;
 }
 
-@mixin mss-skip-buttons {
-  display: none !important;
+@mixin mss-datatable-row-detail {
+  background-color: rgba($header-background-color, 0.5);
+  overflow: visible !important;
 }
 
-@mixin mss-table-female {
-  color: $warn-color;
+@mixin mss-skip-buttons {
+  display: none !important;
 }
 
 @mixin mss-resize-handle {
@@ -528,14 +529,18 @@ $select-height: $input-height;
   justify-content: space-between;
   align-items: center;
 
-  width: 212px;
+  width: 100%;
   height: $select-height;
   cursor: pointer;
   border-radius: 5px;
   background-color: $default-background-color;
-  padding: $default-padding;
+  padding: 0 $default-padding;
   border: none;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  &:hover {
+    background-color: rgba($primary-text-color, 0.2);
+  }
 }
 
 @mixin mss-select-container {

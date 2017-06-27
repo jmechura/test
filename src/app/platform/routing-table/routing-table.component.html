@@ -1,0 +1,59 @@
+<div class="routing-table-container">
+  <div class="button-container">
+    <mss-button class="routing-table-btn" (click)="switchModal()" [label]="'Add table'"></mss-button>
+  </div>
+  <div *ngIf="rows.length > 0" class="data-table-container">
+    <ngx-datatable #table [columns]="columns" [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+                   [rowHeight]="'auto'" [limit]="rowLimit" [rows]="rows">
+      <ngx-datatable-column name="Name">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell click-able" (click)="selectRow(row)">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Description">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <div class="cell" title="Double click to edit" (dblclick)="editing(row.$$index)"
+               *ngIf="edit !== row.$$index">{{value}}
+          </div>
+          <input class="table-input" autofocus (blur)="updateValue($event, row)" (keydown.enter)="updateValue($event, row)"
+                 *ngIf="edit === row.$$index"
+                 type="text" [value]="value"/>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Delete" [maxWidth]="80">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <i (click)="deleteRow(row)" class="material-icons click-able">clear</i>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Save" [maxWidth]="80">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <i (click)="saveTable(row)" [ngClass]="{'changed': descriptionChanged(row)}" class="material-icons default">done</i>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    <div class="datatable-select">
+      <span class="select-text">Položek na stránku</span>
+      <mss-select [options]="rowLimitOptions" [selectedOption]="rowLimit" (selectedOptionChange)="changeLimit($event)">
+      </mss-select>
+    </div>
+  </div>
+</div>
+
+<mss-modal-window [(visible)]="modalShowing">
+  <form [formGroup]="newTableForm" (ngSubmit)="addRoutingTable()">
+    <div class="routing-table-modal-container">
+      <div class="close-wrapper" (click)="switchModal()">
+        <div class="close">+</div>
+      </div>
+      <div class="mss-title">New Routing Table</div>
+      <div class="name-wrapper routing-table-modal-input">
+        <mss-input formControlName="name" [label]="'Name'" [(value)]="newTable.name"></mss-input>
+        <div *ngIf="showMessage()" class="warning-text">This name is already in table</div>
+      </div>
+      <mss-input formControlName="description" class="routing-table-modal-input" [label]="'Description'"
+                 [(value)]="newTable.description"></mss-input>
+      <mss-button [disabled]="newTableForm.invalid" [label]="'Save'"></mss-button>
+    </div>
+  </form>
+</mss-modal-window>

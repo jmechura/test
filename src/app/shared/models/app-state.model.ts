@@ -6,6 +6,7 @@ import { AccountModel } from './account.model';
 import { Transaction } from './transaction.model';
 import { Ebank } from './ebank.model';
 import { Transfer } from './transfer.model';
+import { RoutingTable, TableRoutes } from './routin.model';
 import { MerchantModel } from './merchant.model';
 
 export interface AppState {
@@ -19,4 +20,8 @@ export interface AppState {
   auth: StateModel<AuthModel>;
   account: StateModel<AccountModel>;
   merchants: StateModel<Pagination<MerchantModel>>;
+  routingTable: StateModel<RoutingTable[]>;
+  routes: StateModel<TableRoutes[]>;
+  rules: StateModel<string[]>;
+  targets: StateModel<string[]>;
 }

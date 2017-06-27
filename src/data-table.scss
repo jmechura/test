@@ -85,3 +85,7 @@
     @include mss-page-link;
   }
 }
+
+.datatable-row-detail {
+  @include mss-datatable-row-detail;
+}

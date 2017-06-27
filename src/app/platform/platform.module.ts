@@ -12,6 +12,8 @@ import { CardViewComponent } from './card-view/card-view.component';
 import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
 import { EmployerCardComponent } from './employer-card/employer-card.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
+import { RoutingTableComponent } from './routing-table/routing-table.component';
+import { RoutesComponent } from './routes/routes.component';
 import { MerchantsComponent } from './merchants/merchants.component';
 
 @NgModule({
@@ -32,6 +34,8 @@ import { MerchantsComponent } from './merchants/merchants.component';
     EmployeeManagementComponent,
     EmployerCardComponent,
     TransactionDetailComponent,
+    RoutingTableComponent,
+    RoutesComponent,
     MerchantsComponent,
   ]
 })

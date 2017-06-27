@@ -32,6 +32,14 @@ import { TransactionsEffect } from './shared/effects/transaction.effect';
 import { transactionEbankReducer } from './shared/reducers/transactionEbank.reducer';
 import { TransactionEbankEffect } from './shared/effects/transaction-ebank.effect';
 import { transactionTransferReducer } from './shared/reducers/transactionTransfer.reducer';
+import { RoutingTableEffect } from './shared/effects/routing-table.effect';
+import { routingTableReducer } from './shared/reducers/routing-table.reducer';
+import { targetReducer } from './shared/reducers/targer.reducer';
+import { TargetEffect } from './shared/effects/target.effect';
+import { RuleEffect } from './shared/effects/rule.effect';
+import { ruleReducer } from './shared/reducers/rule.reducer';
+import { routesReducer } from './shared/reducers/routes.reducer';
+import { RoutesEffect } from './shared/effects/routes.effect';
 import { merchantsReducer } from './shared/reducers/merchant.reducer';
 import { MerchantsEffect } from './shared/effects/merchant.effect';
 import { TransactionTransferEffect } from './shared/effects/transaction-transfer.effect';
@@ -63,6 +71,10 @@ import { TransactionTransferEffect } from './shared/effects/transaction-transfer
       transactionEbank: transactionEbankReducer,
       transactionTransfers: transactionTransferReducer,
       merchants: merchantsReducer,
+      routingTable: routingTableReducer,
+      routes: routesReducer,
+      targets: targetReducer,
+      rules: ruleReducer,
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -74,6 +86,10 @@ import { TransactionTransferEffect } from './shared/effects/transaction-transfer
     EffectsModule.runAfterBootstrap(TransactionsEffect),
     EffectsModule.runAfterBootstrap(TransactionEbankEffect),
     EffectsModule.runAfterBootstrap(TransactionTransferEffect),
+    EffectsModule.runAfterBootstrap(RoutingTableEffect),
+    EffectsModule.runAfterBootstrap(RoutesEffect),
+    EffectsModule.runAfterBootstrap(TargetEffect),
+    EffectsModule.runAfterBootstrap(RuleEffect),
     EffectsModule.runAfterBootstrap(MerchantsEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],

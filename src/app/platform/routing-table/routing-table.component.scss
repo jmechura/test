@@ -1,0 +1,87 @@
+@import 'theme';
+
+.routing-table-container {
+  padding: 0 50px;
+
+  .button-container {
+    display: flex;
+
+    .routing-table-btn {
+      width: 150px;
+      margin-right: 20px;
+    }
+  }
+
+  .click-able {
+    cursor: pointer;
+  }
+
+  .default {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  .changed {
+    color: $positive-number-color;
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  .datatable-body-cell-label {
+    width: 100%;
+  }
+
+  .cell {
+    width: 100%;
+  }
+
+  .datatable-body-row:hover {
+    background-color: rgba($primary-text-color, 0.1);
+  }
+
+  .table-input {
+    outline: none;
+    background-color: transparent;
+    border: none;
+    color: $row-text-color;
+    font-size: 14px;
+  }
+}
+
+.routing-table-modal-container {
+  width: 400px;
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .close-wrapper {
+    position: absolute;
+    right: -10px;
+    top: -15px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close {
+    font-size: 26px;
+    font-weight: 300;
+    transform: rotate(45deg);
+    color: $primary-text-color;
+  }
+
+  .warning-text {
+    color: $warn-color;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: 130px;
+  }
+
+  .routing-table-modal-input {
+    margin-bottom: 20px;
+  }
+}
