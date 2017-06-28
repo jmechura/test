@@ -13,8 +13,17 @@ import { transactionStatesActions } from '../../shared/reducers/transactionState
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Router } from '@angular/router';
+import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
+import { IssuerCodeModel } from '../../shared/models/issuer-code.model';
+import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
+import { NetworkCodeModel } from '../../shared/models/network-code.model';
+import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer';
+import { MerchantCodeModel } from '../../shared/models/merchant-code.model';
+import { OrgUnitCodeModel } from '../../shared/models/org-unit-code.model';
+import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
+import { CardGroupCodeModel } from '../../shared/models/card-groups-code.model';
+import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 
-const ALL = '';
 const DEFAULT_FILTER: TransactionSearch = {
   uuid: '',
   rrn: '',
@@ -138,54 +147,41 @@ export class DashboardComponent implements OnDestroy {
    */
   visibleFilter = this.filterOptions[0];
   /**
-   * Approval codes for transactions
-   * @type {SelectItem[]}
-   */
-  approvalCodes: SelectItem[] = [{value: ALL, label: 'Approval codes'}];
-  /**
    * Card group codes for transactions
    * @type {[{value: string; label: string}]}
    */
-  cardGroupCodes: SelectItem[] = [{value: ALL, label: 'Card group codes'}];
-  /**
-   * CLNs for transaction filter
-   * @type {[{value: string; label: string}]}
-   */
-  cln: SelectItem[] = [{value: ALL, label: 'CLN'}];
+  cardGroupCodes: SelectItem[] = [];
   /**
    * Issuers codes for transaction filter
    * @type {[{value: string; label: string}]}
    */
-  issuerCodes: SelectItem[] = [{value: ALL, label: 'Issuers code'}];
+  issuerCodes: SelectItem[] = [];
   /**
    * Merchant codes for transaction filter
    * @type {[{value: string; label: string}]}
    */
-  merchantCodes: SelectItem[] = [{value: ALL, label: 'Merchant codes'}];
+  merchantCodes: SelectItem[] = [];
   /**
    * Network codes for transaction filter
    * @type {[{value: string; label: string}]}
    */
-  networkCodes: SelectItem[] = [{value: ALL, label: 'Network codes'}];
+  networkCodes: SelectItem[] = [];
   /**
    * Org Unit codes for transaction filter
    * @type {[{value: string; label: string}]}
    */
-  orgUnitCodes: SelectItem[] = [{value: ALL, label: 'Org Unit Codes'}];
-  /**
-   * Terminal codes for transaction filter
-   * @type {[{value: string; label: string}]}
-   */
-  terminalCodes: SelectItem[] = [{value: ALL, label: 'Terminal codes'}];
+  orgUnitCodes: SelectItem[] = [];
   /**
    * Holds table element for recalculate
    */
   @ViewChild('table') table: DatatableComponent;
 
   constructor(private store: Store<AppState>, private router: Router) {
-    this.store.dispatch({type: transactionCodesActions.CODES_GET});
-    this.store.dispatch({type: transactionTypesActions.TYPES_GET});
-    this.store.dispatch({type: transactionStatesActions.STATES_GET});
+    this.store.dispatch({type: transactionCodesActions.TRANSACTION_CODES_GET_REQUEST});
+    this.store.dispatch({type: transactionTypesActions.TRANSACTION_TYPES_GET_REQUEST});
+    this.store.dispatch({type: transactionStatesActions.TRANSACTION_STATES_GET_REQUEST});
+    this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+    this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
     this.store.select('transactions').takeUntil(this.unsubscribe).subscribe(
       (data: StateModel<Pagination<Transaction>>) => {
         this.loading = data.loading;
@@ -267,6 +263,66 @@ export class DashboardComponent implements OnDestroy {
               value: item
             }
           ));
+        }
+      }
+    );
+
+    this.store.select('issuerCodes').takeUntil(this.unsubscribe).subscribe(
+      (data: StateModel<IssuerCodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting issuer codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.issuerCodes = data.data.map(item => ({label: item.code, value: item.id}));
+        }
+      }
+    );
+
+    this.store.select('networkCodes').takeUntil(this.unsubscribe).subscribe(
+      (data: StateModel<NetworkCodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting network codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.networkCodes = data.data.map(item => ({label: item.code, value: item.id}));
+        }
+      }
+    );
+
+    this.store.select('merchantCodes').takeUntil(this.unsubscribe).subscribe(
+      (data: StateModel<MerchantCodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting merchant codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.merchantCodes = data.data.map(item => ({label: item.code, value: item.id}));
+        }
+      }
+    );
+
+    this.store.select('orgUnitCodes').takeUntil(this.unsubscribe).subscribe(
+      (data: StateModel<OrgUnitCodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting org unit codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.orgUnitCodes = data.data.map(item => ({label: item.code, value: item.id}));
+        }
+      }
+    );
+
+    this.store.select('cardGroupCodes').takeUntil(this.unsubscribe).subscribe(
+      (data: StateModel<CardGroupCodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting card group codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.cardGroupCodes = data.data.map(item => ({label: item.code, value: item.id}));
         }
       }
     );
@@ -358,6 +414,38 @@ export class DashboardComponent implements OnDestroy {
     this.pagination.search.predicateObject = Object.assign({}, DEFAULT_FILTER);
     this.fromDate = null;
     this.toDate = null;
+    this.merchantCodes = [];
+    this.cardGroupCodes = [];
+    this.orgUnitCodes = [];
+  }
+
+  selectIssuerCode(id: string): void {
+    this.pagination.search.predicateObject.issuerCode = id;
+    // clear it before new data arrives
+    this.cardGroupCodes = [];
+    this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
+  }
+
+  /**
+   * Selects network code and dispatches action to get valid merchant codes
+   * @param id
+   */
+  selectNetworkCode(id: string): void {
+    this.pagination.search.predicateObject.networkCode = id;
+    // clear it before new data arrives
+    this.merchantCodes = [];
+    this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
+  }
+
+  /**
+   * Select merchant code and dispatches action to get valid org unit codes
+   * @param id
+   */
+  selectMerchantCode(id: string): void {
+    this.pagination.search.predicateObject.merchantCode = id;
+    // clear it before new data arrives
+    this.orgUnitCodes = [];
+    this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id});
   }
 
 

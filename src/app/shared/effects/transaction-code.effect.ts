@@ -13,10 +13,10 @@ export class TransactionCodeEffect {
 
   @Effect() getCodes(): Observable<Action> {
     return this.actions$
-      .ofType(transactionCodesActions.CODES_GET)
+      .ofType(transactionCodesActions.TRANSACTION_CODES_GET_REQUEST)
       .switchMap(action => this.api.get(AUTH_ENDPOINT)
-        .map(res => ({type: transactionCodesActions.CODES_SUCCESS, payload: res}))
-        .catch((res) => Observable.of({type: transactionCodesActions.CODES_FAILURE, payload: res}))
+        .map(res => ({type: transactionCodesActions.TRANSACTION_CODES_GET, payload: res}))
+        .catch((res) => Observable.of({type: transactionCodesActions.TRANSACTION_CODES_GET_FAIL, payload: res}))
       );
   }
 }

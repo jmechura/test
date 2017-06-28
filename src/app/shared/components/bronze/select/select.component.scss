@@ -7,8 +7,20 @@
 .select-container {
   @include mss-select-container;
 
-  .select-button {
-    @include mss-select-button;
+  .select-label {
+    @include mss-select-label;
+  }
+
+  .select-inner-container {
+    @include mss-select-inner-container;
+
+    .select-button {
+      @include mss-select-button;
+
+      &.disabled {
+        @include mss-select-button-disabled;
+      }
+    }
   }
 }
 

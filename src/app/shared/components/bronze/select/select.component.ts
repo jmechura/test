@@ -33,6 +33,17 @@ export class SelectComponent implements ControlValueAccessor {
    */
   @Input() options: SelectItem[] = [];
 
+  /**
+   * States whether select should be disabled
+   * @type {boolean}
+   */
+  @Input() disabled = false;
+
+
+  @Input() label: string;
+
+  @Input() labelPosition: 'left' | 'top' = 'left';
+
   show = false;
 
   private changeCallback: any;

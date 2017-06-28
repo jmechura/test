@@ -13,10 +13,10 @@ export class TransactionStateEffect {
 
   @Effect() getStates(): Observable<Action> {
     return this.actions$
-      .ofType(transactionStatesActions.STATES_GET)
+      .ofType(transactionStatesActions.TRANSACTION_STATES_GET_REQUEST)
       .switchMap(action => this.api.get(AUTH_ENDPOINT)
-        .map(res => ({type: transactionStatesActions.STATES_SUCCESS, payload: res}))
-        .catch((res) => Observable.of({type: transactionStatesActions.STATES_FAILURE, payload: res}))
+        .map(res => ({type: transactionStatesActions.TRANSACTION_STATES_GET, payload: res}))
+        .catch((res) => Observable.of({type: transactionStatesActions.TRANSACTION_STATES_GET_FAIL, payload: res}))
       );
   }
 }

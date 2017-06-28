@@ -43,6 +43,16 @@ import { RoutesEffect } from './shared/effects/routes.effect';
 import { merchantsReducer } from './shared/reducers/merchant.reducer';
 import { MerchantsEffect } from './shared/effects/merchant.effect';
 import { TransactionTransferEffect } from './shared/effects/transaction-transfer.effect';
+import { issuerCodeReducer } from './shared/reducers/issuer-code.reducer';
+import { IssuerCodeEffect } from './shared/effects/issuer-code.effect';
+import { networkCodeReducer } from './shared/reducers/network-code.reducer';
+import { NetworkCodeEffect } from './shared/effects/network-code.effect';
+import { merchantCodeReducer } from './shared/reducers/merchant-code.reducer';
+import { MerchantCodeEffect } from './shared/effects/merchant-code.effect';
+import { orgUnitCodeReducer } from './shared/reducers/org-unit-code.reducer';
+import { OrgUnitCodeEffect } from './shared/effects/org-unit-code.effect';
+import { cardGroupCodeReducer } from './shared/reducers/card-group-code.reducer';
+import { CardGroupCodeEffect } from './shared/effects/card-group-code.effect';
 
 
 @NgModule({
@@ -75,6 +85,11 @@ import { TransactionTransferEffect } from './shared/effects/transaction-transfer
       routes: routesReducer,
       targets: targetReducer,
       rules: ruleReducer,
+      issuerCodes: issuerCodeReducer,
+      networkCodes: networkCodeReducer,
+      merchantCodes: merchantCodeReducer,
+      orgUnitCodes: orgUnitCodeReducer,
+      cardGroupCodes: cardGroupCodeReducer
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -91,6 +106,11 @@ import { TransactionTransferEffect } from './shared/effects/transaction-transfer
     EffectsModule.runAfterBootstrap(TargetEffect),
     EffectsModule.runAfterBootstrap(RuleEffect),
     EffectsModule.runAfterBootstrap(MerchantsEffect),
+    EffectsModule.runAfterBootstrap(IssuerCodeEffect),
+    EffectsModule.runAfterBootstrap(NetworkCodeEffect),
+    EffectsModule.runAfterBootstrap(MerchantCodeEffect),
+    EffectsModule.runAfterBootstrap(OrgUnitCodeEffect),
+    EffectsModule.runAfterBootstrap(CardGroupCodeEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [

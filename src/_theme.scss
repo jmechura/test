@@ -543,7 +543,35 @@ $select-height: $input-height;
   }
 }
 
+@mixin mss-select-button-disabled {
+  background-color: $disabled-color;
+}
+
 @mixin mss-select-container {
+  display: flex;
+
+  &.left {
+    align-items: center;
+  }
+
+  &.top {
+    flex-direction: column;
+  }
+}
+
+@mixin mss-select-label {
+  @include default-component-label;
+
+  &.left {
+    margin-right: 20px;
+  }
+
+  &.top {
+    margin-bottom: 10px;
+  }
+}
+
+@mixin mss-select-inner-container {
   position: relative;
   display: inline-block;
   width: 100%;

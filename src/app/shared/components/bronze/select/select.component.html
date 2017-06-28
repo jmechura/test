@@ -1,10 +1,13 @@
 <div *ngIf="show" class="select-overlay" (click)="switchDropdown()"></div>
-<div class="select-container">
-  <button (click)="switchDropdown()" type="button" class="select-button">
-    <div>{{selectedOption ? option : showName}}</div>
-    <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
-  </button>
-  <div *ngIf="options.length > 0" [ngClass]="{'show': show}" class="select-content">
-    <a class="option" *ngFor="let item of options" (click)="selectOption(item.value)">{{item.label ? item.label : item.value}}</a>
+<div class="select-container" [ngClass]="{'left': labelPosition === 'left', 'top': labelPosition === 'top'}">
+  <div class="select-label" [ngClass]="{'left': labelPosition === 'left', 'top': labelPosition === 'top'}" *ngIf="label">{{label}}</div>
+  <div class="select-inner-container">
+    <button (click)="switchDropdown()" [ngClass]="{'disabled': disabled}" [disabled]="disabled" type="button" class="select-button">
+      <span>{{selectedOption ? option : showName}}</span>
+      <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
+    </button>
+    <div *ngIf="options.length > 0" [ngClass]="{'show': show}" class="select-content">
+      <a class="option" *ngFor="let item of options" (click)="selectOption(item.value)">{{item.label ? item.label : item.value}}</a>
+    </div>
   </div>
 </div>

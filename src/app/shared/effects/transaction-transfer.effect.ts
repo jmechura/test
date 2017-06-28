@@ -12,10 +12,10 @@ export class TransactionTransferEffect {
 
   @Effect() getTransfers(): Observable<Action> {
     return this.actions$
-      .ofType(transactionTransferActions.TRANSACTION_TRANSFERS_GET)
+      .ofType(transactionTransferActions.TRANSACTION_TRANSFERS_GET_REQUEST)
       .switchMap(action => this.api.get(`/trxs/${action.payload.uuid}/${action.payload.termDttm}/transfers`)
-        .map(res => ({type: transactionTransferActions.TRANSACTION_TRANSFERS_SUCCESS, payload: res}))
-        .catch((res) => Observable.of({type: transactionTransferActions.TRANSACTION_TRANSFERS_FAILURE, payload: res}))
+        .map(res => ({type: transactionTransferActions.TRANSACTION_TRANSFERS_GET, payload: res}))
+        .catch((res) => Observable.of({type: transactionTransferActions.TRANSACTION_TRANSFERS_GET_FAIL, payload: res}))
       );
   }
 }
