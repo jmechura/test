@@ -18,9 +18,10 @@ export interface AppState {
   transactionCodes: StateModel<string[]>;
   transactionStates: StateModel<string[]>;
   transactionTypes: StateModel<string[]>;
-  transactions: StateModel<Transaction>;
+  transactions: StateModel<Pagination<Transaction>>;
   transactionEbank: StateModel<Ebank>;
   transactionTransfers: StateModel<Transfer[]>;
+  transaction: StateModel<Transaction>;
   card: StateModel<Pagination<Card>>;
   auth: StateModel<AuthModel>;
   account: StateModel<AccountModel>;

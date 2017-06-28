@@ -3,7 +3,7 @@ import { ApiService } from '../services/api.service';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { transactionStatesActions } from '../reducers/transactionState.reducer';
+import { transactionStatesActions } from '../reducers/transaction-state.reducer';
 const AUTH_ENDPOINT = '/trxs/states';
 
 @Injectable()

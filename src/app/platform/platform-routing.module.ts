@@ -23,8 +23,8 @@ export const routes: Routes = [
     {path: 'employer-card', component: EmployerCardComponent},
     {path: 'routing-table', component: RoutingTableComponent},
     {path: 'routing-table/:id', component: RoutesComponent},
-    {path: 'transaction/:id', component: TransactionDetailComponent},
     {path: 'merchants', component: MerchantsComponent},
+    {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   ]
   }

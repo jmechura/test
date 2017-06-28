@@ -21,17 +21,16 @@ import { CardEffect } from './shared/effects/card.effect';
 import { accountReducer } from './shared/reducers/account.reducer';
 import { AccountEffect } from './shared/effects/account.effect';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { transactionCodeReducer } from './shared/reducers/transactionCode.reducer';
+import { transactionCodeReducer } from './shared/reducers/transaction-code.reducer';
 import { TransactionCodeEffect } from './shared/effects/transaction-code.effect';
-import { transactionStateReducer } from './shared/reducers/transactionState.reducer';
+import { transactionStateReducer } from './shared/reducers/transaction-state.reducer';
 import { TransactionStateEffect } from './shared/effects/transaction-state.effect';
-import { transactionTypeReducer } from './shared/reducers/transactionType.reducer';
+import { transactionTypeReducer } from './shared/reducers/transaction-type.reducer';
 import { TransactionTypeEffect } from './shared/effects/transaction-type.effect';
-import { transactionReducer } from './shared/reducers/transaction.reducer';
-import { TransactionsEffect } from './shared/effects/transaction.effect';
-import { transactionEbankReducer } from './shared/reducers/transactionEbank.reducer';
+import { transactionsReducer } from './shared/reducers/transactions.reducer';
+import { TransactionsEffect } from './shared/effects/transactions.effect';
+import { transactionEbankReducer } from './shared/reducers/transaction-ebank.reducer';
 import { TransactionEbankEffect } from './shared/effects/transaction-ebank.effect';
-import { transactionTransferReducer } from './shared/reducers/transactionTransfer.reducer';
 import { RoutingTableEffect } from './shared/effects/routing-table.effect';
 import { routingTableReducer } from './shared/reducers/routing-table.reducer';
 import { targetReducer } from './shared/reducers/targer.reducer';
@@ -42,6 +41,7 @@ import { routesReducer } from './shared/reducers/routes.reducer';
 import { RoutesEffect } from './shared/effects/routes.effect';
 import { merchantsReducer } from './shared/reducers/merchant.reducer';
 import { MerchantsEffect } from './shared/effects/merchant.effect';
+import { transactionTransferReducer } from './shared/reducers/transaction-transfer.reducer';
 import { TransactionTransferEffect } from './shared/effects/transaction-transfer.effect';
 import { issuerCodeReducer } from './shared/reducers/issuer-code.reducer';
 import { IssuerCodeEffect } from './shared/effects/issuer-code.effect';
@@ -53,6 +53,8 @@ import { orgUnitCodeReducer } from './shared/reducers/org-unit-code.reducer';
 import { OrgUnitCodeEffect } from './shared/effects/org-unit-code.effect';
 import { cardGroupCodeReducer } from './shared/reducers/card-group-code.reducer';
 import { CardGroupCodeEffect } from './shared/effects/card-group-code.effect';
+import { singleTransactionReducer } from './shared/reducers/transaction.reducer';
+import { TransactionEffect } from './shared/effects/transaction.effect';
 
 
 @NgModule({
@@ -77,9 +79,10 @@ import { CardGroupCodeEffect } from './shared/effects/card-group-code.effect';
       transactionCodes: transactionCodeReducer,
       transactionStates: transactionStateReducer,
       transactionTypes: transactionTypeReducer,
-      transactions: transactionReducer,
+      transactions: transactionsReducer,
       transactionEbank: transactionEbankReducer,
       transactionTransfers: transactionTransferReducer,
+      transaction: singleTransactionReducer,
       merchants: merchantsReducer,
       routingTable: routingTableReducer,
       routes: routesReducer,
@@ -101,6 +104,7 @@ import { CardGroupCodeEffect } from './shared/effects/card-group-code.effect';
     EffectsModule.runAfterBootstrap(TransactionsEffect),
     EffectsModule.runAfterBootstrap(TransactionEbankEffect),
     EffectsModule.runAfterBootstrap(TransactionTransferEffect),
+    EffectsModule.runAfterBootstrap(TransactionEffect),
     EffectsModule.runAfterBootstrap(RoutingTableEffect),
     EffectsModule.runAfterBootstrap(RoutesEffect),
     EffectsModule.runAfterBootstrap(TargetEffect),

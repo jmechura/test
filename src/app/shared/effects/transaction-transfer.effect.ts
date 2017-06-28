@@ -3,7 +3,7 @@ import { ApiService } from '../services/api.service';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { transactionTransferActions } from '../reducers/transactionTransfer.reducer';
+import { transactionTransferActions } from '../reducers/transaction-transfer.reducer';
 
 @Injectable()
 export class TransactionTransferEffect {

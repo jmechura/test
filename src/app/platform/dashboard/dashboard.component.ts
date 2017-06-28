@@ -3,13 +3,13 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 import { Moment } from 'moment';
 import { AppState } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
-import { transactionActions } from '../../shared/reducers/transaction.reducer';
+import { transactionActions } from '../../shared/reducers/transactions.reducer';
 import { Subject } from 'rxjs/Subject';
 import { StateModel } from '../../shared/models/state.model';
 import { Transaction, TransactionSearch } from '../../shared/models/transaction.model';
-import { transactionCodesActions } from '../../shared/reducers/transactionCode.reducer';
-import { transactionTypesActions } from '../../shared/reducers/transactionType.reducer';
-import { transactionStatesActions } from '../../shared/reducers/transactionState.reducer';
+import { transactionCodesActions } from '../../shared/reducers/transaction-code.reducer';
+import { transactionTypesActions } from '../../shared/reducers/transaction-type.reducer';
+import { transactionStatesActions } from '../../shared/reducers/transaction-state.reducer';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Router } from '@angular/router';
@@ -343,7 +343,7 @@ export class DashboardComponent implements OnDestroy {
     }
 
     if (type === 'transaction') {
-      this.router.navigateByUrl(`platform/transaction/${value.row.uuid}`);
+      this.router.navigateByUrl(`platform/transaction/${value.row.uuid}/${value.row['terminal date']}`);
     }
   }
 
@@ -357,7 +357,7 @@ export class DashboardComponent implements OnDestroy {
       return;
     }
     this.pagination.pagination.number = limit;
-    this.store.dispatch({type: transactionActions.TRANSACTION_GET, payload: this.pagination});
+    this.store.dispatch({type: transactionActions.TRANSACTIONS_GET_REQUEST, payload: this.pagination});
   }
 
   /**
@@ -367,7 +367,7 @@ export class DashboardComponent implements OnDestroy {
    */
   setPage(pageInfo: any): void {
     this.pagination.pagination.start = pageInfo.offset * this.pagination.pagination.number;
-    this.store.dispatch({type: transactionActions.TRANSACTION_GET, payload: this.pagination});
+    this.store.dispatch({type: transactionActions.TRANSACTIONS_GET_REQUEST, payload: this.pagination});
   }
 
   /**
@@ -402,7 +402,7 @@ export class DashboardComponent implements OnDestroy {
         {}
       );
     this.store.dispatch({
-      type: transactionActions.TRANSACTION_GET,
+      type: transactionActions.TRANSACTIONS_GET_REQUEST,
       payload: Object.assign(this.pagination, {search: {predicateObject: search}})
     });
   }
