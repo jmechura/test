@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { SelectItem } from '../../bronze/select/select.component';
+import { SelectItem } from '../../../shared/components/bronze/select/select.component';
 
 @Component({
   selector: 'mss-data-table',

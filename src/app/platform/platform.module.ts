@@ -15,6 +15,7 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 import { RoutingTableComponent } from './routing-table/routing-table.component';
 import { RoutesComponent } from './routes/routes.component';
 import { MerchantsComponent } from './merchants/merchants.component';
+import { DataTableComponent } from './showcase/data-table/data-table.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { MerchantsComponent } from './merchants/merchants.component';
     BronzeComponentsModule,
     SilverComponentsModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     PlatformComponent,
@@ -37,6 +38,7 @@ import { MerchantsComponent } from './merchants/merchants.component';
     RoutingTableComponent,
     RoutesComponent,
     MerchantsComponent,
+    DataTableComponent,
   ]
 })
 export class PlatformModule {
