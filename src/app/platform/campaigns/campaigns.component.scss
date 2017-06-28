@@ -1,0 +1,39 @@
+@import 'theme';
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-campaign-form-title {
+  color: $primary-text-color;
+  font-size: 25px;
+  padding: 18px 24px 0 24px;
+}
+
+.new-campaign-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+
+  .new-campaign-buttons {
+    display: flex;
+    justify-content: space-between;
+
+    .new-campaign-button {
+      width: 45%;
+    }
+  }
+}
+
+.edit-buttons-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  user-select: none;
+}
+
+.table-icon {
+  cursor: pointer;
+}

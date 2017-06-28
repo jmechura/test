@@ -30,14 +30,6 @@
       display: flex;
       flex-direction: column;
       width: 45%;
-
-      .merchant-validation-label {
-        color: $warn-color;
-        height: 18px;
-        padding-top: 2px;
-        font-size: 12px;
-        text-align: right;
-      }
     }
   }
 
@@ -62,7 +54,7 @@
 
 .edit-buttons-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   user-select: none;
 }

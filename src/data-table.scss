@@ -20,6 +20,10 @@
   @include mss-datatable-body-cell;
 }
 
+.datatable-body-cell-label {
+  @include datatable-body-cell-label;
+}
+
 .page-count {
   @include mss-page-count;
 }

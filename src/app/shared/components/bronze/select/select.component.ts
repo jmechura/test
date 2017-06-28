@@ -44,6 +44,8 @@ export class SelectComponent implements ControlValueAccessor {
 
   @Input() labelPosition: 'left' | 'top' = 'left';
 
+  @Input() variant: 'default' | 'small' = 'default';
+
   show = false;
 
   private changeCallback: any;

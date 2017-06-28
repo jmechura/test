@@ -2,7 +2,8 @@
 <div class="select-container" [ngClass]="{'left': labelPosition === 'left', 'top': labelPosition === 'top'}">
   <div class="select-label" [ngClass]="{'left': labelPosition === 'left', 'top': labelPosition === 'top'}" *ngIf="label">{{label}}</div>
   <div class="select-inner-container">
-    <button (click)="switchDropdown()" [ngClass]="{'disabled': disabled}" [disabled]="disabled" type="button" class="select-button">
+    <button (click)="switchDropdown()" [ngClass]="{'disabled': disabled, 'select-button-small': variant === 'small'}" [disabled]="disabled"
+            type="button" class="select-button">
       <span>{{selectedOption ? option : showName}}</span>
       <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
     </button>

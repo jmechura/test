@@ -1,0 +1,91 @@
+<div class="mss-view-container">
+  <div class="header-row">
+    <div class="mss-title">Kampaně</div>
+    <mss-button label="Přidat kampaň" (click)="toggleNewCampaignForm()"></mss-button>
+  </div>
+
+  <div class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [limit]="rowLimit" [rows]="rows"
+                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
+
+      <ngx-datatable-column prop="name" name="Jméno">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedCampaign.name"/>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="campaignName" name="Typ kampaně">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <mss-select [options]="campaignFactories" [(selectedOption)]="editedCampaign.campaignName" variant="small"
+                      *ngIf="editedRow === row.$$index">
+          </mss-select>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="orderCampaign" name="Pořadí">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" type="number" [(ngModel)]="editedCampaign.orderCampaign"/>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="runAfterStart" name="Spustit po startu">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value ? 'Ano': 'Ne'}}</span>
+          <mss-toggle [(toggled)]="editedCampaign.runAfterStart" *ngIf="editedRow === row.$$index"></mss-toggle>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Upravit" [width]="70">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <div class="edit-buttons-container">
+            <i (click)="startEditing(row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
+            <i class="material-icons table-icon" (click)="cancelEditing()" *ngIf="editedRow === row.$$index">not_interested</i>
+            <i class="material-icons table-icon" (click)="submitEdit()" *ngIf="editedRow === row.$$index">check</i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Odstranit" [width]="70">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <i (click)="deleteCampaign(row.name)" class="material-icons table-icon" *ngIf="editedRow === -1">clear</i>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    <div class="datatable-select">
+      <span class="select-text">Položek na stránku</span>
+      <mss-select [options]="rowLimitOptions" [selectedOption]="rowLimit" (selectedOptionChange)="changeLimit($event)">
+      </mss-select>
+    </div>
+  </div>
+
+</div>
+
+
+<mss-modal-window [(visible)]="newCampaignModalShowing">
+  <div class="new-campaign-form-title">Přidat kampaň</div>
+  <form [formGroup]="newCampaignForm" class="new-campaign-form">
+    <mss-input formControlName="name" [(value)]="newCampaign.name" label="Jméno*" [warn]="isPresent('name')"></mss-input>
+    <div class="mss-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
+
+    <mss-input formControlName="orderCampaign" [(value)]="newCampaign.orderCampaign" type="number" label="Pořadí"></mss-input>
+    <div class="mss-validation-label"></div>
+
+    <mss-checkbox [(checked)]="newCampaign.runAfterStart" label="Spustit po startu"></mss-checkbox>
+    <div class="mss-validation-label"></div>
+
+    <mss-select [options]="campaignFactories" [(selectedOption)]="newCampaign.campaignName" label="Typ kampaně"></mss-select>
+    <div class="mss-validation-label"></div>
+
+    <div class="new-campaign-buttons">
+      <mss-button label="Zavřít" class="new-campaign-button" (click)="toggleNewCampaignForm()"></mss-button>
+      <mss-button label="Přidat" class="new-campaign-button" (click)="addCampaign()" [disabled]="newCampaignForm.invalid"></mss-button>
+    </div>
+  </form>
+</mss-modal-window>

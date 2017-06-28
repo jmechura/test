@@ -43,6 +43,10 @@ import { merchantsReducer } from './shared/reducers/merchant.reducer';
 import { MerchantsEffect } from './shared/effects/merchant.effect';
 import { transactionTransferReducer } from './shared/reducers/transaction-transfer.reducer';
 import { TransactionTransferEffect } from './shared/effects/transaction-transfer.effect';
+import { campaignsReducer } from './shared/reducers/campaign.reducer';
+import { CampaignEffect } from './shared/effects/campaign.effect';
+import { campaignFactoriesReducer } from './shared/reducers/campaign-factories.reducer';
+import { CampaignFactoriesEffect } from './shared/effects/campaign-factories.effect';
 import { issuerCodeReducer } from './shared/reducers/issuer-code.reducer';
 import { IssuerCodeEffect } from './shared/effects/issuer-code.effect';
 import { networkCodeReducer } from './shared/reducers/network-code.reducer';
@@ -88,6 +92,8 @@ import { TransactionEffect } from './shared/effects/transaction.effect';
       routes: routesReducer,
       targets: targetReducer,
       rules: ruleReducer,
+      campaigns: campaignsReducer,
+      campaignFactories: campaignFactoriesReducer,
       issuerCodes: issuerCodeReducer,
       networkCodes: networkCodeReducer,
       merchantCodes: merchantCodeReducer,
@@ -110,6 +116,9 @@ import { TransactionEffect } from './shared/effects/transaction.effect';
     EffectsModule.runAfterBootstrap(TargetEffect),
     EffectsModule.runAfterBootstrap(RuleEffect),
     EffectsModule.runAfterBootstrap(MerchantsEffect),
+    EffectsModule.runAfterBootstrap(CampaignEffect),
+    EffectsModule.runAfterBootstrap(CampaignFactoriesEffect),
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.runAfterBootstrap(IssuerCodeEffect),
     EffectsModule.runAfterBootstrap(NetworkCodeEffect),
     EffectsModule.runAfterBootstrap(MerchantCodeEffect),

@@ -20,6 +20,10 @@
       &.disabled {
         @include mss-select-button-disabled;
       }
+
+      &.select-button-small {
+        @include mss-select-button-small;
+      }
     }
   }
 }

@@ -86,33 +86,33 @@
     <div class="new-merchant-inputs">
       <div class="new-merchant-input-side">
         <mss-input formControlName="name" [(value)]="newMerchant.name" label="Jméno*" [warn]="isPresent('name')"></mss-input>
-        <div class="merchant-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
+        <div class="mss-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
         <mss-input formControlName="code" [(value)]="newMerchant.code" label="Kód*" [warn]="isPresent('code')"></mss-input>
-        <div class="merchant-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
+        <div class="mss-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
         <mss-input formControlName="bankAccount" [(value)]="newMerchant.bankAccount" label="Číslo účtu"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
         <mss-input formControlName="ico" [(value)]="newMerchant.ico" label="IČO"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
         <mss-input formControlName="dic" [(value)]="newMerchant.dic" label="DIČ"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
         <mss-input formControlName="note" [(value)]="newMerchant.note" label="Poznámka"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
       </div>
       <div class="new-merchant-input-side">
         <mss-input formControlName="country" [(value)]="newMerchant.country" label="Země"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
         <mss-input formControlName="region" [(value)]="newMerchant.region" label="Región"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
         <mss-input formControlName="city" [(value)]="newMerchant.city" label="Město"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
         <mss-input formControlName="zip" [(value)]="newMerchant.zip" label="PSČ"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
         <mss-input formControlName="street" [(value)]="newMerchant.street" label="Adresa"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
         <mss-input formControlName="email" [(value)]="newMerchant.email" label="E-mail"></mss-input>
-        <div class="merchant-validation-label"><span *ngIf="isValidEmail('email')">Zle zadaný email</span></div>
+        <div class="mss-validation-label"><span *ngIf="isValidEmail('email')">Zle zadaný email</span></div>
         <mss-input formControlName="phone" [(value)]="newMerchant.phone" label="Tel. číslo"></mss-input>
-        <div class="merchant-validation-label"></div>
+        <div class="mss-validation-label"></div>
       </div>
     </div>
     <div class="new-merchant-buttons">

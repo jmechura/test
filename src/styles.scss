@@ -43,6 +43,14 @@ input {
   padding: 35px;
 }
 
+.mss-validation-label {
+  color: $warn-color;
+  height: 18px;
+  padding-top: 2px;
+  font-size: 12px;
+  text-align: right;
+}
+
 // data-table related classes
 
 .data-table-container {
@@ -60,4 +68,11 @@ input {
     padding-right: 10px;
     color: $primary-text-color;
   }
+}
+
+.table-input {
+  background-color: transparent;
+  border: none;
+  color: $row-text-color;
+  font-size: 14px;
 }

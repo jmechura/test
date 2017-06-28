@@ -8,6 +8,7 @@ import { Ebank } from './ebank.model';
 import { Transfer } from './transfer.model';
 import { RoutingTable, TableRoutes } from './routin.model';
 import { MerchantModel } from './merchant.model';
+import { CampaignModel } from './campaign.model';
 import { IssuerCodeModel } from './issuer-code.model';
 import { NetworkCodeModel } from './network-code.model';
 import { MerchantCodeModel } from './merchant-code.model';
@@ -21,6 +22,8 @@ export interface AppState {
   transactions: StateModel<Pagination<Transaction>>;
   transactionEbank: StateModel<Ebank>;
   transactionTransfers: StateModel<Transfer[]>;
+  campaigns: StateModel<Pagination<CampaignModel>>;
+  campaignFactories: StateModel<string[]>;
   transaction: StateModel<Transaction>;
   card: StateModel<Pagination<Card>>;
   auth: StateModel<AuthModel>;
