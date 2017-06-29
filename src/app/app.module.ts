@@ -63,6 +63,8 @@ import { cardGroupCodeReducer } from './shared/reducers/card-group-code.reducer'
 import { CardGroupCodeEffect } from './shared/effects/card-group-code.effect';
 import { singleTransactionReducer } from './shared/reducers/transaction.reducer';
 import { TransactionEffect } from './shared/effects/transaction.effect';
+import { cardStateReducer } from './shared/reducers/card-state.reducer';
+import { CardStateEffect } from './shared/effects/card-state.effect';
 
 
 @NgModule({
@@ -104,7 +106,8 @@ import { TransactionEffect } from './shared/effects/transaction.effect';
       networkCodes: networkCodeReducer,
       merchantCodes: merchantCodeReducer,
       orgUnitCodes: orgUnitCodeReducer,
-      cardGroupCodes: cardGroupCodeReducer
+      cardGroupCodes: cardGroupCodeReducer,
+      cardStates: cardStateReducer
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -131,6 +134,7 @@ import { TransactionEffect } from './shared/effects/transaction.effect';
     EffectsModule.runAfterBootstrap(MerchantCodeEffect),
     EffectsModule.runAfterBootstrap(OrgUnitCodeEffect),
     EffectsModule.runAfterBootstrap(CardGroupCodeEffect),
+    EffectsModule.runAfterBootstrap(CardStateEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [

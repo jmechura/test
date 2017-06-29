@@ -56,7 +56,9 @@
 
       <ngx-datatable-column name="Odstranit" [width]="70">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <i (click)="deleteCampaign(row.name)" class="material-icons table-icon" *ngIf="editedRow === -1">clear</i>
+          <div class="edit-buttons-container">
+            <i (click)="deleteCampaign(row.name)" class="material-icons table-icon" *ngIf="editedRow === -1">clear</i>
+          </div>
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>

@@ -38,4 +38,5 @@ export interface AppState {
   routes: StateModel<TableRoutes[]>;
   rules: StateModel<string[]>;
   targets: StateModel<string[]>;
+  cardStates: StateModel<string[]>;
 }

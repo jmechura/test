@@ -1,8 +1,32 @@
 <div class="employer-card-container">
   <div *ngIf="rows" class="data-table-container">
-    <ngx-datatable #table [columns]="columns" [externalPaging]="true" [loadingIndicator]="loading" [count]="tableData.totalElements"
+    <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="tableData.totalElements"
                    [offset]="tableData.number" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                    [limit]="rowLimit" [rows]="rows" (page)="setPage($event)">
+      <ngx-datatable-column name="Jméno" prop="jmeno"></ngx-datatable-column>
+      <ngx-datatable-column name="Status" prop="status">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span *ngIf="editingRow !== row.$$index" title="Double click to edit" (dblclick)="startEditing(row)">{{value}}</span>
+          <mss-select variant="small" *ngIf="editingRow === row.$$index" [options]="cardStates" [(selectedOption)]="editedCard.state">
+          </mss-select>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Platnost"></ngx-datatable-column>
+      <ngx-datatable-column name="CLN"></ngx-datatable-column>
+      <ngx-datatable-column name="Žádost" prop="processRequest" [maxWidth]="190">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <mss-button (click)="sendRequest(row)" [label]="value ? 'Žádost odeslána' : 'Poslat žádost'" [disabled]="value"></mss-button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Upravit" [maxWidth]="100">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <div class="icons-container">
+            <i class="material-icons edit" (click)="startEditing(row)" *ngIf="editingRow === -1">mode_edit</i>
+            <i class="material-icons" (click)="cancelEditing()" *ngIf="editingRow === row.$$index">not_interested</i>
+            <i class="material-icons" (click)="submitEdit()" *ngIf="editingRow === row.$$index">check</i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
     <div class="datatable-select">
       <span class="select-text">Položek na stránku</span>

@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 export interface Card {
   cardGroupPrimaryCode: string;
   cardGroupPrimaryId: string;
+  cardUuid: string;
   cln: string;
   expiration: string | Moment;
   expiryDate: string | Moment;
@@ -12,6 +13,7 @@ export interface Card {
   limit: number;
   limitType: string;
   panSequenceNumber: string;
+  processRequest: boolean;
   serviceCode: string;
   state: string;
   track2: string;
