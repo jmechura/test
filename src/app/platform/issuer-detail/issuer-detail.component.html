@@ -6,33 +6,33 @@
         <div class="edit-issuer-inputs" *ngIf="isEditing">
           <div class="edit-issuer-input-side">
             <mss-input formControlName="code" [(value)]="editIssuer.code" label="Kód*" [warn]="isPresent('code')"></mss-input>
-            <div class="issuer-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
+            <div class="mss-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
             <mss-input formControlName="name" [(value)]="editIssuer.name" label="Jméno*" [warn]="isPresent('name')"></mss-input>
-            <div class="issuer-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
+            <div class="mss-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
             <mss-input formControlName="contactFirstname" [(value)]="editIssuer.contactFirstname" label="Křestní jméno"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-input formControlName="contactLastname" [(value)]="editIssuer.contactLastname" label="Příjmení"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-input formControlName="ico" [(value)]="editIssuer.ico" label="IČO"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-input formControlName="dic" [(value)]="editIssuer.dic" label="DIČ"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
           </div>
           <div class="edit-issuer-input-side">
             <mss-input formControlName="email" [(value)]="editIssuer.email" label="Email"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-input formControlName="phone" [(value)]="editIssuer.phone" label="Telefón"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-input formControlName="addressName" [(value)]="editIssuer.addressName" label="Adresa"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-input formControlName="city" [(value)]="editIssuer.city" label="Město"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-input formControlName="street" [(value)]="editIssuer.street" label="Ulice"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-input formControlName="zip" [(value)]="editIssuer.zip" label="PSČ"></mss-input>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
             <mss-toggle [label]="'Stav'" [(toggled)]="issuerState"></mss-toggle>
-            <div class="issuer-validation-label"></div>
+            <div class="mss-validation-label"></div>
           </div>
         </div>
         <div class="edit-issuer-inputs" *ngIf="!isEditing">

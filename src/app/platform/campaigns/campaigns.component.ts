@@ -36,14 +36,11 @@ export class CampaignsComponent implements OnDestroy {
   newCampaign: CampaignModel = fillCampaign();
   newCampaignForm: FormGroup;
 
-  campaigns: CampaignModel[] = [];
+  tableData: Pagination<CampaignModel>;
+  rows = [];
 
   campaignFactories: SelectItem[] = [{value: 'UNKNOWN'}];
-
-  rowLimit = 10;
   rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
-
-  rows = [];
 
   editedRow = -1;
   editedCampaign: CampaignModel = fillCampaign();
@@ -59,7 +56,7 @@ export class CampaignsComponent implements OnDestroy {
     });
 
     this.store.dispatch({type: campaignFactoriesActions.CAMPAIGN_FACTORIES_GET_REQUEST});
-    this.dispatchCampaingsListGet();
+    this.getCampaignsList();
 
     this.store.select('campaignFactories').takeUntil(this.unsubscribe$).subscribe(
       ({data, error}: StateModel<string[]>) => {
@@ -83,8 +80,8 @@ export class CampaignsComponent implements OnDestroy {
         }
 
         if (data != undefined) {
-          this.campaigns = data.content;
-          this.rows = this.campaigns.map(item => Object.assign({}, item));
+          this.tableData = data;
+          this.rows = this.tableData.content.map(item => Object.assign({}, item));
         }
       }
     );
@@ -95,7 +92,7 @@ export class CampaignsComponent implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  dispatchCampaingsListGet(): void {
+  getCampaignsList(): void {
     this.store.dispatch({type: campaignsActions.CAMPAIGNS_GET_REQUEST, payload: this.campaignsRequest});
   }
 
@@ -106,8 +103,7 @@ export class CampaignsComponent implements OnDestroy {
   addCampaign(): void {
     this.api.post('/campaigns', this.newCampaign).subscribe(
       () => {
-        this.dispatchCampaingsListGet();
-        ;
+        this.getCampaignsList();
       },
       error => {
         console.error('Create campaign fail', error);
@@ -126,8 +122,7 @@ export class CampaignsComponent implements OnDestroy {
   deleteCampaign(name: string): void {
     this.api.remove(`/campaigns/${name}`).subscribe(
       () => {
-        this.dispatchCampaingsListGet();
-        ;
+        this.getCampaignsList();
       },
       error => {
         console.error('Delete campaign fail', error);
@@ -136,12 +131,16 @@ export class CampaignsComponent implements OnDestroy {
   }
 
   changeLimit(newLimit: number): void {
-    this.rowLimit = newLimit;
+    if (this.campaignsRequest.pagination.number === newLimit) {
+      return;
+    }
+    this.campaignsRequest.pagination.number = newLimit;
+    this.getCampaignsList();
   }
 
   startEditing(row: any): void {
     if (this.editedRow === -1) {
-      this.editedCampaign = Object.assign({}, this.campaigns.find(item => item.name === row.name));
+      this.editedCampaign = Object.assign({}, this.tableData.content.find(item => item.name === row.name));
       this.editedRow = row.$$index;
     }
   }
@@ -154,11 +153,16 @@ export class CampaignsComponent implements OnDestroy {
     this.editedRow = -1;
     this.api.put('/campaigns', this.editedCampaign).subscribe(
       () => {
-        this.dispatchCampaingsListGet();
+        this.getCampaignsList();
       },
       error => {
         console.error('Update merchant fail', error);
       }
     );
+  }
+
+  setPage(pageInfo: any): void {
+    this.campaignsRequest.pagination.start = pageInfo.offset * this.campaignsRequest.pagination.number;
+    this.getCampaignsList();
   }
 }

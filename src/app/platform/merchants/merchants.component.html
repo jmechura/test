@@ -8,8 +8,10 @@
 
   <!--merchants data table-->
   <div class="data-table-container">
-    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [limit]="rowLimit" [rows]="rows"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
+                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [externalPaging]="true" [limit]="merchantsRequest.pagination.number"
+                   [count]="tableData ? tableData.totalElements : 0 " (page)="setPage($event)">
 
       <ngx-datatable-column name="Jméno" prop="name">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
@@ -19,11 +21,11 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="code" name="Kód">
+      <ngx-datatable-column prop="bankAccount" name="Číslo účtu">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
                 *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.code"/>
+          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.bankAccount"/>
         </ng-template>
       </ngx-datatable-column>
 
@@ -71,7 +73,7 @@
     </ngx-datatable>
     <div class="datatable-select">
       <span class="select-text">Položek na stránku</span>
-      <mss-select [options]="rowLimitOptions" [selectedOption]="rowLimit" (selectedOptionChange)="changeLimit($event)">
+      <mss-select [options]="rowLimitOptions" [selectedOption]="merchantsRequest.pagination.number" (selectedOptionChange)="changeLimit($event)">
       </mss-select>
     </div>
   </div>

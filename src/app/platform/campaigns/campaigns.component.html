@@ -5,8 +5,10 @@
   </div>
 
   <div class="data-table-container">
-    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [limit]="rowLimit" [rows]="rows"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'">
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
+                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [externalPaging]="true" [limit]="campaignsRequest.pagination.number"
+                   [count]="tableData ? tableData.totalElements : 0 " (page)="setPage($event)">
 
       <ngx-datatable-column prop="name" name="Jméno">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
@@ -60,7 +62,7 @@
     </ngx-datatable>
     <div class="datatable-select">
       <span class="select-text">Položek na stránku</span>
-      <mss-select [options]="rowLimitOptions" [selectedOption]="rowLimit" (selectedOptionChange)="changeLimit($event)">
+      <mss-select [options]="rowLimitOptions" [selectedOption]="campaignsRequest.pagination.number" (selectedOptionChange)="changeLimit($event)">
       </mss-select>
     </div>
   </div>

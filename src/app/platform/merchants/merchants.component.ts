@@ -19,7 +19,6 @@ export class MerchantsComponent implements OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
 
-  merchants: MerchantModel[] = [];
   newMerchant: MerchantModel = fillMerchant();
   newMerchantModalShowing = false;
   newMerchantForm: FormGroup;
@@ -41,7 +40,8 @@ export class MerchantsComponent implements OnDestroy {
     sort: {}
   };
 
-  rowLimit = 10;
+  tableData: Pagination<MerchantModel>;
+
   rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
 
   rows = [];
@@ -64,7 +64,7 @@ export class MerchantsComponent implements OnDestroy {
       note: [''],
     });
 
-    this.store.dispatch({type: merchantsActions.MERCHANTS_API_GET, payload: this.merchantsRequest});
+    this.getMerchantList();
 
     this.store.select('merchants').takeUntil(this.unsubscribe$).subscribe(
       ({data, error, loading}: StateModel<Pagination<MerchantModel>>) => {
@@ -74,8 +74,8 @@ export class MerchantsComponent implements OnDestroy {
           return;
         }
         if (data != null) {
-          this.merchants = data.content;
-          this.rows = this.merchants.map(item => Object.assign({}, item));
+          this.tableData = data;
+          this.rows = this.tableData.content.map(item => Object.assign({}, item));
         }
       }
     );
@@ -104,7 +104,7 @@ export class MerchantsComponent implements OnDestroy {
 
     this.api.post('/merchants', this.newMerchant).subscribe(
       () => {
-        this.store.dispatch({type: merchantsActions.MERCHANTS_API_GET, payload: this.merchantsRequest});
+        this.getMerchantList();
       },
       error => {
         console.error('Create merchant fail', error);
@@ -115,7 +115,7 @@ export class MerchantsComponent implements OnDestroy {
 
   startEditing(row: any): void {
     if (this.editedRow === -1) {
-      this.editedMerchant = Object.assign({}, this.merchants.find(item => item.id === row.id));
+      this.editedMerchant = Object.assign({}, this.tableData.content.find(item => item.id === row.id));
       this.editedRow = row.$$index;
     }
   }
@@ -128,7 +128,7 @@ export class MerchantsComponent implements OnDestroy {
     this.editedRow = -1;
     this.api.put('/merchants', this.editedMerchant).subscribe(
       () => {
-        this.store.dispatch({type: merchantsActions.MERCHANTS_API_GET, payload: this.merchantsRequest});
+        this.getMerchantList();
       },
       error => {
         console.error('Update merchant fail', error);
@@ -137,7 +137,11 @@ export class MerchantsComponent implements OnDestroy {
   }
 
   changeLimit(newLimit: number): void {
-    this.rowLimit = newLimit;
+    if (this.merchantsRequest.pagination.number === newLimit) {
+      return;
+    }
+    this.merchantsRequest.pagination.number = newLimit;
+    this.getMerchantList();
   }
 
   get merchantState(): boolean {
@@ -156,6 +160,15 @@ export class MerchantsComponent implements OnDestroy {
   isValidEmail(value: string): boolean {
     const item = this.newMerchantForm.get(value);
     return item.touched && item.value !== '' && item.errors != null;
+  }
+
+  getMerchantList(): void {
+    this.store.dispatch({type: merchantsActions.MERCHANTS_API_GET, payload: this.merchantsRequest});
+  }
+
+  setPage(pageInfo: any): void {
+    this.merchantsRequest.pagination.start = pageInfo.offset * this.merchantsRequest.pagination.number;
+    this.getMerchantList();
   }
 
 }
