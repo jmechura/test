@@ -11,6 +11,8 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 import { RoutingTableComponent } from './routing-table/routing-table.component';
 import { RoutesComponent } from './routes/routes.component';
 import { MerchantsComponent } from './merchants/merchants.component';
+import { IssuersComponent } from './issuers/issuers.component';
+import { IssuerDetailComponent } from './issuer-detail/issuer-detail.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 
 export const routes: Routes = [
@@ -25,6 +27,8 @@ export const routes: Routes = [
     {path: 'routing-table', component: RoutingTableComponent},
     {path: 'routing-table/:id', component: RoutesComponent},
     {path: 'merchants', component: MerchantsComponent},
+    {path: 'issuers', component: IssuersComponent},
+    {path: 'issuer-detail/:id', component: IssuerDetailComponent},
     {path: 'campaigns', component: CampaignsComponent},
     {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},

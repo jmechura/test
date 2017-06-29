@@ -1,0 +1,107 @@
+<div class="mss-view-container">
+
+  <!--header-->
+  <div class="header-row">
+    <div class="mss-title">Vydavatelé karet</div>
+    <mss-button label="Přidat vydavatele karet" (click)="toggleNewIssuerModal($event)"></mss-button>
+  </div>
+
+  <!--issuers data table-->
+  <div class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [externalPaging]="true"
+                   [count]="tableData ? tableData.totalElements : 0 " [limit]="issuersRequest.pagination.number" [rows]="rows" (page)="setPage($event)"
+                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">>
+
+      <ngx-datatable-column name="Kód" prop="code">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Jméno" prop="name">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Adresa" prop="addressName">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Město" prop="city">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Ulice" prop="street">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="PSČ" prop="zip">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Stav" prop="state">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+    </ngx-datatable>
+    <div class="datatable-select">
+      <span class="select-text">Položek na stránku</span>
+      <mss-select [options]="rowLimitOptions" [selectedOption]="issuersRequest.pagination.number" (selectedOptionChange)="changeLimit($event)">
+      </mss-select>
+    </div>
+  </div>
+
+</div>
+
+<!--Add new issuer modal-->
+<mss-modal-window [(visible)]="newIssuerModalShowing">
+  <div class="new-issuer-form-title">Přidat vydavatele karet</div>
+  <form [formGroup]="newIssuerForm" class="new-issuer-form">
+    <div class="new-issuer-inputs">
+      <div class="new-issuer-input-side">
+        <mss-input formControlName="code" [(value)]="newIssuer.code" label="Kód*" [warn]="isPresent('code')"></mss-input>
+        <div class="issuer-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
+        <mss-input formControlName="name" [(value)]="newIssuer.name" label="Jméno*" [warn]="isPresent('name')"></mss-input>
+        <div class="issuer-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
+        <mss-input formControlName="addressName" [(value)]="newIssuer.addressName" label="Adresa"></mss-input>
+        <div class="issuer-validation-label"></div>
+        <mss-input formControlName="city" [(value)]="newIssuer.city" label="Město"></mss-input>
+        <div class="issuer-validation-label"></div>
+        <mss-input formControlName="contactFirstname" [(value)]="newIssuer.contactFirstname" label="Křestní jméno"></mss-input>
+        <div class="issuer-validation-label"></div>
+        <mss-input formControlName="contactLastname" [(value)]="newIssuer.contactLastname" label="Příjmení"></mss-input>
+        <div class="issuer-validation-label"></div>
+        <mss-input formControlName="dic" [(value)]="newIssuer.dic" label="DIČ"></mss-input>
+        <div class="issuer-validation-label"></div>
+      </div>
+      <div class="new-issuer-input-side">
+        <mss-input formControlName="email" [(value)]="newIssuer.email" label="Email"></mss-input>
+        <div class="issuer-validation-label"></div>
+        <mss-input formControlName="ico" [(value)]="newIssuer.ico" label="IČO"></mss-input>
+        <div class="issuer-validation-label"></div>
+        <mss-input formControlName="phone" [(value)]="newIssuer.phone" label="Telefón"></mss-input>
+        <div class="issuer-validation-label"></div>
+        <mss-input formControlName="street" [(value)]="newIssuer.street" label="Ulice"></mss-input>
+        <div class="issuer-validation-label"></div>
+        <mss-input formControlName="zip" [(value)]="newIssuer.zip" label="PSČ"></mss-input>
+        <div class="issuer-validation-label"></div>
+      </div>
+    </div>
+    <div class="new-issuer-buttons">
+      <mss-button label="Zavřít" class="new-issuer-button" (click)="toggleNewIssuerModal()"></mss-button>
+      <mss-button label="Přidat" class="new-issuer-button" (click)="addIssuer()" [disabled]="newIssuerForm.invalid"></mss-button>
+    </div>
+  </form>
+</mss-modal-window>

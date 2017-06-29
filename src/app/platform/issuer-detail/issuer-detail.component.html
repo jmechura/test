@@ -1,0 +1,90 @@
+<div class="mss-view-container">
+  <div class="mss-title">Vydavatel karty - detail</div>
+  <div class="form-wrapper">
+    <div class="mss-form-container">
+      <form [formGroup]="editIssuerForm" class="edit-issuer-form">
+        <div class="edit-issuer-inputs" *ngIf="isEditing">
+          <div class="edit-issuer-input-side">
+            <mss-input formControlName="code" [(value)]="editIssuer.code" label="Kód*" [warn]="isPresent('code')"></mss-input>
+            <div class="issuer-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
+            <mss-input formControlName="name" [(value)]="editIssuer.name" label="Jméno*" [warn]="isPresent('name')"></mss-input>
+            <div class="issuer-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
+            <mss-input formControlName="contactFirstname" [(value)]="editIssuer.contactFirstname" label="Křestní jméno"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-input formControlName="contactLastname" [(value)]="editIssuer.contactLastname" label="Příjmení"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-input formControlName="ico" [(value)]="editIssuer.ico" label="IČO"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-input formControlName="dic" [(value)]="editIssuer.dic" label="DIČ"></mss-input>
+            <div class="issuer-validation-label"></div>
+          </div>
+          <div class="edit-issuer-input-side">
+            <mss-input formControlName="email" [(value)]="editIssuer.email" label="Email"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-input formControlName="phone" [(value)]="editIssuer.phone" label="Telefón"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-input formControlName="addressName" [(value)]="editIssuer.addressName" label="Adresa"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-input formControlName="city" [(value)]="editIssuer.city" label="Město"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-input formControlName="street" [(value)]="editIssuer.street" label="Ulice"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-input formControlName="zip" [(value)]="editIssuer.zip" label="PSČ"></mss-input>
+            <div class="issuer-validation-label"></div>
+            <mss-toggle [label]="'Stav'" [(toggled)]="issuerState"></mss-toggle>
+            <div class="issuer-validation-label"></div>
+          </div>
+        </div>
+        <div class="edit-issuer-inputs" *ngIf="!isEditing">
+          <div class="edit-issuer-input-side">
+            <div class="detail-container">
+              <div class="detail-col">
+                <p class="detail-row detail-title">Kód:</p>
+                <p class="detail-row detail-title">Jméno:</p>
+                <p class="detail-row detail-title">Křestní jméno:</p>
+                <p class="detail-row detail-title">Příjmění:</p>
+                <p class="detail-row detail-title">IČO:</p>
+                <p class="detail-row detail-title">DIČ:</p>
+              </div>
+              <div class="detail-col">
+                <p class="detail-row">{{issuer.code}} </p>
+                <p class="detail-row">{{issuer.name}} </p>
+                <p class="detail-row">{{issuer.contactFirstname}} </p>
+                <p class="detail-row">{{issuer.contactLastname}} </p>
+                <p class="detail-row">{{issuer.ico}} </p>
+                <p class="detail-row">{{issuer.dic}} </p>
+              </div>
+            </div>
+          </div>
+          <div class="edit-issuer-input-side">
+            <div class="detail-container">
+              <div class="detail-col">
+                <p class="detail-row detail-title">Email:</p>
+                <p class="detail-row detail-title">Telefon:</p>
+                <p class="detail-row detail-title">Adresa:</p>
+                <p class="detail-row detail-title">Město:</p>
+                <p class="detail-row detail-title">Ulice:</p>
+                <p class="detail-row detail-title">PSČ:</p>
+                <p class="detail-row detail-title">Stav:</p>
+              </div>
+              <div class="detail-col">
+                <p class="detail-row">{{issuer.email}} </p>
+                <p class="detail-row">{{issuer.phone}} </p>
+                <p class="detail-row">{{issuer.addressName}} </p>
+                <p class="detail-row">{{issuer.city}} </p>
+                <p class="detail-row">{{issuer.street}} </p>
+                <p class="detail-row">{{issuer.zip}} </p>
+                <p class="detail-row">{{issuer.state}} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="edit-issuer-buttons">
+          <mss-button *ngIf="!isEditing" class="edit-issuer-button" [label]="'Upravit'" (click)="toggleUpdateIssuer()"></mss-button>
+          <mss-button *ngIf="isEditing" label="Konec" class="edit-issuer-button" (click)="toggleUpdateIssuer()"></mss-button>
+          <mss-button *ngIf="isEditing" label="Uložit" class="edit-issuer-button" (click)="updateIssuer()" [disabled]="editIssuerForm.invalid"></mss-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
