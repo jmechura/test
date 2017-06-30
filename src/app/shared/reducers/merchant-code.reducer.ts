@@ -1,6 +1,6 @@
 import { StateModel } from '../models/state.model';
 import { Action } from '@ngrx/store';
-import { MerchantCodeModel } from '../models/merchant-code.model';
+import { CodeModel } from '../models/code.model';
 
 export const merchantCodeActions = {
   MERCHANT_CODE_GET_REQUEST: 'MERCHANT_CODE_GET_REQUEST',
@@ -8,10 +8,10 @@ export const merchantCodeActions = {
   MERCHANT_CODE_GET_FAIL: 'MERCHANT_CODE_GET_FAIL'
 };
 
-const INITIAL_STATE: StateModel<MerchantCodeModel[]> = {error: null, loading: false};
+const INITIAL_STATE: StateModel<CodeModel[]> = {error: null, loading: false};
 
-export function merchantCodeReducer(state: StateModel<MerchantCodeModel[]> = INITIAL_STATE,
-                                    action: Action): StateModel<MerchantCodeModel[]> {
+export function merchantCodeReducer(state: StateModel<CodeModel[]> = INITIAL_STATE,
+                                    action: Action): StateModel<CodeModel[]> {
   switch (action.type) {
     case merchantCodeActions.MERCHANT_CODE_GET_REQUEST:
       return {data: state.data, error: null, loading: true};

@@ -42,7 +42,7 @@ export class IssuerDetailComponent implements OnDestroy {
       zip: [''],
     });
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
-      (params: {id: string}) => {
+      (params: { id: string }) => {
         this.id = params.id;
         this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_API_GET, payload: this.id});
       }

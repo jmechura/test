@@ -43,6 +43,12 @@ import { merchantsReducer } from './shared/reducers/merchant.reducer';
 import { MerchantsEffect } from './shared/effects/merchant.effect';
 import { transactionTransferReducer } from './shared/reducers/transaction-transfer.reducer';
 import { TransactionTransferEffect } from './shared/effects/transaction-transfer.effect';
+import { sequencesReducer } from './shared/reducers/sequences.reducer';
+import { sequencesTypeReducer } from './shared/reducers/sequences-type.reducer';
+import { SequencesTypeEffect } from 'app/shared/effects/sequences-type.effect';
+import { SequencesEffect } from './shared/effects/sequenses.effect';
+import { userResourceReducer } from './shared/reducers/user-resource.reducer';
+import { UserResourceEffect } from './shared/effects/user-resource.effect';
 import { IssuersEffect } from './shared/effects/issuer.effect';
 import { issuersReducer } from './shared/reducers/issuer.reducer';
 import { IssuerDetailEffect } from './shared/effects/issuer-detail.effect';
@@ -100,6 +106,9 @@ import { CardStateEffect } from './shared/effects/card-state.effect';
       routes: routesReducer,
       targets: targetReducer,
       rules: ruleReducer,
+      sequences: sequencesReducer,
+      sequencesType: sequencesTypeReducer,
+      userResource: userResourceReducer,
       campaigns: campaignsReducer,
       campaignFactories: campaignFactoriesReducer,
       issuerCodes: issuerCodeReducer,
@@ -134,6 +143,9 @@ import { CardStateEffect } from './shared/effects/card-state.effect';
     EffectsModule.runAfterBootstrap(MerchantCodeEffect),
     EffectsModule.runAfterBootstrap(OrgUnitCodeEffect),
     EffectsModule.runAfterBootstrap(CardGroupCodeEffect),
+    EffectsModule.runAfterBootstrap(SequencesEffect),
+    EffectsModule.runAfterBootstrap(SequencesTypeEffect),
+    EffectsModule.runAfterBootstrap(UserResourceEffect),
     EffectsModule.runAfterBootstrap(CardStateEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],

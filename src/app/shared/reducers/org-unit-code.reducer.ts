@@ -1,6 +1,6 @@
 import { StateModel } from '../models/state.model';
 import { Action } from '@ngrx/store';
-import { OrgUnitCodeModel } from '../models/org-unit-code.model';
+import { CodeModel } from '../models/code.model';
 
 export const orgUnitCodeActions = {
   ORG_UNIT_CODE_GET_REQUEST: 'ORG_UNIT_CODE_GET_REQUEST',
@@ -8,10 +8,10 @@ export const orgUnitCodeActions = {
   ORG_UNIT_CODE_GET_FAIL: 'ORG_UNIT_CODE_GET_FAIL'
 };
 
-const INITIAL_STATE: StateModel<OrgUnitCodeModel[]> = {error: null, loading: false};
+const INITIAL_STATE: StateModel<CodeModel[]> = {error: null, loading: false};
 
-export function orgUnitCodeReducer(state: StateModel<OrgUnitCodeModel[]> = INITIAL_STATE,
-                                   action: Action): StateModel<OrgUnitCodeModel[]> {
+export function orgUnitCodeReducer(state: StateModel<CodeModel[]> = INITIAL_STATE,
+                                   action: Action): StateModel<CodeModel[]> {
   switch (action.type) {
     case orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST:
       return {data: state.data, error: null, loading: true};

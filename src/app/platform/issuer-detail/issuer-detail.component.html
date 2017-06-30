@@ -82,7 +82,8 @@
         <div class="edit-issuer-buttons">
           <mss-button *ngIf="!isEditing" class="edit-issuer-button" [label]="'Upravit'" (click)="toggleUpdateIssuer()"></mss-button>
           <mss-button *ngIf="isEditing" label="Konec" class="edit-issuer-button" (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="isEditing" label="Uložit" class="edit-issuer-button" (click)="updateIssuer()" [disabled]="editIssuerForm.invalid"></mss-button>
+          <mss-button *ngIf="isEditing" label="Uložit" class="edit-issuer-button" (click)="updateIssuer()"
+                      [disabled]="editIssuerForm.invalid"></mss-button>
         </div>
       </form>
     </div>

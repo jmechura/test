@@ -73,7 +73,8 @@
     </ngx-datatable>
     <div class="datatable-select">
       <span class="select-text">Položek na stránku</span>
-      <mss-select [options]="rowLimitOptions" [selectedOption]="merchantsRequest.pagination.number" (selectedOptionChange)="changeLimit($event)">
+      <mss-select [options]="rowLimitOptions" [selectedOption]="merchantsRequest.pagination.number"
+                  (selectedOptionChange)="changeLimit($event)">
       </mss-select>
     </div>
   </div>

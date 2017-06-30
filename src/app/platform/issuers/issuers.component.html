@@ -9,7 +9,8 @@
   <!--issuers data table-->
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [externalPaging]="true"
-                   [count]="tableData ? tableData.totalElements : 0 " [limit]="issuersRequest.pagination.number" [rows]="rows" (page)="setPage($event)"
+                   [count]="tableData ? tableData.totalElements : 0 " [limit]="issuersRequest.pagination.number" [rows]="rows"
+                   (page)="setPage($event)"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">>
 
       <ngx-datatable-column name="Kód" prop="code">
@@ -58,7 +59,8 @@
     </ngx-datatable>
     <div class="datatable-select">
       <span class="select-text">Položek na stránku</span>
-      <mss-select [options]="rowLimitOptions" [selectedOption]="issuersRequest.pagination.number" (selectedOptionChange)="changeLimit($event)">
+      <mss-select [options]="rowLimitOptions" [selectedOption]="issuersRequest.pagination.number"
+                  (selectedOptionChange)="changeLimit($event)">
       </mss-select>
     </div>
   </div>

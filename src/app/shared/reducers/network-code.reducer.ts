@@ -1,6 +1,6 @@
 import { StateModel } from '../models/state.model';
 import { Action } from '@ngrx/store';
-import { NetworkCodeModel } from '../models/network-code.model';
+import { CodeModel } from '../models/code.model';
 
 export const networkCodeActions = {
   NETWORK_CODE_GET_REQUEST: 'NETWORK_CODE_GET_REQUEST',
@@ -8,10 +8,10 @@ export const networkCodeActions = {
   NETWORK_CODE_GET_FAIL: 'NETWORK_CODE_GET_FAIL'
 };
 
-const INITIAL_STATE: StateModel<NetworkCodeModel[]> = {error: null, loading: false};
+const INITIAL_STATE: StateModel<CodeModel[]> = {error: null, loading: false};
 
-export function networkCodeReducer(state: StateModel<NetworkCodeModel[]> = INITIAL_STATE,
-                                   action: Action): StateModel<NetworkCodeModel[]> {
+export function networkCodeReducer(state: StateModel<CodeModel[]> = INITIAL_STATE,
+                                   action: Action): StateModel<CodeModel[]> {
   switch (action.type) {
     case networkCodeActions.NETWORK_CODE_GET_REQUEST:
       return {data: state.data, error: null, loading: true};

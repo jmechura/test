@@ -1,0 +1,58 @@
+@import 'theme';
+
+.sequences-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-input {
+  outline: none;
+  background-color: transparent;
+  border: none;
+  color: $row-text-color;
+  font-size: 14px;
+}
+
+.click-able {
+  cursor: pointer;
+}
+
+.add-button {
+  width: 150px;
+}
+
+.sequence-modal-container {
+  width: 400px;
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .close-wrapper {
+    position: absolute;
+    right: -10px;
+    top: -15px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close {
+    font-size: 26px;
+    font-weight: 300;
+    transform: rotate(45deg);
+    color: $primary-text-color;
+  }
+
+  .modal-input {
+    margin-bottom: 20px;
+  }
+}
+
+.new-sequence-container {
+  display: flex;
+  flex-direction: column;
+}

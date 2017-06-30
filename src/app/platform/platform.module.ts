@@ -15,6 +15,7 @@ import { TransactionDetailComponent } from './transaction-detail/transaction-det
 import { RoutingTableComponent } from './routing-table/routing-table.component';
 import { RoutesComponent } from './routes/routes.component';
 import { MerchantsComponent } from './merchants/merchants.component';
+import { SequencesComponent } from './sequences/sequences.component';
 import { IssuersComponent } from './issuers/issuers.component';
 import { IssuerDetailComponent } from './issuer-detail/issuer-detail.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
@@ -45,6 +46,7 @@ import { DataTableComponent } from './showcase/data-table/data-table.component';
     IssuerDetailComponent,
     CampaignsComponent,
     DataTableComponent,
+    SequencesComponent,
   ]
 })
 export class PlatformModule {

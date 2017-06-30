@@ -1,6 +1,6 @@
 import { StateModel } from '../models/state.model';
 import { Action } from '@ngrx/store';
-import { CardGroupCodeModel } from '../models/card-groups-code.model';
+import { CodeModel } from '../models/code.model';
 
 export const cardGroupCodeActions = {
   CARD_GROUP_CODE_GET_REQUEST: 'CARD_GROUP_CODE_GET_REQUEST',
@@ -8,10 +8,10 @@ export const cardGroupCodeActions = {
   CARD_GROUP_CODE_GET_FAIL: 'CARD_GROUP_CODE_GET_FAIL'
 };
 
-const INITIAL_STATE: StateModel<CardGroupCodeModel[]> = {error: null, loading: false};
+const INITIAL_STATE: StateModel<CodeModel[]> = {error: null, loading: false};
 
-export function cardGroupCodeReducer(state: StateModel<CardGroupCodeModel[]> = INITIAL_STATE,
-                                     action: Action): StateModel<CardGroupCodeModel[]> {
+export function cardGroupCodeReducer(state: StateModel<CodeModel[]> = INITIAL_STATE,
+                                     action: Action): StateModel<CodeModel[]> {
   switch (action.type) {
     case cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST:
       return {data: state.data, error: null, loading: true};

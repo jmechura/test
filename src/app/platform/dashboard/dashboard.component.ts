@@ -14,15 +14,11 @@ import { Pagination, RequestOptions } from '../../shared/models/pagination.model
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Router } from '@angular/router';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
-import { IssuerCodeModel } from '../../shared/models/issuer-code.model';
 import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
-import { NetworkCodeModel } from '../../shared/models/network-code.model';
 import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer';
-import { MerchantCodeModel } from '../../shared/models/merchant-code.model';
-import { OrgUnitCodeModel } from '../../shared/models/org-unit-code.model';
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
-import { CardGroupCodeModel } from '../../shared/models/card-groups-code.model';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
+import { CodeModel } from '../../shared/models/code.model';
 
 const DEFAULT_FILTER: TransactionSearch = {
   uuid: '',
@@ -268,7 +264,7 @@ export class DashboardComponent implements OnDestroy {
     );
 
     this.store.select('issuerCodes').takeUntil(this.unsubscribe).subscribe(
-      (data: StateModel<IssuerCodeModel[]>) => {
+      (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting issuer codes', data.error);
           return;
@@ -280,7 +276,7 @@ export class DashboardComponent implements OnDestroy {
     );
 
     this.store.select('networkCodes').takeUntil(this.unsubscribe).subscribe(
-      (data: StateModel<NetworkCodeModel[]>) => {
+      (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting network codes', data.error);
           return;
@@ -292,7 +288,7 @@ export class DashboardComponent implements OnDestroy {
     );
 
     this.store.select('merchantCodes').takeUntil(this.unsubscribe).subscribe(
-      (data: StateModel<MerchantCodeModel[]>) => {
+      (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting merchant codes', data.error);
           return;
@@ -304,7 +300,7 @@ export class DashboardComponent implements OnDestroy {
     );
 
     this.store.select('orgUnitCodes').takeUntil(this.unsubscribe).subscribe(
-      (data: StateModel<OrgUnitCodeModel[]>) => {
+      (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting org unit codes', data.error);
           return;
@@ -316,7 +312,7 @@ export class DashboardComponent implements OnDestroy {
     );
 
     this.store.select('cardGroupCodes').takeUntil(this.unsubscribe).subscribe(
-      (data: StateModel<CardGroupCodeModel[]>) => {
+      (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting card group codes', data.error);
           return;

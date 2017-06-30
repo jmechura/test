@@ -1,0 +1,67 @@
+<div class="sequences-wrapper mss-view-container">
+  <mss-button class="add-button" [label]="'Add sequence'" (click)="switchModal()"></mss-button>
+  <div class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+                   [rowHeight]="'auto'" [limit]="rowLimit" [rows]="sequenceRows">
+      <ngx-datatable-column name="Resource" prop="resource"></ngx-datatable-column>
+      <ngx-datatable-column name="Resource ID" prop="resourceId"></ngx-datatable-column>
+      <ngx-datatable-column name="Type" prop="type"></ngx-datatable-column>
+      <ngx-datatable-column name="Order" prop="order">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <div class="cell" *ngIf="edit !== row.$$index">{{value}}</div>
+          <input class="table-input" autofocus *ngIf="edit === row.$$index" type="number" [(ngModel)]="editOrder"/>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Template" prop="template">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <div class="cell" *ngIf="edit !== row.$$index">{{value}}</div>
+          <input class="table-input" autofocus *ngIf="edit === row.$$index" type="text" [(ngModel)]="editTemplate"/>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Edit" [maxWidth]="140">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <i *ngIf="edit !== row.$$index" (click)="editing(row)" class="material-icons click-able">edit</i>
+          <i *ngIf="edit === row.$$index" (click)="changeSequence(row)" class="material-icons click-able">done</i>
+          <i *ngIf="edit === row.$$index" (click)="clearEdit()" class="material-icons click-able">not_interested</i>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Delete" [maxWidth]="80">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <i (click)="deleteRow(row)" class="material-icons click-able">clear</i>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+  </div>
+</div>
+
+<mss-modal-window [(visible)]="modalShowing">
+  <form *ngIf="sequencesType && userResource" [formGroup]="newSequenceForm" (ngSubmit)="addSequence()">
+    <div class="sequence-modal-container">
+      <div class="close-wrapper" (click)="switchModal()">
+        <div class="close">+</div>
+      </div>
+      <div class="mss-title">New Sequence</div>
+      <div class="new-sequence-container">
+        <mss-select formControlName="type" class="modal-input" [label]="'Type'" [(selectedOption)]="newSequence.pk.type"
+                    [options]="sequencesType"></mss-select>
+        <mss-select formControlName="resource" class="modal-input" [label]="'Resource'" [selectedOption]="newSequence.pk.resource"
+                    (selectedOptionChange)="changeResource($event)" [options]="userResource"></mss-select>
+        <mss-select *ngIf="showSubSelect" class="modal-input" [label]="showSubSelect === 'CARD_GROUP' ? 'Issuer': 'Network'"
+                    [selectedOption]="subSelectValue" (selectedOptionChange)="subMenuSelect($event)" [options]="subSelectMenu">
+        </mss-select>
+        <mss-select *ngIf="showSubSelect === 'ORG_UNIT'" [disabled]="!subSelectValue" class="modal-input"
+                    [label]="'Merchant'" [selectedOption]="thirdSelectValue"
+                    (selectedOptionChange)="thirdMenuSelect($event)" [options]="thirdSelectMenu">
+        </mss-select>
+        <mss-select formControlName="code" class="modal-input" [label]="'Code'"
+                    [(selectedOption)]="newSequence.pk.resourceId" [options]="code"></mss-select>
+        <mss-input formControlName="order" class="modal-input" [type]="'number'" [label]="'Order'" [(value)]="newSequence.order">
+        </mss-input>
+        <mss-input formControlName="template" class="modal-input" [label]="'Template'" [(value)]="newSequence.template"></mss-input>
+        <mss-button class="new-sequence-btn" [disabled]="newSequenceForm.invalid" [label]="'Add'"></mss-button>
+      </div>
+    </div>
+  </form>
+</mss-modal-window>

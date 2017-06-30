@@ -88,4 +88,8 @@ export class SelectComponent implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.touchedCallback = fn;
   }
+
+  setDisabledState(disabled: boolean): void {
+    this.disabled = disabled;
+  }
 }
