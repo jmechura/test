@@ -1,0 +1,33 @@
+<div class="card-detail-container">
+  <div class="header">Detail karty - {{cardData.card.cardUuid}}</div>
+
+  <div class="info">
+    <mss-list class="list" [data]="viewData.basic">Základní informace</mss-list>
+    <mss-list class="list" [data]="viewData.owner">Vlastník</mss-list>
+  </div>
+
+  <div class="item half-width">
+    <mss-select label="Účet" labelPosition="top"
+                [options]="accountOptions"
+                [selectedOption]="selectedAccountName"
+                (selectedOptionChange)="setAccount($event)"></mss-select>
+  </div>
+
+  <div class="item">
+    <mss-list class="list" [data]="selectedAccount.list" *ngIf="selectedAccount">Informace o účtu</mss-list>
+  </div>
+
+  <div class="data-table-container" *ngIf="selectedAccount">
+    <ngx-datatable #table
+                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48"
+                   [rows]="selectedAccount.tableData">
+      <ngx-datatable-column name="UUID" prop="uuid"></ngx-datatable-column>
+      <ngx-datatable-column name="TrxUuid" prop="trxUuid"></ngx-datatable-column>
+      <ngx-datatable-column name="Dttm" prop="dttm"></ngx-datatable-column>
+      <ngx-datatable-column name="TrxDttm" prop="trxTermDttm"></ngx-datatable-column>
+      <ngx-datatable-column name="Amount" prop="amount"></ngx-datatable-column>
+      <ngx-datatable-column name="Type" prop="amount"></ngx-datatable-column>
+      <ngx-datatable-column name="State" prop="state"></ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

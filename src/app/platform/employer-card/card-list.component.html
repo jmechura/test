@@ -1,0 +1,77 @@
+<div class="employer-card-container">
+  <div class="header-row">
+    <div class="header">Přehled karet</div>
+    Changes view
+    <mss-toggle label="Issuer" [(toggled)]="issuer"></mss-toggle>
+  </div>
+
+  <div class="filter-container">
+    <div class="filters">
+      <div class="filter-item" *ngIf="issuer">
+        <mss-select [disabled]="cardGroupCodes.length === 0"
+                    showName="Card group code"
+                    [options]="cardGroupCodes"
+                    label="Card group code"
+                    [(selectedOption)]="payload.search.predicateObject.cardGroupCode"></mss-select>
+      </div>
+      <div class="filter-item">
+        <mss-select [disabled]="cardStates.length === 0"
+                    showName="Stav karty"
+                    [options]="cardStates"
+                    label="Stav karty"
+                    [(selectedOption)]="payload.search.predicateObject.state"></mss-select>
+      </div>
+      <div class="filter-item">
+        <mss-input label="Cln" [(value)]="payload.search.predicateObject.cln"></mss-input>
+      </div>
+      <div class="filter-item">
+        <mss-input label="Příjmení" [(value)]="payload.search.predicateObject.lastname"></mss-input>
+      </div>
+    </div>
+    <mss-button label="Vymazat filtr" class="button" (click)="clearFilter()"></mss-button>
+  </div>
+  <div class="button">
+    <mss-button label="Vyhledat karty" (click)="getCards()"></mss-button>
+  </div>
+
+
+  <div *ngIf="rows" class="data-table-container">
+    <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="tableData ? tableData.totalElements : 0 "
+                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   (activate)="goToDetail($event)"
+                   [limit]="payload.pagination.number" [rows]="rows" (page)="setPage($event)">
+      <ngx-datatable-column name="Jméno" prop="jmeno"></ngx-datatable-column>
+      <ngx-datatable-column name="Status" prop="status">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span *ngIf="editingRow !== row.$$index" title="Double click to edit" (click)="$event.stopPropagation()"
+                (dblclick)="startEditing(row, $event)">{{value}}</span>
+          <mss-select (click)="$event.stopPropagation()" variant="small" *ngIf="editingRow === row.$$index" [options]="cardStates"
+                      [(selectedOption)]="editedCard.state">
+          </mss-select>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Platnost"></ngx-datatable-column>
+      <ngx-datatable-column name="CLN"></ngx-datatable-column>
+      <ngx-datatable-column name="Žádost" prop="processRequest" [maxWidth]="190" *ngIf="issuer">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <mss-button (click)="sendRequest(row, $event)" [label]="value ? 'Žádost odeslána' : 'Poslat žádost'"
+                      [disabled]="value"></mss-button>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Upravit" [maxWidth]="100">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <div class="icons-container">
+            <i class="material-icons edit" (click)="startEditing(row, $event)" *ngIf="editingRow === -1">mode_edit</i>
+            <i class="material-icons" (click)="cancelEditing($event)" *ngIf="editingRow === row.$$index">not_interested</i>
+            <i class="material-icons" (click)="submitEdit($event)" *ngIf="editingRow === row.$$index">check</i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+    <div class="datatable-select">
+      <span class="select-text">Položek na stránku</span>
+      <mss-select [options]="rowLimitOptions" [selectedOption]="payload.pagination.number" (selectedOptionChange)="changeLimit($event)">
+      </mss-select>
+    </div>
+  </div>
+</div>

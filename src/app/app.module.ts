@@ -71,6 +71,12 @@ import { singleTransactionReducer } from './shared/reducers/transaction.reducer'
 import { TransactionEffect } from './shared/effects/transaction.effect';
 import { cardStateReducer } from './shared/reducers/card-state.reducer';
 import { CardStateEffect } from './shared/effects/card-state.effect';
+import { cardRequestReducer } from './shared/reducers/card-request.reducer';
+import { CardRequestEffect } from './shared/effects/card-request.effect';
+import { cardRequestStateReducer } from './shared/reducers/card-request-state.reducer';
+import { CardRequestStateEffect } from './shared/effects/card-request-state.effect';
+import { cardDetailReducer } from './shared/reducers/card-detail.reducer';
+import { CardDetailEffect } from './shared/effects/card-detail.effect';
 
 
 @NgModule({
@@ -116,7 +122,10 @@ import { CardStateEffect } from './shared/effects/card-state.effect';
       merchantCodes: merchantCodeReducer,
       orgUnitCodes: orgUnitCodeReducer,
       cardGroupCodes: cardGroupCodeReducer,
-      cardStates: cardStateReducer
+      cardStates: cardStateReducer,
+      cardRequests: cardRequestReducer,
+      cardRequestStates: cardRequestStateReducer,
+      cardDetail: cardDetailReducer,
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -147,6 +156,9 @@ import { CardStateEffect } from './shared/effects/card-state.effect';
     EffectsModule.runAfterBootstrap(SequencesTypeEffect),
     EffectsModule.runAfterBootstrap(UserResourceEffect),
     EffectsModule.runAfterBootstrap(CardStateEffect),
+    EffectsModule.runAfterBootstrap(CardRequestEffect),
+    EffectsModule.runAfterBootstrap(CardRequestStateEffect),
+    EffectsModule.runAfterBootstrap(CardDetailEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [

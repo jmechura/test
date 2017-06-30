@@ -1,0 +1,34 @@
+@import 'theme';
+
+$header-text-color: #4a4a4a;
+$calendar-text-color: #747474;
+
+.employer-card-container {
+  padding: 40px 50px;
+
+  .icons-container {
+    cursor: pointer;
+    display: flex;
+  }
+}
+
+.header {
+  color: $header-text-color;
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter-item {
+  width: 500px;
+  margin-bottom: 10px;
+}
+
+.button {
+  width: 200px;
+  height: 43px;
+}

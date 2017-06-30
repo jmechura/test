@@ -11,6 +11,8 @@ import { MerchantModel } from './merchant.model';
 import { SequencesModel } from './sequences.model';
 import { CodeModel } from './code.model';
 import { CampaignModel } from './campaign.model';
+import { CardRequestModel } from './card-request.model';
+import { CardDetailModel } from './card-detail.model';
 
 export interface AppState {
   transactionCodes: StateModel<string[]>;
@@ -39,4 +41,7 @@ export interface AppState {
   sequenceType: StateModel<string[]>;
   userResource: StateModel<string[]>;
   cardStates: StateModel<string[]>;
+  cardRequests: StateModel<Pagination<CardRequestModel>>;
+  cardRequestStates: StateModel<string[]>;
+  cardDetail: StateModel<CardDetailModel>;
 }

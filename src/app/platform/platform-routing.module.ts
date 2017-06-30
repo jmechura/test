@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { PlatformComponent } from './platform.component';
 import { CardViewComponent } from './card-view/card-view.component';
 import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
-import { EmployerCardComponent } from './employer-card/employer-card.component';
+import { CardListComponent } from './employer-card/card-list.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import { RoutingTableComponent } from './routing-table/routing-table.component';
 import { RoutesComponent } from './routes/routes.component';
@@ -15,6 +15,9 @@ import { IssuersComponent } from './issuers/issuers.component';
 import { IssuerDetailComponent } from './issuer-detail/issuer-detail.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { SequencesComponent } from './sequences/sequences.component';
+import { CardRequestComponent } from './card-request/card-request.component';
+import { CardRequestDetailComponent } from '../platoform/card-request-detail/card-request-detail.component';
+import { CardDetailComponent } from './card-detail/card-detail.component';
 
 export const routes: Routes = [
   {
@@ -24,7 +27,7 @@ export const routes: Routes = [
     {path: 'settings', component: SettingsComponent},
     {path: 'card', component: CardViewComponent},
     {path: 'employees', component: EmployeeManagementComponent},
-    {path: 'employer-card', component: EmployerCardComponent},
+    {path: 'employer-card', component: CardListComponent},
     {path: 'routing-table', component: RoutingTableComponent},
     {path: 'routing-table/:id', component: RoutesComponent},
     {path: 'merchants', component: MerchantsComponent},
@@ -32,6 +35,9 @@ export const routes: Routes = [
     {path: 'issuers', component: IssuersComponent},
     {path: 'issuer-detail/:id', component: IssuerDetailComponent},
     {path: 'campaigns', component: CampaignsComponent},
+    {path: 'card-request', component: CardRequestComponent},
+    {path: 'card-request/:uuid', component: CardRequestDetailComponent},
+    {path: 'card-detail/:uuid', component: CardDetailComponent},
     {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   ]

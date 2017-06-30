@@ -10,46 +10,52 @@ import { Pagination, RequestOptions } from '../../shared/models/pagination.model
 import { Card, CardPredicateObject } from '../../shared/models/card.model';
 import { ApiService } from '../../shared/services/api.service';
 import { cardStateActions } from '../../shared/reducers/card-state.reducer';
+import { AccountModel } from '../../shared/models/account.model';
+import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
+import { Router } from '@angular/router';
+import { CodeModel } from '../../shared/models/code.model';
+
+const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
+  cardGroupCode: '',
+  cln: '',
+  issuerCode: 'bancibo',
+  lastname: '',
+  state: 'INIT'
+};
 
 @Component({
-  selector: 'mss-employer-card',
-  templateUrl: './employer-card.component.html',
-  styleUrls: ['./employer-card.component.scss']
+  selector: 'mss-card-list',
+  templateUrl: './card-list.component.html',
+  styleUrls: ['./card-list.component.scss']
 })
 
-export class EmployerCardComponent implements OnDestroy {
+export class CardListComponent implements OnDestroy {
 
   rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
-  rows: any[];
-  rowLimit = 10;
+  rows: any[] = [];
   loading = false;
   tableData: Pagination<Card>;
   payload: RequestOptions<CardPredicateObject> = {
     pagination: {
-      number: this.rowLimit,
+      number: 10,
       numberOfPages: 0,
       start: 0
     },
     search: {
-      predicateObject: {
-        cardGroupCode: '',
-        cln: '',
-        issuerCode: '',
-        lastname: '',
-        state: 'INIT'
-      }
+      predicateObject: Object.assign({}, DEFAULT_SEARCH_OBJECT)
     },
     sort: {}
   };
   editingRow = -1;
   editedCard: Card;
   cardStates: SelectItem[] = [];
+  cardGroupCodes: SelectItem[] = [{value: 'something'}];
+  issuer = false;
   private unsubscribe$ = new Subject<void>();
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  constructor(private store: Store<AppState>, private api: ApiService) {
-    this.store.dispatch({type: cardActions.CARD_API_GET, payload: this.payload});
+  constructor(private store: Store<AppState>, private api: ApiService, private router: Router) {
     this.store.dispatch({type: cardStateActions.CARD_STATE_GET_REQUEST});
 
     this.store.select('cardStates').takeUntil(this.unsubscribe$).subscribe(
@@ -58,8 +64,8 @@ export class EmployerCardComponent implements OnDestroy {
           console.error('Error occurred while retrieving card states.', data.error);
           return;
         }
-        if (data.data != undefined && !data.loading) {
-          this.cardStates = data.data.map(item => ({value: item}));
+        if (data.data !== undefined && !data.loading) {
+          this.cardStates = [{value: 'INIT'}, ...data.data.map(item => ({value: item}))];
         }
       }
     );
@@ -86,25 +92,48 @@ export class EmployerCardComponent implements OnDestroy {
         }
       }
     );
+
+    this.store.select('account').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<AccountModel>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving account', data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          // TODO: activate after valid issuer code is got from API and if its role is issuer
+          // this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: data.data.issuerCode});
+          this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: 'bancibo'});
+        }
+      }
+    );
+
+    this.store.select('cardGroupCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving card group codes.', data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.cardGroupCodes = data.data.map(item => ({value: item.code}));
+        }
+      }
+    );
   }
 
   setPage(pageInfo: any): void {
-    this.payload.pagination.start = pageInfo.offset;
+    this.payload.pagination.start = pageInfo.offset * this.payload.pagination.number;
     this.store.dispatch({type: cardActions.CARD_API_GET, payload: this.payload});
   }
 
   changeLimit(limit: number): void {
-    this.rowLimit = limit;
-
-    setTimeout(
-      () => {
-        this.table.recalculate();
-      },
-      0
-    );
+    if (this.payload.pagination.number !== limit) {
+      this.payload.pagination.number = limit;
+      this.store.dispatch({type: cardActions.CARD_API_GET, payload: this.payload});
+    }
   }
 
-  sendRequest(row: any): void {
+  sendRequest(row: any, event: MouseEvent): void {
+    event.preventDefault();
     // dont send request if it has been already sent
     if (row.processRequest) {
       return;
@@ -119,19 +148,26 @@ export class EmployerCardComponent implements OnDestroy {
     );
   }
 
-  startEditing(row: any): void {
+  clearFilter(): void {
+    this.payload.search.predicateObject = Object.assign({}, DEFAULT_SEARCH_OBJECT);
+  }
+
+  startEditing(row: any, event: MouseEvent): void {
+    event.stopPropagation();
     this.editedCard = Object.assign({}, this.tableData.content.find(item => item.cardUuid === row.cardUuid));
     this.editingRow = row.$$index;
   }
 
-  cancelEditing(): void {
+  cancelEditing(event: MouseEvent): void {
+    event.stopPropagation();
     this.editingRow = -1;
     this.editedCard = null;
   }
 
-  submitEdit(): void {
+  submitEdit(event: MouseEvent): void {
+    event.stopPropagation();
     this.editingRow = -1;
-    this.api.post('/cards/state', this.editedCard).subscribe(
+    this.api.post('/cards/state', {state: this.editedCard.state, uuid: this.editedCard.cardUuid}).subscribe(
       () => {
         this.store.dispatch({type: cardActions.CARD_API_GET, payload: this.payload});
       },
@@ -139,6 +175,26 @@ export class EmployerCardComponent implements OnDestroy {
         console.error('Error occured while changing card state', error);
       }
     );
+  }
+
+  getCards(): void {
+    const search = Object.keys(this.payload.search.predicateObject)
+      .filter(key => this.payload.search.predicateObject[key].length > 0)
+      .reduce(
+        (acc, item) => {
+          acc[item] = this.payload.search.predicateObject[item];
+          return acc;
+        },
+        {}
+      );
+    this.store.dispatch({
+      type: cardActions.CARD_API_GET,
+      payload: Object.assign(this.payload, {search: {predicateObject: search}})
+    });
+  }
+
+  goToDetail(event: any): void {
+    this.router.navigateByUrl(`platform/card-detail/${event.row.cardUuid}`);
   }
 
   ngOnDestroy(): void {
