@@ -16,7 +16,7 @@ import { IssuerDetailComponent } from './issuer-detail/issuer-detail.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { SequencesComponent } from './sequences/sequences.component';
 import { CardRequestComponent } from './card-request/card-request.component';
-import { CardRequestDetailComponent } from '../platoform/card-request-detail/card-request-detail.component';
+import { CardRequestDetailComponent } from './card-request-detail/card-request-detail.component';
 import { CardDetailComponent } from './card-detail/card-detail.component';
 
 export const routes: Routes = [
