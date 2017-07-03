@@ -16,48 +16,7 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 export class CardDetailComponent implements OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
-  cardData: CardDetailModel = {
-    accounts: [
-      {
-        balance: 10,
-        transfers: [
-          {
-            account: 'abcd',
-            amount: 10,
-            amountType: 'CZK',
-            dttm: new Date().toISOString(),
-            state: 'NEW',
-            trxTermDttm: new Date().toISOString(),
-            trxUuid: 'abcd-efgh',
-            type: 'ABCD',
-            uuid: 'zxcvbv'
-          }
-        ],
-        type: 'qwerty',
-        uuid: 'asdfghjkl'
-      }
-    ],
-    card: {
-      cardGroupPrimaryCode: 'aaaa',
-      cardGroupPrimaryId: 'bbbb',
-      cardUuid: 'adadasdadasd',
-      cln: 'adad',
-      expiration: new Date().toISOString(),
-      expiryDate: new Date().toISOString(),
-      firstname: 'John',
-      lastname: 'Doe',
-      issuerCode: 'aaaaaa',
-      limit: 200,
-      limitType: 'ALL',
-      panSequenceNumber: '1454524564534',
-      processRequest: false,
-      serviceCode: 'ABCD',
-      state: 'INIT',
-      track2: 'aaa',
-      type: 'ONEWAY',
-    }
-  };
-
+  cardData: CardDetailModel;
   viewData: {
     basic: any[];
     owner: any[];
@@ -68,8 +27,7 @@ export class CardDetailComponent implements OnDestroy {
   selectedAccount: any;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {
-    this.viewData = this.createViewData(this.cardData);
-    this.accountOptions = this.cardData.accounts.map(account => ({value: account.type}));
+
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params) => {
         this.store.dispatch({type: cardDetailActions.CARD_DETAIL_GET_REQUEST, payload: params.uuid});
@@ -83,6 +41,8 @@ export class CardDetailComponent implements OnDestroy {
         }
         if (data.data != undefined && !data.loading) {
           this.cardData = data.data;
+          this.viewData = this.createViewData(this.cardData);
+          this.accountOptions = this.cardData.accounts.map(account => ({value: account.uuid}));
         }
       }
     );

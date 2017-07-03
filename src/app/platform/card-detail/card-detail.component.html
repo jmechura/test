@@ -1,4 +1,4 @@
-<div class="card-detail-container">
+<div class="card-detail-container" *ngIf="viewData">
   <div class="header">Detail karty - {{cardData.card.cardUuid}}</div>
 
   <div class="info">
@@ -9,6 +9,7 @@
   <div class="item half-width">
     <mss-select label="Účet" labelPosition="top"
                 [options]="accountOptions"
+                [disabled]="accountOptions.length === 0"
                 [selectedOption]="selectedAccountName"
                 (selectedOptionChange)="setAccount($event)"></mss-select>
   </div>
