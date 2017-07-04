@@ -660,7 +660,6 @@ $modal-window-z-index: 999;
   background-color: $default-background-color;
   padding: 24px;
   border-radius: 5px;
-  max-width: 50%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   z-index: $modal-window-z-index;
 }
@@ -895,7 +894,6 @@ $toggle-transition-time: 0.5s;
   background-color: $disabled-color;
   border-radius: $toggle-button-size;
   padding: $toggle-padding;
-  margin-right: 10px;
   transition: background-color $toggle-transition-time;
 }
 
@@ -919,6 +917,8 @@ $toggle-transition-time: 0.5s;
 
 @mixin mss-toggle-label {
   @include default-component-label;
+
+  width: $input-label-width;
 }
 
 // ---------------- toolbar ----------------

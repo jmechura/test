@@ -23,6 +23,7 @@ import { DataTableComponent } from './showcase/data-table/data-table.component';
 import { CardRequestComponent } from './card-request/card-request.component';
 import { CardRequestDetailComponent } from './card-request-detail/card-request-detail.component';
 import { CardDetailComponent } from './card-detail/card-detail.component';
+import { TerminalComponent } from './terminal/terminal.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { CardDetailComponent } from './card-detail/card-detail.component';
     SequencesComponent,
     CardRequestComponent,
     CardRequestDetailComponent,
-    CardDetailComponent
+    CardDetailComponent,
+    TerminalComponent,
   ]
 })
 export class PlatformModule {

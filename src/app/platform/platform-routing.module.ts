@@ -18,6 +18,7 @@ import { SequencesComponent } from './sequences/sequences.component';
 import { CardRequestComponent } from './card-request/card-request.component';
 import { CardRequestDetailComponent } from './card-request-detail/card-request-detail.component';
 import { CardDetailComponent } from './card-detail/card-detail.component';
+import { TerminalComponent } from './terminal/terminal.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,7 @@ export const routes: Routes = [
     {path: 'card-request', component: CardRequestComponent},
     {path: 'card-request/:uuid', component: CardRequestDetailComponent},
     {path: 'card-detail/:uuid', component: CardDetailComponent},
+    {path: 'terminal', component: TerminalComponent},
     {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   ]

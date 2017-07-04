@@ -71,6 +71,8 @@ import { singleTransactionReducer } from './shared/reducers/transaction.reducer'
 import { TransactionEffect } from './shared/effects/transaction.effect';
 import { cardStateReducer } from './shared/reducers/card-state.reducer';
 import { CardStateEffect } from './shared/effects/card-state.effect';
+import { terminalReducer } from './shared/reducers/terminal.reducer';
+import { TerminalEffect } from './shared/effects/terminal.effect';
 import { cardRequestReducer } from './shared/reducers/card-request.reducer';
 import { CardRequestEffect } from './shared/effects/card-request.effect';
 import { cardRequestStateReducer } from './shared/reducers/card-request-state.reducer';
@@ -122,6 +124,7 @@ import { CardDetailEffect } from './shared/effects/card-detail.effect';
       merchantCodes: merchantCodeReducer,
       orgUnitCodes: orgUnitCodeReducer,
       cardGroupCodes: cardGroupCodeReducer,
+      terminal: terminalReducer,
       cardStates: cardStateReducer,
       cardRequests: cardRequestReducer,
       cardRequestStates: cardRequestStateReducer,
@@ -155,6 +158,7 @@ import { CardDetailEffect } from './shared/effects/card-detail.effect';
     EffectsModule.runAfterBootstrap(SequencesEffect),
     EffectsModule.runAfterBootstrap(SequencesTypeEffect),
     EffectsModule.runAfterBootstrap(UserResourceEffect),
+    EffectsModule.runAfterBootstrap(TerminalEffect),
     EffectsModule.runAfterBootstrap(CardStateEffect),
     EffectsModule.runAfterBootstrap(CardRequestEffect),
     EffectsModule.runAfterBootstrap(CardRequestStateEffect),

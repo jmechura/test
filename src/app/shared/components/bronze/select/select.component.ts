@@ -62,6 +62,7 @@ export class SelectComponent implements ControlValueAccessor {
     this.selectedOptionChange.emit(selected);
     if (this.changeCallback) {
       this.changeCallback(selected);
+      this.writeValue(selected);
     }
     this.touched();
     this.switchDropdown();
@@ -78,7 +79,7 @@ export class SelectComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    // This function has to be here, but we don't want it to do anything...
+    this.selectedOption = obj;
   }
 
   registerOnChange(fn: any): void {

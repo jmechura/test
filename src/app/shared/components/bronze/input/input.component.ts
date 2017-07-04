@@ -45,7 +45,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    // This function has to be here, but we don't want it to do anything...
+    this.value = obj;
   }
 
   registerOnChange(fn: any): void {
