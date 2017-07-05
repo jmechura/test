@@ -8,10 +8,11 @@ export const merchantCodeActions = {
   MERCHANT_CODE_GET_FAIL: 'MERCHANT_CODE_GET_FAIL'
 };
 
-const INITIAL_STATE: StateModel<CodeModel[]> = {error: null, loading: false};
+export type MerchantCodeState = StateModel<CodeModel[]>;
 
-export function merchantCodeReducer(state: StateModel<CodeModel[]> = INITIAL_STATE,
-                                    action: Action): StateModel<CodeModel[]> {
+const INITIAL_STATE: MerchantCodeState = {error: null, loading: false};
+
+export function merchantCodeReducer(state: MerchantCodeState = INITIAL_STATE, action: Action): MerchantCodeState {
   switch (action.type) {
     case merchantCodeActions.MERCHANT_CODE_GET_REQUEST:
       return {data: state.data, error: null, loading: true};

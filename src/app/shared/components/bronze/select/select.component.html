@@ -4,7 +4,7 @@
   <div class="select-inner-container">
     <button (click)="switchDropdown()" [ngClass]="{'disabled': disabled, 'select-button-small': variant === 'small'}" [disabled]="disabled"
             type="button" class="select-button">
-      <span>{{selectedOption ? option : showName}}</span>
+      <span>{{selectedOptionLabel}}</span>
       <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
     </button>
     <div *ngIf="options && options.length > 0" [ngClass]="{'show': show}" class="select-content">

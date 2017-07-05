@@ -51,14 +51,13 @@ export class SelectComponent implements ControlValueAccessor {
   private changeCallback: any;
   private touchedCallback: any;
 
-  get option(): string | number {
-    if (this.options.length > 0 && this.selectedOption) {
-      const option = this.options.find(item => this.selectedOption === item.value);
-      return option.label ? option.label : option.value;
-    }
+  get selectedOptionLabel(): string {
+    const selectedOption = this.options.find(item => this.selectedOption === item.value);
+    return selectedOption ? selectedOption.label || String(selectedOption.value) : this.showName;
   }
 
   selectOption(selected: number | string): void {
+    this.selectedOption = selected;
     this.selectedOptionChange.emit(selected);
     if (this.changeCallback) {
       this.changeCallback(selected);

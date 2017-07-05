@@ -85,6 +85,10 @@ import { cardGroupDetailReducer } from './shared/reducers/card-group-detail.redu
 import { CardGroupDetailEffect } from './shared/effects/card-group-detail.effect';
 import { taxTypesReducer } from './shared/reducers/tax-types.reducer';
 import { TaxTypesEffect } from './shared/effects/tax-types.effect';
+import { OrgUnitListEffect } from './shared/effects/org-unit-list.effect';
+import { orgUnitListReducer } from './shared/reducers/org-unit-list.reducer';
+import { orgUnitReducer } from './shared/reducers/org-unit.reducer';
+import { OrgUnitEffect } from './shared/effects/org-unit.effect';
 
 
 @NgModule({
@@ -123,6 +127,8 @@ import { TaxTypesEffect } from './shared/effects/tax-types.effect';
       sequences: sequencesReducer,
       sequencesType: sequencesTypeReducer,
       userResource: userResourceReducer,
+      orgUnitList: orgUnitListReducer,
+      orgUnit: orgUnitReducer,
       campaigns: campaignsReducer,
       campaignFactories: campaignFactoriesReducer,
       issuerCodes: issuerCodeReducer,
@@ -155,6 +161,8 @@ import { TaxTypesEffect } from './shared/effects/tax-types.effect';
     EffectsModule.runAfterBootstrap(TargetEffect),
     EffectsModule.runAfterBootstrap(RuleEffect),
     EffectsModule.runAfterBootstrap(MerchantsEffect),
+    EffectsModule.runAfterBootstrap(OrgUnitListEffect),
+    EffectsModule.runAfterBootstrap(OrgUnitEffect),
     EffectsModule.runAfterBootstrap(IssuersEffect),
     EffectsModule.runAfterBootstrap(IssuerDetailEffect),
     EffectsModule.runAfterBootstrap(CampaignEffect),

@@ -16,7 +16,7 @@ export interface RequestOptions<T> {
     start: number;
   };
   search: {
-    predicateObject: T;
+    predicateObject?: T;
   };
   sort: {};
 }

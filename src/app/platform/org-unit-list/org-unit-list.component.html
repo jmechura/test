@@ -1,0 +1,52 @@
+<div class="mss-view-container" xmlns="">
+  <div class="view-header">
+    <h1 class="mss-title">Obchodní místa</h1>
+    <mss-button label="Přidat obchodní místo" (click)="showCreateModal()"></mss-button>
+  </div>
+  <div class="org-unit-list">
+    <div class="data-table-container">
+      <ngx-datatable [rows]="tableRows" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" columnMode="force" [externalPaging]="true"
+                     [count]="totalItems" [limit]="itemsPerPage" [offset]="pageNumber" (page)="setPage($event)">
+        <ngx-datatable-column name="Název" prop="name"></ngx-datatable-column>
+        <ngx-datatable-column name="Kód" prop="code"></ngx-datatable-column>
+        <ngx-datatable-column name="Kód sítě" prop="networkCode"></ngx-datatable-column>
+        <ngx-datatable-column name="Kód obchodníka" prop="merchantCode"></ngx-datatable-column>
+        <ngx-datatable-column name="Poznámka" prop="note"></ngx-datatable-column>
+        <ngx-datatable-column name="Stav" prop="state">
+          <ng-template ngx-datatable-cell-template let-value="value">
+            <span class="state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Možnosti">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <a class="row-action">
+              <i class="material-icons" [routerLink]="getDetailLink(row.id)" title="Zobrazit detail">description</i>
+            </a>
+            <a class="row-action" *ngIf="row.state !== 'DISABLED'">
+              <i class="material-icons" (click)="showDeleteModal(row.id)" title="Odstranit">delete</i>
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+      <div class="datatable-select">
+        <span class="select-text">Položek na stránku</span>
+        <mss-select [(ngModel)]="itemsPerPage" [options]="itemLimitOptions"></mss-select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mss-modal-window [(visible)]="createModalShown">
+  <h1 class="create-dialog-title">Přidat obchodní místo</h1>
+  <mss-org-unit-form (modelSubmit)="createOrgUnit($event)" (dismiss)="hideCreateModal()"></mss-org-unit-form>
+</mss-modal-window>
+
+<mss-modal-window [(visible)]="deleteModalShown">
+  <div class="delete-prompt">
+    <h1>Opravdu odstranit?</h1>
+    <div class="delete-prompt-footer">
+      <mss-button class="delete-prompt-action" label="Zrušit" (click)="hideDeleteModal()"></mss-button>
+      <mss-button class="delete-prompt-action" label="Ostranit" (click)="deleteOrgUnit()"></mss-button>
+    </div>
+  </div>
+</mss-modal-window>

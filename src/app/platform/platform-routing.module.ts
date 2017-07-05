@@ -6,11 +6,11 @@ import { NgModule } from '@angular/core';
 import { PlatformComponent } from './platform.component';
 import { CardViewComponent } from './card-view/card-view.component';
 import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
-import { CardListComponent } from './employer-card/card-list.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import { RoutingTableComponent } from './routing-table/routing-table.component';
 import { RoutesComponent } from './routes/routes.component';
 import { MerchantsComponent } from './merchants/merchants.component';
+import { OrgUnitListComponent } from './org-unit-list/org-unit-list.component';
 import { IssuersComponent } from './issuers/issuers.component';
 import { IssuerDetailComponent } from './issuer-detail/issuer-detail.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
@@ -21,6 +21,8 @@ import { CardDetailComponent } from './card-detail/card-detail.component';
 import { TerminalComponent } from './terminal/terminal.component';
 import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
+import { CardListComponent } from './employer-card/card-list.component';
+import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +37,8 @@ export const routes: Routes = [
     {path: 'routing-table/:id', component: RoutesComponent},
     {path: 'merchants', component: MerchantsComponent},
     {path: 'sequences', component: SequencesComponent},
+    {path: 'org-units', component: OrgUnitListComponent},
+    {path: 'org-units/:id', component: OrgUnitDetailComponent},
     {path: 'issuers', component: IssuersComponent},
     {path: 'issuer-detail/:id', component: IssuerDetailComponent},
     {path: 'campaigns', component: CampaignsComponent},

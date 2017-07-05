@@ -8,10 +8,11 @@ export const networkCodeActions = {
   NETWORK_CODE_GET_FAIL: 'NETWORK_CODE_GET_FAIL'
 };
 
-const INITIAL_STATE: StateModel<CodeModel[]> = {error: null, loading: false};
+export type NetworkCodeState = StateModel<CodeModel[]>;
 
-export function networkCodeReducer(state: StateModel<CodeModel[]> = INITIAL_STATE,
-                                   action: Action): StateModel<CodeModel[]> {
+const INITIAL_STATE: NetworkCodeState = {error: null, loading: false};
+
+export function networkCodeReducer(state: NetworkCodeState = INITIAL_STATE, action: Action): NetworkCodeState {
   switch (action.type) {
     case networkCodeActions.NETWORK_CODE_GET_REQUEST:
       return {data: state.data, error: null, loading: true};

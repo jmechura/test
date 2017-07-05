@@ -1,0 +1,32 @@
+.org-unit-form {
+  width: 700px;
+}
+
+.org-unit-form-heading {
+  font-size: 20px;
+}
+
+.org-unit-form-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.org-unit-form-input-container {
+  flex-basis: 48%;
+  margin-bottom: 10px;
+
+  &.wide {
+    flex-basis: 100%;
+  }
+}
+
+.org-unit-form-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.org-unit-form-action {
+  width: 120px;
+}

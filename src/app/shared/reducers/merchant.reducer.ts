@@ -9,10 +9,11 @@ export const merchantsActions = {
   MERCHANTS_GET_FAIL: 'MERCHANTS_GET_FAIL',
 };
 
+export type MerchantsState = StateModel<Pagination<MerchantModel>>;
+
 const INITIAL_STATE: StateModel<Pagination<MerchantModel>> = {error: null, loading: false};
 
-export function merchantsReducer(state: StateModel<Pagination<MerchantModel>> = INITIAL_STATE,
-                                 action: Action): StateModel<Pagination<MerchantModel>> {
+export function merchantsReducer(state: MerchantsState = INITIAL_STATE, action: Action): MerchantsState {
   switch (action.type) {
     case merchantsActions.MERCHANTS_API_GET:
       return {data: state.data, error: null, loading: true};

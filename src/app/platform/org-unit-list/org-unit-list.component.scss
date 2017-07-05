@@ -1,0 +1,36 @@
+@import 'theme';
+
+.state-value {
+  color: $positive-number-color;
+
+  &.disabled {
+    color: $negative-number-color;
+  }
+}
+
+.row-action {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.view-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.create-dialog-title {
+  margin-bottom: 20px;
+}
+
+.delete-prompt-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-prompt-action {
+  width: 100px;
+}

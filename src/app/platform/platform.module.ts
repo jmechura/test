@@ -16,6 +16,7 @@ import { RoutingTableComponent } from './routing-table/routing-table.component';
 import { RoutesComponent } from './routes/routes.component';
 import { MerchantsComponent } from './merchants/merchants.component';
 import { SequencesComponent } from './sequences/sequences.component';
+import { OrgUnitListComponent } from './org-unit-list/org-unit-list.component';
 import { IssuersComponent } from './issuers/issuers.component';
 import { IssuerDetailComponent } from './issuer-detail/issuer-detail.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
@@ -26,6 +27,8 @@ import { CardDetailComponent } from './card-detail/card-detail.component';
 import { TerminalComponent } from './terminal/terminal.component';
 import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
+import { GoldComponentsModule } from '../shared/components/gold/gold-components.module';
+import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
 
 @NgModule({
   imports: [
@@ -33,6 +36,7 @@ import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.
     PlatformRoutingModule,
     BronzeComponentsModule,
     SilverComponentsModule,
+    GoldComponentsModule,
     FormsModule,
     ReactiveFormsModule
   ],
@@ -48,6 +52,7 @@ import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.
     RoutingTableComponent,
     RoutesComponent,
     MerchantsComponent,
+    OrgUnitListComponent,
     IssuersComponent,
     IssuerDetailComponent,
     CampaignsComponent,
@@ -58,8 +63,9 @@ import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.
     CardDetailComponent,
     TerminalComponent,
     CardGroupsComponent,
-    CardGroupDetailComponent
+    CardGroupDetailComponent,
+    CardDetailComponent,
+    OrgUnitDetailComponent,
   ]
 })
-export class PlatformModule {
-}
+export class PlatformModule {}
