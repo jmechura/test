@@ -1,0 +1,185 @@
+<div class="card-groups-container">
+  <div class="header">
+    <span>Card Groups</span>
+    <mss-button class="button" (click)="addCardGroup()" label="Přidat zaměstnavatele"></mss-button>
+  </div>
+  <form [formGroup]="filterForm" (ngSubmit)="getCardGroups()">
+    <div class="filter">
+      <div class="select-row">
+        <div class="filter-item">
+          <mss-select [options]="issuerCodes"
+                      formControlName="issuerCode"
+                      label="Issuer Code"></mss-select>
+        </div>
+        <mss-button class="button" type="button" (click)="clearFilter()" label="Vymazat filtr"></mss-button>
+      </div>
+      <div class="filter-item">
+        <mss-select [options]="cardGroupCodes"
+                    formControlName="cardGroupCode"
+                    label="Card group Code"></mss-select>
+      </div>
+      <div class="filter-item">
+        <mss-input label="Jméno" formControlName="name"></mss-input>
+      </div>
+      <div class="button">
+        <mss-button label="Vyhledat" type="submit"></mss-button>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="rows" class="data-table-container">
+    <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="tableData ? tableData.totalElements : 0 "
+                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   (activate)="goToDetail($event)"
+                   [limit]="requestModel.pagination.number" [rows]="rows" (page)="setPage($event)">
+      <ngx-datatable-column name="Id" prop="id"></ngx-datatable-column>
+      <ngx-datatable-column name="Jméno" prop="name"></ngx-datatable-column>
+      <ngx-datatable-column name="Kód" prop="code"></ngx-datatable-column>
+      <ngx-datatable-column name="Issuer code" prop="issuerCode"></ngx-datatable-column>
+      <ngx-datatable-column name="Stav" prop="state"></ngx-datatable-column>
+    </ngx-datatable>
+    <div class="datatable-select">
+      <mss-select [options]="rowLimitOptions"
+                  [selectedOption]="requestModel.pagination.number"
+                  label="Počet položek"
+                  (selectedOptionChange)="changeLimit($event)">
+      </mss-select>
+    </div>
+  </div>
+  <mss-modal-window [(visible)]="modalVisible">
+    <div class="header">
+      Přidat nového zaměstnavatele
+    </div>
+    <div class="content">
+      <div class="tabs">
+        <mss-tabs [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
+      </div>
+      <form novalidate [formGroup]="newCardGroupForm" class="form" (ngSubmit)="createNewCardGroup()">
+        <div class="section" [ngClass]="{'visible': visibleTab.value === CardGroupSections.BASIC}">
+          <div class="column">
+            <div class="form-item">
+              <mss-input label="Jméno*" formControlName="name"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('name')">Jméno musí být vyplněno!</span>
+              </div>
+            </div>
+            <div class="form-item">
+              <mss-input label="Kod*" formControlName="code"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('code')">Kod musí být vyplněn!</span>
+              </div>
+            </div>
+            <div class="form-item">
+              <mss-input label="External Code" formControlName="externalCode"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="form-item">
+              <mss-select label="Kod provozovatele*" [options]="issuerCodes" formControlName="issuerCode"></mss-select>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('issuerCode')">Kod provozovatele musí být vyplněn!</span>
+              </div>
+            </div>
+            <div class="form-item">
+              <mss-select label="Stav" [options]="states" formControlName="state"></mss-select>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+        </div>
+        <div class="section" [ngClass]="{'visible': visibleTab.value === CardGroupSections.LIMITS}">
+          <div class="column">
+            <div class="form-item">
+              <mss-input label="Typ limitu" formControlName="limitType"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="form-item">
+              <mss-input label="Limit" type="number" formControlName="limit"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+        </div>
+        <div class="section" [ngClass]="{'visible': visibleTab.value === CardGroupSections.CONTACTS}">
+          <div class="column">
+            <div class="form-item">
+              <mss-input label="IČO" formControlName="ico"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-input label="DIČ" formControlName="dic"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-input label="Email" formControlName="email"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('email')">Neplatný email!</span>
+              </div>
+            </div>
+            <div class="form-item">
+              <mss-input label="Telefon" formControlName="phone"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-input label="Kontakt #1" formControlName="contact"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-input label="Kontakt #2" formControlName="contact2"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="form-item">
+              <mss-input label="Bankovní účet" formControlName="bankAccount"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-toggle label="Vytvořit spec. symbol" formControlName="createSpecSymbol"></mss-toggle>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-input label="Specifický symbol" formControlName="specificSymbol"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-select label="Typ daně" [options]="taxTypes" formControlName="taxType"></mss-select>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-input label="Hodnota daně" type="number" formControlName="taxValue"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+        </div>
+        <div class="section" [ngClass]="{'visible': visibleTab.value === CardGroupSections.ADDRESS}">
+          <div class="column">
+            <div class="form-item">
+              <mss-toggle label="Použít doručovací adresu" formControlName="createDefaultDeliveryAddress"></mss-toggle>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="form-item">
+              <mss-input label="Ulice" formControlName="street"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-input label="Město" formControlName="city"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item">
+              <mss-input label="PSČ" formControlName="zip"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+        </div>
+        <div class="submit-button">
+          <mss-button label="Přidat zaměstnavatele" type="submit" [disabled]="newCardGroupForm.invalid"></mss-button>
+        </div>
+      </form>
+    </div>
+  </mss-modal-window>
+</div>
+

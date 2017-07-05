@@ -24,6 +24,8 @@ import { CardRequestComponent } from './card-request/card-request.component';
 import { CardRequestDetailComponent } from './card-request-detail/card-request-detail.component';
 import { CardDetailComponent } from './card-detail/card-detail.component';
 import { TerminalComponent } from './terminal/terminal.component';
+import { CardGroupsComponent } from './card-groups/card-groups.component';
+import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
 
 @NgModule({
   imports: [
@@ -55,6 +57,8 @@ import { TerminalComponent } from './terminal/terminal.component';
     CardRequestDetailComponent,
     CardDetailComponent,
     TerminalComponent,
+    CardGroupsComponent,
+    CardGroupDetailComponent
   ]
 })
 export class PlatformModule {

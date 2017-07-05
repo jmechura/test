@@ -13,7 +13,7 @@
   </div>
 
   <div class="filter-container">
-    <div class="content" *ngIf="visibleFilter === 'datum'">
+    <div class="content" *ngIf="visibleFilter.value ===  TransactionFilterSection.DATE">
       <div class="calendar-select filter-item">
         <span class="label">Od</span>
         <mss-date-picker-input [pickedDate]="fromDate" (pickedDateChange)="changeFromDate($event)"></mss-date-picker-input>
@@ -23,7 +23,7 @@
         <mss-date-picker-input [pickedDate]="toDate" (pickedDateChange)="changeToDate($event)"></mss-date-picker-input>
       </div>
     </div>
-    <div class="content column" *ngIf="visibleFilter === 'transakce'">
+    <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.TRANSACTION">
       <div class="row">
         <mss-select [disabled]="codes.length === 0"
                     [showName]="'response code'" class="filter-item"
@@ -58,7 +58,7 @@
                  [(value)]="pagination.search.predicateObject.rrn"></mss-input>
     </div>
 
-    <div class="content column" *ngIf="visibleFilter === 'umístění'">
+    <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.LOCATION">
       <div class="row">
         <mss-select [disabled]="issuerCodes.length === 0"
                     [showName]="'issuer code'" class="filter-item"
@@ -90,7 +90,7 @@
       </div>
     </div>
 
-    <div class="content column" *ngIf="visibleFilter === 'platba'">
+    <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.PAYMENT">
       <mss-input [label]="'CLN'" class="filter-item input"
                  [(value)]="pagination.search.predicateObject.cln"></mss-input>
       <mss-input [label]="'Terminal Code'" class="filter-item input"

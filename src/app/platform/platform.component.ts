@@ -31,6 +31,7 @@ export class PlatformComponent implements OnDestroy {
     {label: 'Nastavení', link: ROUTE_PREFIX + '/settings', icon: 'settings'},
     {label: 'Zaměstnanci', link: ROUTE_PREFIX + '/employees', icon: 'group'},
     {label: 'Přehled karet', link: ROUTE_PREFIX + '/employer-card', icon: 'markunread_mailbox'},
+    {label: 'Zaměstnavatelé', link: ROUTE_PREFIX + '/card-groups', icon: 'markunread_mailbox'},
     {label: 'Vydavatelé karet', link: ROUTE_PREFIX + '/issuers', icon: 'card_giftcard'},
     {label: 'Žádosti o kartu', link: ROUTE_PREFIX + '/card-request', icon: 'markunread_mailbox'},
     {label: 'Routovací tabulka', link: ROUTE_PREFIX + '/routing-table', icon: 'view_list'},

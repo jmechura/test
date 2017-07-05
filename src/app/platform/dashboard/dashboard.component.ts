@@ -19,6 +19,7 @@ import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { CodeModel } from '../../shared/models/code.model';
+import { TransactionFilterSection } from '../../shared/enums/transaction-filter-section.enum';
 
 const DEFAULT_FILTER: TransactionSearch = {
   uuid: '',
@@ -134,9 +135,26 @@ export class DashboardComponent implements OnDestroy {
   private unsubscribe = new Subject<void>();
   /**
    * Filter transaction options
-   * @type {string[]}
    */
-  filterOptions = ['datum', 'umístění', 'platba', 'transakce'];
+  filterOptions: SelectItem[] = [
+    {
+      label: 'Datum',
+      value: TransactionFilterSection.DATE
+    },
+    {
+      label: 'Umístění',
+      value: TransactionFilterSection.LOCATION
+    },
+    {
+      label: 'Platba',
+      value: TransactionFilterSection.PAYMENT
+    },
+    {
+      label: 'Transakce',
+      value: TransactionFilterSection.TRANSACTION
+    }
+  ];
+  TransactionFilterSection = TransactionFilterSection;
   /**
    * Selected tab
    * @type {string}

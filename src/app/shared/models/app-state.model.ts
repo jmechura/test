@@ -13,6 +13,7 @@ import { CodeModel } from './code.model';
 import { CampaignModel } from './campaign.model';
 import { CardRequestModel } from './card-request.model';
 import { CardDetailModel } from './card-detail.model';
+import { CardGroupState } from '../reducers/card-group.reducer';
 
 export interface AppState {
   transactionCodes: StateModel<string[]>;
@@ -44,4 +45,5 @@ export interface AppState {
   cardRequests: StateModel<Pagination<CardRequestModel>>;
   cardRequestStates: StateModel<string[]>;
   cardDetail: StateModel<CardDetailModel>;
+  cardGroups: CardGroupState;
 }

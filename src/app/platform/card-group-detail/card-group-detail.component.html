@@ -1,0 +1,142 @@
+<div class="mss-view-container">
+  <div class="mss-title header">
+    <span>Detail zaměstnavatele - {{cardGroupDetail?.name}}</span>
+  </div>
+
+  <div class="content">
+    <div class="tabs-container" *ngIf="cardGroupDetail">
+      <mss-tabs class="tabs" [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
+      <!--FORM FOR EDIT STATE -->
+      <form [formGroup]="editForm" novalidate (ngSubmit)="editCardGroup()">
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.BASIC}">
+          <div class="column">
+            <mss-input *ngIf="edit" class="tab-item" label="Jméno" formControlName="name"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Jméno</div>
+              <div class="value">{{cardGroupDetail.name}}</div>
+            </div>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Kod</div>
+              <div class="value">{{cardGroupDetail.code}}</div>
+            </div>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Externí kod</div>
+              <div class="value">{{cardGroupDetail.externalCode}}</div>
+            </div>
+          </div>
+          <div class="column">
+            <mss-select *ngIf="edit" class="tab-item" label="Stav" formControlName="state" [options]="stateOptions"></mss-select>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Kod provozovatele</div>
+              <div class="value">{{cardGroupDetail.issuerCode}}</div>
+            </div>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Stav</div>
+              <div class="value">{{cardGroupDetail.state}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.LIMITS}">
+          <div class="column">
+            <mss-input *ngIf="edit" class="tab-item" label="Limit" type="number" formControlName="limit"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Limit</div>
+              <div class="value">{{cardGroupDetail.limit}}</div>
+            </div>
+          </div>
+          <div class="column">
+            <mss-select *ngIf="edit" class="tab-item" label="Typ limitu" formControlName="limitType" [options]="limitOptions"></mss-select>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Typ limitu</div>
+              <div class="value">{{cardGroupDetail.limitType}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.CONTACTS}">
+          <div class="column">
+            <mss-input *ngIf="edit" class="tab-item" label="IČO" formControlName="ico"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">IČO</div>
+              <div class="value">{{cardGroupDetail.ico}}</div>
+            </div>
+            <mss-input *ngIf="edit" class="tab-item" label="DIČ" formControlName="dic"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">DIČ</div>
+              <div class="value">{{cardGroupDetail.dic}}</div>
+            </div>
+            <mss-input *ngIf="edit" class="tab-item" label="Email" formControlName="email"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Email</div>
+              <div class="value">{{cardGroupDetail.email}}</div>
+            </div>
+            <mss-input *ngIf="edit" class="tab-item" label="Telefon" formControlName="phone"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Telefon</div>
+              <div class="value">{{cardGroupDetail.phone}}</div>
+            </div>
+            <mss-input *ngIf="edit" class="tab-item" label="Kontakt #1" formControlName="contact"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Kontakt #1</div>
+              <div class="value">{{cardGroupDetail.contact}}</div>
+            </div>
+            <mss-input *ngIf="edit" class="tab-item" label="Kontakt #2" formControlName="contact2"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Kontakt #2</div>
+              <div class="value">{{cardGroupDetail.contact2}}</div>
+            </div>
+          </div>
+          <div class="column">
+            <mss-input *ngIf="edit" class="tab-item" label="Bankovní účet" formControlName="bankAccount"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Bankovní účet</div>
+              <div class="value">{{cardGroupDetail.bankAccount}}</div>
+            </div>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Specifický symbol</div>
+              <div class="value">{{cardGroupDetail.specificSymbol}}</div>
+            </div>
+            <mss-select *ngIf="edit" class="tab-item" label="Typ daně" [options]="taxTypes" formControlName="taxType"></mss-select>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Typ daně</div>
+              <div class="value">{{cardGroupDetail.taxType}}</div>
+            </div>
+            <mss-input *ngIf="edit" class="tab-item" label="Hodnota daně" type="number" formControlName="taxValue"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Hodnota daně</div>
+              <div class="value">{{cardGroupDetail.taxValue}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.ADDRESS}">
+          <div class="column">
+            <mss-input *ngIf="edit" class="tab-item" label="Ulice" formControlName="street"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Ulice</div>
+              <div class="value">{{cardGroupDetail.street}}</div>
+            </div>
+            <mss-input *ngIf="edit" class="tab-item" label="Město" formControlName="city"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Město</div>
+              <div class="value">{{cardGroupDetail.city}}</div>
+            </div>
+            <mss-input *ngIf="edit" class="tab-item" label="PSČ" formControlName="zip"></mss-input>
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">PSČ</div>
+              <div class="value">{{cardGroupDetail.zip}}</div>
+            </div>
+          </div>
+          <div class="column"></div>
+        </div>
+        <div class="button">
+          <mss-button [disabled]="editForm.invalid" *ngIf="edit" label="Potvrdit editaci"></mss-button>
+        </div>
+      </form>
+    </div>
+    <div class="buttons">
+      <mss-button class="button"
+                  [label]="cardGroupDetail?.state === 'ENABLED' ? 'Deaktivovat zaměstnavatele' : 'Aktivovat zaměstnavatele'"
+                  (click)="toggleCardGroup()"></mss-button>
+      <mss-button class="button padded" [label]="edit ? 'Přehled' : 'Edit'" (click)="edit = !edit"></mss-button>
+    </div>
+  </div>
+</div>

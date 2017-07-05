@@ -10,5 +10,6 @@ export class ButtonComponent {
   @Input() label: string;
   @Input() icon: string;
   @Input() disabled = false;
+  @Input() type = 'submit';
   @Input() iconPosition: 'left' | 'right' = 'left';
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SelectItem } from '../../bronze/select/select.component';
 
 @Component({
   selector: 'mss-tabs',
@@ -7,8 +8,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class TabsComponent {
 
-  @Input() items: string[] = [];
-  @Output() itemChanged: EventEmitter<string> = new EventEmitter<string>();
+  @Input() items: SelectItem[] = [];
+  @Output() itemChanged: EventEmitter<SelectItem> = new EventEmitter<SelectItem>();
   selected = 0;
   lineStart = 0;
 

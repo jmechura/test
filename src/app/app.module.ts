@@ -79,6 +79,12 @@ import { cardRequestStateReducer } from './shared/reducers/card-request-state.re
 import { CardRequestStateEffect } from './shared/effects/card-request-state.effect';
 import { cardDetailReducer } from './shared/reducers/card-detail.reducer';
 import { CardDetailEffect } from './shared/effects/card-detail.effect';
+import { cardGroupReducer } from './shared/reducers/card-group.reducer';
+import { CardGroupEffect } from './shared/effects/card-group.effect';
+import { cardGroupDetailReducer } from './shared/reducers/card-group-detail.reducer';
+import { CardGroupDetailEffect } from './shared/effects/card-group-detail.effect';
+import { taxTypesReducer } from './shared/reducers/tax-types.reducer';
+import { TaxTypesEffect } from './shared/effects/tax-types.effect';
 
 
 @NgModule({
@@ -129,6 +135,9 @@ import { CardDetailEffect } from './shared/effects/card-detail.effect';
       cardRequests: cardRequestReducer,
       cardRequestStates: cardRequestStateReducer,
       cardDetail: cardDetailReducer,
+      cardGroups: cardGroupReducer,
+      cardGroupDetail: cardGroupDetailReducer,
+      taxTypes: taxTypesReducer,
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -163,6 +172,9 @@ import { CardDetailEffect } from './shared/effects/card-detail.effect';
     EffectsModule.runAfterBootstrap(CardRequestEffect),
     EffectsModule.runAfterBootstrap(CardRequestStateEffect),
     EffectsModule.runAfterBootstrap(CardDetailEffect),
+    EffectsModule.runAfterBootstrap(CardGroupEffect),
+    EffectsModule.runAfterBootstrap(CardGroupDetailEffect),
+    EffectsModule.runAfterBootstrap(TaxTypesEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [

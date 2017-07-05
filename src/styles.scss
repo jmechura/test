@@ -51,6 +51,20 @@ input {
   text-align: right;
 }
 
+.mss-input-like-container {
+  @include mss-input-container;
+
+  .label {
+    @include mss-input-label;
+  }
+
+  .value {
+    @include mss-input;
+
+    border: none;
+  }
+}
+
 // data-table related classes
 
 .data-table-container {
