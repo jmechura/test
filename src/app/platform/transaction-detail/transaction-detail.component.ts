@@ -1,28 +1,71 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppState } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
 import { singleTransactionActions } from '../../shared/reducers/transaction.reducer';
 import { StateModel } from '../../shared/models/state.model';
 import { Transaction } from '../../shared/models/transaction.model';
+import { TransactionDetailSection } from '../../shared/enums/transaction-detail-section.enum';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { transactionTransferActions } from '../../shared/reducers/transaction-transfer.reducer';
+import { transactionEbankActions } from '../../shared/reducers/transaction-ebank.reducer';
+import { Transfer } from '../../shared/models/transfer.model';
+import { Ebank } from '../../shared/models/ebank.model';
 
 @Component({
   selector: 'mss-transaction-detail',
   templateUrl: './transaction-detail.component.html',
   styleUrls: ['./transaction-detail.component.scss']
 })
-export class TransactionDetailComponent {
+export class TransactionDetailComponent implements OnDestroy {
 
 
   private unsubscribe$ = new Subject<void>();
   transaction: Transaction;
-  displayData: any;
+  sections: SelectItem[] = [
+    {
+      value: TransactionDetailSection.BASIC,
+      label: 'základní informace'
+    },
+    {
+      value: TransactionDetailSection.ISSUER,
+      label: 'Provozovatel'
+    },
+    {
+      value: TransactionDetailSection.ACQUIRER,
+      label: 'Acquirer'
+    },
+    {
+      value: TransactionDetailSection.TERMINAL,
+      label: 'Terminál'
+    },
+    {
+      value: TransactionDetailSection.AMOUNT,
+      label: 'Hodnota'
+    },
+    {
+      value: TransactionDetailSection.IDENTIFICATION,
+      label: 'Identifikace'
+    },
+    {
+      value: TransactionDetailSection.CARD_HOLDER,
+      label: 'Card Holder'
+    }
+  ];
+  visibleSection = this.sections[0];
+  TransactionDetailSection = TransactionDetailSection;
+  transfers: Transfer[] = [];
+  ebank: Ebank;
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private store: Store<AppState>) {
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (data: { uuid: string, termDttm: string }) => {
         this.store.dispatch({type: singleTransactionActions.TRANSACTION_GET_REQUEST, payload: data});
+        this.store.dispatch({type: transactionTransferActions.TRANSACTION_TRANSFERS_GET_REQUEST, payload: data});
+        this.store.dispatch({type: transactionEbankActions.TRANSACTION_EBANK_GET_REQUEST, payload: data});
       }
     );
     this.store.select('transaction').takeUntil(this.unsubscribe$).subscribe(
@@ -30,139 +73,67 @@ export class TransactionDetailComponent {
         if (data.error) {
           console.error('Error while getting transaction detail', data.error);
         }
-        if (!data.loading) {
+        if (data.data !== undefined && !data.loading) {
           this.transaction = data.data;
-          this.displayData = this.createSelection(this.transaction);
+        }
+      }
+    );
 
+    this.store.select('transactionTransfers').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<Transfer[]>) => {
+        if (data.error) {
+          console.error('Error while getting transaction transfers.', data.error);
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.transfers = data.data;
+        }
+      }
+    );
+
+    this.store.select('transactionEbank').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<Ebank>) => {
+        if (data.error) {
+          console.error('Error while getting transaction ebank.', data.error);
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.ebank = data.data;
         }
       }
     );
   }
 
-  goToDetail(item: any): void {
-    // add routing
+  goToDetail(section: string, item: any): void {
+    let validSection;
+    switch (section) {
+      case 'issuer':
+        validSection = 'issuer-detail';
+        break;
+      case 'cardGroup':
+        validSection = 'card-groups';
+        break;
+      case 'card':
+        validSection = 'card-detail';
+        break;
+      case 'user':
+        break;
+      case 'acquirer':
+        break;
+      case 'merchant':
+        break;
+      case 'orgUnit':
+        break;
+      case 'terminal':
+        break;
+      default:
+    }
+    if (validSection) {
+      this.router.navigateByUrl(`platform/${validSection}/${item}`);
+    }
   }
 
-  createSelection(transaction: Transaction): any {
-    return {
-      basic: [
-        {
-          label: 'UUID',
-          value: transaction.uuid
-        },
-        {
-          label: 'Terminal Date',
-          value: transaction.termDttm
-        },
-        {
-          label: 'Server Date',
-          value: new Date().toString()
-        },
-        {
-          label: 'Transaction Type',
-          value: transaction.transactionType
-        },
-        {
-          label: 'State',
-          value: transaction.state
-        },
-        {
-          label: 'Response Code',
-          value: transaction.responseCode
-        }
-      ],
-      issuer: [
-        {
-          label: 'Issuer',
-          value: transaction.issuerCode,
-          clickable: true
-        },
-        {
-          label: 'Card Group',
-          value: transaction.cardGroupCode,
-          clickable: true
-        },
-        {
-          label: 'Card',
-          value: 'Dont know where to get it',
-          clickable: true
-        },
-        {
-          label: 'User',
-          value: 'Dont know where to get it',
-          clickable: true
-        }
-      ],
-      acquirer: [
-        {
-          label: 'Acquirer',
-          value: 'Dont know where to get it',
-          clickable: true
-        },
-        {
-          label: 'Merchant',
-          value: transaction.merchantCode,
-          clickable: true
-        },
-        {
-          label: 'Org Unit',
-          value: transaction.orgUnitCode,
-          clickable: true
-        },
-        {
-          label: 'Terminal',
-          value: transaction.terminalCode,
-          clickable: true
-        }
-      ],
-      terminal: [
-        {
-          label: 'Something',
-          value: 'Dont know where to get it'
-        }
-      ],
-      amount: [
-        {
-          label: 'Amount',
-          value: transaction.amount
-        },
-        {
-          label: 'Currency',
-          value: 'Dont know where to get it'
-        }
-      ],
-      identification: [
-        {
-          label: 'Approval Code',
-          value: transaction.approvalCode
-        },
-        {
-          label: 'DST Stan ',
-          value: transaction.dstStan
-        },
-        {
-          label: 'RRN',
-          value: transaction.rrn
-        },
-        {
-          label: 'Variable Symbol',
-          value: transaction.vs
-        },
-        {
-          label: 'Constant Symbol',
-          value: 'Dont know where to  get it'
-        }
-      ],
-      cardHolder: [
-        {
-          label: 'PAN',
-          value: 'Dont know where to get it'
-        },
-        {
-          label: 'Type of card',
-          value: 'Dont know where to get it'
-        }
-      ]
-    };
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
+
 }

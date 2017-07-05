@@ -13,7 +13,7 @@ export class TransactionEbankEffect {
   @Effect() getEbank(): Observable<Action> {
     return this.actions$
       .ofType(transactionEbankActions.TRANSACTION_EBANK_GET_REQUEST)
-      .switchMap(action => this.api.get(`trxs/${action.payload.uuid}/${action.payload.termDttm}/ebank`)
+      .switchMap(action => this.api.get(`/trxs/${action.payload.uuid}/${action.payload.termDttm}/ebank`)
         .map(res => ({type: transactionEbankActions.TRANSACTION_EBANK_GET, payload: res}))
         .catch((res) => Observable.of({type: transactionEbankActions.TRANSACTION_EBANK_GET_FAIL, payload: res}))
       );

@@ -35,6 +35,12 @@ input {
   margin-bottom: 15px;
 }
 
+.mss-click-able {
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .mss-form-container {
   display: flex;
   flex-direction: column;

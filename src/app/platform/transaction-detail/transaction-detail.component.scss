@@ -1,39 +1,29 @@
 @import '../../../theme';
 
-$header-size: 36px;
-$line-padding: 10px;
-$line-font-size: 16px;
-$divider-color: rgba($primary-text-color, 0.3);
+.content-container {
+  display: flex;
+  margin-top: 20px;
 
-.transaction-container {
-  padding: 40px 50px;
-
-  .header-row {
-    color: $secondary-color;
-    font-size: $header-size;
-    margin-bottom: 15px;
-  }
-
-  .content-container {
+  .column {
     display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-basis: 0;
 
-    .column {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      flex-basis: 0;
+    .item {
+      margin-bottom: 15px;
+    }
 
-      .list {
-        margin-bottom: 30px;
-      }
+    &:first-child {
+      margin-right: 30px;
+    }
 
-      &:first-child {
-        margin-right: 15px;
-      }
-
-      &:last-child {
-        margin-left: 15px;
-      }
+    &:last-child {
+      margin-left: 30px;
     }
   }
+}
+
+.title {
+  margin-top: 20px;
 }
