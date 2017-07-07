@@ -1,11 +1,10 @@
-<div [class]="'toolbar-container ' + position">
+<div class="toolbar-container" [ngClass]="position">
   <div *ngIf="position === 'side'" class="information">
     <img src="assets/images/logo.svg" class="logo">
-    <mss-avatar [avatarSize]="'90'" [photo]="'assets/mock/mock-avatar.jpg'"></mss-avatar>
-    <div class="name" *ngIf="userData != undefined">{{userData.firstName}} {{userData.lastName}}</div>
+    <mss-avatar [avatarSize]="90" photo="assets/mock/mock-avatar.jpg"></mss-avatar>
+    <div class="name" *ngIf="userData">{{userData.firstName}} {{userData.lastName}}</div>
   </div>
-  <div *ngFor="let item of routes" (click)="redirect(item.link)" class="toolbar-item"
-       [ngClass]="{'active-item' : activeRoute === item.link}">
+  <div *ngFor="let item of toolbarItems" [routerLink]="item.path" class="toolbar-item" routerLinkActive="active-item">
     <i class="material-icons toolbar-item-icon">{{item.icon}}</i>
     {{item.label}}
   </div>

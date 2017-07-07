@@ -31,7 +31,7 @@ export class SelectComponent implements ControlValueAccessor {
    * options of possible selection
    * @type {Array}
    */
-  @Input() options: SelectItem[] = [];
+  @Input() options: SelectItem[] = null;
 
   /**
    * States whether select should be disabled
@@ -52,7 +52,7 @@ export class SelectComponent implements ControlValueAccessor {
   private touchedCallback: any;
 
   get selectedOptionLabel(): string {
-    const selectedOption = this.options.find(item => this.selectedOption === item.value);
+    const selectedOption = this.options && this.options.find(item => this.selectedOption === item.value);
     return selectedOption ? selectedOption.label || String(selectedOption.value) : this.showName;
   }
 

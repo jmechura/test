@@ -114,7 +114,7 @@ export class IssuersComponent implements OnDestroy {
 
   onSelect({selected}: { selected: IssuerModel[] }): void {
     if (selected && selected.length > 0) {
-      this.router.navigateByUrl(`/platform/issuer-detail/${selected[0].code}`);
+      this.router.navigateByUrl(`/platform/issuers/${selected[0].code}`);
     }
   }
 

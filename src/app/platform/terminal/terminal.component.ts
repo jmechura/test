@@ -137,6 +137,21 @@ export class TerminalComponent implements OnDestroy {
         }
       }
     );
+
+    this.newTerminalForm.get('networkCode').valueChanges.takeUntil(this.unsubscribe$).subscribe(
+      (value: string | number) => {
+        this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
+        this.newTerminalForm.get('merchantId').reset();
+        this.newTerminalForm.get('orgUnitId').disable();
+      }
+    );
+
+    this.newTerminalForm.get('merchantId').valueChanges.takeUntil(this.unsubscribe$).subscribe(
+      (value: string | number) => {
+        this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
+        this.newTerminalForm.get('orgUnitId').reset();
+      }
+    );
   }
 
   getAddress(item: TerminalModel): string {
@@ -172,17 +187,6 @@ export class TerminalComponent implements OnDestroy {
   setPage(pageInfo: any): void {
     this.pagination.pagination.start = pageInfo.offset * this.pagination.pagination.number;
     this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
-  }
-
-  networkChanged(value: string | number): void {
-    this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
-    this.newTerminalForm.get('merchantId').reset();
-    this.newTerminalForm.get('orgUnitId').disable();
-  }
-
-  merchantChanged(value: string | number): void {
-    this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
-    this.newTerminalForm.get('orgUnitId').reset();
   }
 
   ngOnDestroy(): void {

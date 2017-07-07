@@ -194,7 +194,7 @@ export class CardListComponent implements OnDestroy {
   }
 
   goToDetail(event: any): void {
-    this.router.navigateByUrl(`platform/card-detail/${event.row.cardUuid}`);
+    this.router.navigateByUrl(`platform/employer-card/${event.row.cardUuid}`);
   }
 
   ngOnDestroy(): void {

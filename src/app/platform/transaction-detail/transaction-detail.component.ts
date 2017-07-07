@@ -106,13 +106,13 @@ export class TransactionDetailComponent implements OnDestroy {
     let validSection;
     switch (section) {
       case 'issuer':
-        validSection = 'issuer-detail';
+        validSection = 'issuers';
         break;
       case 'cardGroup':
         validSection = 'card-groups';
         break;
       case 'card':
-        validSection = 'card-detail';
+        validSection = 'employer-card';
         break;
       case 'user':
         break;

@@ -54,10 +54,8 @@
         </div>
         <div class="modal-column">
           <mss-input class="modal-input" [label]="'Code'" formControlName="code"></mss-input>
-          <mss-select class="modal-input" [label]="'Network'" [options]="networkCodes" (selectedOptionChange)="networkChanged($event)"
-                      formControlName="networkCode"></mss-select>
-          <mss-select class="modal-input" [label]="'Merchant'" [options]="merchantCodes" (selectedOptionChange)="merchantChanged($event)"
-                      formControlName="merchantId"></mss-select>
+          <mss-select class="modal-input" [label]="'Network'" [options]="networkCodes" formControlName="networkCode"></mss-select>
+          <mss-select class="modal-input" [label]="'Merchant'" [options]="merchantCodes" formControlName="merchantId"></mss-select>
           <mss-select class="modal-input" [label]="'ORG Unit'" [options]="orgUnitCodes" formControlName="orgUnitId"></mss-select>
           <mss-input class="modal-input" [type]="'number'" [label]="'Coefficient'" formControlName="coefficient"></mss-input>
           <mss-input class="modal-input" [label]="'Note'" formControlName="note"></mss-input>

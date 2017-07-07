@@ -935,14 +935,14 @@ $content-background-color: #f2f2f2;
   top: 0;
   left: 0;
   background-color: $default-background-color;
-  display: flex;
-  justify-content: flex-start;
   padding: 28px;
   box-sizing: border-box;
   box-shadow: 0 2px 33px 0 rgba(0, 0, 0, 0.08);
 }
 
 @mixin mss-top {
+  display: flex;
+  justify-content: flex-start;
   height: $top-toolbar-height;
   width: 100%;
   align-items: center;
@@ -951,7 +951,11 @@ $content-background-color: #f2f2f2;
 @mixin mss-side {
   width: $side-toolbar-width;
   height: 100%;
-  flex-direction: column;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @mixin mss-toolbar-item {
