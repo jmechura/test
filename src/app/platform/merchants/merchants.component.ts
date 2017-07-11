@@ -8,7 +8,6 @@ import { StateModel } from '../../shared/models/state.model';
 import { merchantsActions } from '../../shared/reducers/merchant.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SelectItem } from '../../shared/components/bronze/select/select.component';
 
 @Component({
   selector: 'mss-merchants',
@@ -41,8 +40,6 @@ export class MerchantsComponent implements OnDestroy {
   };
 
   tableData: Pagination<MerchantModel>;
-
-  rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
 
   rows = [];
 

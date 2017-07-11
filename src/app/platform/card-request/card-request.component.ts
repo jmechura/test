@@ -49,20 +49,6 @@ export class CardRequestComponent {
   loading = false;
   tableData: Pagination<CardRequestModel>;
   rows: any[] = [];
-  rowLimitOptions: SelectItem[] = [
-    {
-      value: 5
-    },
-    {
-      value: 10
-    },
-    {
-      value: 15
-    },
-    {
-      value: 20
-    }
-  ];
 
   modalVisible = false;
   modalDisplaying: 'confirm' | 'decline';

@@ -240,4 +240,12 @@ export class TerminalComponent implements OnDestroy {
     this.table.rowDetail.toggleExpandRow(this.editedRow);
     this.editedRow = null;
   }
+
+  changeLimit(limit: number): void {
+    if (this.pagination.pagination.number === limit) {
+      return;
+    }
+    this.pagination.pagination.number = limit;
+    this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
+  }
 }

@@ -288,4 +288,15 @@ export class SequencesComponent implements OnDestroy {
       }
     };
   }
+
+  changeLimit(limit: number): void {
+    this.rowLimit = limit;
+
+    setTimeout(
+      () => {
+        this.table.recalculate();
+      },
+      0
+    );
+  }
 }

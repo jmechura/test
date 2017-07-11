@@ -8,7 +8,6 @@ import { ApiService } from '../../shared/services/api.service';
 import { RequestOptions } from '../../shared/models/pagination.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
-import { SelectItem } from '../../shared/components/bronze/select/select.component';
 
 const ORG_UNIT_ENDPOINT = '/orgUnits';
 const ORG_UNIT_ROUTE = '/platform/org-units';
@@ -20,8 +19,6 @@ const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
   styleUrls: ['./org-unit-list.component.scss']
 })
 export class OrgUnitListComponent implements OnDestroy {
-  // pagination
-  readonly itemLimitOptions: SelectItem[] = ITEM_LIMIT_OPTIONS.map(limit => ({value: limit}));
   pageNumber = 0;
   totalItems = 0;
   private itemLimit = ITEM_LIMIT_OPTIONS[0];

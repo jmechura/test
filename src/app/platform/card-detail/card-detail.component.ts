@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { AppState } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +7,7 @@ import { StateModel } from '../../shared/models/state.model';
 import { CardDetailModel } from '../../shared/models/card-detail.model';
 import { cardDetailActions } from '../../shared/reducers/card-detail.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'mss-card-detail',
@@ -22,9 +23,12 @@ export class CardDetailComponent implements OnDestroy {
     owner: any[];
   };
 
+  rowLimit = 10;
   accountOptions: SelectItem[] = [];
   selectedAccountName;
   selectedAccount: any;
+
+  @ViewChild('table') table: DatatableComponent;
 
   constructor(private store: Store<AppState>, private route: ActivatedRoute) {
 
@@ -137,6 +141,17 @@ export class CardDetailComponent implements OnDestroy {
         }
       ]
     };
+  }
+
+  changeLimit(limit: number): void {
+    this.rowLimit = limit;
+
+    setTimeout(
+      () => {
+        this.table.recalculate();
+      },
+      0
+    );
   }
 
   ngOnDestroy(): void {

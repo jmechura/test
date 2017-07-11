@@ -31,7 +31,6 @@ const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
 
 export class CardListComponent implements OnDestroy {
 
-  rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
   rows: any[] = [];
   loading = false;
   tableData: Pagination<Card>;

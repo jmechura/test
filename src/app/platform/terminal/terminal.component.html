@@ -33,6 +33,22 @@
         </div>
       </ng-template>
     </ngx-datatable-row-detail>
+    <ngx-datatable-footer>
+      <ng-template
+        ngx-datatable-footer-template
+        let-rowCount="rowCount"
+        let-pageSize="pageSize"
+        let-curPage="curPage">
+        <mss-table-footer
+          [page]="curPage"
+          [rowsShown]="pageSize"
+          [rowCount]="rowCount"
+          (rowsShownChange)="changeLimit($event)"
+          (changePage)="table.onFooterPage($event)"
+          class="d-table-footer">
+        </mss-table-footer>
+      </ng-template>
+    </ngx-datatable-footer>
   </ngx-datatable>
 </div>
 

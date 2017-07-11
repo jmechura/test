@@ -1,5 +1,4 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { RoutingTable } from '../../shared/models/routin.model';
 import { Subject } from 'rxjs/Subject';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
@@ -17,8 +16,6 @@ import { Router } from '@angular/router';
 })
 
 export class RoutingTableComponent implements OnDestroy {
-
-  rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
   columns = [
     {name: 'Name'},
     {name: 'Description'}
@@ -55,7 +52,6 @@ export class RoutingTableComponent implements OnDestroy {
         if (data != undefined) {
           this.rows = data;
           this.formerData = JSON.parse(JSON.stringify(data));
-          this.recalculateTable();
         }
       }
     );
@@ -88,10 +84,6 @@ export class RoutingTableComponent implements OnDestroy {
 
   changeLimit(limit: number): void {
     this.rowLimit = limit;
-    this.recalculateTable();
-  }
-
-  recalculateTable(): void {
     setTimeout(
       () => {
         this.table.recalculate();

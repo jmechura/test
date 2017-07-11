@@ -6,7 +6,6 @@ import { StateModel } from '../../shared/models/state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { issuersActions } from '../../shared/reducers/issuer.reducer';
 import { fillIssuer, IssuerModel, IssuerPredicateObject } from '../../shared/models/issuer.model';
-import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
 import { Router } from '@angular/router';
@@ -36,7 +35,6 @@ export class IssuersComponent implements OnDestroy {
     sort: {}
   };
   loading = true;
-  rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
   rows = [];
 
   constructor(private store: Store<AppState>, private router: Router, private fb: FormBuilder, private api: ApiService) {

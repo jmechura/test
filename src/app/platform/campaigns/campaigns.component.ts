@@ -40,7 +40,6 @@ export class CampaignsComponent implements OnDestroy {
   rows = [];
 
   campaignFactories: SelectItem[] = [{value: 'UNKNOWN'}];
-  rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
 
   editedRow = -1;
   editedCampaign: CampaignModel = fillCampaign();

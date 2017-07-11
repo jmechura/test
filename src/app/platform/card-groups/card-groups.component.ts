@@ -44,7 +44,6 @@ export class CardGroupsComponent implements OnDestroy {
   tableData: Pagination<CardGroupModel>;
   loading = false;
   rows: any[] = [];
-  rowLimitOptions = [5, 10, 15, 20].map(item => ({value: item}));
   filterForm: FormGroup;
   newCardGroupForm: FormGroup;
   modalVisible = false;

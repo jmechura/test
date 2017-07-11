@@ -48,12 +48,6 @@ const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnDestroy {
-
-  /**
-   * Pagination count select options
-   * @type {[{value: number},{value: number},{value: number},{value: number}]}
-   */
-  rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
   /**
    * From select date
    * @type {moment.Moment}

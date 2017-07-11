@@ -37,14 +37,23 @@
       <ngx-datatable-column name="Kód" prop="code"></ngx-datatable-column>
       <ngx-datatable-column name="Issuer code" prop="issuerCode"></ngx-datatable-column>
       <ngx-datatable-column name="Stav" prop="state"></ngx-datatable-column>
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-curPage="curPage">
+          <mss-table-footer
+            [page]="curPage"
+            [rowsShown]="pageSize"
+            [rowCount]="rowCount"
+            (rowsShownChange)="changeLimit($event)"
+            (changePage)="table.onFooterPage($event)"
+            class="d-table-footer">
+          </mss-table-footer>
+        </ng-template>
+      </ngx-datatable-footer>
     </ngx-datatable>
-    <div class="datatable-select">
-      <mss-select [options]="rowLimitOptions"
-                  [selectedOption]="requestModel.pagination.number"
-                  label="Počet položek"
-                  (selectedOptionChange)="changeLimit($event)">
-      </mss-select>
-    </div>
   </div>
   <mss-modal-window [(visible)]="modalVisible">
     <div class="header">
