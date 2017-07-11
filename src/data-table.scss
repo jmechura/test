@@ -90,6 +90,10 @@
   }
 }
 
+.d-table-footer {
+  width: 100%;
+}
+
 .datatable-row-detail {
   @include mss-datatable-row-detail;
 }

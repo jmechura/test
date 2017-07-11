@@ -1,0 +1,46 @@
+@import 'theme';
+
+/* stylelint-disable */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* stylelint-enable */
+
+.pager-container {
+  @include mss-page-container;
+}
+
+.pages {
+  @include mss-pages;
+}
+
+.page-input {
+  @include mss-page-input;
+}
+
+.page-button {
+  @include mss-page-button;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.icon {
+  @include mss-pager-icon;
+}
+
+.footer-wrapper {
+  @include mss-footer-wrapper;
+}
+
+.footer-select {
+  @include mss-footer-select;
+}
+
+.disabled {
+  @include mss-disable-button;
+}

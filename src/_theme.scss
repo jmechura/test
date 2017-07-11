@@ -414,6 +414,90 @@ $date-picker-icon-background-color: #4a4a4a;
   }
 }
 
+// ---------------- footer ----------------
+
+@mixin mss-footer-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin mss-page-container {
+  display: flex;
+  align-self: center;
+}
+
+@mixin mss-pages {
+  background-color: #ffffff;
+  border-radius: 5px;
+  color: #4a4a4a;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-left: 11px;
+  width: 100px;
+  padding: 0 15px;
+}
+
+@mixin mss-page-input {
+  width: 30px;
+  border-bottom: 1px solid #4a4a4a;
+  text-align: center;
+  font-size: 17px;
+  color: #4a4a4a;
+  margin-right: 5px;
+}
+
+@mixin mss-page-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #4a4a4a;
+
+    .icon {
+      filter: brightness(400%);
+    }
+  }
+
+  &:not(:first-child) {
+    margin-left: 11px;
+  }
+}
+
+@mixin mss-pager-icon {
+  width: 24px;
+  height: 24px;
+
+  &.smaller {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@mixin mss-footer-select {
+  width: 250px;
+}
+
+@mixin mss-disable-button {
+  opacity: 0.7;
+  cursor: default;
+
+  &:hover {
+    background-color: #ffffff;
+
+    .icon {
+      filter: none;
+    }
+  }
+}
+
 // ---------------- file-upload ----------------
 
 @mixin mss-file-name {
@@ -474,7 +558,7 @@ $input-height: 46px;
 $input-width: 100%;
 $border-color: #979797;
 
-$input-label-width: 135px;
+$input-label-width: 136px;
 
 @mixin mss-input-container {
   display: flex;

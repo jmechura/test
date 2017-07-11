@@ -8,6 +8,7 @@ import { BronzeComponentsModule } from '../bronze/bronze-components.module';
 import { DatePickerInputComponent } from './date-picker-input/date-picker-input.component';
 import { CommonModule } from '@angular/common';
 import { TabsComponent } from './tabs/tabs.component';
+import { TableFooterComponent } from './table-footer/table-footer.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { TabsComponent } from './tabs/tabs.component';
     AutocompleteInputComponent,
     DatePickerInputComponent,
     TabsComponent,
+    TableFooterComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,7 @@ import { TabsComponent } from './tabs/tabs.component';
     NgxDatatableModule,
     DatePickerInputComponent,
     TabsComponent,
+    TableFooterComponent,
   ],
   providers: [],
 })

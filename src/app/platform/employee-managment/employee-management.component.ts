@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { fillEmployee, User } from '../../shared/models/user.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -11,7 +10,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EmployeeManagementComponent {
 
-  rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
   columns = [
     {name: 'Id'},
     {name: 'Name'},

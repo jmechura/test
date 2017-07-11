@@ -1,0 +1,27 @@
+<div class="footer-wrapper">
+  <div *ngIf="totalPages > 1" class="pager-container">
+    <div class="page-button" [ngClass]="{'disabled': !canPrevious}" (click)="selectPage(1)">
+      <img src="assets/table-icons/last.svg" class="icon rotate">
+    </div>
+    <div class="page-button" [ngClass]="{'disabled': !canPrevious}" (click)="prevPage()">
+      <img src="assets/table-icons/next.svg" class="icon rotate smaller">
+    </div>
+    <div class="pages">
+      <input #tablePage type="number" class="page-input" (keydown)="handleNumbers($event)" [ngModel]="currPage"
+             (ngModelChange)="setTablePage($event)" (keyup.enter)="handleInput($event)" (blur)="handleInput()">
+      <div class="total-pages">of {{totalPages}}</div>
+    </div>
+    <div class="page-button" [ngClass]="{'disabled': !canNext}" (click)="nextPage()">
+      <img src="assets/table-icons/next.svg" class="icon smaller">
+    </div>
+    <div class="page-button" [ngClass]="{'disabled': !canNext}" (click)="selectPage(totalPages)">
+      <img src="assets/table-icons/last.svg" class="icon">
+    </div>
+  </div>
+  <div *ngIf="totalPages === 1"></div>
+  <div class="footer-select">
+    <mss-select [label]="'Počet položek'" [options]="rowLimitOptions" [selectedOption]="rowsShown"
+                (selectedOptionChange)="changeLimit($event)">
+    </mss-select>
+  </div>
+</div>
