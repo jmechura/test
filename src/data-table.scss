@@ -12,6 +12,10 @@
   @include mss-datatable-header;
 }
 
+.datatable-header-cell.sortable:not(.sort-active):hover {
+  @include mss-datatable-header-sortable;
+}
+
 .datatable-body-row {
   @include mss-datatable-body-row;
 }

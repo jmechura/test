@@ -1,140 +1,147 @@
-<div class="dashboard-container">
+<div class="mss-view-container">
   <div class="header-row">
-    <div class="header">Přehled transakcí</div>
+    <div class="mss-title">Přehled transakcí</div>
   </div>
 
-  <div class="filter-container">
-    <div class="tabs-row">
+  <div class="row">
+    <div class="column">
       <mss-tabs class="tabs" [items]="filterOptions" (itemChanged)="visibleFilter = $event"></mss-tabs>
-      <div class="buttons">
-        <mss-button [label]="'Vymazat filtrovaní'" (click)="clearFilter()"></mss-button>
+
+      <div class="content" *ngIf="visibleFilter.value ===  TransactionFilterSection.DATE">
+        <div class="row wrapped">
+          <div class="calendar-select filter-item">
+            <span class="label">Od</span>
+            <mss-date-time-picker-input [pickedDate]="fromDate" (pickedDateChange)="changeFromDate($event)"></mss-date-time-picker-input>
+          </div>
+          <div class="calendar-select filter-item">
+            <span class="label">Do</span>
+            <mss-date-time-picker-input [pickedDate]="toDate" (pickedDateChange)="changeToDate($event)"></mss-date-time-picker-input>
+          </div>
+        </div>
+
+      </div>
+      <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.TRANSACTION">
+        <div class="row wrapped">
+          <mss-select [disabled]="codes.length === 0"
+                      [showName]="'response code'" class="filter-item"
+                      [options]="codes"
+                      label="Response code"
+                      labelPosition="top"
+                      [(selectedOption)]="pagination.search.predicateObject.responseCode"></mss-select>
+          <mss-select [disabled]="types.length === 0"
+                      [showName]="'transaction type'" class="filter-item"
+                      label="Transaction type"
+                      labelPosition="top"
+                      [options]="types"
+                      [(selectedOption)]="pagination.search.predicateObject.transactionType"></mss-select>
+          <mss-select [disabled]="states.length === 0"
+                      [showName]="'transaction state'" class="filter-item"
+                      [options]="states"
+                      label="Transaction state"
+                      labelPosition="top"
+                      [(selectedOption)]="pagination.search.predicateObject.state"></mss-select>
+          <mss-select [disabled]="cardGroupCodes.length === 0"
+                      [showName]="'card group code'" class="filter-item"
+                      [options]="cardGroupCodes"
+                      label="Card group code"
+                      labelPosition="top"
+                      [(selectedOption)]="pagination.search.predicateObject.cardGroupCode"></mss-select>
+        </div>
+        <div class="row wrapped">
+          <mss-input [label]="'Approval Code'" class="filter-item"
+                     [(value)]="pagination.search.predicateObject.approvalCode"></mss-input>
+          <mss-input [label]="'UUID'" class="filter-item"
+                     [(value)]="pagination.search.predicateObject.uuid"></mss-input>
+          <mss-input [label]="'RRN'" class="filter-item"
+                     [(value)]="pagination.search.predicateObject.rrn"></mss-input>
+        </div>
+
+      </div>
+
+      <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.LOCATION">
+        <div class="row wrapped">
+          <mss-select [disabled]="issuerCodes.length === 0"
+                      [showName]="'issuer code'" class="filter-item"
+                      label="Issuer code"
+                      labelPosition="top"
+                      [options]="issuerCodes"
+                      [selectedOption]="pagination.search.predicateObject.issuerCode"
+                      (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
+          <mss-select [disabled]="networkCodes.length === 0"
+                      [showName]="'network code'" class="filter-item"
+                      label="Network code"
+                      labelPosition="top"
+                      [options]="networkCodes"
+                      [selectedOption]="pagination.search.predicateObject.networkCode"
+                      (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
+          <mss-select [disabled]="merchantCodes.length === 0"
+                      [showName]="'merchant code'" class="filter-item"
+                      label="Merchant code"
+                      labelPosition="top"
+                      [options]="merchantCodes"
+                      [selectedOption]="pagination.search.predicateObject.merchantCode"
+                      (selectedOptionChange)="selectMerchantCode($event)"></mss-select>
+          <mss-select [disabled]="orgUnitCodes.length === 0"
+                      [showName]="'org unit code'" class="filter-item"
+                      label="Org unit code"
+                      labelPosition="top"
+                      [options]="orgUnitCodes"
+                      [(selectedOption)]="pagination.search.predicateObject.orgUnitCode"></mss-select>
+        </div>
+      </div>
+
+      <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.PAYMENT">
+        <div class="row wrapped">
+          <mss-input [label]="'CLN'" class="filter-item"
+                     [(value)]="pagination.search.predicateObject.cln"></mss-input>
+          <mss-input [label]="'Terminal Code'" class="filter-item"
+                     [(value)]="pagination.search.predicateObject.terminalCode"></mss-input>
+          <mss-input [label]="'Amount'" class="filter-item" [type]="'number'"
+                     [(value)]="pagination.search.predicateObject.amount"></mss-input>
+          <mss-input [label]="'Dst Stan'" class="filter-item" [type]="'number'"
+                     [(value)]="pagination.search.predicateObject.dstStan"></mss-input>
+          <mss-input [label]="'Specific Symbol'" class="filter-item" [placeholder]="'Specific Symbol'"
+                     [(value)]="pagination.search.predicateObject.specificSymbol"></mss-input>
+          <mss-input [label]="'Variable Symbol'" class="filter-item" [placeholder]="'Variable Symbol'"
+                     [(value)]="pagination.search.predicateObject.vs"></mss-input>
+        </div>
       </div>
     </div>
+    <mss-button class="button shifted" [label]="'Vymazat filtrovaní'" (click)="clearFilter()"></mss-button>
   </div>
 
-  <div class="filter-container">
-    <div class="content" *ngIf="visibleFilter.value ===  TransactionFilterSection.DATE">
-      <div class="calendar-select filter-item">
-        <span class="label">Od</span>
-        <mss-date-picker-input [pickedDate]="fromDate" (pickedDateChange)="changeFromDate($event)"></mss-date-picker-input>
-      </div>
-      <div class="calendar-select filter-item">
-        <span class="label">Do</span>
-        <mss-date-picker-input [pickedDate]="toDate" (pickedDateChange)="changeToDate($event)"></mss-date-picker-input>
-      </div>
-    </div>
-    <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.TRANSACTION">
-      <div class="row">
-        <mss-select [disabled]="codes.length === 0"
-                    [showName]="'response code'" class="filter-item"
-                    [options]="codes"
-                    label="Response code"
-                    labelPosition="top"
-                    [(selectedOption)]="pagination.search.predicateObject.responseCode"></mss-select>
-        <mss-select [disabled]="types.length === 0"
-                    [showName]="'transaction type'" class="filter-item"
-                    label="Transaction type"
-                    labelPosition="top"
-                    [options]="types"
-                    [(selectedOption)]="pagination.search.predicateObject.transactionType"></mss-select>
-        <mss-select [disabled]="states.length === 0"
-                    [showName]="'transaction state'" class="filter-item"
-                    [options]="states"
-                    label="Transaction state"
-                    labelPosition="top"
-                    [(selectedOption)]="pagination.search.predicateObject.state"></mss-select>
-        <mss-select [disabled]="cardGroupCodes.length === 0"
-                    [showName]="'card group code'" class="filter-item"
-                    [options]="cardGroupCodes"
-                    label="Card group code"
-                    labelPosition="top"
-                    [(selectedOption)]="pagination.search.predicateObject.cardGroupCode"></mss-select>
-      </div>
-      <mss-input [label]="'Approval Code'" class="filter-item input"
-                 [(value)]="pagination.search.predicateObject.approvalCode"></mss-input>
-      <mss-input [label]="'UUID'" class="filter-item input"
-                 [(value)]="pagination.search.predicateObject.uuid"></mss-input>
-      <mss-input [label]="'RRN'" class="filter-item input"
-                 [(value)]="pagination.search.predicateObject.rrn"></mss-input>
-    </div>
-
-    <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.LOCATION">
-      <div class="row">
-        <mss-select [disabled]="issuerCodes.length === 0"
-                    [showName]="'issuer code'" class="filter-item"
-                    label="Issuer code"
-                    labelPosition="top"
-                    [options]="issuerCodes"
-                    [selectedOption]="pagination.search.predicateObject.issuerCode"
-                    (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
-        <mss-select [disabled]="networkCodes.length === 0"
-                    [showName]="'network code'" class="filter-item"
-                    label="Network code"
-                    labelPosition="top"
-                    [options]="networkCodes"
-                    [selectedOption]="pagination.search.predicateObject.networkCode"
-                    (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
-        <mss-select [disabled]="merchantCodes.length === 0"
-                    [showName]="'merchant code'" class="filter-item"
-                    label="Merchant code"
-                    labelPosition="top"
-                    [options]="merchantCodes"
-                    [selectedOption]="pagination.search.predicateObject.merchantCode"
-                    (selectedOptionChange)="selectMerchantCode($event)"></mss-select>
-        <mss-select [disabled]="orgUnitCodes.length === 0"
-                    [showName]="'org unit code'" class="filter-item"
-                    label="Org unit code"
-                    labelPosition="top"
-                    [options]="orgUnitCodes"
-                    [(selectedOption)]="pagination.search.predicateObject.orgUnitCode"></mss-select>
-      </div>
-    </div>
-
-    <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.PAYMENT">
-      <mss-input [label]="'CLN'" class="filter-item input"
-                 [(value)]="pagination.search.predicateObject.cln"></mss-input>
-      <mss-input [label]="'Terminal Code'" class="filter-item input"
-                 [(value)]="pagination.search.predicateObject.terminalCode"></mss-input>
-      <mss-input [label]="'Amount'" class="filter-item input" [type]="'number'"
-                 [(value)]="pagination.search.predicateObject.amount"></mss-input>
-      <mss-input [label]="'Dst Stan'" class="filter-item input" [type]="'number'"
-                 [(value)]="pagination.search.predicateObject.dstStan"></mss-input>
-      <mss-input [label]="'Specific Symbol'" class="filter-item input" [placeholder]="'Specific Symbol'"
-                 [(value)]="pagination.search.predicateObject.specificSymbol"></mss-input>
-      <mss-input [label]="'Variable Symbol'" class="filter-item input" [placeholder]="'Variable Symbol'"
-                 [(value)]="pagination.search.predicateObject.vs"></mss-input>
-    </div>
-  </div>
-
-  <div class="search-button">
+  <div class="button">
     <mss-button [label]="'Vyhledat transakce'" (click)="getTransactions()"></mss-button>
   </div>
   <div class="data-table-container">
-    <ngx-datatable #table [columns]="columns" (activate)="goToDetail('transaction', $event)" [externalPaging]="true"
+    <ngx-datatable #table (activate)="goToDetail('transaction', $event)" [externalPaging]="true"
                    [count]="tableData ? tableData.totalElements : 0 " [loadingIndicator]="loading"
                    (page)="setPage($event)"
+                   [externalSorting]="true"
+                   (sort)="getSortedTransactions($event)"
                    [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [limit]="pagination.pagination.number"
                    [rows]="rows">
-      <ngx-datatable-column name="UUID">
+      <ngx-datatable-column name="UUID" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell clickable" title="Click to move to the detail." (click)="goToDetail('uuid', value)"> {{value}}</span>
+          <span class="cell clickable" [title]="value" (click)="goToDetail('uuid', value)"> {{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Terminal Date"></ngx-datatable-column>
-      <ngx-datatable-column name="Terminal ID">
+      <ngx-datatable-column name="Terminal Date" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Terminal ID" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell clickable" title="Click to move to the detail." (click)="goToDetail('terminal', value)"> {{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Amount"></ngx-datatable-column>
-      <ngx-datatable-column name="State"></ngx-datatable-column>
-      <ngx-datatable-column name="Approval Code"></ngx-datatable-column>
-      <ngx-datatable-column name="Response Code"></ngx-datatable-column>
-      <ngx-datatable-column name="Transaction Code"></ngx-datatable-column>
-      <ngx-datatable-column name="Merchant Code"></ngx-datatable-column>
-      <ngx-datatable-column name="DST Stan"></ngx-datatable-column>
-      <ngx-datatable-column name="RRN"></ngx-datatable-column>
-      <ngx-datatable-column name="Variable Symbol"></ngx-datatable-column>
+      <ngx-datatable-column name="Amount" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="State" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Approval Code" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Response Code" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Transaction Code" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Merchant Code" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="DST Stan" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="RRN" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Variable Symbol" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="CLN" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template

@@ -170,6 +170,11 @@ export class CardRequestComponent {
     });
   }
 
+  getSortedCardRequests(sortInfo: any): void {
+    this.searchModel.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getRequests();
+  }
+
   /**
    * Changes max rows displayed in table
    * Changes pagination object and gets new set of data

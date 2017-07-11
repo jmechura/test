@@ -182,6 +182,24 @@ $pager-active-color: #4c4c4c;
   padding: 0 $side-padding;
 }
 
+@mixin mss-datatable-header-sortable {
+  .datatable-header-cell-label {
+    text-decoration: underline;
+  }
+
+  .sort-btn::before {
+    font-family: 'data-table';
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    speak: none;
+    line-height: 1;
+    content: 'e';
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
 @mixin mss-datatable-body-row {
   background-color: $contrast-color;
   padding: 0 $side-padding;
@@ -273,8 +291,11 @@ $date-picker-selected-date-color: $primary-color;
 
 @mixin mss-date-picker-container {
   background-color: $default-background-color;
-  border-radius: 5px;
   overflow: hidden;
+
+  &.bordered {
+    border-radius: 5px;
+  }
 }
 
 @mixin mss-month-select-row {
@@ -314,9 +335,12 @@ $date-picker-selected-date-color: $primary-color;
   display: flex;
   flex-direction: column;
   padding: 11px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  border: 1px solid $date-picker-main-color;
+
+  &.bordered {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 1px solid $date-picker-main-color;
+  }
 }
 
 @mixin mss-date-row {
@@ -412,6 +436,30 @@ $date-picker-icon-background-color: #4a4a4a;
   &.hidden {
     display: none;
   }
+}
+
+// ---------------- date-time input ------------
+
+$extended-header-height: 49px;
+
+@mixin mss-date-time-picker-pickers-container {
+  display: flex;
+  border: 1px solid $date-picker-main-color;
+  border-radius: 5px 5px 8px 8px;
+  overflow: hidden;
+}
+
+@mixin mss-date-time-picker-extended-header {
+  height: $extended-header-height;
+  background-color: $date-picker-main-color;
+}
+
+@mixin mss-date-time-picker-time-holder {
+  background-color: $default-background-color;
+  display: flex;
+  height: calc(100% - #{$extended-header-height});
+  flex-direction: column;
+  justify-content: center;
 }
 
 // ---------------- footer ----------------

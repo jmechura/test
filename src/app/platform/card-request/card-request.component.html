@@ -40,17 +40,19 @@
     <ngx-datatable #table (activate)="goToDetail($event)" [externalPaging]="true"
                    [count]="tableData ? tableData.totalElements : 0 " [loadingIndicator]="loading"
                    (page)="setPage($event)"
+                   [externalSorting]="true"
+                   (sort)="getSortedCardRequests($event)"
                    [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [limit]="searchModel.pagination.number"
                    [rows]="rows">
-      <ngx-datatable-column name="Zaměstnavatel" prop="name"></ngx-datatable-column>
-      <ngx-datatable-column name="Počet karet" prop="number"></ngx-datatable-column>
-      <ngx-datatable-column name="Stav" prop="state"></ngx-datatable-column>
-      <ngx-datatable-column name="Zamítnout" [maxWidth]="100">
+      <ngx-datatable-column name="Zaměstnavatel" prop="name" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Počet karet" prop="number" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Stav" prop="state" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Zamítnout" [maxWidth]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i class="material-icons table-icon" (click)="handleActionClick(row, 'decline', $event)">clear</i>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Schválit" [maxWidth]="100">
+      <ngx-datatable-column name="Schválit" [maxWidth]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i class="material-icons table-icon" (click)="handleActionClick(row, 'confirm', $event)">done</i>
         </ng-template>

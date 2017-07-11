@@ -1,0 +1,20 @@
+<div class="date-picker-input-container">
+  <div class="date-input-label" (click)="toggleCalendar()">
+    <span>{{dateLabel}}</span>
+    <div class="calendar-icon-container">
+      <i class="material-icons calendar-icon">date_range</i>
+    </div>
+  </div>
+  <div class="date-picker-dropdown-container" [ngClass]="{hidden: calendarHidden}">
+    <div class="container">
+      <mss-date-picker [bordered]="false" [pickedDate]="pickedDate" (pickedDateChange)="submitDate($event)"></mss-date-picker>
+      <div class="time-container">
+        <div class="fake-header"></div>
+        <div class="fill">
+          <mss-time-picker [pickedTime]="pickedDate" (pickedTimeChange)="submitTime($event)"></mss-time-picker>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

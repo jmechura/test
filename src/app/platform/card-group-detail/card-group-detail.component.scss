@@ -71,3 +71,12 @@ $blocks-bottom-margin: 30px;
     }
   }
 }
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  .button:not(:first-child) {
+    margin-left: 20px;
+  }
+}

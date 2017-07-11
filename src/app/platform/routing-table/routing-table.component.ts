@@ -30,6 +30,8 @@ export class RoutingTableComponent implements OnDestroy {
   edit = null;
   editModel: string;
   formerData: RoutingTable[] = [];
+  warnModalVisible = false;
+  deleteRowName;
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -104,8 +106,13 @@ export class RoutingTableComponent implements OnDestroy {
     this.switchModal();
   }
 
-  deleteRow(row: RoutingTable): void {
-    this.store.dispatch({type: routingTableActions.ROUTING_TABLE_API_DELETE, payload: row.name});
+  showDeleteModal(row: RoutingTable): void {
+    this.deleteRowName = row.name;
+    this.warnModalVisible = true;
+  }
+
+  deleteRow(): void {
+    this.store.dispatch({type: routingTableActions.ROUTING_TABLE_API_DELETE, payload: this.deleteRowName});
   }
 
   selectRow(row: RoutingTable): void {

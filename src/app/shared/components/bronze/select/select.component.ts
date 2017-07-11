@@ -21,7 +21,7 @@ export class SelectComponent implements ControlValueAccessor {
    * name of dropdown which is shown before selection
    * @type {string}
    */
-  @Input() showName = 'Please select';
+  @Input() showName = 'Vyberte hodnotu';
   /**
    * selected options
    */

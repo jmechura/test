@@ -100,24 +100,6 @@ export class DashboardComponent implements OnDestroy {
     sort: {}
   };
   /**
-   * Holds columns names
-   * @type {{name: string}[]}
-   */
-  columns = [
-    {name: 'UUID'},
-    {name: 'Terminal Date'},
-    {name: 'Terminal ID'},
-    {name: 'Amount'},
-    {name: 'State'},
-    {name: 'Approval Code'},
-    {name: 'Response Code'},
-    {name: 'Transaction Type'},
-    {name: 'Merchant Code'},
-    {name: 'DST Stan'},
-    {name: 'RRN'},
-    {name: 'Variable Symbol'},
-  ];
-  /**
    * Holds currently displayed rows of table
    * @type {Array}
    */
@@ -184,6 +166,7 @@ export class DashboardComponent implements OnDestroy {
    */
   @ViewChild('table') table: DatatableComponent;
 
+
   constructor(private store: Store<AppState>, private router: Router) {
     this.store.dispatch({type: transactionCodesActions.TRANSACTION_CODES_GET_REQUEST});
     this.store.dispatch({type: transactionTypesActions.TRANSACTION_TYPES_GET_REQUEST});
@@ -214,6 +197,7 @@ export class DashboardComponent implements OnDestroy {
               'dst stan': item.dstStan,
               'rrn': item.rrn,
               'variable symbol': item.vs,
+              'cln': item.cln
             }
           ));
           // has to be called to set valid grid when number of rows is changed
@@ -454,6 +438,11 @@ export class DashboardComponent implements OnDestroy {
     // clear it before new data arrives
     this.orgUnitCodes = [];
     this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id});
+  }
+
+  getSortedTransactions(sortInfo: any): void {
+    this.pagination.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getTransactions();
   }
 
 

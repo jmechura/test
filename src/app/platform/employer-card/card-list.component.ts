@@ -196,6 +196,11 @@ export class CardListComponent implements OnDestroy {
     this.router.navigateByUrl(`platform/employer-card/${event.row.cardUuid}`);
   }
 
+  getSortedCards(sortInfo: any): void {
+    this.payload.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getCards();
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

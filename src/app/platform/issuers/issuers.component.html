@@ -11,45 +11,47 @@
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [externalPaging]="true"
                    [count]="tableData ? tableData.totalElements : 0 " [limit]="issuersRequest.pagination.number" [rows]="rows"
                    (page)="setPage($event)"
+                   [externalSorting]="true"
+                   (sort)="getSortedIssuers($event)"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">>
 
-      <ngx-datatable-column name="Kód" prop="code">
+      <ngx-datatable-column name="Kód" prop="code" [sortable]="true" [cellClass]="'mss-click-able'">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Jméno" prop="name">
+      <ngx-datatable-column name="Jméno" prop="name" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Adresa" prop="addressName">
+      <ngx-datatable-column name="Adresa" prop="addressName" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Město" prop="city">
+      <ngx-datatable-column name="Město" prop="city" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Ulice" prop="street">
+      <ngx-datatable-column name="Ulice" prop="street" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="PSČ" prop="zip">
+      <ngx-datatable-column name="PSČ" prop="zip" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Stav" prop="state">
+      <ngx-datatable-column name="Stav" prop="state" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>

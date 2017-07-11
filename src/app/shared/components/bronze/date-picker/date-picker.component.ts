@@ -18,6 +18,7 @@ export class DatePickerComponent {
     this.actualDaysInMonth = this.constructCalendar();
   }
   @Output() pickedDateChange = new EventEmitter<Moment>();
+  @Input() bordered = true;
 
   get pickedDate(): Moment {
     return this.storedDate;

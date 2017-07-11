@@ -1,0 +1,33 @@
+@import 'theme';
+
+.date-picker-input-container {
+  @include mss-date-picker-input-container;
+
+  .date-input-label {
+    @include mss-date-input-label;
+
+    .calendar-icon-container {
+      @include mss-calendar-icon-container;
+
+      .calendar-icon {
+        @include mss-calendar-icon;
+      }
+    }
+  }
+
+  .date-picker-dropdown-container {
+    @include mss-date-picker-dropdown-container;
+
+    .container {
+      @include mss-date-time-picker-pickers-container;
+    }
+
+    .fake-header {
+      @include mss-date-time-picker-extended-header;
+    }
+
+    .fill {
+      @include mss-date-time-picker-time-holder;
+    }
+  }
+}

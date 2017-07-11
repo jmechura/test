@@ -49,6 +49,8 @@ export class ShowcaseComponent {
 
   modalPickedDate: Moment = moment();
 
+  dateTimeDate: Moment = moment();
+
   completeArray: any[] = [];
   constructor() {
     this.fetch((data) => {

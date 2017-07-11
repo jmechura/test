@@ -46,6 +46,9 @@ export class CampaignsComponent implements OnDestroy {
 
   loading = false;
 
+  warnModalVisible = false;
+  deletingCampaignName: string;
+
   constructor(private store: Store<AppState>, private api: ApiService, fb: FormBuilder) {
 
     this.newCampaignForm = fb.group({
@@ -95,6 +98,11 @@ export class CampaignsComponent implements OnDestroy {
     this.store.dispatch({type: campaignsActions.CAMPAIGNS_GET_REQUEST, payload: this.campaignsRequest});
   }
 
+  getSortedCampaigns(sortInfo: any): void {
+    this.campaignsRequest.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getCampaignsList();
+  }
+
   toggleNewCampaignForm(): void {
     this.newCampaignModalShowing = !this.newCampaignModalShowing;
   }
@@ -118,8 +126,13 @@ export class CampaignsComponent implements OnDestroy {
     return item.touched && item.errors != null && item.errors.required;
   }
 
-  deleteCampaign(name: string): void {
-    this.api.remove(`/campaigns/${name}`).subscribe(
+  preDeleteCampaign(name: string): void {
+    this.deletingCampaignName = name;
+    this.warnModalVisible = true;
+  }
+
+  deleteCampaign(): void {
+    this.api.remove(`/campaigns/${this.deletingCampaignName}`).subscribe(
       () => {
         this.getCampaignsList();
       },

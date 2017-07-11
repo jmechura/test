@@ -1,4 +1,4 @@
-<div class="date-picker-container">
+<div class="date-picker-container" [ngClass]="{'bordered': bordered}">
   <div class="date-picker-month-select-row">
     <div class="arrow-button" (click)="monthSelect(false)">
       <span><</span>
@@ -8,7 +8,7 @@
       <span>></span>
     </div>
   </div>
-  <div class="date-picker-calendar">
+  <div class="date-picker-calendar" [ngClass]="{'bordered': bordered}">
     <div class="date-row header-row">
       <div *ngFor="let day of dayHeaders" class="header-day">
         <span>{{day}}</span>

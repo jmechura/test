@@ -37,3 +37,12 @@
 .table-icon {
   cursor: pointer;
 }
+
+.warn-buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  .button:not(:first-child) {
+    margin-left: 20px;
+  }
+}

@@ -22,6 +22,10 @@ export class OrgUnitListComponent implements OnDestroy {
   pageNumber = 0;
   totalItems = 0;
   private itemLimit = ITEM_LIMIT_OPTIONS[0];
+  sortOption: {
+    reverse: boolean;
+    predicate: string
+  };
   // other
   tableRows: OrgUnitModel[] = [];
   createModalShown = false;
@@ -117,12 +121,17 @@ export class OrgUnitListComponent implements OnDestroy {
     return `${ORG_UNIT_ROUTE}/${orgUnitId}`;
   }
 
-  setPage(pageInfo: {offset: number}): void {
+  setPage(pageInfo: { offset: number }): void {
     const routeParams: ListRouteParamsModel = {
       page: String(pageInfo.offset),
       limit: String(this.itemLimit)
     };
     this.router.navigate([`${ORG_UNIT_ROUTE}`, routeParams]);
+  }
+
+  getSortedOrgUnits(sortInfo: any): void {
+    this.sortOption = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.store.dispatch({type: orgUnitListActions.ORG_UNIT_LIST_GET_REQUEST, payload: this.requestModel});
   }
 
   private get requestModel(): RequestOptions<OrgUnitPredicateObject> {
@@ -133,7 +142,7 @@ export class OrgUnitListComponent implements OnDestroy {
         start: this.pageNumber * this.itemLimit
       },
       search: {},
-      sort: {}
+      sort: this.sortOption ? this.sortOption : {}
     };
   }
 }

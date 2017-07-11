@@ -197,6 +197,11 @@ export class CardGroupsComponent implements OnDestroy {
     );
   }
 
+  getSortedCardGroups(sortInfo: any): void {
+    this.requestModel.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getCardGroups();
+  }
+
   changeLimit(limit: number): void {
     if (limit !== this.requestModel.pagination.number) {
       this.requestModel.pagination.number = limit;

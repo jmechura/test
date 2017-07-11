@@ -14,7 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class InputComponent implements ControlValueAccessor {
 
   @Input() label: string;
-  @Input() placeholder = 'Prosím zadejte hodnotu';
+  @Input() placeholder = 'Zadejte hodnotu';
   @Input() type = 'text';
   @Input() warn = false;
 

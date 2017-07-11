@@ -46,6 +46,7 @@ export class CardGroupDetailComponent implements OnDestroy {
   taxTypes: SelectItem[] = [];
   editForm: FormGroup;
   edit = false;
+  modalVisible = false;
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
@@ -115,6 +116,7 @@ export class CardGroupDetailComponent implements OnDestroy {
         })
       }
     );
+    this.modalVisible = false;
   }
 
   editCardGroup(): void {

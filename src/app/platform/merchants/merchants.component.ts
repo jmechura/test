@@ -163,6 +163,11 @@ export class MerchantsComponent implements OnDestroy {
     this.store.dispatch({type: merchantsActions.MERCHANTS_API_GET, payload: this.merchantsRequest});
   }
 
+  getSortedMerchants(sortInfo: any): void {
+    this.merchantsRequest.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getMerchantList();
+  }
+
   setPage(pageInfo: any): void {
     this.merchantsRequest.pagination.start = pageInfo.offset * this.merchantsRequest.pagination.number;
     this.getMerchantList();

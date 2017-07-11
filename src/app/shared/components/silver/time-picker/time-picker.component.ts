@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 
@@ -7,16 +7,16 @@ import { Moment } from 'moment';
   templateUrl: './time-picker.component.html',
   styleUrls: ['./time-picker.component.scss']
 })
-export class TimePickerComponent implements AfterViewInit {
+export class TimePickerComponent {
 
-  @Input() pickedTime: Moment = moment();
+  @Input()
+  set pickedTime(newTime: Moment) {
+    this.time = newTime ? newTime : moment();
+  }
+
   @Output() pickedTimeChange = new EventEmitter<Moment>();
 
   time: Moment = moment();
-
-  ngAfterViewInit(): void {
-    this.time = moment(this.pickedTime);
-  }
 
   changeTime(increment: boolean, granularity: 'hours' | 'minutes'): void {
     increment ? this.time.add(1, granularity) : this.time.subtract(1, granularity);

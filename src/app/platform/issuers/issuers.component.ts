@@ -121,6 +121,11 @@ export class IssuersComponent implements OnDestroy {
     this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
   }
 
+  getSortedIssuers(sortInfo: any): void {
+    this.issuersRequest.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
+  }
+
   changeLimit(limit: number): void {
     if (this.issuersRequest.pagination.number === limit) {
       return;

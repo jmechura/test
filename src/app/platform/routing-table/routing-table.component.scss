@@ -74,3 +74,12 @@
     margin-bottom: 20px;
   }
 }
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  .button:not(:first-child) {
+    margin-left: 20px;
+  }
+}

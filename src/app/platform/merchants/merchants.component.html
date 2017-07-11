@@ -11,9 +11,11 @@
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                    [externalPaging]="true" [limit]="merchantsRequest.pagination.number"
+                   [externalSorting]="true"
+                   (sort)="getSortedMerchants($event)"
                    [count]="tableData ? tableData.totalElements : 0 " (page)="setPage($event)">
 
-      <ngx-datatable-column name="Jméno" prop="name">
+      <ngx-datatable-column name="Jméno" prop="name" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
                 *ngIf="editedRow !== row.$$index">{{value}}</span>
@@ -21,7 +23,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="bankAccount" name="Číslo účtu">
+      <ngx-datatable-column prop="bankAccount" name="Číslo účtu" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
                 *ngIf="editedRow !== row.$$index">{{value}}</span>
@@ -29,7 +31,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="ico" name="IČO">
+      <ngx-datatable-column prop="ico" name="IČO" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
                 *ngIf="editedRow !== row.$$index">{{value}}</span>
@@ -37,7 +39,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="city" name="Město">
+      <ngx-datatable-column prop="city" name="Město" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
                 *ngIf="editedRow !== row.$$index">{{value}}</span>
@@ -45,7 +47,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="email" name="Email">
+      <ngx-datatable-column prop="email" name="Email" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
                 *ngIf="editedRow !== row.$$index">{{value}}</span>
@@ -53,7 +55,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="state" name="Stav">
+      <ngx-datatable-column prop="state" name="Stav" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
                 *ngIf="editedRow !== row.$$index">{{value}}</span>
@@ -61,7 +63,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Upravit" [width]="70">
+      <ngx-datatable-column name="Upravit" [width]="70" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
             <i (click)="startEditing(row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>

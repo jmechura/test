@@ -32,8 +32,8 @@ export class SequencesComponent implements OnDestroy {
   editTemplate = '';
   editOrder = null;
 
-  sequencesType: SelectItem[];
-  userResource: SelectItem[];
+  sequencesType: SelectItem[] = [];
+  userResource: SelectItem[] = [];
   newSequenceForm: FormGroup;
   modalShowing = false;
   unsubscribe$ = new Subject<void>();
@@ -41,11 +41,14 @@ export class SequencesComponent implements OnDestroy {
   code: SelectItem[];
 
   showSubSelect: 'MERCHANT' | 'ORG_UNIT' | 'CARD_GROUP';
-  subSelectMenu: SelectItem[];
+  subSelectMenu: SelectItem[] = [];
   subSelectValue: number;
 
-  thirdSelectMenu: SelectItem[];
+  thirdSelectMenu: SelectItem[] = [];
   thirdSelectValue: number;
+
+  deletingRow: any;
+  warnModalVisible = false;
 
   @ViewChild('table') table: DatatableComponent;
 
@@ -273,8 +276,13 @@ export class SequencesComponent implements OnDestroy {
     this.clearEdit();
   }
 
-  deleteRow(row: any): void {
-    this.store.dispatch({type: sequencesActions.SEQUENCES_DELETE_REQUEST, payload: this.mapSequence(row, false)});
+  showDeleteModal(row: any): void {
+    this.warnModalVisible = true;
+    this.deletingRow = row;
+  }
+
+  deleteRow(): void {
+    this.store.dispatch({type: sequencesActions.SEQUENCES_DELETE_REQUEST, payload: this.mapSequence(this.deletingRow, false)});
   }
 
   mapSequence(input: any, edit?: boolean): SequencesModel {

@@ -26,7 +26,7 @@
 
       <ngx-datatable-column name="Delete" [maxWidth]="80">
         <ng-template ngx-datatable-cell-template let-row="row">
-          <i (click)="deleteRow(row)" class="material-icons click-able">clear</i>
+          <i (click)="showDeleteModal(row)" class="material-icons click-able">clear</i>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-footer>
@@ -65,4 +65,12 @@
       <mss-button [disabled]="newTableForm.invalid" [label]="'Save'"></mss-button>
     </div>
   </form>
+</mss-modal-window>
+
+<mss-modal-window [(visible)]="warnModalVisible">
+  <div class="mss-title">Opravdu chcete záznam odstranit?</div>
+  <div class="modal-buttons">
+    <mss-button class="button" label="Zavřít" (click)="warnModalVisible = false"></mss-button>
+    <mss-button class="button" label="Ano" (click)="deleteRow()"></mss-button>
+  </div>
 </mss-modal-window>

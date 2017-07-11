@@ -135,8 +135,16 @@
     <div class="buttons">
       <mss-button class="button"
                   [label]="cardGroupDetail?.state === 'ENABLED' ? 'Deaktivovat zaměstnavatele' : 'Aktivovat zaměstnavatele'"
-                  (click)="toggleCardGroup()"></mss-button>
+                  (click)="modalVisible = true"></mss-button>
       <mss-button class="button padded" [label]="edit ? 'Přehled' : 'Edit'" (click)="edit = !edit"></mss-button>
     </div>
   </div>
 </div>
+
+<mss-modal-window [(visible)]="modalVisible">
+  <div class="mss-title">Potvrdit změnu aktivace?</div>
+  <div class="modal-buttons">
+    <mss-button class="button" (click)="modalVisible = false" label="Zavřít"></mss-button>
+    <mss-button class="button" (click)="toggleCardGroup()" label="Ano"></mss-button>
+  </div>
+</mss-modal-window>

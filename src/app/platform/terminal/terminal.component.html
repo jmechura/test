@@ -2,13 +2,13 @@
   <mss-button class="action-button" [label]="'Add terminal'" (click)="switchModal()"></mss-button>
   <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="terminalData ? terminalData.totalElements : 0 "
                  [offset]="terminalData ? terminalData.number : 0" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-                 [rowHeight]="'auto'"
+                 [rowHeight]="'auto'" [externalSorting]="true" (sort)="getSortedTerminals($event)"
                  [limit]="pagination.pagination.number" [rows]="terminalRows" (page)="setPage($event)">
-    <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
-    <ngx-datatable-column name="Code" prop="code"></ngx-datatable-column>
-    <ngx-datatable-column name="Coefficient" prop="coefficient"></ngx-datatable-column>
-    <ngx-datatable-column name="Address" prop="address"></ngx-datatable-column>
-    <ngx-datatable-column name="State" prop="state"></ngx-datatable-column>
+    <ngx-datatable-column name="Name" prop="name" [cellClass]="'mss-click-able'" [sortable]="true"></ngx-datatable-column>
+    <ngx-datatable-column name="Code" prop="code" [sortable]="true"></ngx-datatable-column>
+    <ngx-datatable-column name="Coefficient" prop="coefficient" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="Address" prop="address" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column name="State" prop="state" [sortable]="false"></ngx-datatable-column>
     <ngx-datatable-column name="Edit" [resizeable]="false" [draggable]="false" [sortable]="false">
       <ng-template ngx-datatable-cell-template let-row="row">
         <i class="material-icons click-able" (click)="editing(row)">edit</i>

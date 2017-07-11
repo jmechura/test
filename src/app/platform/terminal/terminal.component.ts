@@ -46,9 +46,9 @@ export class TerminalComponent implements OnDestroy {
 
   newTerminalForm: FormGroup;
   terminalData: Pagination<TerminalModel>;
-  networkCodes: SelectItem[];
-  merchantCodes: SelectItem[];
-  orgUnitCodes: SelectItem[];
+  networkCodes: SelectItem[] = [];
+  merchantCodes: SelectItem[] = [];
+  orgUnitCodes: SelectItem[] = [];
 
   editModel: TerminalModel;
   editedRow: any;
@@ -178,6 +178,11 @@ export class TerminalComponent implements OnDestroy {
       }
     }
     return result;
+  }
+
+  getSortedTerminals(sortInfo: any): void {
+    this.pagination.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
   }
 
   get newFormInvalid(): boolean {

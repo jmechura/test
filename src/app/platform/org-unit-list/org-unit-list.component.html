@@ -5,20 +5,20 @@
   </div>
   <div class="org-unit-list">
     <div class="data-table-container">
-      <ngx-datatable #table [rows]="tableRows" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" columnMode="force"
-                     [externalPaging]="true"
+      <ngx-datatable [rows]="tableRows" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" columnMode="force" [externalPaging]="true"
+                     [externalSorting]="true" (sort)="getSortedOrgUnits($event)"
                      [count]="totalItems" [limit]="itemsPerPage" [offset]="pageNumber" (page)="setPage($event)">
-        <ngx-datatable-column name="Název" prop="name"></ngx-datatable-column>
-        <ngx-datatable-column name="Kód" prop="code"></ngx-datatable-column>
-        <ngx-datatable-column name="Kód sítě" prop="networkCode"></ngx-datatable-column>
-        <ngx-datatable-column name="Kód obchodníka" prop="merchantCode"></ngx-datatable-column>
-        <ngx-datatable-column name="Poznámka" prop="note"></ngx-datatable-column>
-        <ngx-datatable-column name="Stav" prop="state">
+        <ngx-datatable-column name="Název" prop="name" [sortable]="true"></ngx-datatable-column>
+        <ngx-datatable-column name="Kód" prop="code" [sortable]="true"></ngx-datatable-column>
+        <ngx-datatable-column name="Kód sítě" prop="networkCode" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Kód obchodníka" prop="merchantCode" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Poznámka" prop="note" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column name="Stav" prop="state" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-value="value">
             <span class="state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Možnosti">
+        <ngx-datatable-column name="Možnosti" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-row="row">
             <a class="row-action">
               <i class="material-icons" [routerLink]="getDetailLink(row.id)" title="Zobrazit detail">description</i>

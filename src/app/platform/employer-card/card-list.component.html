@@ -39,9 +39,11 @@
     <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="tableData ? tableData.totalElements : 0 "
                    [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                    (activate)="goToDetail($event)"
+                   [externalSorting]="true"
+                   (sort)="getSortedCards($event)"
                    [limit]="payload.pagination.number" [rows]="rows" (page)="setPage($event)">
-      <ngx-datatable-column name="Jméno" prop="jmeno"></ngx-datatable-column>
-      <ngx-datatable-column name="Status" prop="status">
+      <ngx-datatable-column name="Jméno" prop="jmeno" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Status" prop="status" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span *ngIf="editingRow !== row.$$index" title="Double click to edit" (click)="$event.stopPropagation()"
                 (dblclick)="startEditing(row, $event)">{{value}}</span>
@@ -50,15 +52,15 @@
           </mss-select>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Platnost"></ngx-datatable-column>
-      <ngx-datatable-column name="CLN"></ngx-datatable-column>
+      <ngx-datatable-column name="Platnost" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="CLN" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column name="Žádost" prop="processRequest" [maxWidth]="190" *ngIf="issuer">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <mss-button (click)="sendRequest(row, $event)" [label]="value ? 'Žádost odeslána' : 'Poslat žádost'"
                       [disabled]="value"></mss-button>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Upravit" [maxWidth]="100">
+      <ngx-datatable-column name="Upravit" [maxWidth]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
           <div class="icons-container">
             <i class="material-icons edit" (click)="startEditing(row, $event)" *ngIf="editingRow === -1">mode_edit</i>
