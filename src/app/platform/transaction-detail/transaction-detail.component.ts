@@ -12,6 +12,7 @@ import { transactionTransferActions } from '../../shared/reducers/transaction-tr
 import { transactionEbankActions } from '../../shared/reducers/transaction-ebank.reducer';
 import { Transfer } from '../../shared/models/transfer.model';
 import { Ebank } from '../../shared/models/ebank.model';
+import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
   selector: 'mss-transaction-detail',
@@ -23,43 +24,15 @@ export class TransactionDetailComponent implements OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
   transaction: Transaction;
-  sections: SelectItem[] = [
-    {
-      value: TransactionDetailSection.BASIC,
-      label: 'základní informace'
-    },
-    {
-      value: TransactionDetailSection.ISSUER,
-      label: 'Provozovatel'
-    },
-    {
-      value: TransactionDetailSection.ACQUIRER,
-      label: 'Acquirer'
-    },
-    {
-      value: TransactionDetailSection.TERMINAL,
-      label: 'Terminál'
-    },
-    {
-      value: TransactionDetailSection.AMOUNT,
-      label: 'Hodnota'
-    },
-    {
-      value: TransactionDetailSection.IDENTIFICATION,
-      label: 'Identifikace'
-    },
-    {
-      value: TransactionDetailSection.CARD_HOLDER,
-      label: 'Card Holder'
-    }
-  ];
-  visibleSection = this.sections[0];
+  sections: SelectItem[] = [];
+  visibleSection: SelectItem;
   TransactionDetailSection = TransactionDetailSection;
   transfers: Transfer[] = [];
   ebank: Ebank;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private language: LanguageService,
               private store: Store<AppState>) {
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (data: { uuid: string, termDttm: string }) => {
@@ -100,6 +73,13 @@ export class TransactionDetailComponent implements OnDestroy {
         }
       }
     );
+
+    this.sections = Object.keys(TransactionDetailSection).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`transactions.detail.sections.${item}`),
+        value: TransactionDetailSection[item]
+      }));
+    this.visibleSection = this.sections[0];
   }
 
   goToDetail(section: string, item: any): void {

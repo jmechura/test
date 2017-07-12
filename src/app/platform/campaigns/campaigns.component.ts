@@ -11,6 +11,7 @@ import { ApiService } from '../../shared/services/api.service';
 import { campaignFactoriesActions } from '../../shared/reducers/campaign-factories.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { Router } from '@angular/router';
+import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
   selector: 'mss-campaigns',
@@ -53,6 +54,7 @@ export class CampaignsComponent implements OnDestroy {
   constructor(private store: Store<AppState>,
               private api: ApiService,
               private router: Router,
+              private language: LanguageService,
               fb: FormBuilder) {
 
     this.newCampaignForm = fb.group({
@@ -72,7 +74,10 @@ export class CampaignsComponent implements OnDestroy {
         }
 
         if (data != undefined) {
-          this.campaignFactories = data.map(item => ({value: item}));
+          this.campaignFactories = data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.campaignFactories.${item}`)
+          }));
         }
       }
     );

@@ -1,7 +1,7 @@
 <div class="mss-view-container">
   <div class="header-row">
-    <div class="mss-title">Kampaně</div>
-    <mss-button label="Přidat kampaň" (click)="toggleNewCampaignForm()"></mss-button>
+    <div class="mss-title">{{'campaigns.list.title' | translate}}</div>
+    <mss-button [label]="'campaigns.list.addCampaign' | translate" (click)="toggleNewCampaignForm()"></mss-button>
   </div>
 
   <div class="data-table-container">
@@ -12,37 +12,40 @@
                    [selectionType]="'single'" (select)="redirectToDetail($event)"
                    [count]="tableData ? tableData.totalElements : 0 " (page)="setPage($event)">
 
-      <ngx-datatable-column prop="name" name="Jméno" [cellClass]="'mss-click-able'" [sortable]="true">
+      <ngx-datatable-column prop="name" [name]="'basic.name' | translate" [cellClass]="'mss-click-able'" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <span (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value}}</span>
           <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedCampaign.name"/>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="campaignName" name="Typ kampaně" [sortable]="true">
+      <ngx-datatable-column prop="campaignName" [name]="'campaigns.dictionary.campaignName' | translate" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <span title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{'enums.campaignFactories.' + value | translate}}</span>
           <mss-select [options]="campaignFactories" [(selectedOption)]="editedCampaign.campaignName" variant="small"
                       *ngIf="editedRow === row.$$index">
           </mss-select>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="orderCampaign" name="Pořadí" [sortable]="true">
+      <ngx-datatable-column prop="orderCampaign" [name]="'campaigns.dictionary.orderCampaign' | translate" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span *ngIf="editedRow !== row.$$index">{{value}}</span>
           <input class="table-input" autofocus *ngIf="editedRow === row.$$index" type="number" [(ngModel)]="editedCampaign.orderCampaign"/>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column prop="runAfterStart" name="Spustit po startu" [sortable]="false">
+      <ngx-datatable-column prop="runAfterStart" [name]="'campaigns.dictionary.runAfterStart' | translate" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span *ngIf="editedRow !== row.$$index">{{value ? 'Ano': 'Ne'}}</span>
+          <span title="Double click to edit" (dblclick)="startEditing(row)"
+                *ngIf="editedRow !== row.$$index">{{value ? ('basic.yes' | translate) : ('basic.no' | translate)}}</span>
           <mss-toggle [(toggled)]="editedCampaign.runAfterStart" *ngIf="editedRow === row.$$index"></mss-toggle>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Upravit" [width]="70" [sortable]="false">
+      <ngx-datatable-column [name]="'basic.edit' | translate" [width]="70" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
             <i (click)="startEditing($event, row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
@@ -52,7 +55,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Odstranit" [width]="70" [sortable]="false">
+      <ngx-datatable-column [name]="'basic.delete' | translate" [width]="70" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
             <i (click)="showDeleteModal($event,row.name)" class="material-icons table-icon" *ngIf="editedRow === -1">clear</i>
@@ -82,31 +85,35 @@
 
 
 <mss-modal-window [(visible)]="newCampaignModalShowing">
-  <div class="new-campaign-form-title">Přidat kampaň</div>
+  <div class="new-campaign-form-title">{{'campaigns.list.addCampaign' | translate}}</div>
   <form [formGroup]="newCampaignForm" class="new-campaign-form">
-    <mss-input formControlName="name" [(value)]="newCampaign.name" label="Jméno*" [warn]="isPresent('name')"></mss-input>
-    <div class="mss-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
+    <mss-input formControlName="name" [(value)]="newCampaign.name" [label]="('basic.name' | translate) + '*'"
+               [warn]="isPresent('name')"></mss-input>
+    <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
 
-    <mss-input formControlName="orderCampaign" [(value)]="newCampaign.orderCampaign" type="number" label="Pořadí"></mss-input>
+    <mss-input formControlName="orderCampaign" [(value)]="newCampaign.orderCampaign" type="number"
+               [label]="'campaigns.dictionary.orderCampaign' | translate"></mss-input>
     <div class="mss-validation-label"></div>
 
-    <mss-checkbox [(checked)]="newCampaign.runAfterStart" label="Spustit po startu"></mss-checkbox>
+    <mss-checkbox [(checked)]="newCampaign.runAfterStart" [label]="'campaigns.dictionary.runAfterStart' | translate"></mss-checkbox>
     <div class="mss-validation-label"></div>
 
-    <mss-select [options]="campaignFactories" [(selectedOption)]="newCampaign.campaignName" label="Typ kampaně"></mss-select>
+    <mss-select [options]="campaignFactories" [(selectedOption)]="newCampaign.campaignName"
+                [label]="'campaigns.dictionary.campaignName' | translate"></mss-select>
     <div class="mss-validation-label"></div>
 
     <div class="new-campaign-buttons">
-      <mss-button label="Zavřít" class="new-campaign-button" (click)="toggleNewCampaignForm()"></mss-button>
-      <mss-button label="Přidat" class="new-campaign-button" (click)="addCampaign()" [disabled]="newCampaignForm.invalid"></mss-button>
+      <mss-button [label]="'basic.dismiss' | translate" class="new-campaign-button" (click)="toggleNewCampaignForm()"></mss-button>
+      <mss-button [label]="'campaigns.list.addCampaign' | translate" class="new-campaign-button" (click)="addCampaign()"
+                  [disabled]="newCampaignForm.invalid"></mss-button>
     </div>
   </form>
 </mss-modal-window>
 
 <mss-modal-window [(visible)]="warnModalVisible">
-  <div class="mss-title">Opravdu chcete kampaň odstranit?</div>
+  <div class="mss-title">{{'campaigns.list.deleteQuestion' | translate}}</div>
   <div class="warn-buttons">
-    <mss-button class="button" label="Zavřít" (click)="warnModalVisible = false"></mss-button>
-    <mss-button class="button" label="Ano" (click)="deleteCampaign()"></mss-button>
+    <mss-button class="button" [label]="'basic.dismiss' | translate" (click)="warnModalVisible = false"></mss-button>
+    <mss-button class="button" [label]="'basic.yes' | translate" (click)="deleteCampaign()"></mss-button>
   </div>
 </mss-modal-window>

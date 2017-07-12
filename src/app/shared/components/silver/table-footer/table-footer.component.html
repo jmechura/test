@@ -20,7 +20,7 @@
   </div>
   <div *ngIf="totalPages === 1 || totalPages === 0"></div>
   <div class="footer-select">
-    <mss-select [label]="'Počet položek'" [options]="rowLimitOptions" [selectedOption]="rowsShown"
+    <mss-select [label]="limitText" [options]="rowLimitOptions" [selectedOption]="rowsShown"
                 (selectedOptionChange)="changeLimit($event)">
     </mss-select>
   </div>

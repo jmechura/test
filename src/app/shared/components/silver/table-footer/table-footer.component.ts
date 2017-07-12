@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { SelectItem } from '../../bronze/select/select.component';
+import { LanguageService } from '../../../language/language.service';
 
 @Component({
   selector: 'mss-table-footer',
@@ -11,10 +12,12 @@ export class TableFooterComponent {
 
   @Input() rowsShown = 0;
   @Input() rowCount = 0;
+
   @Input() set page(val: number) {
     this.currPage = val;
     this.oldPage = val;
   }
+
   @Input() rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
   @Output() rowsShownChange = new EventEmitter<number>();
   @Output() changePage: EventEmitter<{ page: number }> = new EventEmitter();
@@ -23,6 +26,7 @@ export class TableFooterComponent {
 
   currPage = 1;
   oldPage = 1;
+  limitText: string;
 
   get totalPages(): number {
     return Math.ceil(this.rowCount / this.rowsShown);
@@ -34,6 +38,10 @@ export class TableFooterComponent {
 
   get canNext(): boolean {
     return this.currPage < this.totalPages;
+  }
+
+  constructor(private language: LanguageService) {
+    this.limitText = this.language.translate('components.pager.limitText');
   }
 
   prevPage(): void {

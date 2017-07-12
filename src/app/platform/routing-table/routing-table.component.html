@@ -1,22 +1,23 @@
-<div class="routing-table-container">
+<div class="routing-table-container mss-view-container">
+  <div class="mss-title">{{'routingTables.list.title' | translate}}</div>
   <div class="button-container">
-    <mss-button class="routing-table-btn" (click)="switchModal()" [label]="'Add table'"></mss-button>
+    <mss-button class="routing-table-btn" (click)="switchModal()" [label]="'routingTables.list.addTable' | translate"></mss-button>
   </div>
   <div *ngIf="rows.length > 0" class="data-table-container">
     <ngx-datatable #table [columns]="columns" [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
                    [rowHeight]="'auto'" [limit]="rowLimit" [rows]="rows">
-      <ngx-datatable-column name="Name">
+      <ngx-datatable-column [name]="'routingTables.dictionary.name' | translate" prop="name">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell click-able" (click)="selectRow(row)">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Description">
+      <ngx-datatable-column [name]="'routingTables.dictionary.description' | translate" prop="description">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="cell" *ngIf="edit !== row.$$index">{{value}}</div>
           <input class="table-input" autofocus *ngIf="edit === row.$$index" type="text" [(ngModel)]="editModel"/>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Edit" [maxWidth]="140">
+      <ngx-datatable-column [name]="'basic.edit' | translate" [maxWidth]="140">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i *ngIf="edit !== row.$$index" (click)="editing(row.$$index)" class="material-icons click-able">edit</i>
           <i *ngIf="edit === row.$$index" (click)="saveTable(row.$$index)" class="material-icons click-able">done</i>
@@ -24,7 +25,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Delete" [maxWidth]="80">
+      <ngx-datatable-column [name]="'basic.delete' | translate" [maxWidth]="80">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i (click)="showDeleteModal(row)" class="material-icons click-able">clear</i>
         </ng-template>
@@ -55,14 +56,15 @@
       <div class="close-wrapper" (click)="switchModal()">
         <div class="close">+</div>
       </div>
-      <div class="mss-title">New Routing Table</div>
+      <div class="mss-title">{{'routingTables.list.addTable' | translate}}</div>
       <div class="name-wrapper routing-table-modal-input">
-        <mss-input formControlName="name" [label]="'Name'" [(value)]="newTable.name"></mss-input>
-        <div *ngIf="showMessage()" class="warning-text">This name is already in table</div>
+        <mss-input formControlName="name" [label]="'routingTables.dictionary.name' | translate" [(value)]="newTable.name"></mss-input>
+        <div *ngIf="showMessage()" class="warning-text">{{'routingTables.list.nameExist' | translate}}</div>
       </div>
-      <mss-input formControlName="description" class="routing-table-modal-input" [label]="'Description'"
+      <mss-input formControlName="description" class="routing-table-modal-input"
+                 [label]="'routingTables.dictionary.description' | translate"
                  [(value)]="newTable.description"></mss-input>
-      <mss-button [disabled]="newTableForm.invalid" [label]="'Save'"></mss-button>
+      <mss-button [disabled]="newTableForm.invalid" [label]="'basic.save' | translate"></mss-button>
     </div>
   </form>
 </mss-modal-window>

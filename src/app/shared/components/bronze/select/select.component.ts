@@ -1,5 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { LanguageService } from '../../../language/language.service';
 
 export interface SelectItem {
   label?: string;
@@ -21,7 +22,7 @@ export class SelectComponent implements ControlValueAccessor {
    * name of dropdown which is shown before selection
    * @type {string}
    */
-  @Input() showName = 'Vyberte hodnotu';
+  @Input() showName: string;
   /**
    * selected options
    */
@@ -54,6 +55,10 @@ export class SelectComponent implements ControlValueAccessor {
   get selectedOptionLabel(): string {
     const selectedOption = this.options && this.options.find(item => this.selectedOption === item.value);
     return selectedOption ? selectedOption.label || String(selectedOption.value) : this.showName;
+  }
+
+  constructor(private language: LanguageService) {
+    this.showName = this.language.translate('components.select.placeholder');
   }
 
   selectOption(selected: number | string): void {

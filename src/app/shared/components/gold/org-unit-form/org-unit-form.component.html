@@ -1,45 +1,47 @@
 <form [formGroup]="form" class="org-unit-form">
-  <h1 class="org-unit-form-heading">Název a kód</h1>
+  <h1 class="org-unit-form-heading">{{'orgUnits.detail.sections.nameCode' | translate}}</h1>
   <div class="org-unit-form-body">
     <div class="org-unit-form-input-container">
-      <mss-input formControlName="name" label="Název"></mss-input>
+      <mss-input formControlName="name" [label]="'basic.name' | translate"></mss-input>
     </div>
     <div class="org-unit-form-input-container">
-      <mss-input formControlName="code" label="Kód"></mss-input>
+      <mss-input formControlName="code" [label]="'basic.code' | translate"></mss-input>
     </div>
   </div>
-  <h1 class="org-unit-form-heading">Síť a obchodník</h1>
+  <h1 class="org-unit-form-heading">{{'orgUnits.detail.sections.networkMerchant' | translate}}</h1>
   <div class="org-unit-form-body">
     <div class="org-unit-form-input-container">
-      <mss-select formControlName="networkCode" [options]="networkOptions" label="Síť"></mss-select>
+      <mss-select formControlName="networkCode" [options]="networkOptions" [label]="'dictionary.networkCode' | translate"></mss-select>
     </div>
     <div class="org-unit-form-input-container">
-      <mss-select formControlName="merchantId" [options]="merchantOptions" label="Obchodník"></mss-select>
+      <mss-select formControlName="merchantId" [options]="merchantOptions" [label]="'dictionary.merchantCode' | translate"></mss-select>
     </div>
   </div>
-  <h1 class="org-unit-form-heading">Adresa</h1>
+  <h1 class="org-unit-form-heading">{{'basic.address' | translate}}</h1>
   <div class="org-unit-form-body">
     <div class="org-unit-form-input-container">
-      <mss-input formControlName="region" label="Region"></mss-input>
+      <mss-input formControlName="region" [label]="'basic.address' | translate"></mss-input>
     </div>
     <div class="org-unit-form-input-container">
-      <mss-input formControlName="city" label="Město"></mss-input>
+      <mss-input formControlName="city" [label]="'basic.city' | translate"></mss-input>
     </div>
     <div class="org-unit-form-input-container">
-      <mss-input formControlName="street" label="Ulice"></mss-input>
+      <mss-input formControlName="street" [label]="'basic.street' | translate"></mss-input>
     </div>
     <div class="org-unit-form-input-container">
-      <mss-input formControlName="zip" label="PSČ"></mss-input>
+      <mss-input formControlName="zip" [label]="'basic.zip' | translate"></mss-input>
     </div>
   </div>
-  <h1 class="org-unit-form-heading">Poznámka</h1>
+  <h1 class="org-unit-form-heading">{{'basic.note' | translate}}</h1>
   <div class="org-unit-form-body">
     <div class="org-unit-form-input-container wide">
-      <mss-input formControlName="note" label="Poznámka"></mss-input>
+      <mss-input formControlName="note" [label]="'basic.note' | translate"></mss-input>
     </div>
   </div>
   <div class="org-unit-form-footer">
-    <mss-button [label]="variant === 'update' ? 'Zpět' : 'Zrušit'" class="org-unit-form-action" (click)="emitDismiss()"></mss-button>
-    <mss-button label="Uložít" class="org-unit-form-action" (click)="emitOrgUnit()" [disabled]="formInvalid"></mss-button>
+    <mss-button [label]="variant === 'update' ? ('basic.back' | translate) : ('basic.dismiss' | translate)" class="org-unit-form-action"
+                (click)="emitDismiss()"></mss-button>
+    <mss-button [label]="'basic.save' | translate" class="org-unit-form-action" (click)="emitOrgUnit()"
+                [disabled]="formInvalid"></mss-button>
   </div>
 </form>

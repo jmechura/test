@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { Http, HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -101,6 +101,15 @@ import { campaignPropertyDefReducer } from './shared/reducers/campaign-property-
 import { CampaignPropertyDefEffect } from './shared/effects/campaign-property-def.effect';
 import { campaignPropertyReducer } from './shared/reducers/campaign-property.reducer';
 import { CampaignPropertyEffect } from './shared/effects/campaign-property.effect';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageService } from './shared/language/language.service';
+import { CanActivateLanguageGuard } from './shared/guards/language.guard';
+
+
+export function createTranslateLoader(http: Http): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './assets/languages/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -206,10 +215,19 @@ import { CampaignPropertyEffect } from './shared/effects/campaign-property.effec
     EffectsModule.runAfterBootstrap(CampaignDetailEffect),
     EffectsModule.runAfterBootstrap(CampaignPropertyDefEffect),
     EffectsModule.runAfterBootstrap(CampaignPropertyEffect),
-    StoreDevtoolsModule.instrumentOnlyWithExtension()
+    StoreDevtoolsModule.instrumentOnlyWithExtension(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [Http]
+      },
+    }),
   ],
   providers: [
     ApiService,
+    LanguageService,
+    CanActivateLanguageGuard
   ],
   bootstrap: [AppComponent]
 })

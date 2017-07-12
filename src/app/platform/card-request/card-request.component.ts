@@ -14,6 +14,7 @@ import { cardRequestStateActions } from '../../shared/reducers/card-request-stat
 import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/api.service';
 import { CodeModel } from '../../shared/models/code.model';
+import { LanguageService } from '../../shared/language/language.service';
 
 const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
 const API_ENDPOINT = '/cards/requests';
@@ -54,7 +55,10 @@ export class CardRequestComponent {
   modalDisplaying: 'confirm' | 'decline';
   confirmDeclineUuid: string;
 
-  constructor(private store: Store<AppState>, private router: Router, private api: ApiService) {
+  constructor(private store: Store<AppState>,
+              private router: Router,
+              private language: LanguageService,
+              private api: ApiService) {
     this.store.dispatch({type: cardRequestStateActions.CARD_REQUEST_STATE_GET_REQUEST});
     this.store.select('account').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<AccountModel>) => {
@@ -116,7 +120,10 @@ export class CardRequestComponent {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.requestStates = data.data.map(item => ({value: item}));
+          this.requestStates = data.data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.cardRequestStates.${item}`)
+          }));
         }
       }
     );

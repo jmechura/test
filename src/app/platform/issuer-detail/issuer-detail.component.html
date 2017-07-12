@@ -1,37 +1,41 @@
 <div class="mss-view-container">
-  <div class="mss-title">Vydavatel karty - detail</div>
+  <div class="mss-title">{{'issuers.titleDetail' | translate}}</div>
   <div class="form-wrapper">
     <div class="mss-form-container">
       <form [formGroup]="editIssuerForm" class="edit-issuer-form">
         <div class="edit-issuer-inputs" *ngIf="isEditing">
           <div class="edit-issuer-input-side">
-            <mss-input formControlName="code" [(value)]="editIssuer.code" label="Kód*" [warn]="isPresent('code')"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
-            <mss-input formControlName="name" [(value)]="editIssuer.name" label="Jméno*" [warn]="isPresent('name')"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
-            <mss-input formControlName="contactFirstname" [(value)]="editIssuer.contactFirstname" label="Křestní jméno"></mss-input>
+            <mss-input formControlName="code" [(value)]="editIssuer.code" [label]="('basic.code' | translate) + '*'"
+                       [warn]="isPresent('code')"></mss-input>
+            <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
+            <mss-input formControlName="name" [(value)]="editIssuer.name" [label]="('basic.name' | translate) + '*'"
+                       [warn]="isPresent('name')"></mss-input>
+            <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
+            <mss-input formControlName="contactFirstname" [(value)]="editIssuer.contactFirstname"
+                       [label]="'basic.firstName' | translate"></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="contactLastname" [(value)]="editIssuer.contactLastname" label="Příjmení"></mss-input>
+            <mss-input formControlName="contactLastname" [(value)]="editIssuer.contactLastname"
+                       [label]="'basic.lastName' | translate"></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="ico" [(value)]="editIssuer.ico" label="IČO"></mss-input>
+            <mss-input formControlName="ico" [(value)]="editIssuer.ico" [label]="'basic.ico' | translate"></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="dic" [(value)]="editIssuer.dic" label="DIČ"></mss-input>
+            <mss-input formControlName="dic" [(value)]="editIssuer.dic" [label]="'basic.dic' | translate"></mss-input>
             <div class="mss-validation-label"></div>
           </div>
           <div class="edit-issuer-input-side">
-            <mss-input formControlName="email" [(value)]="editIssuer.email" label="Email"></mss-input>
+            <mss-input formControlName="email" [(value)]="editIssuer.email" [label]="'basic.email' | translate">></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="phone" [(value)]="editIssuer.phone" label="Telefón"></mss-input>
+            <mss-input formControlName="phone" [(value)]="editIssuer.phone" [label]="'basic.phone' | translate"></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="addressName" [(value)]="editIssuer.addressName" label="Adresa"></mss-input>
+            <mss-input formControlName="addressName" [(value)]="editIssuer.addressName" [label]="'basic.address' | translate"></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="city" [(value)]="editIssuer.city" label="Město"></mss-input>
+            <mss-input formControlName="city" [(value)]="editIssuer.city" [label]="'basic.city' | translate"></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="street" [(value)]="editIssuer.street" label="Ulice"></mss-input>
+            <mss-input formControlName="street" [(value)]="editIssuer.street" [label]="'basic.street' | translate"></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="zip" [(value)]="editIssuer.zip" label="PSČ"></mss-input>
+            <mss-input formControlName="zip" [(value)]="editIssuer.zip" [label]="'basic.zip' | translate"></mss-input>
             <div class="mss-validation-label"></div>
-            <mss-toggle [label]="'Stav'" [(toggled)]="issuerState"></mss-toggle>
+            <mss-toggle [label]="'dictionary.state' | translate" [(toggled)]="issuerState"></mss-toggle>
             <div class="mss-validation-label"></div>
           </div>
         </div>
@@ -39,12 +43,12 @@
           <div class="edit-issuer-input-side">
             <div class="detail-container">
               <div class="detail-col">
-                <p class="detail-row detail-title">Kód:</p>
-                <p class="detail-row detail-title">Jméno:</p>
-                <p class="detail-row detail-title">Křestní jméno:</p>
-                <p class="detail-row detail-title">Příjmění:</p>
-                <p class="detail-row detail-title">IČO:</p>
-                <p class="detail-row detail-title">DIČ:</p>
+                <p class="detail-row detail-title">{{'basic.code' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.name' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.firstName' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.lastName' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.ico' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.dic' | translate}}:</p>
               </div>
               <div class="detail-col">
                 <p class="detail-row">{{issuer.code}} </p>
@@ -59,13 +63,13 @@
           <div class="edit-issuer-input-side">
             <div class="detail-container">
               <div class="detail-col">
-                <p class="detail-row detail-title">Email:</p>
-                <p class="detail-row detail-title">Telefon:</p>
-                <p class="detail-row detail-title">Adresa:</p>
-                <p class="detail-row detail-title">Město:</p>
-                <p class="detail-row detail-title">Ulice:</p>
-                <p class="detail-row detail-title">PSČ:</p>
-                <p class="detail-row detail-title">Stav:</p>
+                <p class="detail-row detail-title">{{'basic.email' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.phone' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.address' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.city' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.street' | translate}}:</p>
+                <p class="detail-row detail-title">{{'basic.zip' | translate}}:</p>
+                <p class="detail-row detail-title">{{'dictionary.state' | translate}}:</p>
               </div>
               <div class="detail-col">
                 <p class="detail-row">{{issuer.email}} </p>
@@ -80,9 +84,11 @@
           </div>
         </div>
         <div class="edit-issuer-buttons">
-          <mss-button *ngIf="!isEditing" class="edit-issuer-button" [label]="'Upravit'" (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="isEditing" label="Konec" class="edit-issuer-button" (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="isEditing" label="Uložit" class="edit-issuer-button" (click)="updateIssuer()"
+          <mss-button *ngIf="!isEditing" class="edit-issuer-button" [label]="'basic.edit' | translate"
+                      (click)="toggleUpdateIssuer()"></mss-button>
+          <mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="edit-issuer-button"
+                      (click)="toggleUpdateIssuer()"></mss-button>
+          <mss-button *ngIf="isEditing" [label]="'basic.save' | translate" class="edit-issuer-button" (click)="updateIssuer()"
                       [disabled]="editIssuerForm.invalid"></mss-button>
         </div>
       </form>

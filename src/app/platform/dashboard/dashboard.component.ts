@@ -20,6 +20,7 @@ import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer'
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { CodeModel } from '../../shared/models/code.model';
 import { TransactionFilterSection } from '../../shared/enums/transaction-filter-section.enum';
+import { LanguageService } from '../../shared/language/language.service';
 
 const DEFAULT_FILTER: TransactionSearch = {
   uuid: '',
@@ -112,30 +113,13 @@ export class DashboardComponent implements OnDestroy {
   /**
    * Filter transaction options
    */
-  filterOptions: SelectItem[] = [
-    {
-      label: 'Datum',
-      value: TransactionFilterSection.DATE
-    },
-    {
-      label: 'Umístění',
-      value: TransactionFilterSection.LOCATION
-    },
-    {
-      label: 'Platba',
-      value: TransactionFilterSection.PAYMENT
-    },
-    {
-      label: 'Transakce',
-      value: TransactionFilterSection.TRANSACTION
-    }
-  ];
+  filterOptions: SelectItem[] = [];
   TransactionFilterSection = TransactionFilterSection;
   /**
    * Selected tab
    * @type {string}
    */
-  visibleFilter = this.filterOptions[0];
+  visibleFilter: SelectItem;
   /**
    * Card group codes for transactions
    * @type {[{value: string; label: string}]}
@@ -167,7 +151,7 @@ export class DashboardComponent implements OnDestroy {
   @ViewChild('table') table: DatatableComponent;
 
 
-  constructor(private store: Store<AppState>, private router: Router) {
+  constructor(private store: Store<AppState>, private router: Router, private language: LanguageService) {
     this.store.dispatch({type: transactionCodesActions.TRANSACTION_CODES_GET_REQUEST});
     this.store.dispatch({type: transactionTypesActions.TRANSACTION_TYPES_GET_REQUEST});
     this.store.dispatch({type: transactionStatesActions.TRANSACTION_STATES_GET_REQUEST});
@@ -183,23 +167,7 @@ export class DashboardComponent implements OnDestroy {
         if (data.data != null && !data.loading) {
           // maps data to rows
           this.tableData = data.data;
-          this.rows = this.tableData.content.map(item => (
-            {
-              'uuid': item.uuid,
-              'terminal date': item.termDttm,
-              'terminal id': item.terminalCode,
-              'amount': item.amount,
-              'state': item.state,
-              'approval code': item.approvalCode,
-              'response code': item.responseCode,
-              'transaction type': item.transactionType,
-              'merchant code': item.merchantCode,
-              'dst stan': item.dstStan,
-              'rrn': item.rrn,
-              'variable symbol': item.vs,
-              'cln': item.cln
-            }
-          ));
+          this.rows = data.data.content;
           // has to be called to set valid grid when number of rows is changed
           setTimeout(
             () => {
@@ -220,7 +188,8 @@ export class DashboardComponent implements OnDestroy {
         if (data.data != null && !data.loading) {
           this.codes = data.data.map(item => (
             {
-              value: item
+              value: item,
+              label: this.language.translate(`enums.responseCodes.${item}`)
             }
           ));
         }
@@ -236,7 +205,8 @@ export class DashboardComponent implements OnDestroy {
         if (data.data != null && !data.loading) {
           this.types = data.data.map(item => (
             {
-              value: item
+              value: item,
+              label: this.language.translate(`enums.transactionTypes.${item}`)
             }
           ));
         }
@@ -252,7 +222,8 @@ export class DashboardComponent implements OnDestroy {
         if (data.data != null && !data.loading) {
           this.states = data.data.map(item => (
             {
-              value: item
+              value: item,
+              label: this.language.translate(`enums.transactionStates.${item}`)
             }
           ));
         }
@@ -318,6 +289,13 @@ export class DashboardComponent implements OnDestroy {
         }
       }
     );
+
+    this.filterOptions = Object.keys(TransactionFilterSection).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`transactions.list.filterSections.${item}`),
+        value: TransactionFilterSection[item]
+      }));
+    this.visibleFilter = this.filterOptions[0];
   }
 
   /**
@@ -335,7 +313,7 @@ export class DashboardComponent implements OnDestroy {
     }
 
     if (type === 'transaction') {
-      this.router.navigateByUrl(`platform/transaction/${value.row.uuid}/${value.row['terminal date']}`);
+      this.router.navigateByUrl(`platform/transaction/${value.row.uuid}/${value.row.termDttm}`);
     }
   }
 

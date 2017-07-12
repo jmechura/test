@@ -1,39 +1,39 @@
 <div class="issuer-card-container">
   <div class="header-row">
     <div class="header">
-      Žádosti o kartu
+      {{'cards.cardRequests.title' | translate}}
     </div>
   </div>
 
   <div class="filter-container">
     <div class="filters">
       <div class="calendar-select filter-item">
-        <div class="label">Od</div>
+        <div class="label">{{'dictionary.from' | translate}}</div>
         <mss-date-picker-input class="date-picker" [pickedDate]="fromDate"
                                (pickedDateChange)="changeFromDate($event)"></mss-date-picker-input>
       </div>
       <div class="calendar-select filter-item">
-        <div class="label">Do</div>
+        <div class="label">{{'dictionary.to' | translate}}</div>
         <mss-date-picker-input class="date-picker" [pickedDate]="toDate" (pickedDateChange)="changeToDate($event)"></mss-date-picker-input>
       </div>
       <mss-select [disabled]="cardGroupCodes.length === 0"
-                  [showName]="'card group code'" class="filter-item"
+                  class="filter-item"
                   [options]="cardGroupCodes"
-                  label="Card group code"
+                  [label]="'dictionary.cardGroupCode' | translate"
                   labelPosition="top"
                   [(selectedOption)]="searchModel.search.predicateObject.cardGroupCode"></mss-select>
       <mss-select [disabled]="requestStates.length === 0"
-                  showName="Stav karty" class="filter-item"
+                  class="filter-item"
                   [options]="requestStates"
                   labelPosition="top"
-                  label="Stav karty"
+                  [label]="'dictionary.state' | translate"
                   [(selectedOption)]="searchModel.search.predicateObject.state"></mss-select>
     </div>
-    <mss-button class="issuer-card-button bottom" label="Vymazat filtr" (click)="clearFilter()"></mss-button>
+    <mss-button class="issuer-card-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
   <div class="issuer-card-button">
-    <mss-button label="Vyhledat žádosti" (click)="getRequests()"></mss-button>
+    <mss-button [label]="'cards.cardRequests.search' | translate" (click)="getRequests()"></mss-button>
   </div>
 
   <div class="table-container">
@@ -44,15 +44,15 @@
                    (sort)="getSortedCardRequests($event)"
                    [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [limit]="searchModel.pagination.number"
                    [rows]="rows">
-      <ngx-datatable-column name="Zaměstnavatel" prop="name" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column name="Počet karet" prop="number" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Stav" prop="state" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Zamítnout" [maxWidth]="100" [sortable]="false">
+      <ngx-datatable-column [name]="'cards.cardRequests.employerName' | translate" prop="name" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.numberOfCards' | translate" prop="number" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.decline' | translate" [maxWidth]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i class="material-icons table-icon" (click)="handleActionClick(row, 'decline', $event)">clear</i>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Schválit" [maxWidth]="100" [sortable]="false">
+      <ngx-datatable-column [name]="'cards.cardRequests.accept' | translate" [maxWidth]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i class="material-icons table-icon" (click)="handleActionClick(row, 'confirm', $event)">done</i>
         </ng-template>
@@ -78,9 +78,11 @@
 </div>
 
 <mss-modal-window [(visible)]="modalVisible">
-  <div class="mss-title">Opravu chcete žádost o kartu {{modalDisplaying === 'confirm' ? 'potvrdit' : 'zamitnout'}}?</div>
+  <div class="mss-title" *ngIf="modalDisplaying === 'confirm'">{{'cards.cardRequests.warnModal.titleAccept' | translate}}</div>
+  <div class="mss-title" *ngIf="modalDisplaying !== 'confirm'">{{'cards.cardRequests.warnModal.titleDecline' | translate}}</div>
   <div class="modal-buttons">
-    <mss-button class="button" label="Ano" (click)="modalDisplaying === 'confirm' ? sendConfirm() : sendDecline()"></mss-button>
-    <mss-button class="button" label="Zavřít" (click)="modalVisible = false"></mss-button>
+    <mss-button class="button" [label]="'basic.yes' | translate"
+                (click)="modalDisplaying === 'confirm' ? sendConfirm() : sendDecline()"></mss-button>
+    <mss-button class="button" [label]="'basic.dismiss' | translate" (click)="modalVisible = false"></mss-button>
   </div>
 </mss-modal-window>

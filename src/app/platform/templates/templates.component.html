@@ -2,8 +2,8 @@
 
   <!--header-->
   <div class="header-row">
-    <div class="mss-title">Šablony</div>
-    <mss-button label="Přidat vydavatele karet" (click)="toggleNewTemplateModal()"></mss-button>
+    <div class="mss-title">{{'templates.list.title' | translate}}</div>
+    <mss-button [label]="'templates.list.addTemplate' | translate" (click)="toggleNewTemplateModal()"></mss-button>
   </div>
 
   <!--template data table-->
@@ -13,25 +13,25 @@
                    (page)="setPage($event)"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">>
 
-      <ngx-datatable-column name="Kód" prop="code">
+      <ngx-datatable-column [name]="'basic.code' | translate" prop="code">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Jméno" prop="name">
+      <ngx-datatable-column [name]="'basic.name' | translate" prop="name">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Zdroj" prop="resource">
+      <ngx-datatable-column [name]="'basic.resource' | translate" prop="resource">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Systém" prop="system">
+      <ngx-datatable-column [name]="'templates.dictionary.system' | translate" prop="system">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell" title="Click to detail">{{value}}</span>
         </ng-template>
@@ -61,33 +61,35 @@
 
 <!--Add new template modal-->
 <mss-modal-window [(visible)]="newTemplateModalShowing">
-  <div class="new-template-form-title">Přidat šablonu</div>
+  <div class="new-template-form-title">{{'templates.list.addTemplate' | translate}}</div>
   <form [formGroup]="newTemplateForm" class="new-template-form">
     <div class="new-template-inputs">
       <div class="right-padding">
-        <mss-input formControlName="code" label="Kód*"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
-        <mss-input formControlName="name" label="Name*"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
-        <mss-input formControlName="description" label="Popis"></mss-input>
+        <mss-input formControlName="code" [label]="('basic.code' | translate) + '*'"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
+        <mss-input formControlName="name" [label]="('basic.name' | translate) + '*'"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
+        <mss-input formControlName="description" [label]="'basic.description' | translate"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-select formControlName="resource" label="Zdroj" [options]="resourcesArray"></mss-select>
+        <mss-select formControlName="resource" [label]="'basic.resource' | translate" [options]="resourcesArray"></mss-select>
         <div class="mss-validation-label"></div>
-        <mss-select formControlName="system" label="Systém" [options]="systemsArray"></mss-select>
+        <mss-select formControlName="system" [label]="'templates.dictionary.system' | translate" [options]="systemsArray"></mss-select>
         <div class="mss-validation-label"></div>
-        <mss-select formControlName="systemReceiver" label="Systémový příjemce" [options]="systemsArray"></mss-select>
+        <mss-select formControlName="systemReceiver" [label]="'templates.dictionary.systemReceiver' | translate"
+                    [options]="systemsArray"></mss-select>
         <div class="mss-validation-label"></div>
       </div>
       <div>
         <div class="form-row">
-          <p>Zdroje </p>
+          <p>{{'templates.dictionary.resources' | translate}}</p>
           <i (click)="addResource()" class="material-icons action-icon">add</i>
         </div>
         <div formArrayName="resources">
-          <div *ngFor="let res of resources.controls; let i=index; trackBy: identifyResource" [formGroupName]="i" >
+          <div *ngFor="let res of resources.controls; let i=index; trackBy: identifyResource" [formGroupName]="i">
             <div class="bottom-bottom">
               <div class="form-row">
-                <mss-select formControlName="resource" label="Zdroj #{{i + 1}}" [options]="resourcesArray"></mss-select>
+                <mss-select formControlName="resource" [label]="('basic.resource' | translate) + ' ' + (i + 1)"
+                            [options]="resourcesArray"></mss-select>
                 <i *ngIf="resources.controls.length > 1" (click)="removeResource(i)" class="material-icons action-icon">remove</i>
               </div>
               <div class="left-padding">
@@ -98,7 +100,8 @@
                 <div formArrayName="roles">
                   <div *ngFor="let role of getRoles(res).value; let j=index; trackBy: identifyRole">
                     <div class="form-row">
-                      <mss-select [formControlName]="j" label="Rola #{{j + 1}}" [options]="rolesArray"></mss-select>
+                      <mss-select [formControlName]="j" [label]="('basic.resource' | translate) + ' ' + (j + 1)"
+                                  [options]="rolesArray"></mss-select>
                       <i *ngIf="getRoles(res).value.length > 1" (click)="removeRole(res, j)" class="material-icons action-icon">remove</i>
                     </div>
                   </div>
@@ -111,8 +114,9 @@
       </div>
     </div>
     <div class="new-template-buttons">
-      <mss-button label="Zavřít" class="new-template-button" (click)="toggleNewTemplateModal()"></mss-button>
-      <mss-button label="Přidat" class="new-template-button" (click)="addTemplate()" [disabled]="newTemplateForm.invalid"></mss-button>
+      <mss-button [label]="'basic.dismiss' | translate" class="new-template-button" (click)="toggleNewTemplateModal()"></mss-button>
+      <mss-button [label]="'basic.yes' | translate" class="new-template-button" (click)="addTemplate()"
+                  [disabled]="newTemplateForm.invalid"></mss-button>
     </div>
   </form>
 </mss-modal-window>

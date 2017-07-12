@@ -17,6 +17,7 @@ import { optionalEmailValidator } from 'app/shared/validators/optional-email.val
 import { Router } from '@angular/router';
 import { CardGroupSections } from '../../shared/enums/card-group-sections.enum';
 import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
+import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
   selector: 'mss-card-groups',
@@ -74,6 +75,7 @@ export class CardGroupsComponent implements OnDestroy {
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
               private api: ApiService,
+              private language: LanguageService,
               private router: Router) {
     this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
     this.store.dispatch({type: taxTypeActions.TAX_TYPES_GET_REQUEST});
@@ -185,6 +187,13 @@ export class CardGroupsComponent implements OnDestroy {
         zip: ['']
       }
     );
+
+    this.tabsOptions = Object.keys(CardGroupSections).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`cardGroups.sections.${item}`),
+        value: CardGroupSections[item]
+      }));
+    this.visibleTab = this.tabsOptions[0];
   }
 
 

@@ -32,6 +32,7 @@ import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
 import { GoldComponentsModule } from '../shared/components/gold/gold-components.module';
 import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
+import { LanguageModule } from '../shared/language/language.module';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.compon
     SilverComponentsModule,
     GoldComponentsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LanguageModule
   ],
   declarations: [
     PlatformComponent,

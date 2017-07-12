@@ -1,15 +1,17 @@
 <div class="terminal-container mss-view-container">
-  <mss-button class="action-button" [label]="'Add terminal'" (click)="switchModal()"></mss-button>
+  <div class="mss-title">{{'terminals.title' | translate}}</div>
+  <mss-button class="action-button" [label]="'terminals.addTerminal' | translate" (click)="switchModal()"></mss-button>
   <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="terminalData ? terminalData.totalElements : 0 "
                  [offset]="terminalData ? terminalData.number : 0" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
                  [rowHeight]="'auto'" [externalSorting]="true" (sort)="getSortedTerminals($event)"
                  [limit]="pagination.pagination.number" [rows]="terminalRows" (page)="setPage($event)">
-    <ngx-datatable-column name="Name" prop="name" [cellClass]="'mss-click-able'" [sortable]="true"></ngx-datatable-column>
-    <ngx-datatable-column name="Code" prop="code" [sortable]="true"></ngx-datatable-column>
-    <ngx-datatable-column name="Coefficient" prop="coefficient" [sortable]="false"></ngx-datatable-column>
-    <ngx-datatable-column name="Address" prop="address" [sortable]="false"></ngx-datatable-column>
-    <ngx-datatable-column name="State" prop="state" [sortable]="false"></ngx-datatable-column>
-    <ngx-datatable-column name="Edit" [resizeable]="false" [draggable]="false" [sortable]="false">
+    <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [cellClass]="'mss-click-able'"
+                          [sortable]="true"></ngx-datatable-column>
+    <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
+    <ngx-datatable-column [name]="'basic.coefficient' | translate" prop="coefficient" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column [name]="'basic.address' | translate" prop="address" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column [name]="'basic.edit' | translate" [resizeable]="false" [draggable]="false" [sortable]="false">
       <ng-template ngx-datatable-cell-template let-row="row">
         <i class="material-icons click-able" (click)="editing(row)">edit</i>
       </ng-template>
@@ -18,17 +20,18 @@
       <ng-template let-row="row" ngx-datatable-row-detail-template>
         <div class="detail-row-container">
           <div class="detail-column">
-            <mss-input class="detail-shift" [label]="'Name'" [(value)]="editModel.name"></mss-input>
-            <mss-input class="detail-shift" [label]="'Street'" [(value)]="editModel.street"></mss-input>
-            <mss-input class="detail-shift" [label]="'City'" [(value)]="editModel.city"></mss-input>
-            <mss-input [label]="'Zip'" [(value)]="editModel.zip"></mss-input>
+            <mss-input class="detail-shift" [label]="'basic.name' | translate" [(value)]="editModel.name"></mss-input>
+            <mss-input class="detail-shift" [label]="'basic.street' | translate" [(value)]="editModel.street"></mss-input>
+            <mss-input class="detail-shift" [label]="'basic.city' | translate" [(value)]="editModel.city"></mss-input>
+            <mss-input [label]="'basic.zip' | translate" [(value)]="editModel.zip"></mss-input>
           </div>
 
           <div class="detail-column">
-            <mss-toggle class="detail-shift toggle-input" [label]="'State'" [(toggled)]="editToggle"></mss-toggle>
-            <mss-input class="detail-shift" [label]="'Region'" [(value)]="editModel.region"></mss-input>
-            <mss-input class="detail-shift" [label]="'Note'" [(value)]="editModel.note"></mss-input>
-            <mss-button class="edit-button" [label]="'Save'" (click)="saveEditing()" [disabled]="editSaveDisabled()"></mss-button>
+            <mss-toggle class="detail-shift toggle-input" [label]="'dictionary.state' | translate" [(toggled)]="editToggle"></mss-toggle>
+            <mss-input class="detail-shift" [label]="'basic.region' | translate" [(value)]="editModel.region"></mss-input>
+            <mss-input class="detail-shift" [label]="'basic.note' | translate" [(value)]="editModel.note"></mss-input>
+            <mss-button class="edit-button" [label]="'basic.save' | translate" (click)="saveEditing()"
+                        [disabled]="editSaveDisabled()"></mss-button>
           </div>
         </div>
       </ng-template>
@@ -58,24 +61,28 @@
       <div class="close-wrapper" (click)="switchModal()">
         <div class="close">+</div>
       </div>
-      <div class="mss-title">New Terminal</div>
+      <div class="mss-title">{{'terminals.addTerminal' | translate}}</div>
       <div class="new-terminal-inputs">
         <div class="modal-column">
-          <mss-input class="modal-input" [label]="'Name'" formControlName="name"></mss-input>
-          <mss-input class="modal-input" [label]="'Street'" formControlName="street"></mss-input>
-          <mss-input class="modal-input" [label]="'City'" formControlName="city"></mss-input>
-          <mss-input class="modal-input" [label]="'Zip'" formControlName="zip"></mss-input>
-          <mss-input class="modal-input" [label]="'Region'" formControlName="region"></mss-input>
-          <mss-input class="modal-input" [label]="'Country'" formControlName="country"></mss-input>
+          <mss-input class="modal-input" [label]="'basic.name' | translate" formControlName="name"></mss-input>
+          <mss-input class="modal-input" [label]="'basic.street' | translate" formControlName="street"></mss-input>
+          <mss-input class="modal-input" [label]="'basic.city' | translate" formControlName="city"></mss-input>
+          <mss-input class="modal-input" [label]="'basic.zip' | translate" formControlName="zip"></mss-input>
+          <mss-input class="modal-input" [label]="'basic.region' | translate" formControlName="region"></mss-input>
+          <mss-input class="modal-input" [label]="'basic.country' | translate" formControlName="country"></mss-input>
         </div>
         <div class="modal-column">
-          <mss-input class="modal-input" [label]="'Code'" formControlName="code"></mss-input>
-          <mss-select class="modal-input" [label]="'Network'" [options]="networkCodes" formControlName="networkCode"></mss-select>
-          <mss-select class="modal-input" [label]="'Merchant'" [options]="merchantCodes" formControlName="merchantId"></mss-select>
-          <mss-select class="modal-input" [label]="'ORG Unit'" [options]="orgUnitCodes" formControlName="orgUnitId"></mss-select>
-          <mss-input class="modal-input" [type]="'number'" [label]="'Coefficient'" formControlName="coefficient"></mss-input>
-          <mss-input class="modal-input" [label]="'Note'" formControlName="note"></mss-input>
-          <mss-button [label]="'Add'" [disabled]="newFormInvalid"></mss-button>
+          <mss-input class="modal-input" [label]="'basic.code' | translate" formControlName="code"></mss-input>
+          <mss-select class="modal-input" [label]="'dictionary.networkCode' | translate" [options]="networkCodes"
+                      formControlName="networkCode"></mss-select>
+          <mss-select class="modal-input" [label]="'dictionary.merchantCode' | translate" [options]="merchantCodes"
+                      formControlName="merchantId"></mss-select>
+          <mss-select class="modal-input" [label]="'dictionary.orgUnitCode' | translate" [options]="orgUnitCodes"
+                      formControlName="orgUnitId"></mss-select>
+          <mss-input class="modal-input" [type]="'number'" [label]="'basic.coefficient' | translate"
+                     formControlName="coefficient"></mss-input>
+          <mss-input class="modal-input" [label]="'basic.note' | translate" formControlName="note"></mss-input>
+          <mss-button [label]="'terminals.addTerminal' | translate" [disabled]="newFormInvalid"></mss-button>
         </div>
       </div>
     </div>

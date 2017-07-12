@@ -1,0 +1,601 @@
+{
+  "basic": {
+    "yes": "Ano",
+    "no": "Ne",
+    "dismiss": "Zrušit",
+    "edit": "Upravit",
+    "clearFilter": "Vymazat filtr",
+    "firstName": "Jméno",
+    "lastName": "Příjmení",
+    "email": "Email",
+    "phone": "TEL.",
+    "id": "ID",
+    "save": "Uložit",
+    "name": "Jméno",
+    "code": "Kód",
+    "ico": "IČO",
+    "dic": "DIČ",
+    "contact": "Kontakt #1",
+    "contact2": "Kontakt #2",
+    "street": "Ulice",
+    "city": "Město",
+    "zip": "PSČ",
+    "address": "Adresa",
+    "delete": "Smazat",
+    "note": "Poznámka",
+    "country": "Země",
+    "region": "Region",
+    "coefficient": "Koeficient",
+    "options": "Možnosti",
+    "showDetail": "Zobrazit detail",
+    "back": "Zpět",
+    "activate": "Aktivovat",
+    "deactivate": "Deaktivovat",
+    "description": "Popis",
+    "resource": "Zdroj",
+    "required": {
+      "code": "Kod je povinný údaj.",
+      "name": "Jméno je povinný údaj.",
+      "badEmail": "Zle zadaný email."
+    }
+  },
+  "dictionary": {
+    "from": "Od",
+    "to": "Do",
+    "issuerCode": "Issuer code",
+    "networkCode": "Network code",
+    "merchantCode": "Merchant code",
+    "orgUnitCode": "Org unit code",
+    "cln": "CLN",
+    "terminalCode": "Terminal code",
+    "amount": "Amount",
+    "dstStan": "Dst stan",
+    "specificSymbol": "Specific symbol",
+    "variableSymbol": "Variable symbol",
+    "constantSymbol": "Constant symbol",
+    "responseCode": "Response code",
+    "transactionType": "Transaction type",
+    "transactionState": "Transaction state",
+    "cardGroupCode": "Card group code",
+    "approvalCode": "Approval code",
+    "uuid": "UUID",
+    "rrn": "RRN",
+    "terminalDate": "Terminal Date",
+    "terminalId": "Terminal ID",
+    "state": "State",
+    "transactionCode": "Transaction code",
+    "serverDate": "Datum serveru",
+    "card": "Karta",
+    "user": "Vlastník",
+    "acquirer": "Acquirer",
+    "terminalName": "Jméno",
+    "terminalState": "Stav",
+    "currency": "Měna",
+    "pan": "PAN",
+    "typeOfCard": "Typ karty",
+    "expiration": "Platnost",
+    "serviceCode": "Service code",
+    "limit": "Limit",
+    "limitType": "Typ limity",
+    "taxType": "Typ daně",
+    "tax": "Hodnota daně",
+    "externalCode": "Externí kód",
+    "bankAccount": "Bankovní účet"
+  },
+  "components": {
+    "pager": {
+      "limitText": "Počet položek"
+    },
+    "input": {
+      "placeholder": "Zadejte hodnotu"
+    },
+    "select": {
+      "placeholder": "Vyberte hodnotu"
+    },
+    "datePicker": {
+      "placeholder": "Vyberte datum"
+    }
+  },
+  "landing": {
+    "login": "Přihlásit se"
+  },
+  "transactions": {
+    "list": {
+      "title": "Přehled transakcí",
+      "search": "Vyhledat transakce",
+      "filterSections": {
+        "DATE": "Datum",
+        "LOCATION": "Lokace",
+        "PAYMENT": "Platba",
+        "TRANSACTION": "Transakce"
+      }
+    },
+    "detail": {
+      "title": "Transakce",
+      "sections": {
+        "BASIC": "Základní informace",
+        "ISSUER": "Provozovatel",
+        "ACQUIRER": "Acquirer",
+        "TERMINAL": "Terminál",
+        "AMOUNT": "Hodnota",
+        "IDENTIFICATION": "Identifikace",
+        "CARD_HOLDER": "Card holder"
+      },
+      "transfers": {
+        "title": "Transfers",
+        "dttm": "Dttm",
+        "type": "Type",
+        "state": "State"
+      }
+    }
+  },
+  "cards": {
+    "userCard": {
+      "title": "Moje karta",
+      "pin": {
+        "oldPin": "Starý PIN",
+        "newPin": "Nový PIN",
+        "confirmPin": "Znovu nový PIN",
+        "changePin": "Změnit PIN"
+      },
+      "cardState": {
+        "title": "Stav karty",
+        "ENABLED": "Aktivní",
+        "DISABLED": "Neaktivní"
+      },
+      "warnModal": {
+        "title": "Změna stavu karty",
+        "activate": "Opravdu chcete aktivovat vaši kartu?",
+        "deactivate": "Opravdu chcete zablokovat vaši kartu?"
+      },
+      "activate": "Aktivovat kartu",
+      "deactivate": "Deaktivovat kartu"
+    },
+    "cardList": {
+      "title": "Přehled karet",
+      "cardState": "Stav karty",
+      "name": "Jméno",
+      "lastName": "Příjmení",
+      "search": "Vyhledat karty",
+      "request": "Žádost",
+      "sendRequest": "Poslat žádost",
+      "requestSent": "Žádost odeslána"
+    },
+    "cardDetail": {
+      "title": "Detail karty",
+      "sections": {
+        "BASIC": "Základní informace",
+        "OWNER": "Vlastník",
+        "ACCOUNT": "Účet"
+      },
+      "expirationDate": "Expiration date",
+      "track2": "Track2",
+      "account": {
+        "trxUuid": "trxUuid",
+        "dttm": "dttm",
+        "trxDttm": "trxDttm",
+        "amount": "Amount",
+        "type": "Type",
+        "state": "State",
+        "balance": "Balance"
+      }
+    },
+    "cardRequests": {
+      "title": "Žádosti o kartu",
+      "cardState": "Stav karty",
+      "search": "Vyhledat žádosti",
+      "employerName": "Zaměstnavatel",
+      "numberOfCards": "Počet karet",
+      "accept": "Schválit",
+      "decline": "Zamítnout",
+      "warnModal": {
+        "titleAccept": "Opravu chcete žádost o kartu potvrdit?",
+        "titleDecline": "Opravdu chcete žádost o kartu zamítnout?"
+      }
+    }
+  },
+  "settings": {
+    "title": "Nastavení účtu",
+    "oldPassword": "Staré heslo",
+    "newPassword": "Nové heslo",
+    "confirmPassword": "Opakujte heslo",
+    "changeQuestion": "Chcete změnit i kontrolní otázku?",
+    "newQuestion": "Nová otázka",
+    "newAnswer": "Nová odpověď"
+  },
+  "cardGroups": {
+    "title": "Zaměstnavatelé",
+    "addCardGroup": "Přidat zaměstnavatele",
+    "search": "Vyhledat",
+    "sections": {
+      "BASIC": "Základní",
+      "LIMITS": "Limity",
+      "CONTACTS": "Kontakt",
+      "ADDRESS": "Adresa"
+    },
+    "createSpecificSymbol": "Vytvořit specifický symbol",
+    "useDeliveryAddress": "Použit doručovací adresu"
+  },
+  "issuers": {
+    "title": "Vydavatelé karet",
+    "addIssuer": "Přidat vydavatele karet",
+    "titleDetail": "Vydavatel karty - detail"
+  },
+  "routingTables": {
+    "list": {
+      "title": "Routovací tabulky",
+      "addTable": "Přidat tabulku",
+      "nameExist": "Toto jméno již v tabulce existuje."
+    },
+    "detail": {
+      "title": "Detail routovaci tabulky",
+      "addRoute": "Přidat routu",
+      "saveRoutes": "Uložit routy"
+    },
+    "dictionary": {
+      "name": "Jméno",
+      "description": "Popis",
+      "rule": "Pravidlo",
+      "ruleParam": "Parametr pravidla",
+      "target": "Cíl",
+      "targetParam": "Parametr cíle",
+      "order": "Příkaz",
+      "action": "Akce"
+    }
+  },
+  "merchants": {
+    "title": "Obchodníci",
+    "addMerchant": "Přidat obchodníka"
+  },
+  "orgUnits": {
+    "list": {
+      "title": "Obchodní místa",
+      "addOrgUnit": "Přidat obchodní místo",
+      "removeQuestion": "Opravdu odstranit?"
+    },
+    "detail": {
+      "title": "Detail obchodního místa",
+      "sections": {
+        "nameCode": "Název a kód",
+        "networkMerchant": "Síť a obchodník"
+      }
+    }
+  },
+  "sequences": {
+    "title": "Sekvence",
+    "addSequence": "Přidat sekvenci",
+    "dictionary": {
+      "resource": "Resource",
+      "resourceId": "Resource ID",
+      "type": "Type",
+      "order": "Order",
+      "template": "Template"
+    }
+  },
+  "terminals": {
+    "title": "Terminály",
+    "addTerminal": "Přidat terminál"
+  },
+  "campaigns": {
+    "list": {
+      "title": "Kampaně",
+      "addCampaign": "Přidat kampaň",
+      "deleteQuestion": "Opravdu chcete kampaň odstranit?"
+    },
+    "detail": {
+      "title": "Kampaň",
+      "deleteCampaign": "Smazat kampaň",
+      "preview": "Náhled",
+      "noProperty": "Tato kampaň neobsahuuje žádné properties.",
+      "noDefaultProperty": "Tento typ kampaně neobsahuje žádné property"
+    },
+    "dictionary": {
+      "campaignName": "Typ kampaně",
+      "orderCampaign": "Pořadí",
+      "runAfterStart": "Spustit po startu"
+    }
+  },
+  "templates": {
+    "list": {
+      "title": "Šablony",
+      "addTemplate": "Přidat šablonu"
+    },
+    "dictionary": {
+      "system": "System",
+      "systemReceiver": "Systémový příjemce",
+      "resources": "Zdroje"
+    }
+  },
+  "enums": {
+    "responseCodes": {
+      "APPROVED": "APPROVED",
+      "REFER_TO_CARD_ISSUER": "REFER_TO_CARD_ISSUER",
+      "REFER_TO_CARD_ISSUER_SPECIAL_CONDITION": "REFER_TO_CARD_ISSUER_SPECIAL_CONDITION",
+      "INVALID_MERCHANT": "INVALID_MERCHANT",
+      "PICK_UP_CARD": "PICK_UP_CARD",
+      "DO_NOT_HONOUR": "DO_NOT_HONOUR",
+      "ERROR": "ERROR",
+      "PICK_UP_CARD_SPECIAL_CONDITION": "PICK_UP_CARD_SPECIAL_CONDITION",
+      "REQUEST_IN_PROGRESS": "REQUEST_IN_PROGRESS",
+      "APPROVED_PARTIAL": "APPROVED_PARTIAL",
+      "INVALID_TRANSACTION": "INVALID_TRANSACTION",
+      "INVALID_AMOUNT": "INVALID_AMOUNT",
+      "INVALID_CARD_NUMBER": "INVALID_CARD_NUMBER",
+      "REVERZAL_CUSTOMER_CANCELATION": "REVERZAL_CUSTOMER_CANCELATION",
+      "REENTER_TRANSACTION": "REENTER_TRANSACTION",
+      "NO_ACTION_TAKEN": "NO_ACTION_TAKEN",
+      "INVALID_ACCOUNT": "INVALID_ACCOUNT",
+      "INVALID_ACCOUNT_OR_CUR_CONV": "INVALID_ACCOUNT_OR_CUR_CONV",
+      "FORMAT_ERROR": "FORMAT_ERROR",
+      "REVERZAL_COMPLETED_PARTIALLY": "REVERZAL_COMPLETED_PARTIALLY",
+      "SUSPECTED_FRAUD": "SUSPECTED_FRAUD",
+      "LOST_CARD_PICK_UP": "LOST_CARD_PICK_UP",
+      "STOLEN_CARD_PICK_UP": "STOLEN_CARD_PICK_UP",
+      "CALL_SECURITY": "CALL_SECURITY",
+      "ENTER_TRN_AGAIN": "ENTER_TRN_AGAIN",
+      "COUNTERFEIT_CARD": "COUNTERFEIT_CARD",
+      "OPPOSITION_CARD": "OPPOSITION_CARD",
+      "NOT_SUFFICIENT_FUNDS": "NOT_SUFFICIENT_FUNDS",
+      "NO_CHECKING_ACCOUNT": "NO_CHECKING_ACCOUNT",
+      "NO_SAVINGS_ACCOUNT": "NO_SAVINGS_ACCOUNT",
+      "EXPIRED_CARD": "EXPIRED_CARD",
+      "PIN_INCORRECT": "PIN_INCORRECT",
+      "TRANSACTION_NOT_ALLOWED_FOR_CARDHOLDER": "TRANSACTION_NOT_ALLOWED_FOR_CARDHOLDER",
+      "TRANSACTION_NOT_ALLOWED_FOR_MERCHANT": "TRANSACTION_NOT_ALLOWED_FOR_MERCHANT",
+      "EXCEEDS_WITHDRAWAL_AMOUNT_LIMIT": "EXCEEDS_WITHDRAWAL_AMOUNT_LIMIT",
+      "RESTRICTED_CARD": "RESTRICTED_CARD",
+      "SECURITY_VIOLATION": "SECURITY_VIOLATION",
+      "ACTIVITY_COUNT_LIMIT_EXCEEDED": "ACTIVITY_COUNT_LIMIT_EXCEEDED",
+      "REVERZAL_RESPONSE_RECEIVED_TOO_LATE": "REVERZAL_RESPONSE_RECEIVED_TOO_LATE",
+      "PIN_TRIES_EXCEEDED": "PIN_TRIES_EXCEEDED",
+      "INCONSISTENT_WITH_ORIGINAL": "INCONSISTENT_WITH_ORIGINAL",
+      "NO_ACCOUNT": "NO_ACCOUNT",
+      "PREAUTHORISATION_TIME_TOO_GREAT": "PREAUTHORISATION_TIME_TOO_GREAT",
+      "CANNOT_VERIFY_PIN": "CANNOT_VERIFY_PIN",
+      "BAD_TRACK_DATA": "BAD_TRACK_DATA",
+      "INVALID_ROUTE_SERVICE": "INVALID_ROUTE_SERVICE",
+      "ISSUER_UNAVAILABLE": "ISSUER_UNAVAILABLE",
+      "INVALID_RECEIVING_INSTITUTION_ID": "INVALID_RECEIVING_INSTITUTION_ID",
+      "TRANSACTION_VIOLATES_LAW": "TRANSACTION_VIOLATES_LAW",
+      "DUPLICATE_TRANSACTION": "DUPLICATE_TRANSACTION",
+      "SYSTEM_MALFUNCTION": "SYSTEM_MALFUNCTION",
+      "ISSUER_INOPERATIVE": "ISSUER_INOPERATIVE",
+      "ISSUER_IN_UNKNOWN_STATE": "ISSUER_IN_UNKNOWN_STATE",
+      "TRN_NOT_PERM_TO_ISSUER": "TRN_NOT_PERM_TO_ISSUER",
+      "TRN_NOT_PERM_TO_ACQUIRER": "TRN_NOT_PERM_TO_ACQUIRER",
+      "UNKNOWN_PAPER_COUPON": "UNKNOWN_PAPER_COUPON",
+      "DUPLICATE_MEDIA_TAG": "DUPLICATE_MEDIA_TAG",
+      "UNKNOWN_TRN_TAG_OR_VALUE": "UNKNOWN_TRN_TAG_OR_VALUE",
+      "KLUB_MISC_EXCEPTION": "KLUB_MISC_EXCEPTION",
+      "DISCOUNT_PROC_ERROR": "DISCOUNT_PROC_ERROR",
+      "AWARD_PROC_ERROR": "AWARD_PROC_ERROR",
+      "TXN_API_PROC_ERROR": "TXN_API_PROC_ERROR",
+      "POOL_UNKNOWN": "POOL_UNKNOWN",
+      "E_COUPON_UNKNOWN": "E_COUPON_UNKNOWN",
+      "POOL_NOT_VALID_FOR_REDEM": "POOL_NOT_VALID_FOR_REDEM",
+      "E_COUPON_NOT_VALID_FOR_REDEM": "E_COUPON_NOT_VALID_FOR_REDEM",
+      "INVALID_P_COUPON_QTY_REDEM": "INVALID_P_COUPON_QTY_REDEM",
+      "INVALID_E_COUPON_QTY_REDEM": "INVALID_E_COUPON_QTY_REDEM",
+      "INVALID_E_COUPON_AMT_REDEM": "INVALID_E_COUPON_AMT_REDEM",
+      "INVALID_POOL_QTY_REDEM": "INVALID_POOL_QTY_REDEM",
+      "INVALID_POOL_AMT_REDEM": "INVALID_POOL_AMT_REDEM",
+      "INVALID_POOL_RATIO_REDEM": "INVALID_POOL_RATIO_REDEM",
+      "OTHER_SYSTEM_ERROR_DB": "OTHER_SYSTEM_ERROR_DB",
+      "OTHER_SYSTEM_ERROR": "OTHER_SYSTEM_ERROR",
+      "INVALID_PROD_OR_SERVICE_CODE": "INVALID_PROD_OR_SERVICE_CODE",
+      "INVALID_PROD_OR_SERVICE_ATTR": "INVALID_PROD_OR_SERVICE_ATTR",
+      "INVALID_BANK_OPER_CODE": "INVALID_BANK_OPER_CODE",
+      "INVALID_BANK_OPER_PARAM": "INVALID_BANK_OPER_PARAM",
+      "INVALID_CHANNEL_CODE": "INVALID_CHANNEL_CODE",
+      "BLOCKED_ACCOUT": "BLOCKED_ACCOUT",
+      "KLUB_DUPLICATE_TRANSACTION": "KLUB_DUPLICATE_TRANSACTION",
+      "UNKNOWN_REQUEST_MODE": "UNKNOWN_REQUEST_MODE",
+      "UNSUPPORTED_TYPE_IN_THIS_SERVICE": "UNSUPPORTED_TYPE_IN_THIS_SERVICE",
+      "DUPLICATE_ENTRY_NOT_ALLOWED": "DUPLICATE_ENTRY_NOT_ALLOWED",
+      "REQUESTED_ENTITY_NOT_EXIST": "REQUESTED_ENTITY_NOT_EXIST",
+      "INVALID_PRODUCT_OR_SVC_CODE": "INVALID_PRODUCT_OR_SVC_CODE",
+      "MISSING_MANDATORY_VALUE": "MISSING_MANDATORY_VALUE",
+      "ATRIBUTE_LABEL_IS_REQUIRED": "ATRIBUTE_LABEL_IS_REQUIRED",
+      "ATRIBUTE_DATATYPE_IS_REQUIRED": "ATRIBUTE_DATATYPE_IS_REQUIRED",
+      "UNKNOWN_ERROR_IN_PSL_WS": "UNKNOWN_ERROR_IN_PSL_WS",
+      "UNABLE_TO_AUTHORIZE": "UNABLE_TO_AUTHORIZE",
+      "INVALID_PAN_LEN": "INVALID_PAN_LEN",
+      "PREAUTH_FAIL": "PREAUTH_FAIL",
+      "ONLINE_REFUND_REACH": "ONLINE_REFUND_REACH",
+      "OFFLINE_REFUND_REACH": "OFFLINE_REFUND_REACH",
+      "MAX_CREEDIT_PER_REFUND": "MAX_CREEDIT_PER_REFUND",
+      "MAX_REFUND_CREDIT_REACH": "MAX_REFUND_CREDIT_REACH",
+      "CUSTOMER_SECLECTED_NEGFILE": "CUSTOMER_SECLECTED_NEGFILE",
+      "OVER_FLOOR_LIMIT": "OVER_FLOOR_LIMIT",
+      "MAX_NUMB_REFUND_CREDITS": "MAX_NUMB_REFUND_CREDITS",
+      "REFERRAL_FILE_FULL": "REFERRAL_FILE_FULL",
+      "NEG_FILE_PROBLEM": "NEG_FILE_PROBLEM",
+      "ADVANCE_LESS_THEN_MIN": "ADVANCE_LESS_THEN_MIN",
+      "DELINQUENT": "DELINQUENT",
+      "OVER_LIMIT_TABLE": "OVER_LIMIT_TABLE",
+      "PIN_REQUIRED": "PIN_REQUIRED",
+      "LUHN_ERROR": "LUHN_ERROR",
+      "FORCE_POST": "FORCE_POST",
+      "BAD_PBF": "BAD_PBF",
+      "NEG_FILE_PROBLEM2": "NEG_FILE_PROBLEM2",
+      "CAF_PROBLEM": "CAF_PROBLEM",
+      "OVER_DAILY_LIMIT": "OVER_DAILY_LIMIT",
+      "CAPF_NOT_FOUND": "CAPF_NOT_FOUND",
+      "ADVANCE_LESS_THEN_MIN2": "ADVANCE_LESS_THEN_MIN2",
+      "NUMBER_OF_TIMES_USED": "NUMBER_OF_TIMES_USED",
+      "DELINQUENT2": "DELINQUENT2",
+      "OVER_LIMIT_TABLE2": "OVER_LIMIT_TABLE2",
+      "ADVANCE_LESS_THEN_MIN3": "ADVANCE_LESS_THEN_MIN3",
+      "NUMBER_OF_TIMES_USED2": "NUMBER_OF_TIMES_USED2",
+      "ENTER_LESSER_AMOUNT": "ENTER_LESSER_AMOUNT",
+      "INVALID_TRANS_DATE": "INVALID_TRANS_DATE",
+      "INVALID_EXPIRY_DATE": "INVALID_EXPIRY_DATE",
+      "INVALID_TRANS_CODE": "INVALID_TRANS_CODE",
+      "ADVANCE_LESS_THEN_MIN4": "ADVANCE_LESS_THEN_MIN4",
+      "NUMBER_OF_TIMES_USED3": "NUMBER_OF_TIMES_USED3",
+      "DELINQUENT3": "DELINQUENT3",
+      "OVER_LIMIT_TABLE3": "OVER_LIMIT_TABLE3",
+      "AMOUNT_OVER_MAX": "AMOUNT_OVER_MAX",
+      "ADMIN_CARD_NOT_FOUND": "ADMIN_CARD_NOT_FOUND",
+      "ADMIN_CARD_NOT_ALLOW": "ADMIN_CARD_NOT_ALLOW",
+      "APPROVED_ADMIN_IN_WINDOW": "APPROVED_ADMIN_IN_WINDOW",
+      "APPROVED_ADMIN_OUT_WINDOW": "APPROVED_ADMIN_OUT_WINDOW",
+      "APPROVED_ADMIN_ANYTIME": "APPROVED_ADMIN_ANYTIME",
+      "CHARGEBACK_CUSTOM_FILE_UPD": "CHARGEBACK_CUSTOM_FILE_UPD",
+      "CHARGEBACK_CUSTOM_FILE_UPD_ACQUIR_NOT_FOUND": "CHARGEBACK_CUSTOM_FILE_UPD_ACQUIR_NOT_FOUND",
+      "CHARGEBACK_INCORRECT_PREFIX": "CHARGEBACK_INCORRECT_PREFIX",
+      "CHARGEBACK_INCORRECT_RC_or_CPF": "CHARGEBACK_INCORRECT_RC_or_CPF",
+      "ADMIN_TRANS_NOT_SUPPORT": "ADMIN_TRANS_NOT_SUPPORT",
+      "CARD_ON_NEGFILE": "CARD_ON_NEGFILE",
+      "DESTINY_NOT_AVAILABLE": "DESTINY_NOT_AVAILABLE",
+      "PTLF_FULL": "PTLF_FULL",
+      "CHARGEBACK_APPR_CUSTOM_FILE_NOT_UPD": "CHARGEBACK_APPR_CUSTOM_FILE_NOT_UPD",
+      "CHARGEBACK_APPR_CUSTOM_FILE_NOT_UPD_ACQUIR_NOT_FOUND": "CHARGEBACK_APPR_CUSTOM_FILE_NOT_UPD_ACQUIR_NOT_FOUND",
+      "CHRAGEBACK_ACCEPTED_INCORRECT_DEST": "CHRAGEBACK_ACCEPTED_INCORRECT_DEST",
+      "ADMN_FILE_PROBLEM": "ADMN_FILE_PROBLEM",
+      "UNABLE_TO_VALIDATE_PIN": "UNABLE_TO_VALIDATE_PIN",
+      "IMPOSIBLE_FILE_UPDATE": "IMPOSIBLE_FILE_UPDATE",
+      "INVALID_CREDIT_CARD_ADVANCE_AMOUNT": "INVALID_CREDIT_CARD_ADVANCE_AMOUNT",
+      "INVALID_TRANS_DATE2": "INVALID_TRANS_DATE2",
+      "CARD_NOT_SUPPORTED": "CARD_NOT_SUPPORTED",
+      "AMOUNT_OVER_MAXIMUM": "AMOUNT_OVER_MAXIMUM",
+      "CAF_STATUS_0_OR_9": "CAF_STATUS_0_OR_9",
+      "BAD_UAF": "BAD_UAF",
+      "CACH_BACK_EXCEEDS_DAILY_LIMITS": "CACH_BACK_EXCEEDS_DAILY_LIMITS",
+      "EMV_ARQC_DECLINE": "EMV_ARQC_DECLINE",
+      "EMV_PARAM_FAILURE": "EMV_PARAM_FAILURE",
+      "EMV_HW_FAILURE": "EMV_HW_FAILURE",
+      "EMV_FAILURE": "EMV_FAILURE",
+      "EMV_ATC_DECLINE": "EMV_ATC_DECLINE",
+      "EMV_CVR_DECLINE": "EMV_CVR_DECLINE",
+      "EMV_TMV_DECLINE": "EMV_TMV_DECLINE",
+      "EMV_ONLINE_DECLINE": "EMV_ONLINE_DECLINE",
+      "EMV_FALLBACK_DECLINE": "EMV_FALLBACK_DECLINE",
+      "EMV_ARQC_REFERRAL": "EMV_ARQC_REFERRAL",
+      "EMV_CVR_REFERRAL": "EMV_CVR_REFERRAL",
+      "EMV_TVR_REFERRAL": "EMV_TVR_REFERRAL",
+      "EMV_ONLINE_REFERRAL": "EMV_ONLINE_REFERRAL",
+      "EMV_FALLBACK_REFERRAL": "EMV_FALLBACK_REFERRAL",
+      "EMV_ARQC_CAPTURE": "EMV_ARQC_CAPTURE",
+      "EMV_CVR_CAPTURE": "EMV_CVR_CAPTURE",
+      "EMV_TVR_CAPTURE": "EMV_TVR_CAPTURE"
+    },
+    "transactionTypes": {
+      "PRE_AUTH": "PRE_AUTH",
+      "PRE_AUTH_COMPLETION": "PRE_AUTH_COMPLETION",
+      "CASH_BACK": "CASH_BACK",
+      "COLLECT": "COLLECT",
+      "BALANCE_INQUIRY": "BALANCE_INQUIRY",
+      "PURCHASE_ONLINE": "PURCHASE_ONLINE",
+      "CASH_ADVANCE": "CASH_ADVANCE",
+      "REFUND": "REFUND",
+      "PURCHASE_OFFLINE": "PURCHASE_OFFLINE",
+      "VOICE": "VOICE",
+      "CARD_ACTIVATION": "CARD_ACTIVATION",
+      "CARD_DEACTIVATION": "CARD_DEACTIVATION",
+      "REVERZAL_TECH": "REVERZAL_TECH",
+      "REVERZAL_CUSTOMER": "REVERZAL_CUSTOMER",
+      "TOPUP": "TOPUP",
+      "TOPUP_CARD_GROUP": "TOPUP_CARD_GROUP",
+      "DISCHARGE": "DISCHARGE",
+      "PREVIOUS_REFUND": "PREVIOUS_REFUND"
+    },
+    "transactionStates": {
+      "OPEN": "OPEN",
+      "ACCEPTED": "ACCEPTED",
+      "DECLINED": "DECLINED",
+      "REVERSED": "REVERSED",
+      "FINALIZED": "FINALIZED",
+      "FAIL": "FAIL"
+    },
+    "cardStates": {
+      "ENABLED": "ENABLED",
+      "DISABLED": "DISABLED",
+      "DISCARDED": "DISCARDED",
+      "BLOCKED": "BLOCKED"
+    },
+    "cardRequestStates": {
+      "NEW": "NEW",
+      "CONFIRMED": "CONFIRMED",
+      "SEND": "SEND",
+      "NOT_SEND": "NOT_SEND",
+      "PROCESSED": "PROCESSED",
+      "CANCELED": "CANCELED"
+    },
+    "ruleNames": {
+      "All": "All",
+      "Network": "Network",
+      "NotNetwork": "NotNetwork",
+      "PanStartWith": "PanStartWith",
+      "NotPanStartWith": "NotPanStartWith",
+      "TermCountry": "TermCountry",
+      "NotTermCountry": "NotTermCountry",
+      "AmountCurrency": "AmountCurrency",
+      "NotAmountCurrency": "NotAmountCurrency",
+      "PinblockPresent": "PinblockPresent",
+      "NotPinblockPresent": "NotPinblockPresent",
+      "Payment": "Payment",
+      "Reversal": "Reversal",
+      "Refund": "Refund",
+      "Balance": "Balance",
+      "TopUp": "TopUp",
+      "Discharge": "Discharge",
+      "Collect": "Collect",
+      "TopUpCardGroup": "TopUpCardGroup"
+    },
+    "targetNames": {
+      "JumpToTable": "JumpToTable",
+      "AddCampaign": "AddCampaign",
+      "RemoveCampaign": "RemoveCampaign",
+      "DenyDoNotHonour": "DenyDoNotHonour",
+      "ThrowError": "ThrowError",
+      "ThrowWarn": "ThrowWarn"
+    },
+    "sequenceTypes": {
+      "INVOICE": "INVOICE",
+      "SPECIFIC_SYMBOL": "SPECIFIC_SYMBOL"
+    },
+    "resources": {
+      "SYSTEM": "SYSTEM",
+      "ISSUER": "ISSUER",
+      "CARD_GROUP": "CARD_GROUP",
+      "CARD": "CARD",
+      "NETWORK": "NETWORK",
+      "MERCHANT": "MERCHANT",
+      "ORG_UNIT": "ORG_UNIT",
+      "TERMINAL": "TERMINAL"
+    },
+    "campaignFactories": {
+      "BALANCE": "BALANCE",
+      "DEFAULT": "DEFAULT",
+      "COLLECT": "COLLECT",
+      "PAYMENT": "PAYMENT",
+      "PAYMENT_FOOD_ONLY": "PAYMENT_FOOD_ONLY",
+      "PAYMENT_PRIMARY_ONLY": "PAYMENT_PRIMARY_ONLY",
+      "REVERSAL": "REVERSAL",
+      "TOPUP": "TOPUP",
+      "TOPUP_CARD_GROUP": "TOPUP_CARD_GROUP",
+      "DISCHARGE": "DISCHARGE",
+      "VERIFY_PIN": "VERIFY_PIN",
+      "UNKNOWN": "UNKNOWN"
+    }
+  },
+  "menu": {
+    "dashboard": "Přehled transakcí",
+    "card": "Moje karta",
+    "settings": "Nastavení",
+    "employees": "Zaměstnanci",
+    "employer-card": "Přehled karet",
+    "card-groups": "Zaměstnavatelé",
+    "issuers": "Vydavatelé karet",
+    "card-request": "Žádosti o kartu",
+    "routing-table": "Routovací tabulka",
+    "merchants": "Obchodníci",
+    "org-units": "Obchodní místa",
+    "sequences": "Sequence",
+    "terminal": "Terminal",
+    "campaigns": "Kampaně",
+    "showcase": "Showcase",
+    "templates": "Šablony"
+  }
+}

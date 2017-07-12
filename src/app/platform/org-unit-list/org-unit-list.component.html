@@ -1,30 +1,30 @@
 <div class="mss-view-container" xmlns="">
   <div class="view-header">
-    <h1 class="mss-title">Obchodní místa</h1>
-    <mss-button label="Přidat obchodní místo" (click)="showCreateModal()"></mss-button>
+    <h1 class="mss-title">{{'orgUnits.list.title' | translate}}</h1>
+    <mss-button [label]="'orgUnits.list.addOrgUnit' | translate" (click)="showCreateModal()"></mss-button>
   </div>
   <div class="org-unit-list">
     <div class="data-table-container">
       <ngx-datatable [rows]="tableRows" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" columnMode="force" [externalPaging]="true"
                      [externalSorting]="true" (sort)="getSortedOrgUnits($event)"
                      [count]="totalItems" [limit]="itemsPerPage" [offset]="pageNumber" (page)="setPage($event)">
-        <ngx-datatable-column name="Název" prop="name" [sortable]="true"></ngx-datatable-column>
-        <ngx-datatable-column name="Kód" prop="code" [sortable]="true"></ngx-datatable-column>
-        <ngx-datatable-column name="Kód sítě" prop="networkCode" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column name="Kód obchodníka" prop="merchantCode" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column name="Poznámka" prop="note" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column name="Stav" prop="state" [sortable]="false">
+        <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.networkCode' | translate" prop="networkCode" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'basic.note' | translate" prop="note" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-value="value">
             <span class="state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Možnosti" [sortable]="false">
+        <ngx-datatable-column [name]="'basic.options' | translate" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-row="row">
             <a class="row-action">
-              <i class="material-icons" [routerLink]="getDetailLink(row.id)" title="Zobrazit detail">description</i>
+              <i class="material-icons" [routerLink]="getDetailLink(row.id)" [title]="'basic.showDetail' | translate">description</i>
             </a>
             <a class="row-action" *ngIf="row.state !== 'DISABLED'">
-              <i class="material-icons" (click)="showDeleteModal(row.id)" title="Odstranit">delete</i>
+              <i class="material-icons" (click)="showDeleteModal(row.id)" [title]="'basic.delete' | translate">delete</i>
             </a>
           </ng-template>
         </ngx-datatable-column>
@@ -50,16 +50,16 @@
 </div>
 
 <mss-modal-window [(visible)]="createModalShown">
-  <h1 class="create-dialog-title">Přidat obchodní místo</h1>
+  <h1 class="create-dialog-title">{{'orgUnits.list.addOrgUnit' | translate}}</h1>
   <mss-org-unit-form (modelSubmit)="createOrgUnit($event)" (dismiss)="hideCreateModal()"></mss-org-unit-form>
 </mss-modal-window>
 
 <mss-modal-window [(visible)]="deleteModalShown">
   <div class="delete-prompt">
-    <h1>Opravdu odstranit?</h1>
+    <h1>{{'orgUnits.list.removeQuestion' | translate}}</h1>
     <div class="delete-prompt-footer">
-      <mss-button class="delete-prompt-action" label="Zrušit" (click)="hideDeleteModal()"></mss-button>
-      <mss-button class="delete-prompt-action" label="Ostranit" (click)="deleteOrgUnit()"></mss-button>
+      <mss-button class="delete-prompt-action" [label]="'basic.dismiss' | translate" (click)="hideDeleteModal()"></mss-button>
+      <mss-button class="delete-prompt-action" [label]="'basic.delete' | translate" (click)="deleteOrgUnit()"></mss-button>
     </div>
   </div>
 </mss-modal-window>

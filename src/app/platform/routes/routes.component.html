@@ -1,7 +1,8 @@
-<div class="routes-container">
+<div class="routes-container mss-view-container">
+  <div class="mss-title">{{'routingTables.detail.title' | translate}}</div>
   <div class="button-container">
-    <mss-button class="routes-btn" (click)="switchModal()" [label]="'Add Route'"></mss-button>
-    <mss-button class="routes-btn" [label]="'Save routes'" (click)="saveRoutes()"></mss-button>
+    <mss-button class="routes-btn" (click)="switchModal()" [label]="'routingTables.detail.addRoute' | translate"></mss-button>
+    <mss-button class="routes-btn" [label]="'routingTables.detail.saveRoutes' | translate" (click)="saveRoutes()"></mss-button>
   </div>
   <div *ngIf="rows" class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
@@ -12,30 +13,33 @@
           <div class="expandable-row-container">
             <div class="detail-column">
               <div class="select-wrapper input-shift">
-                <div class="select-label">Rule</div>
+                <div class="select-label">{{'routingTables.dictionary.rule' | translate}}</div>
                 <mss-select class="detail-select" [(selectedOption)]="editRoute.ruleName" [options]="rules"></mss-select>
               </div>
-              <mss-input class="input-shift" [label]="'Rule param'" [(value)]="editRoute.ruleParam"></mss-input>
+              <mss-input class="input-shift" [label]="'routingTables.dictionary.ruleParam' | translate"
+                         [(value)]="editRoute.ruleParam"></mss-input>
               <mss-input [label]="'Description'" [(value)]="editRoute.description"></mss-input>
             </div>
             <div class="detail-column">
               <div class="select-wrapper input-shift">
-                <div class="select-label">Target</div>
+                <div class="select-label">{{'routingTables.dictionary.target' | translate}}</div>
                 <mss-select class="detail-select" [(selectedOption)]="editRoute.targetName" [options]="targets"></mss-select>
               </div>
-              <mss-input class="input-shift" [label]="'Target param'" [(value)]="editRoute.targetParam"></mss-input>
-              <mss-button class="detail-save" [label]="'Save'" (click)="saveEditing()"></mss-button>
+              <mss-input class="input-shift" [label]="'routingTables.dictionary.targetParam' | translate"
+                         [(value)]="editRoute.targetParam"></mss-input>
+              <mss-button class="detail-save" [label]="'basic.save' | translate" (click)="saveEditing()"></mss-button>
             </div>
           </div>
         </ng-template>
       </ngx-datatable-row-detail>
-      <ngx-datatable-column name="Order" prop="orderInTable"></ngx-datatable-column>
-      <ngx-datatable-column name="Rule" prop="ruleName"></ngx-datatable-column>
-      <ngx-datatable-column name="Rule param" prop="ruleParam"></ngx-datatable-column>
-      <ngx-datatable-column name="Target" prop="targetName"></ngx-datatable-column>
-      <ngx-datatable-column name="Target param" prop="targetParam"></ngx-datatable-column>
-      <ngx-datatable-column name="Desctiprion" prop="description"></ngx-datatable-column>
-      <ngx-datatable-column name="Action" [maxWidth]="160" [resizeable]="false" [draggable]="false" [sortable]="false">
+      <ngx-datatable-column [name]="'routingTables.dictionary.order' | translate" prop="orderInTable"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'routingTables.dictionary.rule' | translate" prop="ruleName"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'routingTables.dictionary.ruleParam' | translate" prop="ruleParam"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'routingTables.dictionary.target' | translate" prop="targetName"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'routingTables.dictionary.targetParam' | translate" prop="targetParam"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'routingTables.dictionary.description' | translate" prop="description"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'routingTables.dictionary.action' | translate" [maxWidth]="160" [resizeable]="false" [draggable]="false"
+                            [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i class="material-icons click-able" (click)="editing(row)">edit</i>
           <i class="material-icons click-able" (click)="changeOrder(-1, row.$$index)"
@@ -55,23 +59,28 @@
       <div class="close-wrapper" (click)="switchModal()">
         <div class="close">+</div>
       </div>
-      <div class="mss-title">New Route</div>
+      <div class="mss-title">{{'routingTables.detail.addRoute' | translate}}</div>
       <div class="routes-select-container routing-table-modal-input">
-        <div class="routes-label">Rule</div>
-        <mss-select [(selectedOption)]="newRoute.ruleName" class="routes-select" formControlName="rule" [options]="rules"></mss-select>
+        <mss-select [(selectedOption)]="newRoute.ruleName"
+                    [label]="'routingTables.dictionary.rule' | translate"
+                    class="routes-select" formControlName="rule" [options]="rules"></mss-select>
       </div>
-      <mss-input formControlName="ruleParam" class="routing-table-modal-input" [label]="'Rule param'"
+      <mss-input formControlName="ruleParam" class="routing-table-modal-input" [label]="'routingTables.dictionary.ruleParam' | translate"
                  [(value)]="newRoute.ruleParam"></mss-input>
       <div class="routes-select-container routing-table-modal-input">
-        <div class="routes-label">Rule</div>
-        <mss-select [(selectedOption)]="newRoute.targetName" class="routes-select" formControlName="target" [options]="targets">
+        <mss-select [(selectedOption)]="newRoute.targetName"
+                    [label]="'routingTables.dictionary.target' | translate"
+                    class="routes-select" formControlName="target" [options]="targets">
         </mss-select>
       </div>
-      <mss-input formControlName="targetParam" [label]="'Target param'" class="routing-table-modal-input" [(value)]="newRoute.targetParam">
+      <mss-input formControlName="targetParam" [label]="'routingTables.dictionary.targetParam' | translate"
+                 class="routing-table-modal-input" [(value)]="newRoute.targetParam">
       </mss-input>
-      <mss-input formControlName="description" [label]="'Description'" class="routing-table-modal-input" [(value)]="newRoute.description">
+      <mss-input formControlName="description" [label]="'routingTables.dictionary.description' | translate"
+                 class="routing-table-modal-input" [(value)]="newRoute.description">
       </mss-input>
-      <mss-button [disabled]="newRouteForm.invalid" [label]="'Add'" class="routing-table-modal-input"></mss-button>
+      <mss-button [disabled]="newRouteForm.invalid" [label]="'routingTables.detail.addRoute' | translate"
+                  class="routing-table-modal-input"></mss-button>
     </div>
   </form>
 </mss-modal-window>

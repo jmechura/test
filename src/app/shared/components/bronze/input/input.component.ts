@@ -1,5 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { LanguageService } from '../../../language/language.service';
 
 @Component({
   selector: 'mss-input',
@@ -14,7 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class InputComponent implements ControlValueAccessor {
 
   @Input() label: string;
-  @Input() placeholder = 'Zadejte hodnotu';
+  @Input() placeholder: string;
   @Input() type = 'text';
   @Input() warn = false;
 
@@ -36,6 +37,10 @@ export class InputComponent implements ControlValueAccessor {
     if (this.changeCallback) {
       this.changeCallback(newValue);
     }
+  }
+
+  constructor(private language: LanguageService) {
+    this.placeholder = this.language.translate('components.input.placeholder');
   }
 
   touched(): void {

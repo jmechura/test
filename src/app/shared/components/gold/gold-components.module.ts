@@ -6,6 +6,7 @@ import { AuthFormComponent } from './auth-form/auth-form.component';
 import { CommonModule } from '@angular/common';
 import { OrgUnitFormComponent } from './org-unit-form/org-unit-form.component';
 import { BronzeComponentsModule } from '../bronze/bronze-components.module';
+import { LanguageModule } from '../../language/language.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { BronzeComponentsModule } from '../bronze/bronze-components.module';
     HttpModule,
     ReactiveFormsModule,
     BronzeComponentsModule,
+    LanguageModule
   ],
   exports: [
     FormComponent,

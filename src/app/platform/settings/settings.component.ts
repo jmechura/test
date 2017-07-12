@@ -7,6 +7,8 @@ import { Subject } from 'rxjs/Subject';
 import { StateModel } from '../../shared/models/state.model';
 import { AccountModel } from '../../shared/models/account.model';
 import { ApiService } from '../../shared/services/api.service';
+import { LanguageService } from '../../shared/language/language.service';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
 
 @Component({
   selector: 'mss-settings',
@@ -27,10 +29,15 @@ export class SettingsComponent implements OnDestroy {
   newAnswer: string;
 
   questionSwitch = false;
+  languages: SelectItem[] = [];
+  selectedLanguage: string;
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(fb: FormBuilder, private store: Store<AppState>, private api: ApiService) {
+  constructor(private fb: FormBuilder,
+              private store: Store<AppState>,
+              private language: LanguageService,
+              private api: ApiService) {
     this.infoForm = fb.group({
       firstName: '',
       surname: '',
@@ -61,6 +68,8 @@ export class SettingsComponent implements OnDestroy {
         }
       }
     );
+    this.languages = this.language.getLanguages().map(item => ({value: item}));
+    this.selectedLanguage = this.language.getSelectedLanguage();
   }
 
   ngOnDestroy(): void {
@@ -99,5 +108,9 @@ export class SettingsComponent implements OnDestroy {
     }
   }
 
+  selectLanguage(lang: string): void {
+    this.language.setLanguage(lang);
+    this.selectedLanguage = lang;
+  }
 
 }

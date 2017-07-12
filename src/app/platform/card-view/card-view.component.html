@@ -1,31 +1,35 @@
 <div class="mss-view-container">
-  <div class="mss-title">Moje Karta</div>
+  <div class="mss-title">{{'cards.userCard.title' | translate}}</div>
   <div class="form-wrapper">
     <div class="mss-form-container">
-      <mss-input class="pin-input" type="password" label="Starý PIN:" placeholder="Zadejte aktuální PIN" [(value)]="pin.actual"></mss-input>
-      <mss-input class="pin-input" type="password" label="Nový PIN:" placeholder="Zadejte nový PIN" [(value)]="pin.changed"></mss-input>
-      <mss-input class="pin-input" type="password" label="Znovu nový PIN:" placeholder="Znovu zadejte nový PIN" [(value)]="pin.control"></mss-input>
+      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.oldPin' | translate" [(value)]="pin.actual"></mss-input>
+      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.newPin' | translate" [(value)]="pin.changed"></mss-input>
+      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.confirmPin' | translate"
+                 [(value)]="pin.control"></mss-input>
       <div class="pin-button-container">
-        <mss-button class="card-view-button" label="Změnit PIN"></mss-button>
+        <mss-button class="card-view-button" [label]="'cards.userCard.pin.changePin' | translate"></mss-button>
       </div>
     </div>
 
     <div class="mss-form-container">
       <div class="card-status-container">
-        <div class="card-status-label">Stav karty:
-          <span class="card-status-enabled" [ngClass]="{'card-status-disabled': !cardActive}">{{cardActive ? 'Aktivní' : 'Zablokovaná'}}</span>
+        <div class="card-status-label">{{'cards.userCard.cardState.title' | translate}}:
+          <span class="card-status-enabled" [ngClass]="{'card-status-disabled': !cardActive}">
+            {{cardActive ? ('cards.userCard.cardState.ENABLED' | translate) : ('cards.userCard.cardState.DISABLED' | translate) }}
+          </span>
         </div>
-        <mss-button class="card-view-button" [label]="cardActive ? 'Zablokovat kartu' : 'Reaktivovat kartu'"
+        <mss-button class="card-view-button"
+                    [label]="cardActive ? ('cards.userCard.deactivate' | translate) : ('cards.userCard.activate' | translate)"
                     (click)="toggleStatusChange()"></mss-button>
       </div>
 
       <mss-modal-window [(visible)]="cardStatusChangeVisible">
-        <div class="card-modal-title">Změna stavu karty</div>
-        <div *ngIf="cardActive" class="card-modal-text">Opravdu chcete zablokovat vaši kartu?</div>
-        <div *ngIf="!cardActive" class="card-modal-text">Opravdu chcete reaktivovat vaši kartu?</div>
+        <div class="card-modal-title">{{'cards.userCard.warnModal.title' | translate}}</div>
+        <div *ngIf="cardActive" class="card-modal-text">{{'cards.userCard.warnModal.deactivate' | translate}}</div>
+        <div *ngIf="!cardActive" class="card-modal-text">{{'cards.userCard.cardState.warnModal.activate' | translate}}</div>
         <div class="confirmation-buttons">
-          <mss-button class="confirm-button" label="Potvrdit" (click)="toggleCardStatus()"></mss-button>
-          <mss-button label="Zrušit" (click)="toggleStatusChange()"></mss-button>
+          <mss-button class="confirm-button" [label]="'basic.yes' | translate" (click)="toggleCardStatus()"></mss-button>
+          <mss-button [label]="'basic.dismiss' | translate" (click)="toggleStatusChange()"></mss-button>
         </div>
       </mss-modal-window>
     </div>

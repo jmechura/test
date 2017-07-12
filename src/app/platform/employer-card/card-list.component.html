@@ -1,6 +1,6 @@
 <div class="employer-card-container">
   <div class="header-row">
-    <div class="header">Přehled karet</div>
+    <div class="header">{{'cards.cardList.title' | translate}}</div>
     Changes view
     <mss-toggle label="Issuer" [(toggled)]="issuer"></mss-toggle>
   </div>
@@ -9,29 +9,27 @@
     <div class="filters">
       <div class="filter-item" *ngIf="issuer">
         <mss-select [disabled]="cardGroupCodes.length === 0"
-                    showName="Card group code"
                     [options]="cardGroupCodes"
-                    label="Card group code"
+                    [label]="'dictionary.cardGroupCode'"
                     [(selectedOption)]="payload.search.predicateObject.cardGroupCode"></mss-select>
       </div>
       <div class="filter-item">
         <mss-select [disabled]="cardStates.length === 0"
-                    showName="Stav karty"
                     [options]="cardStates"
-                    label="Stav karty"
+                    [label]="'cards.cardList.cardState' | translate"
                     [(selectedOption)]="payload.search.predicateObject.state"></mss-select>
       </div>
       <div class="filter-item">
-        <mss-input label="Cln" [(value)]="payload.search.predicateObject.cln"></mss-input>
+        <mss-input [label]="'dictionary.cln' | translate" [(value)]="payload.search.predicateObject.cln"></mss-input>
       </div>
       <div class="filter-item">
-        <mss-input label="Příjmení" [(value)]="payload.search.predicateObject.lastname"></mss-input>
+        <mss-input [label]="'cards.cardList.lastName' | translate" [(value)]="payload.search.predicateObject.lastname"></mss-input>
       </div>
     </div>
-    <mss-button label="Vymazat filtr" class="button" (click)="clearFilter()"></mss-button>
+    <mss-button [label]="'basic.clearFilter' | translate" class="button" (click)="clearFilter()"></mss-button>
   </div>
   <div class="button">
-    <mss-button label="Vyhledat karty" (click)="getCards()"></mss-button>
+    <mss-button [label]="'cards.cardList.search' | translate" (click)="getCards()"></mss-button>
   </div>
 
 
@@ -42,8 +40,8 @@
                    [externalSorting]="true"
                    (sort)="getSortedCards($event)"
                    [limit]="payload.pagination.number" [rows]="rows" (page)="setPage($event)">
-      <ngx-datatable-column name="Jméno" prop="jmeno" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column name="Status" prop="status" [sortable]="false">
+      <ngx-datatable-column [name]="'cards.cardList.name' | translate" prop="jmeno" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="status" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span *ngIf="editingRow !== row.$$index" title="Double click to edit" (click)="$event.stopPropagation()"
                 (dblclick)="startEditing(row, $event)">{{value}}</span>
@@ -52,15 +50,16 @@
           </mss-select>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Platnost" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="CLN" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Žádost" prop="processRequest" [maxWidth]="190" *ngIf="issuer">
+      <ngx-datatable-column [name]="'dictionary.expiration' | translate" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cln'| translate" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardList.request' | translate" prop="processRequest" [maxWidth]="190" *ngIf="issuer">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <mss-button (click)="sendRequest(row, $event)" [label]="value ? 'Žádost odeslána' : 'Poslat žádost'"
+          <mss-button (click)="sendRequest(row, $event)"
+                      [label]="value ? ('cards.cardList.requestSent' | translate) : ('cards.cardList.sendRequest' | translate)"
                       [disabled]="value"></mss-button>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Upravit" [maxWidth]="100" [sortable]="false">
+      <ngx-datatable-column [name]="'basic.edit' | translate" [maxWidth]="100" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
           <div class="icons-container">
             <i class="material-icons edit" (click)="startEditing(row, $event)" *ngIf="editingRow === -1">mode_edit</i>

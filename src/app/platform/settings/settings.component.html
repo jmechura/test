@@ -1,47 +1,49 @@
 <div class="settings-container">
-  <div class="header">Nastavení účtu</div>
+  <div class="header">{{'settings.title' | translate}}</div>
 
   <div class="form-wrapper">
     <div class="form-container">
       <form [formGroup]="infoForm" class="form" *ngIf="account">
-        <mss-input formControlName="id" class="input" [type]="'number'" [value]="editAccount.id" [label]="'ID'" [placeholder]="'Vaše id'">
+        <mss-input formControlName="id" class="input" [type]="'number'" [value]="editAccount.id" [label]="'basic.id' | translate">
         </mss-input>
-        <mss-input formControlName="firstName" class="input" [(value)]="editAccount.firstName" [label]="'Jméno'"
-                   [placeholder]="'Vaše jméno'">
+        <mss-input formControlName="firstName" class="input" [(value)]="editAccount.firstName" [label]="'basic.firstName' | translate">
         </mss-input>
-        <mss-input formControlName="surname" class="input" [(value)]="editAccount.lastName" [label]="'Příjmení'"
-                   [placeholder]="'Vaše příjmení'">
+        <mss-input formControlName="surname" class="input" [(value)]="editAccount.lastName" [label]="'basic.lastName' | translate">
         </mss-input>
-        <mss-input formControlName="email" class="input" [(value)]="editAccount.email" [label]="'E-mail'" [placeholder]="'Váš email'">
+        <mss-input formControlName="email" class="input" [(value)]="editAccount.email" [label]="'basic.email' | translate">
         </mss-input>
-        <mss-input formControlName="phone" class="input" [(value)]="editAccount.phone" [label]="'TEL:'" [placeholder]="'Váš mobil'">
+        <mss-input formControlName="phone" class="input" [(value)]="editAccount.phone" [label]="'basic.phone' | translate">
         </mss-input>
       </form>
-      <mss-button class="save" [label]="'ULOŽIT'" (click)="updateUser()"></mss-button>
+      <mss-button class="save" [label]="'basic.save' | translate" (click)="updateUser()"></mss-button>
     </div>
     <div class="form-container">
       <form [formGroup]="passwordForm" class="form">
-        <mss-input formControlName="oldPassword" class="input" type="password" [(value)]="oldPassword" [label]="'Staré heslo'"
+        <mss-input formControlName="oldPassword" class="input" type="password" [(value)]="oldPassword"
+                   [label]="'settings.oldPassword' | translate"
                    [placeholder]="' '">
         </mss-input>
-        <mss-input formControlName="newPassword" class="input" type="password" [(value)]="newPassword" [label]="'Nové heslo'"
+        <mss-input formControlName="newPassword" class="input" type="password" [(value)]="newPassword"
+                   [label]="'settings.newPassword' | translate"
                    [placeholder]="' '">
         </mss-input>
         <mss-input formControlName="newPasswordConfirmation" class="input" type="password" [(value)]="newPasswordConfirmation"
-                   [label]="'Opakujte heslo'" [placeholder]="' '">
+                   [label]="'settings.confirmPassword' | translate" [placeholder]="' '">
         </mss-input>
-        <mss-toggle (click)="changeState()" [label]="'Chcete změnit i kontrolni otázku ?'"
+        <mss-toggle (click)="changeState()" [label]="'settings.changeQuestion' | translate"
                     [(toggled)]="questionSwitch" class="toggle-container">
         </mss-toggle>
         <mss-input formControlName="newQuestion" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newQuestion"
-                   [label]="'Nová otázka'" [placeholder]="' '">
+                   [label]="'settings.newQuestion' | translate" [placeholder]="' '">
         </mss-input>
         <mss-input formControlName="newAnswer" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newAnswer"
-                   [label]="'Nová odpověd'" [placeholder]="' '">
+                   [label]="'settings.newAnswer' | translate" [placeholder]="' '">
         </mss-input>
       </form>
-      <mss-button class="save" [label]="'ULOŽIT'" (click)="updatePassword()"></mss-button>
+      <mss-button class="save" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
     </div>
+    <mss-select [options]="languages" [selectedOption]="selectedLanguage" [label]="'Jazyk'" [labelPosition]="'top'"
+                (selectedOptionChange)="selectLanguage($event)"></mss-select>
   </div>
 </div>
 

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { LanguageService } from '../../../language/language.service';
 
 @Component({
   selector: 'mss-date-picker-input',
@@ -11,8 +12,13 @@ export class DatePickerInputComponent {
 
   @Input() pickedDate: Moment = moment();
   @Output() pickedDateChange = new EventEmitter<Moment>();
+  private label: string;
 
   calendarHidden = true;
+
+  constructor(private language: LanguageService) {
+    this.label = this.language.translate('components.datePicker.placeholder');
+  }
 
   toggleCalendar(): void {
     this.calendarHidden = !this.calendarHidden;
@@ -24,6 +30,6 @@ export class DatePickerInputComponent {
   }
 
   get dateLabel(): string {
-    return this.pickedDate != null ? this.pickedDate.format('D. M. YYYY') : 'Vyberte datum';
+    return this.pickedDate != null ? this.pickedDate.format('D. M. YYYY') : this.label;
   }
 }

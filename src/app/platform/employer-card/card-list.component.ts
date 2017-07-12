@@ -14,6 +14,7 @@ import { AccountModel } from '../../shared/models/account.model';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { Router } from '@angular/router';
 import { CodeModel } from '../../shared/models/code.model';
+import { LanguageService } from '../../shared/language/language.service';
 
 const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
   cardGroupCode: '',
@@ -54,7 +55,10 @@ export class CardListComponent implements OnDestroy {
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  constructor(private store: Store<AppState>, private api: ApiService, private router: Router) {
+  constructor(private store: Store<AppState>,
+              private api: ApiService,
+              private language: LanguageService,
+              private router: Router) {
     this.store.dispatch({type: cardStateActions.CARD_STATE_GET_REQUEST});
 
     this.store.select('cardStates').takeUntil(this.unsubscribe$).subscribe(
@@ -64,7 +68,10 @@ export class CardListComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.cardStates = [{value: 'INIT'}, ...data.data.map(item => ({value: item}))];
+          this.cardStates = [{value: 'INIT'}, ...data.data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.cardStates.${item}`)
+          }))];
         }
       }
     );

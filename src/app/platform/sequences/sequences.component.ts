@@ -16,6 +16,7 @@ import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 import { sequencesActions } from '../../shared/reducers/sequences.reducer';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
   selector: 'mss-sequences',
@@ -52,7 +53,9 @@ export class SequencesComponent implements OnDestroy {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder) {
+  constructor(private store: Store<AppState>,
+              private language: LanguageService,
+              private fb: FormBuilder) {
     this.store.dispatch({type: sequencesTypeActions.SEQUENCES_TYPE_API_GET});
     this.store.dispatch({type: userResourceActions.USER_RESOURCE_GET_REQUEST});
     this.store.dispatch({type: sequencesActions.SEQUENCES_GET_REQUEST});
@@ -91,7 +94,10 @@ export class SequencesComponent implements OnDestroy {
           return;
         }
         if (data != undefined) {
-          this.sequencesType = data.map(item => ({value: item}));
+          this.sequencesType = data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.sequenceTypes.${item}`)
+          }));
         }
       }
     );
@@ -105,7 +111,10 @@ export class SequencesComponent implements OnDestroy {
         if (data != undefined) {
           this.userResource = data
             .filter(item => (item !== 'SYSTEM') && (item !== 'CARD') && (item !== 'TERMINAL'))
-            .map(item => ({value: item}));
+            .map(item => ({
+              value: item,
+              label: this.language.translate(`enums.resources.${item}`)
+            }));
         }
       }
     );

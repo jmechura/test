@@ -1,11 +1,13 @@
 <div class="mss-view-container">
   <div class="header-row">
-    <div class="mss-title">Kampaň - {{campaignName}}</div>
+    <div class="mss-title">{{'campaigns.detail.title' | translate}} - {{campaignName}}</div>
     <div class="button-container">
-      <mss-button class="button right-margin" *ngIf="campaignDetail" [label]="campaignDetail.running ?  'Deaktivovat' : 'Aktivovat'"
+      <mss-button class="button right-margin" *ngIf="campaignDetail"
+                  [label]="campaignDetail.running ?  ('basic.deactivate' | translate) : ('basic.activate' | translate)"
                   (click)="toggleCampaign()"></mss-button>
-      <mss-button class="button right-margin" (click)="modalVisible = true" label="Smazat kampaň"></mss-button>
-      <mss-button class="button" [label]="editingCampaign ? 'Náhled' : 'Editovat'"
+      <mss-button class="button right-margin" (click)="modalVisible = true"
+                  [label]="'campaigns.detail.deleteCampaign' | translate"></mss-button>
+      <mss-button class="button" [label]="editingCampaign ? ('campaigns.detail.preview' | translate) : ('basic.edit' | translate)"
                   (click)="editingCampaign = !editingCampaign"></mss-button>
     </div>
   </div>
@@ -13,38 +15,40 @@
   <div class="content" *ngIf="campaignDetail && !editingCampaign">
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Jméno</div>
+        <div class="label">{{'basic.name' | translate}}</div>
         <div class="value">{{campaignDetail.name}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Typ kampaně</div>
+        <div class="label">{{'campaigns.dictionary.campaignName' | translate}}</div>
         <div class="value">{{campaignDetail.campaignName}}</div>
       </div>
     </div>
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Pořadí</div>
+        <div class="label">{{'campaigns.dictionary.orderCampaign' | translate}}</div>
         <div class="value">{{campaignDetail.orderCampaign}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Spustit při startu</div>
-        <div class="value">{{campaignDetail.runAfterStart ? 'Ano' : 'Ne'}}</div>
+        <div class="label">{{'campaigns.dictionary.runAfterStart' | translate}}</div>
+        <div class="value">{{campaignDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
       </div>
     </div>
   </div>
   <form [formGroup]="campaingForm" (ngSubmit)="editCampaign()" *ngIf="campaignDetail && editingCampaign">
     <div class="content">
       <div class="column">
-        <mss-input class="item" label="Jméno" formControlName="name"></mss-input>
-        <mss-select class="item" [options]="campaignFactories" label="Typ kampaně" formControlName="campaignName"></mss-select>
+        <mss-input class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
+        <mss-select class="item" [options]="campaignFactories" [label]="'campaigns.dictionary.campaignName' | translate"
+                    formControlName="campaignName"></mss-select>
       </div>
       <div class="column">
-        <mss-input class="item" type="number" formControlName="orderCampaign" label="Pořadí"></mss-input>
-        <mss-toggle label="Spustit při startu" formControlName="runAfterStart"></mss-toggle>
+        <mss-input class="item" type="number" formControlName="orderCampaign"
+                   [label]="'campaigns.dictionary.orderCampaign' | translate"></mss-input>
+        <mss-toggle [label]="'campaigns.dictionary.runAfterStart' | translate" formControlName="runAfterStart"></mss-toggle>
       </div>
     </div>
     <div class="button-container">
-      <mss-button type="submit" class="button" label="Potvrdit editaci" [disabled]="campaingForm.invalid"></mss-button>
+      <mss-button type="submit" class="button" [label]="'basic.save' | translate" [disabled]="campaingForm.invalid"></mss-button>
     </div>
   </form>
 
@@ -52,10 +56,10 @@
     <div class="header-row">
       <div class="mss-title">Properties</div>
       <mss-button class="button" (click)="toggleProperties()"
-                  [label]="editingProperties ? 'Náhled' : 'Editovat'"></mss-button>
+                  [label]="editingProperties ? ('campaigns.detail.preview' | translate) : ('basic.edit' | translate)"></mss-button>
     </div>
     <div class="content" *ngIf="!editingProperties">
-      <div class="column " *ngIf="properties.length === 0">Tato kampaň zatím neobsahuje žádné properties.
+      <div class="column " *ngIf="properties.length === 0">{{'campaigns.detail.noProperty' | translate}}
       </div>
       <div class="column" *ngIf="properties.length > 0">
         <div class="mss-input-like-container item" *ngFor="let property of properties">
@@ -68,7 +72,7 @@
     <form *ngIf="editingProperties && propertyForm" [formGroup]="propertyForm" (ngSubmit)="updateProperties()">
       <div class="content">
         <div class="column" *ngIf="propertyForm.value.length === 0">
-          Tento typ kampaně neobsahuje žádné properties.
+          {{'campaigns.detail.noDefaultProperty' | translate}}
         </div>
         <div class="column" *ngIf="propertyForm.value.length > 0">
           <div *ngFor="let property of propertyForm.value; let i = index; trackBy: identifyProperty" [formGroupName]="i">
@@ -79,7 +83,8 @@
         <div class="column"></div>
       </div>
       <div class="button-container">
-        <mss-button *ngIf="propertyForm.value.length > 0" [disabled]="propertyForm.invalid" class="button" label="Uložit"></mss-button>
+        <mss-button *ngIf="propertyForm.value.length > 0" [disabled]="propertyForm.invalid" class="button"
+                    [label]="'basic.save' | translate"></mss-button>
       </div>
     </form>
   </div>
@@ -87,10 +92,10 @@
 
 <mss-modal-window [(visible)]="modalVisible">
   <div class="mss-title">
-    Opravdu chcete kampaň smazat?
+    {{'campaigns.list.deleteQuestion' | translate}}
   </div>
   <div class="button-container">
-    <mss-button class="button right-margin" label="Ne" (click)="modalVisible = false"></mss-button>
-    <mss-button class="button" label="Ano" (click)="deleteCampaign()"></mss-button>
+    <mss-button class="button right-margin" [label]="'basic.dismiss' | translate" (click)="modalVisible = false"></mss-button>
+    <mss-button class="button" [label]="'basic.yes' | translate" (click)="deleteCampaign()"></mss-button>
   </div>
 </mss-modal-window>

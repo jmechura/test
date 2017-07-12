@@ -1,50 +1,50 @@
 <div class="mss-view-container" *ngIf="transaction">
   <div class="mss-title">
-    Transakce - {{transaction.uuid}}
+    {{'transactions.detail.title' | translate}} - {{transaction.uuid}}
   </div>
   <mss-tabs [items]="sections" (itemChanged)="visibleSection = $event"></mss-tabs>
 
   <!--Basic information about transaction-->
-  <div class="content-container" *ngIf="visibleSection.value === TransactionDetailSection.BASIC">
+  <div class="content-container" *ngIf="visibleSection?.value === TransactionDetailSection.BASIC">
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">UUID</div>
+        <div class="label">{{'dictionary.uuid' | translate}}</div>
         <div class="value">{{transaction.uuid}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Datum terminálu</div>
+        <div class="label">{{'dictionary.terminalDate' | translate}}</div>
         <div class="value">{{transaction.termDttm}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Datum terminálu</div>
+        <div class="label">{{'dictionary.serverDate' | translate}}</div>
         <div class="value">Nechodi z API</div>
       </div>
     </div>
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Typ transakce</div>
+        <div class="label">{{'dictionary.transactionType' | translate}}</div>
         <div class="value">{{transaction.transactionType}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Stav transakce</div>
+        <div class="label">{{'dictionary.transactionState' | translate}}</div>
         <div class="value">{{transaction.state}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Response code</div>
+        <div class="label">{{'dictionary.responseCode' | translate}}</div>
         <div class="value">{{transaction.responseCode}}</div>
       </div>
     </div>
   </div>
 
   <!--Information about issuer-->
-  <div class="content-container" *ngIf="visibleSection.value === TransactionDetailSection.ISSUER">
+  <div class="content-container" *ngIf="visibleSection?.value === TransactionDetailSection.ISSUER">
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Provozovatel</div>
+        <div class="label">{{'dictionary.issuerCode' | translate}}</div>
         <div class="value mss-click-able" (click)="goToDetail('issuer', transaction.issuerCode)">{{transaction.issuerCode}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Zaměstnavatel</div>
+        <div class="label">{{'dictionary.cardGroupCode' | translate}}</div>
         <div class="value mss-click-able" (click)="goToDetail('cardGroup', transaction.issuerCode + ':' + transaction.cardGroupCode)">
           {{transaction.cardGroupCode}}
         </div>
@@ -52,119 +52,132 @@
     </div>
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Karta</div>
+        <div class="label">{{'dictionary.card' | translate}}</div>
         <div class="value mss-click-able" (click)="goToDetail('card', '')">Nechodi z API</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Vlastník</div>
+        <div class="label">{{'dictionary.user' | translate}}</div>
         <div class="value mss-click-able" (click)="goToDetail('user', '')">Nechodi z API</div>
       </div>
     </div>
   </div>
 
   <!--Information about acquirer-->
-  <div class="content-container" *ngIf="visibleSection.value === TransactionDetailSection.ACQUIRER">
+  <div class="content-container" *ngIf="visibleSection?.value === TransactionDetailSection.ACQUIRER">
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Acquirer</div>
+        <div class="label">{{'dictionary.acquirer' | translate}}</div>
         <div class="value mss-click-able" (click)="goToDetail('acquirer', '')">Nechodi z API</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Obchodník</div>
+        <div class="label">{{'dictionary.merchantCode' | translate}}</div>
         <div class="value mss-click-able" (click)="goToDetail('merchant', transaction.merchantCode)">{{transaction.merchantCode}}</div>
       </div>
     </div>
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Organizace</div>
+        <div class="label">{{'dictionary.orgUnitCode' | translate}}</div>
         <div class="value mss-click-able" (click)="goToDetail('orgUnit', transaction.orgUnitCode)">{{transaction.orgUnitCode}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Terminál</div>
+        <div class="label">{{'dictionary.terminalCode' | translate}}</div>
         <div class="value mss-click-able" (click)="goToDetail('terminal', transaction.terminalCode)">{{transaction.terminalCode}}</div>
       </div>
     </div>
   </div>
 
   <!--Information about terminal-->
-  <div class="content-container" *ngIf="visibleSection.value === TransactionDetailSection.TERMINAL">
+  <div class="content-container" *ngIf="visibleSection?.value === TransactionDetailSection.TERMINAL">
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Something</div>
+        <div class="label">{{'dictionary.terminalCode' | translate}}</div>
+        <div class="value">Something</div>
+      </div>
+      <div class="mss-input-like-container item">
+        <div class="label">{{'dictionary.terminalName' | translate}}</div>
         <div class="value">Something</div>
       </div>
     </div>
-    <div class="column"></div>
+    <div class="column">
+      <div class="mss-input-like-container item">
+        <div class="label">{{'dictionary.terminalId' | translate}}</div>
+        <div class="value">Something</div>
+      </div>
+      <div class="mss-input-like-container item">
+        <div class="label">{{'dictionary.terminalState' | translate}}</div>
+        <div class="value">Something</div>
+      </div>
+    </div>
   </div>
 
   <!--Information about amount-->
-  <div class="content-container" *ngIf="visibleSection.value === TransactionDetailSection.AMOUNT">
+  <div class="content-container" *ngIf="visibleSection?.value === TransactionDetailSection.AMOUNT">
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Amount</div>
+        <div class="label">{{'dictionary.amount' | translate}}</div>
         <div class="value">{{transaction.amount}}</div>
       </div>
     </div>
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Měna</div>
+        <div class="label">{{'dictionary.currency' | translate}}</div>
         <div class="value">Nechodi z API</div>
       </div>
     </div>
   </div>
 
   <!--Information about identification-->
-  <div class="content-container" *ngIf="visibleSection.value === TransactionDetailSection.IDENTIFICATION">
+  <div class="content-container" *ngIf="visibleSection?.value === TransactionDetailSection.IDENTIFICATION">
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Kód schválení</div>
+        <div class="label">{{'dictionary.approvalCode' | translate}}</div>
         <div class="value">{{transaction.approvalCode}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">DST Stan</div>
+        <div class="label">{{'dictionary.dstStan' | translate}}</div>
         <div class="value">{{transaction.dstStan}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">RRN</div>
+        <div class="label">{{'dictionary.rrn' | translate}}</div>
         <div class="value">{{transaction.rrn}}</div>
       </div>
     </div>
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Variabilní symbol</div>
+        <div class="label">{{'dictionary.variableSymbol' | translate}}</div>
         <div class="value">{{transaction.vs}}</div>
       </div>
       <div class="mss-input-like-container item">
-        <div class="label">Konstantní symbol</div>
+        <div class="label">{{'dictionary.terminalCode' | translate}}</div>
         <div class="value">Nechodi z API</div>
       </div>
     </div>
   </div>
 
   <!--Information about identification-->
-  <div class="content-container" *ngIf="visibleSection.value === TransactionDetailSection.CARD_HOLDER">
+  <div class="content-container" *ngIf="visibleSection?.value === TransactionDetailSection.CARD_HOLDER">
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">PAN</div>
+        <div class="label">{{'dictionary.pan' | translate}}</div>
         <div class="value">Nechodi z API</div>
       </div>
     </div>
     <div class="column">
       <div class="mss-input-like-container item">
-        <div class="label">Typ karty</div>
+        <div class="label">{{'dictionary.typeOfCard' | translate}}</div>
         <div class="value">Nechodi z API</div>
       </div>
     </div>
   </div>
 
-  <div class="mss-title title">Transfers</div>
+  <div class="mss-title title">{{'transactions.detail.transfers.title' | translate}}</div>
   <div class="data-table-container">
     <ngx-datatable columnMode="force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [rows]="transfers">.
-      <ngx-datatable-column name="UUID" prop="uuid"></ngx-datatable-column>
-      <ngx-datatable-column name="Dttm" prop="dttm"></ngx-datatable-column>
-      <ngx-datatable-column name="Amount" prop="amount"></ngx-datatable-column>
-      <ngx-datatable-column name="Type" prop="type"></ngx-datatable-column>
-      <ngx-datatable-column name="State" prop="state"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'transactions.detail.transfers.dttm' | translate" prop="dttm"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'transactions.detail.transfers.type' | translate" prop="type"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'transactions.detail.transfers.state' | translate" prop="state"></ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>

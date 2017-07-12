@@ -11,6 +11,7 @@ import { targetActions } from '../../shared/reducers/targer.reducer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
   selector: 'mss-routes',
@@ -38,6 +39,7 @@ export class RoutesComponent implements OnDestroy {
 
   constructor(private store: Store<AppState>,
               private fb: FormBuilder,
+              private language: LanguageService,
               private route: ActivatedRoute) {
     this.store.dispatch({type: ruleActions.RULE_API_GET});
     this.store.dispatch({type: targetActions.TARGET_API_GET});
@@ -77,7 +79,11 @@ export class RoutesComponent implements OnDestroy {
           return;
         }
         if (data != undefined) {
-          this.rules = data.map(item => ({value: item}));
+          this.rules = data.map(item => ({
+              value: item,
+              label: this.language.translate(`enums.ruleNames.${item}`)
+            }
+          ));
         }
       }
     );
@@ -89,7 +95,10 @@ export class RoutesComponent implements OnDestroy {
           return;
         }
         if (data != undefined) {
-          this.targets = data.map(item => ({value: item}));
+          this.targets = data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.targetNames.${item}`)
+          }));
         }
       }
     );

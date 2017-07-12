@@ -7,6 +7,7 @@ import { StateModel } from '../../shared/models/state.model';
 import { CardDetailModel } from '../../shared/models/card-detail.model';
 import { cardDetailActions } from '../../shared/reducers/card-detail.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { LanguageService } from '../../shared/language/language.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
@@ -30,7 +31,9 @@ export class CardDetailComponent implements OnDestroy {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private store: Store<AppState>, private route: ActivatedRoute) {
+  constructor(private store: Store<AppState>,
+              private language: LanguageService,
+              private route: ActivatedRoute) {
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params) => {
@@ -59,15 +62,15 @@ export class CardDetailComponent implements OnDestroy {
       list: [
         {
           value: acc.balance,
-          label: 'Balance'
+          label: this.language.translate(`cards.cardDetail.account.balance`)
         },
         {
           value: acc.type,
-          label: 'Type'
+          label: this.language.translate(`dictionary.type`)
         },
         {
           value: acc.uuid,
-          label: 'UUID'
+          label: this.language.translate(`dictionary.uuid`)
         }
       ],
       tableData: acc.transfers
@@ -78,65 +81,65 @@ export class CardDetailComponent implements OnDestroy {
     return {
       basic: [
         {
-          label: 'UUID',
+          label: this.language.translate(`dictionary.uuid`),
           value: data.card.cardUuid
         },
         {
-          label: 'CLN',
+          label: this.language.translate(`dictionary.cln`),
           value: data.card.cln
         },
         {
-          label: 'PAN',
+          label: this.language.translate(`dictionary.pan`),
           value: data.card.panSequenceNumber
         },
         {
-          label: 'Expiration',
+          label: this.language.translate(`dictionary.expiration`),
           value: data.card.expiration
         },
         {
-          label: 'Expiration Date',
+          label: this.language.translate(`cards.cardDetail.expirationDate`),
           value: data.card.expiryDate
         },
         {
-          label: 'Service Code',
+          label: this.language.translate(`dictionary.serviceCode`),
           value: data.card.serviceCode
         },
         {
-          label: 'Type',
+          label: this.language.translate(`dictionary.typeOfCard`),
           value: data.card.type
         },
         {
-          label: 'State',
+          label: this.language.translate(`dictionary.state`),
           value: data.card.state
         },
         {
-          label: 'Track2',
+          label: this.language.translate(`cards.cardDetail.track2`),
           value: data.card.track2
         }
       ],
       owner: [
         {
-          label: 'First Name',
+          label: this.language.translate(`basic.firstName`),
           value: data.card.firstname
         },
         {
-          label: 'Last Name',
+          label: this.language.translate(`basic.lastName`),
           value: data.card.lastname
         },
         {
-          label: 'Limit',
+          label: this.language.translate(`dictionary.limit`),
           value: data.card.limit
         },
         {
-          label: 'Limit Type',
+          label: this.language.translate(`dictionary.limitType`),
           value: data.card.limitType
         },
         {
-          label: 'Card Group',
+          label: this.language.translate(`dictionary.cardGroupCode`),
           value: data.card.cardGroupPrimaryCode
         },
         {
-          label: 'Issuer Code',
+          label: this.language.translate(`dictionary.issuerCode`),
           value: data.card.issuerCode
         }
       ]
