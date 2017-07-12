@@ -25,6 +25,7 @@ const TOOLBAR_ITEMS: ToolbarItem[] = [
   {path: 'terminal', label: 'Terminal', icon: 'local_atm'},
   {path: 'campaigns', label: 'Kampaně', icon: 'dns'},
   {path: 'showcase', label: 'Showcase', icon: 'view_list'},
+  {path: 'templates', label: 'Šablony', icon: 'insert_drive_file'},
 ];
 
 @Component({

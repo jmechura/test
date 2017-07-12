@@ -79,6 +79,10 @@ import { cardRequestStateReducer } from './shared/reducers/card-request-state.re
 import { CardRequestStateEffect } from './shared/effects/card-request-state.effect';
 import { cardDetailReducer } from './shared/reducers/card-detail.reducer';
 import { CardDetailEffect } from './shared/effects/card-detail.effect';
+import { TemplatesEffect } from 'app/shared/effects/templates.effect';
+import { templatesReducer } from './shared/reducers/template.reducer';
+import { userAuthorityReducer } from './shared/reducers/user-authorities.reducer';
+import { UserAuthoritiesEffect } from './shared/effects/user-authority.effect';
 import { cardGroupReducer } from './shared/reducers/card-group.reducer';
 import { CardGroupEffect } from './shared/effects/card-group.effect';
 import { cardGroupDetailReducer } from './shared/reducers/card-group-detail.reducer';
@@ -89,13 +93,14 @@ import { OrgUnitListEffect } from './shared/effects/org-unit-list.effect';
 import { orgUnitListReducer } from './shared/reducers/org-unit-list.reducer';
 import { orgUnitReducer } from './shared/reducers/org-unit.reducer';
 import { OrgUnitEffect } from './shared/effects/org-unit.effect';
+import { systemReducer } from './shared/reducers/system.reducer';
+import { SystemsEffect } from './shared/effects/system.effect';
 import { campaignDetailReducer } from './shared/reducers/campaign-detail.reducer';
 import { CampaignDetailEffect } from './shared/effects/campaign-detail.effect';
 import { campaignPropertyDefReducer } from './shared/reducers/campaign-property-def.reducer';
 import { CampaignPropertyDefEffect } from './shared/effects/campaign-property-def.effect';
 import { campaignPropertyReducer } from './shared/reducers/campaign-property.reducer';
 import { CampaignPropertyEffect } from './shared/effects/campaign-property.effect';
-
 
 @NgModule({
   declarations: [
@@ -116,6 +121,7 @@ import { CampaignPropertyEffect } from './shared/effects/campaign-property.effec
       auth: authReducer,
       card: cardReducer,
       account: accountReducer,
+      templates: templatesReducer,
       transactionCodes: transactionCodeReducer,
       transactionStates: transactionStateReducer,
       transactionTypes: transactionTypeReducer,
@@ -130,11 +136,13 @@ import { CampaignPropertyEffect } from './shared/effects/campaign-property.effec
       routes: routesReducer,
       targets: targetReducer,
       rules: ruleReducer,
+      systems: systemReducer,
       sequences: sequencesReducer,
       sequencesType: sequencesTypeReducer,
       userResource: userResourceReducer,
       orgUnitList: orgUnitListReducer,
       orgUnit: orgUnitReducer,
+      userAuthority: userAuthorityReducer,
       campaigns: campaignsReducer,
       campaignFactories: campaignFactoriesReducer,
       campaignDetail: campaignDetailReducer,
@@ -185,6 +193,7 @@ import { CampaignPropertyEffect } from './shared/effects/campaign-property.effec
     EffectsModule.runAfterBootstrap(SequencesTypeEffect),
     EffectsModule.runAfterBootstrap(UserResourceEffect),
     EffectsModule.runAfterBootstrap(TerminalEffect),
+    EffectsModule.runAfterBootstrap(UserAuthoritiesEffect),
     EffectsModule.runAfterBootstrap(CardStateEffect),
     EffectsModule.runAfterBootstrap(CardRequestEffect),
     EffectsModule.runAfterBootstrap(CardRequestStateEffect),
@@ -192,6 +201,8 @@ import { CampaignPropertyEffect } from './shared/effects/campaign-property.effec
     EffectsModule.runAfterBootstrap(CardGroupEffect),
     EffectsModule.runAfterBootstrap(CardGroupDetailEffect),
     EffectsModule.runAfterBootstrap(TaxTypesEffect),
+    EffectsModule.runAfterBootstrap(TemplatesEffect),
+    EffectsModule.runAfterBootstrap(SystemsEffect),
     EffectsModule.runAfterBootstrap(CampaignDetailEffect),
     EffectsModule.runAfterBootstrap(CampaignPropertyDefEffect),
     EffectsModule.runAfterBootstrap(CampaignPropertyEffect),

@@ -1,0 +1,118 @@
+<div class="mss-view-container">
+
+  <!--header-->
+  <div class="header-row">
+    <div class="mss-title">Šablony</div>
+    <mss-button label="Přidat vydavatele karet" (click)="toggleNewTemplateModal()"></mss-button>
+  </div>
+
+  <!--template data table-->
+  <div class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [externalPaging]="true"
+                   [count]="totalElements" [limit]="templatesRequest.pagination.number" [rows]="templates"
+                   (page)="setPage($event)"
+                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">>
+
+      <ngx-datatable-column name="Kód" prop="code">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Jméno" prop="name">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Zdroj" prop="resource">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Systém" prop="system">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span class="cell" title="Click to detail">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-curPage="curPage">
+          <mss-table-footer
+            [page]="curPage"
+            [rowsShown]="pageSize"
+            [rowCount]="rowCount"
+            (rowsShownChange)="changeLimit($event)"
+            (changePage)="table.onFooterPage($event)"
+            class="d-table-footer">
+          </mss-table-footer>
+        </ng-template>
+      </ngx-datatable-footer>
+
+    </ngx-datatable>
+  </div>
+
+</div>
+
+<!--Add new template modal-->
+<mss-modal-window [(visible)]="newTemplateModalShowing">
+  <div class="new-template-form-title">Přidat šablonu</div>
+  <form [formGroup]="newTemplateForm" class="new-template-form">
+    <div class="new-template-inputs">
+      <div class="right-padding">
+        <mss-input formControlName="code" label="Kód*"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('code')">Kód je povinný údaj</span></div>
+        <mss-input formControlName="name" label="Name*"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('name')">Jméno je povinný údaj</span></div>
+        <mss-input formControlName="description" label="Popis"></mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-select formControlName="resource" label="Zdroj" [options]="resourcesArray"></mss-select>
+        <div class="mss-validation-label"></div>
+        <mss-select formControlName="system" label="Systém" [options]="systemsArray"></mss-select>
+        <div class="mss-validation-label"></div>
+        <mss-select formControlName="systemReceiver" label="Systémový příjemce" [options]="systemsArray"></mss-select>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div>
+        <div class="form-row">
+          <p>Zdroje </p>
+          <i (click)="addResource()" class="material-icons action-icon">add</i>
+        </div>
+        <div formArrayName="resources">
+          <div *ngFor="let res of resources.controls; let i=index; trackBy: identifyResource" [formGroupName]="i" >
+            <div class="bottom-bottom">
+              <div class="form-row">
+                <mss-select formControlName="resource" label="Zdroj #{{i + 1}}" [options]="resourcesArray"></mss-select>
+                <i *ngIf="resources.controls.length > 1" (click)="removeResource(i)" class="material-icons action-icon">remove</i>
+              </div>
+              <div class="left-padding">
+                <div class="form-row">
+                  <p>Role </p>
+                  <i (click)="addRole(res)" class="material-icons action-icon">add</i>
+                </div>
+                <div formArrayName="roles">
+                  <div *ngFor="let role of getRoles(res).value; let j=index; trackBy: identifyRole">
+                    <div class="form-row">
+                      <mss-select [formControlName]="j" label="Rola #{{j + 1}}" [options]="rolesArray"></mss-select>
+                      <i *ngIf="getRoles(res).value.length > 1" (click)="removeRole(res, j)" class="material-icons action-icon">remove</i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="resources.controls.length !== i + 1" class="resource-divider"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="new-template-buttons">
+      <mss-button label="Zavřít" class="new-template-button" (click)="toggleNewTemplateModal()"></mss-button>
+      <mss-button label="Přidat" class="new-template-button" (click)="addTemplate()" [disabled]="newTemplateForm.invalid"></mss-button>
+    </div>
+  </form>
+</mss-modal-window>

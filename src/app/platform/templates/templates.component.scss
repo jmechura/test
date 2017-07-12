@@ -1,0 +1,103 @@
+@import 'theme';
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+
+  .mss-title {
+    margin: 0;
+  }
+}
+
+.new-template-form-title {
+  color: $primary-text-color;
+  font-size: 25px;
+  padding: 18px 24px 0 24px;
+}
+
+.new-template-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+
+  .new-template-inputs {
+    display: flex;
+    justify-content: space-between;
+
+    .new-template-input-side {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+    }
+  }
+
+  .new-template-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+
+    .new-template-button {
+      width: 160px;
+      margin-left: 24px;
+    }
+  }
+}
+
+.table-input {
+  background-color: transparent;
+  border: none;
+  color: $row-text-color;
+  font-size: 14px;
+}
+
+.edit-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.table-icon {
+  cursor: pointer;
+}
+
+/deep/ .datatable-body-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+}
+
+.action-icon {
+  cursor: pointer;
+  background-color: $button-color;
+  padding: 2px;
+  border-radius: 5px;
+  color: #f2f2f2;
+  margin: 0 2px;
+}
+
+.left-padding {
+  padding-left: 50px;
+}
+
+.bottom-bottom {
+  margin-bottom: 20px;
+}
+
+.right-padding {
+  padding-right: 50px;
+}
+
+.resource-divider {
+  border-bottom: 1px solid #b2b2b2;
+  margin-bottom: 10px;
+}

@@ -25,6 +25,8 @@ import { CampaignsDetailComponent } from './campaigns-detail/campaigns-detail.co
 import { CardRequestComponent } from './card-request/card-request.component';
 import { CardRequestDetailComponent } from './card-request-detail/card-request-detail.component';
 import { CardDetailComponent } from './card-detail/card-detail.component';
+import { TemplatesComponent } from './templates/templates.component';
+import { TemplateDetailComponent } from './template-detail/template-detail.component';
 import { TerminalComponent } from './terminal/terminal.component';
 import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
@@ -62,6 +64,9 @@ import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.compon
     SequencesComponent,
     CardRequestComponent,
     CardRequestDetailComponent,
+    CardDetailComponent,
+    TemplatesComponent,
+    TemplateDetailComponent,
     CardDetailComponent,
     TerminalComponent,
     CardGroupsComponent,

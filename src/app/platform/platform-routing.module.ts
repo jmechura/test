@@ -24,6 +24,8 @@ import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
 import { CardListComponent } from './employer-card/card-list.component';
 import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
+import { TemplatesComponent } from './templates/templates.component';
+import { TemplateDetailComponent } from './template-detail/template-detail.component';
 
 export const routes: Routes = [
   {
@@ -43,6 +45,8 @@ export const routes: Routes = [
     {path: 'org-units/:id', component: OrgUnitDetailComponent},
     {path: 'issuers', component: IssuersComponent},
     {path: 'issuers/:id', component: IssuerDetailComponent},
+    {path: 'templates', component: TemplatesComponent},
+    {path: 'templates/:id', component: TemplateDetailComponent},
     {path: 'campaigns', component: CampaignsComponent},
     {path: 'campaigns/:name', component: CampaignsDetailComponent},
     {path: 'card-request', component: CardRequestComponent},
