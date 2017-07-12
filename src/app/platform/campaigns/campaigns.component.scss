@@ -38,6 +38,14 @@
   cursor: pointer;
 }
 
+/deep/ .datatable-body-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: $data-table-hover-color;
+  }
+}
+
 .warn-buttons {
   display: flex;
   justify-content: flex-end;

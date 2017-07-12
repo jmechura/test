@@ -3,6 +3,7 @@ export interface CampaignModel {
   name: string;
   orderCampaign: number;
   runAfterStart: boolean;
+  running?: boolean;
 }
 
 export interface CampaignPredicateObject {

@@ -9,20 +9,19 @@
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                    [externalPaging]="true" [limit]="campaignsRequest.pagination.number"
                    [externalSorting]="true" (sort)="getSortedCampaigns($event)"
+                   [selectionType]="'single'" (select)="redirectToDetail($event)"
                    [count]="tableData ? tableData.totalElements : 0 " (page)="setPage($event)">
 
       <ngx-datatable-column prop="name" name="Jméno" [cellClass]="'mss-click-able'" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <span *ngIf="editedRow !== row.$$index">{{value}}</span>
           <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedCampaign.name"/>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column prop="campaignName" name="Typ kampaně" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <span *ngIf="editedRow !== row.$$index">{{value}}</span>
           <mss-select [options]="campaignFactories" [(selectedOption)]="editedCampaign.campaignName" variant="small"
                       *ngIf="editedRow === row.$$index">
           </mss-select>
@@ -31,16 +30,14 @@
 
       <ngx-datatable-column prop="orderCampaign" name="Pořadí" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
+          <span *ngIf="editedRow !== row.$$index">{{value}}</span>
           <input class="table-input" autofocus *ngIf="editedRow === row.$$index" type="number" [(ngModel)]="editedCampaign.orderCampaign"/>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column prop="runAfterStart" name="Spustit po startu" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value ? 'Ano': 'Ne'}}</span>
+          <span *ngIf="editedRow !== row.$$index">{{value ? 'Ano': 'Ne'}}</span>
           <mss-toggle [(toggled)]="editedCampaign.runAfterStart" *ngIf="editedRow === row.$$index"></mss-toggle>
         </ng-template>
       </ngx-datatable-column>
@@ -48,9 +45,9 @@
       <ngx-datatable-column name="Upravit" [width]="70" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
-            <i (click)="startEditing(row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
-            <i class="material-icons table-icon" (click)="cancelEditing()" *ngIf="editedRow === row.$$index">not_interested</i>
-            <i class="material-icons table-icon" (click)="submitEdit()" *ngIf="editedRow === row.$$index">check</i>
+            <i (click)="startEditing($event, row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
+            <i class="material-icons table-icon" (click)="cancelEditing($event)" *ngIf="editedRow === row.$$index">not_interested</i>
+            <i class="material-icons table-icon" (click)="submitEdit($event)" *ngIf="editedRow === row.$$index">check</i>
           </div>
         </ng-template>
       </ngx-datatable-column>
@@ -58,7 +55,7 @@
       <ngx-datatable-column name="Odstranit" [width]="70" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
-            <i (click)="preDeleteCampaign(row.name)" class="material-icons table-icon" *ngIf="editedRow === -1">clear</i>
+            <i (click)="showDeleteModal($event,row.name)" class="material-icons table-icon" *ngIf="editedRow === -1">clear</i>
           </div>
         </ng-template>
       </ngx-datatable-column>

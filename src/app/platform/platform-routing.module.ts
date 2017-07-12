@@ -14,6 +14,7 @@ import { OrgUnitListComponent } from './org-unit-list/org-unit-list.component';
 import { IssuersComponent } from './issuers/issuers.component';
 import { IssuerDetailComponent } from './issuer-detail/issuer-detail.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
+import { CampaignsDetailComponent } from './campaigns-detail/campaigns-detail.component';
 import { SequencesComponent } from './sequences/sequences.component';
 import { CardRequestComponent } from './card-request/card-request.component';
 import { CardRequestDetailComponent } from './card-request-detail/card-request-detail.component';
@@ -43,6 +44,7 @@ export const routes: Routes = [
     {path: 'issuers', component: IssuersComponent},
     {path: 'issuers/:id', component: IssuerDetailComponent},
     {path: 'campaigns', component: CampaignsComponent},
+    {path: 'campaigns/:name', component: CampaignsDetailComponent},
     {path: 'card-request', component: CardRequestComponent},
     {path: 'card-request/:uuid', component: CardRequestDetailComponent},
     {path: 'terminal', component: TerminalComponent},

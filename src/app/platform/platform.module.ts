@@ -21,6 +21,7 @@ import { IssuersComponent } from './issuers/issuers.component';
 import { IssuerDetailComponent } from './issuer-detail/issuer-detail.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { DataTableComponent } from './showcase/data-table/data-table.component';
+import { CampaignsDetailComponent } from './campaigns-detail/campaigns-detail.component';
 import { CardRequestComponent } from './card-request/card-request.component';
 import { CardRequestDetailComponent } from './card-request-detail/card-request-detail.component';
 import { CardDetailComponent } from './card-detail/card-detail.component';
@@ -57,6 +58,7 @@ import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.compon
     IssuerDetailComponent,
     CampaignsComponent,
     DataTableComponent,
+    CampaignsDetailComponent,
     SequencesComponent,
     CardRequestComponent,
     CardRequestDetailComponent,

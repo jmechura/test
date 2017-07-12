@@ -89,6 +89,12 @@ import { OrgUnitListEffect } from './shared/effects/org-unit-list.effect';
 import { orgUnitListReducer } from './shared/reducers/org-unit-list.reducer';
 import { orgUnitReducer } from './shared/reducers/org-unit.reducer';
 import { OrgUnitEffect } from './shared/effects/org-unit.effect';
+import { campaignDetailReducer } from './shared/reducers/campaign-detail.reducer';
+import { CampaignDetailEffect } from './shared/effects/campaign-detail.effect';
+import { campaignPropertyDefReducer } from './shared/reducers/campaign-property-def.reducer';
+import { CampaignPropertyDefEffect } from './shared/effects/campaign-property-def.effect';
+import { campaignPropertyReducer } from './shared/reducers/campaign-property.reducer';
+import { CampaignPropertyEffect } from './shared/effects/campaign-property.effect';
 
 
 @NgModule({
@@ -131,6 +137,7 @@ import { OrgUnitEffect } from './shared/effects/org-unit.effect';
       orgUnit: orgUnitReducer,
       campaigns: campaignsReducer,
       campaignFactories: campaignFactoriesReducer,
+      campaignDetail: campaignDetailReducer,
       issuerCodes: issuerCodeReducer,
       networkCodes: networkCodeReducer,
       merchantCodes: merchantCodeReducer,
@@ -144,6 +151,8 @@ import { OrgUnitEffect } from './shared/effects/org-unit.effect';
       cardGroups: cardGroupReducer,
       cardGroupDetail: cardGroupDetailReducer,
       taxTypes: taxTypesReducer,
+      campaignPropertyDefs: campaignPropertyDefReducer,
+      campaignProperties: campaignPropertyReducer,
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -183,6 +192,9 @@ import { OrgUnitEffect } from './shared/effects/org-unit.effect';
     EffectsModule.runAfterBootstrap(CardGroupEffect),
     EffectsModule.runAfterBootstrap(CardGroupDetailEffect),
     EffectsModule.runAfterBootstrap(TaxTypesEffect),
+    EffectsModule.runAfterBootstrap(CampaignDetailEffect),
+    EffectsModule.runAfterBootstrap(CampaignPropertyDefEffect),
+    EffectsModule.runAfterBootstrap(CampaignPropertyEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   providers: [

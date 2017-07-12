@@ -9,6 +9,7 @@ $default-background-color: #ffffff;
 $primary-text-color: #747474;
 $positive-number-color: #6ab11d;
 $negative-number-color: $warn-color;
+$data-table-hover-color: #F2F2F2;
 
 $animation-time: 0.25s;
 
@@ -20,6 +21,7 @@ $default-padding: 12px;
   font-size: 16px;
   text-decoration: none;
   color: $primary-text-color;
+  overflow: hidden;
 }
 
 // ---------------- autocomplete-input ----------------
@@ -1012,12 +1014,14 @@ $toggle-button-size: 20px;
 $toggle-width: 44px;
 $toggle-padding: 2px;
 $toggle-transition-time: 0.3s;
+$toggle-height: $input-height;
 
 @mixin mss-toggle-container {
   display: flex;
   align-items: center;
   cursor: pointer;
   user-select: none;
+  height: $toggle-height;
 }
 
 @mixin mss-toggle-background {

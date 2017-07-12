@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
 import { campaignFactoriesActions } from '../../shared/reducers/campaign-factories.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mss-campaigns',
@@ -49,7 +50,10 @@ export class CampaignsComponent implements OnDestroy {
   warnModalVisible = false;
   deletingCampaignName: string;
 
-  constructor(private store: Store<AppState>, private api: ApiService, fb: FormBuilder) {
+  constructor(private store: Store<AppState>,
+              private api: ApiService,
+              private router: Router,
+              fb: FormBuilder) {
 
     this.newCampaignForm = fb.group({
       name: ['', Validators.required],
@@ -126,7 +130,8 @@ export class CampaignsComponent implements OnDestroy {
     return item.touched && item.errors != null && item.errors.required;
   }
 
-  preDeleteCampaign(name: string): void {
+  showDeleteModal(event: MouseEvent, name: string): void {
+    event.stopPropagation();
     this.deletingCampaignName = name;
     this.warnModalVisible = true;
   }
@@ -150,18 +155,21 @@ export class CampaignsComponent implements OnDestroy {
     this.getCampaignsList();
   }
 
-  startEditing(row: any): void {
+  startEditing(event: MouseEvent, row: any): void {
+    event.stopPropagation();
     if (this.editedRow === -1) {
       this.editedCampaign = Object.assign({}, this.tableData.content.find(item => item.name === row.name));
       this.editedRow = row.$$index;
     }
   }
 
-  cancelEditing(): void {
+  cancelEditing(event: MouseEvent): void {
+    event.stopPropagation();
     this.editedRow = -1;
   }
 
-  submitEdit(row: any): void {
+  submitEdit(event: MouseEvent): void {
+    event.stopPropagation();
     this.editedRow = -1;
     this.api.put('/campaigns', this.editedCampaign).subscribe(
       () => {
@@ -176,5 +184,11 @@ export class CampaignsComponent implements OnDestroy {
   setPage(pageInfo: any): void {
     this.campaignsRequest.pagination.start = pageInfo.offset * this.campaignsRequest.pagination.number;
     this.getCampaignsList();
+  }
+
+  redirectToDetail(event: { selected: any[] }): void {
+    if (this.editedRow === -1 && event && event.selected && event.selected.length > 0) {
+      this.router.navigateByUrl(`platform/campaigns/${event.selected[0].name}`);
+    }
   }
 }
