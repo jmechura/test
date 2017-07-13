@@ -3,16 +3,16 @@
 
   <div class="form-wrapper">
     <div class="form-container">
-      <form [formGroup]="infoForm" class="form" *ngIf="account">
-        <mss-input formControlName="id" class="input" [type]="'number'" [value]="editAccount.id" [label]="'basic.id' | translate">
+      <form [formGroup]="infoForm" class="form" *ngIf="profile">
+        <mss-input formControlName="id" class="input" [type]="'number'" [value]="editableProfile.id" [label]="'basic.id' | translate">
         </mss-input>
-        <mss-input formControlName="firstName" class="input" [(value)]="editAccount.firstName" [label]="'basic.firstName' | translate">
+        <mss-input formControlName="firstName" class="input" [(value)]="editableProfile.firstName" [label]="'basic.firstName' | translate">
         </mss-input>
-        <mss-input formControlName="surname" class="input" [(value)]="editAccount.lastName" [label]="'basic.lastName' | translate">
+        <mss-input formControlName="surname" class="input" [(value)]="editableProfile.lastName" [label]="'basic.lastName' | translate">
         </mss-input>
-        <mss-input formControlName="email" class="input" [(value)]="editAccount.email" [label]="'basic.email' | translate">
+        <mss-input formControlName="email" class="input" [(value)]="editableProfile.email" [label]="'basic.email' | translate">
         </mss-input>
-        <mss-input formControlName="phone" class="input" [(value)]="editAccount.phone" [label]="'basic.phone' | translate">
+        <mss-input formControlName="phone" class="input" [(value)]="editableProfile.phone" [label]="'basic.phone' | translate">
         </mss-input>
       </form>
       <mss-button class="save" [label]="'basic.save' | translate" (click)="updateUser()"></mss-button>

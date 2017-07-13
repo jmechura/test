@@ -1,8 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs/Subject';
 import { singleTransactionActions } from '../../shared/reducers/transaction.reducer';
 import { StateModel } from '../../shared/models/state.model';
 import { Transaction } from '../../shared/models/transaction.model';
@@ -12,6 +11,7 @@ import { transactionTransferActions } from '../../shared/reducers/transaction-tr
 import { transactionEbankActions } from '../../shared/reducers/transaction-ebank.reducer';
 import { Transfer } from '../../shared/models/transfer.model';
 import { Ebank } from '../../shared/models/ebank.model';
+import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
@@ -22,7 +22,7 @@ import { LanguageService } from '../../shared/language/language.service';
 export class TransactionDetailComponent implements OnDestroy {
 
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   transaction: Transaction;
   sections: SelectItem[] = [];
   visibleSection: SelectItem;
@@ -33,7 +33,7 @@ export class TransactionDetailComponent implements OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private language: LanguageService,
-              private store: Store<AppState>) {
+              private store: Store<AppStateModel>) {
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (data: { uuid: string, termDttm: string }) => {
         this.store.dispatch({type: singleTransactionActions.TRANSACTION_GET_REQUEST, payload: data});
@@ -112,8 +112,7 @@ export class TransactionDetailComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
 }

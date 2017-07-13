@@ -1,13 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { fillMerchant, MerchantModel, MerchantPredicateObject } from '../../shared/models/merchant.model';
 import { StateModel } from '../../shared/models/state.model';
 import { merchantsActions } from '../../shared/reducers/merchant.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 @Component({
   selector: 'mss-merchants',
@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class MerchantsComponent implements OnDestroy {
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
 
   newMerchant: MerchantModel = fillMerchant();
   newMerchantModalShowing = false;
@@ -43,7 +43,7 @@ export class MerchantsComponent implements OnDestroy {
 
   rows = [];
 
-  constructor(fb: FormBuilder, private store: Store<AppState>, private api: ApiService) {
+  constructor(fb: FormBuilder, private store: Store<AppStateModel>, private api: ApiService) {
 
     this.newMerchantForm = fb.group({
       name: ['', Validators.required],
@@ -79,8 +79,7 @@ export class MerchantsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   toggleNewMerchantModal(): void {

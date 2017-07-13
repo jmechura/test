@@ -1,4 +1,4 @@
-export interface AccountModel {
+export interface ProfileModel {
   blocked: boolean;
   cardGroupCode: string;
   city: string;

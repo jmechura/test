@@ -1,13 +1,13 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { RoutingTable } from '../../shared/models/routin.model';
-import { Subject } from 'rxjs/Subject';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { routingTableActions } from '../../shared/reducers/routing-table.reducer';
 import { StateModel } from '../../shared/models/state.model';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 @Component({
   selector: 'mss-routing-table',
@@ -26,7 +26,7 @@ export class RoutingTableComponent implements OnDestroy {
   modalShowing = false;
   newTable: RoutingTable = {name: '', description: ''};
   newTableForm: FormGroup;
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   edit = null;
   editModel: string;
   formerData: RoutingTable[] = [];
@@ -35,7 +35,7 @@ export class RoutingTableComponent implements OnDestroy {
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateModel>,
               private fb: FormBuilder,
               private router: Router) {
     this.store.dispatch({type: routingTableActions.ROUTING_TABLE_API_GET});
@@ -120,7 +120,6 @@ export class RoutingTableComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 }

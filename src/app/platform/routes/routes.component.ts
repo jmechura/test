@@ -1,7 +1,6 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { ActivatedRoute } from '@angular/router';
 import { StateModel } from '../../shared/models/state.model';
 import { fillRoute, TableRoutes } from '../../shared/models/routin.model';
@@ -11,6 +10,7 @@ import { targetActions } from '../../shared/reducers/targer.reducer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
@@ -19,7 +19,7 @@ import { LanguageService } from '../../shared/language/language.service';
   styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnDestroy {
-  unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   loading = false;
   rows: any[] = [];
   tableName: string;
@@ -37,7 +37,7 @@ export class RoutesComponent implements OnDestroy {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateModel>,
               private fb: FormBuilder,
               private language: LanguageService,
               private route: ActivatedRoute) {
@@ -105,8 +105,7 @@ export class RoutesComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   switchModal(): void {

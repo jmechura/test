@@ -1,10 +1,9 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { Moment } from 'moment';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { transactionActions } from '../../shared/reducers/transactions.reducer';
-import { Subject } from 'rxjs/Subject';
 import { StateModel } from '../../shared/models/state.model';
 import { Transaction, TransactionSearch } from '../../shared/models/transaction.model';
 import { transactionCodesActions } from '../../shared/reducers/transaction-code.reducer';
@@ -20,6 +19,7 @@ import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer'
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { CodeModel } from '../../shared/models/code.model';
 import { TransactionFilterSection } from '../../shared/enums/transaction-filter-section.enum';
+import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/language/language.service';
 
 const DEFAULT_FILTER: TransactionSearch = {
@@ -109,7 +109,7 @@ export class DashboardComponent implements OnDestroy {
    * Unsubscribe subject
    * @type {Subject<void>}
    */
-  private unsubscribe = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   /**
    * Filter transaction options
    */
@@ -150,14 +150,13 @@ export class DashboardComponent implements OnDestroy {
    */
   @ViewChild('table') table: DatatableComponent;
 
-
-  constructor(private store: Store<AppState>, private router: Router, private language: LanguageService) {
+  constructor(private store: Store<AppStateModel>, private router: Router, private language: LanguageService) {
     this.store.dispatch({type: transactionCodesActions.TRANSACTION_CODES_GET_REQUEST});
     this.store.dispatch({type: transactionTypesActions.TRANSACTION_TYPES_GET_REQUEST});
     this.store.dispatch({type: transactionStatesActions.TRANSACTION_STATES_GET_REQUEST});
     this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
     this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
-    this.store.select('transactions').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('transactions').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<Pagination<Transaction>>) => {
         this.loading = data.loading;
         if (data.error) {
@@ -179,7 +178,7 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.store.select('transactionCodes').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('transactionCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<string[]>) => {
         if (data.error) {
           console.error('Error while getting transaction codes', data.error);
@@ -196,7 +195,7 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.store.select('transactionTypes').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('transactionTypes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<string[]>) => {
         if (data.error) {
           console.error('Error while getting transaction types', data.error);
@@ -213,7 +212,7 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.store.select('transactionStates').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('transactionStates').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<string[]>) => {
         if (data.error) {
           console.error('Error while getting transaction states', data.error);
@@ -230,7 +229,7 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.store.select('issuerCodes').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting issuer codes', data.error);
@@ -242,7 +241,7 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.store.select('networkCodes').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('networkCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting network codes', data.error);
@@ -254,7 +253,7 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.store.select('merchantCodes').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('merchantCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting merchant codes', data.error);
@@ -266,7 +265,7 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.store.select('orgUnitCodes').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('orgUnitCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting org unit codes', data.error);
@@ -278,7 +277,7 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.store.select('cardGroupCodes').takeUntil(this.unsubscribe).subscribe(
+    this.store.select('cardGroupCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
         if (data.error) {
           console.error('Error while getting card group codes', data.error);
@@ -425,7 +424,6 @@ export class DashboardComponent implements OnDestroy {
 
 
   ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
+    this.unsubscribe$.fire();
   }
 }

@@ -2,24 +2,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { BronzeComponentsModule } from './shared/components/bronze/bronze-components.module';
 import { SilverComponentsModule } from 'app/shared/components/silver/silver-components.module';
 import { GoldComponentsModule } from './shared/components/gold/gold-components.module';
 import { LoginModule } from './login/login.module';
 import { PlatformModule } from './platform/platform.module';
 import { StoreModule } from '@ngrx/store';
-import { authReducer } from './shared/reducers/auth.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthEffect } from './shared/effects/auth.effect';
 import { ApiService } from './shared/services/api.service';
 import { cardReducer } from './shared/reducers/card.reducer';
 import { CardEffect } from './shared/effects/card.effect';
-import { accountReducer } from './shared/reducers/account.reducer';
-import { AccountEffect } from './shared/effects/account.effect';
+import { profileReducer } from './shared/reducers/profile.reducer';
+import { ProfileEffect } from './shared/effects/profile.effect';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { transactionCodeReducer } from './shared/reducers/transaction-code.reducer';
 import { TransactionCodeEffect } from './shared/effects/transaction-code.effect';
@@ -137,9 +133,8 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     SilverComponentsModule,
     GoldComponentsModule,
     StoreModule.provideStore({
-      auth: authReducer,
       card: cardReducer,
-      account: accountReducer,
+      profile: profileReducer,
       templates: templatesReducer,
       transactionCodes: transactionCodeReducer,
       transactionStates: transactionStateReducer,
@@ -186,10 +181,8 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       importPropertyDefs: importPropertyDefReducer,
       importProperties: importPropertyReducer,
     }),
-    EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
-    EffectsModule.runAfterBootstrap(AccountEffect),
-    EffectsModule.runAfterBootstrap(AuthEffect),
+    EffectsModule.runAfterBootstrap(ProfileEffect),
     EffectsModule.runAfterBootstrap(TransactionCodeEffect),
     EffectsModule.runAfterBootstrap(TransactionStateEffect),
     EffectsModule.runAfterBootstrap(TransactionTypeEffect),

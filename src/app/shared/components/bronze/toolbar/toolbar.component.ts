@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AccountModel } from '../../../models/account.model';
+import { ProfileModel } from '../../../models/profile.model';
 import { LanguageService } from '../../../language/language.service';
 
 export type ToolbarPosition = 'side' | 'top';
@@ -37,7 +37,7 @@ const TOOLBAR_ITEMS: ToolbarItem[] = [
 export class ToolbarComponent {
   readonly toolbarItems = TOOLBAR_ITEMS.map(item => ({...item, path: `/platform/${item.path}`}));
   @Input() position: ToolbarPosition = 'top';
-  @Input() userData: AccountModel;
+  @Input() userData: ProfileModel;
 
   constructor(private language: LanguageService) {
     this.toolbarItems = TOOLBAR_ITEMS.map(item => ({

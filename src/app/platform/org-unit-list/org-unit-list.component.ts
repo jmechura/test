@@ -1,13 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
 import { orgUnitListActions, OrgUnitListState } from '../../shared/reducers/org-unit-list.reducer';
 import { OrgUnitModel, OrgUnitPredicateObject } from '../../shared/models/org-unit.model';
 import { ApiService } from '../../shared/services/api.service';
 import { RequestOptions } from '../../shared/models/pagination.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 const ORG_UNIT_ENDPOINT = '/orgUnits';
 const ORG_UNIT_ROUTE = '/platform/org-units';
@@ -31,9 +31,9 @@ export class OrgUnitListComponent implements OnDestroy {
   createModalShown = false;
   deleteModalShown = false;
   private selectedOrgUnitId: string;
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
 
-  constructor(private store: Store<AppState>, private api: ApiService, private router: Router, private route: ActivatedRoute) {
+  constructor(private store: Store<AppStateModel>, private api: ApiService, private router: Router, private route: ActivatedRoute) {
     this.store.select('orgUnitList').takeUntil(this.unsubscribe$).subscribe(
       (state: OrgUnitListState) => {
         if (state.error !== null) {
@@ -60,8 +60,7 @@ export class OrgUnitListComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   itemsPerPage(itemLimit: number): void {

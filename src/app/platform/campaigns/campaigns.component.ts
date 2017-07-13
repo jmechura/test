@@ -1,15 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { CampaignModel, CampaignPredicateObject, fillCampaign } from '../../shared/models/campaign.model';
 import { campaignsActions } from '../../shared/reducers/campaign.reducer';
-import { Subject } from 'rxjs/Subject';
 import { StateModel } from '../../shared/models/state.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
 import { campaignFactoriesActions } from '../../shared/reducers/campaign-factories.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { UnsubscribeSubject } from '../../shared/utils';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../shared/language/language.service';
 
@@ -19,8 +19,7 @@ import { LanguageService } from '../../shared/language/language.service';
   styleUrls: ['./campaigns.component.scss']
 })
 export class CampaignsComponent implements OnDestroy {
-
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
 
   campaignsRequest: RequestOptions<CampaignPredicateObject> = {
     pagination: {
@@ -51,11 +50,11 @@ export class CampaignsComponent implements OnDestroy {
   warnModalVisible = false;
   deletingCampaignName: string;
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateModel>,
               private api: ApiService,
               private router: Router,
               private language: LanguageService,
-              fb: FormBuilder) {
+              private fb: FormBuilder) {
 
     this.newCampaignForm = fb.group({
       name: ['', Validators.required],
@@ -99,8 +98,7 @@ export class CampaignsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   getCampaignsList(): void {

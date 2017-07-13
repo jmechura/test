@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs/Subject';
 import { cardGroupActions, CardGroupState } from '../../shared/reducers/card-group.reducer';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { CardGroupModel, CardGroupSearchModel } from '../../shared/models/card-group.model';
@@ -9,7 +8,7 @@ import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { StateModel } from '../../shared/models/state.model';
 import { CodeModel } from '../../shared/models/code.model';
-import { AccountModel } from '../../shared/models/account.model';
+import { ProfileModel } from '../../shared/models/profile.model';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
@@ -17,6 +16,7 @@ import { optionalEmailValidator } from 'app/shared/validators/optional-email.val
 import { Router } from '@angular/router';
 import { CardGroupSections } from '../../shared/enums/card-group-sections.enum';
 import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
+import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
 import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
@@ -25,8 +25,6 @@ import { LanguageService } from '../../shared/language/language.service';
   styleUrls: ['./card-groups.component.scss']
 })
 export class CardGroupsComponent implements OnDestroy {
-
-  unsubscribe$ = new Subject<void>();
   requestModel: RequestOptions<CardGroupSearchModel> = {
     pagination: {
       number: 10,
@@ -70,9 +68,9 @@ export class CardGroupsComponent implements OnDestroy {
   visibleTab = this.tabsOptions[0];
   states: SelectItem[] = [{value: 'ENABLED'}];
   taxTypes: SelectItem[] = [];
+  private unsubscribe$ = new UnsubscribeSubject();
 
-
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateModel>,
               private fb: FormBuilder,
               private api: ApiService,
               private language: LanguageService,
@@ -100,16 +98,21 @@ export class CardGroupsComponent implements OnDestroy {
       }
     );
 
-    this.store.select('account').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<AccountModel>) => {
-        if (data.error) {
-          console.error('Error occurred while retrieving account information.', data.error);
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error}: StateModel<ProfileModel>) => {
+        if (error instanceof MissingTokenResponse) {
           return;
         }
-        if (data.data !== undefined && !data.loading) {
-          // TODO: edit this after issuer code is got from account model and role system works
+
+        if (error !== null) {
+          console.error('Error occurred while retrieving profile', error);
+          return;
+        }
+
+        if (data != null) {
+          // TODO: edit this after issuer code is got from profile model and role system works
           // TODO: issuer code select in filter and createNew should be visible only to SA, others should use their issuerCode
-          this.userIssuerCode = data.data.issuerCode;
+          this.userIssuerCode = data.issuerCode;
           this.userIssuerCode = 'bancibo';
           this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: this.userIssuerCode});
         }
@@ -254,8 +257,7 @@ export class CardGroupsComponent implements OnDestroy {
 
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
 }

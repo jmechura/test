@@ -1,8 +1,7 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { StateModel } from '../../shared/models/state.model';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { sequencesTypeActions } from '../../shared/reducers/sequences-type.reducer';
 import { userResourceActions } from '../../shared/reducers/user-resource.reducer';
@@ -16,6 +15,7 @@ import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 import { sequencesActions } from '../../shared/reducers/sequences.reducer';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/language/language.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class SequencesComponent implements OnDestroy {
   userResource: SelectItem[] = [];
   newSequenceForm: FormGroup;
   modalShowing = false;
-  unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   newSequence = fillSequence();
   code: SelectItem[];
 
@@ -53,7 +53,7 @@ export class SequencesComponent implements OnDestroy {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateModel>,
               private language: LanguageService,
               private fb: FormBuilder) {
     this.store.dispatch({type: sequencesTypeActions.SEQUENCES_TYPE_API_GET});
@@ -249,8 +249,7 @@ export class SequencesComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   subMenuSelect(resource: number): void {

@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { StateModel } from '../../shared/models/state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { issuersActions } from '../../shared/reducers/issuer.reducer';
@@ -9,6 +8,7 @@ import { fillIssuer, IssuerModel, IssuerPredicateObject } from '../../shared/mod
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
 import { Router } from '@angular/router';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 @Component({
   selector: 'mss-issuers',
@@ -22,7 +22,7 @@ export class IssuersComponent implements OnDestroy {
   newIssuer: IssuerModel = fillIssuer();
   newIssuerModalShowing = false;
   newIssuerForm: FormGroup;
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   issuersRequest: RequestOptions<IssuerPredicateObject> = {
     pagination: {
       number: 5,
@@ -37,7 +37,7 @@ export class IssuersComponent implements OnDestroy {
   loading = true;
   rows = [];
 
-  constructor(private store: Store<AppState>, private router: Router, private fb: FormBuilder, private api: ApiService) {
+  constructor(private store: Store<AppStateModel>, private router: Router, private fb: FormBuilder, private api: ApiService) {
     this.newIssuerForm = fb.group({
       addressName: [''],
       city: [''],
@@ -101,8 +101,7 @@ export class IssuersComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   isPresent(value: string): boolean {

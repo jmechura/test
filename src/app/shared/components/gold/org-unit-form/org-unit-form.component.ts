@@ -1,12 +1,12 @@
 import { Component, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../models/app-state.model';
+import { AppStateModel } from '../../../models/app-state.model';
 import { NetworkCodeState, networkCodeActions } from '../../../reducers/network-code.reducer';
-import { Subject } from 'rxjs';
 import { SelectItem } from '../../bronze/select/select.component';
 import { MerchantCodeState, merchantCodeActions } from '../../../reducers/merchant-code.reducer';
 import { OrgUnitModel } from '../../../models/org-unit.model';
+import { UnsubscribeSubject } from '../../../utils';
 
 type OrgUnitFormVariant = 'create' | 'update';
 
@@ -22,9 +22,9 @@ export class OrgUnitFormComponent implements OnDestroy {
   form: FormGroup;
   networkOptions: SelectItem[] = [];
   merchantOptions: SelectItem[] = [];
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder) {
+  constructor(private store: Store<AppStateModel>, private fb: FormBuilder) {
     this.form = this.fb.group({
       city: '',
       code: ['', Validators.required],
@@ -74,8 +74,7 @@ export class OrgUnitFormComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   @Input() set modelTemplate(model: OrgUnitModel) {

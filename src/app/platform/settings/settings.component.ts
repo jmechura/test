@@ -1,12 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
-import { accountActions } from '../../shared/reducers/account.reducer';
-import { Subject } from 'rxjs/Subject';
+import { profileActions } from '../../shared/reducers/profile.reducer';
 import { StateModel } from '../../shared/models/state.model';
-import { AccountModel } from '../../shared/models/account.model';
+import { ProfileModel } from '../../shared/models/profile.model';
 import { ApiService } from '../../shared/services/api.service';
+import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
 import { LanguageService } from '../../shared/language/language.service';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 
@@ -19,8 +19,8 @@ export class SettingsComponent implements OnDestroy {
   infoForm: FormGroup;
   passwordForm: FormGroup;
 
-  account: AccountModel;
-  editAccount: AccountModel;
+  profile: ProfileModel;
+  editableProfile: ProfileModel;
 
   oldPassword: string;
   newPassword: string;
@@ -32,10 +32,10 @@ export class SettingsComponent implements OnDestroy {
   languages: SelectItem[] = [];
   selectedLanguage: string;
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
 
   constructor(private fb: FormBuilder,
-              private store: Store<AppState>,
+              private store: Store<AppStateModel>,
               private language: LanguageService,
               private api: ApiService) {
     this.infoForm = fb.group({
@@ -54,17 +54,21 @@ export class SettingsComponent implements OnDestroy {
       newAnswer: [{value: '', disabled: true}],
     });
 
-    // Dispatch to get account is in platform
-    this.store.select('account').takeUntil(this.unsubscribe$).subscribe(
-      ({data, error}: StateModel<AccountModel>) => {
+    // Dispatch to get profile is in platform
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error}: StateModel<ProfileModel>) => {
+        if (error instanceof MissingTokenResponse) {
+          return;
+        }
+
         if (error) {
           console.error('Account API call returned error', error);
           return;
         }
 
-        if (data != undefined) {
-          this.account = data;
-          this.editAccount = Object.assign({}, this.account);
+        if (data != null) {
+          this.profile = data;
+          this.editableProfile = {...this.profile};
         }
       }
     );
@@ -73,19 +77,18 @@ export class SettingsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   updateUser(): void {
-    this.store.dispatch({type: accountActions.ACCOUNT_API_PUT, payload: this.editAccount});
+    this.store.dispatch({type: profileActions.PROFILE_PUT_REQUEST, payload: this.editableProfile});
   }
 
   updatePassword(): void {
     const newPasswordObject = {
       newPassword: this.newPassword,
       password: this.oldPassword,
-      userId: this.account.id,
+      userId: this.profile.id,
     };
     this.api.post('/users/changepassword/own', newPasswordObject).subscribe(
       () => {

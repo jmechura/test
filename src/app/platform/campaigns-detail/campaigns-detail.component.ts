@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { campaignDetailActions } from '../../shared/reducers/campaign-detail.reducer';
 import { CampaignModel } from '../../shared/models/campaign.model';
@@ -38,7 +38,7 @@ export class CampaignsDetailComponent implements OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
-              private store: Store<AppState>,
+              private store: Store<AppStateModel>,
               private router: Router,
               private api: ApiService) {
     this.store.dispatch({type: campaignFactoriesActions.CAMPAIGN_FACTORIES_GET_REQUEST});

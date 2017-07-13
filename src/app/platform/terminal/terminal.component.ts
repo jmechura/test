@@ -1,6 +1,5 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { StateModel } from '../../shared/models/state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
@@ -14,6 +13,7 @@ import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 const API_ENDPOINT = 'terminals';
 const DEFAULT_FILTER: TerminalSearch = {
@@ -42,7 +42,7 @@ export class TerminalComponent implements OnDestroy {
     sort: {}
   };
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
 
   newTerminalForm: FormGroup;
   terminalData: Pagination<TerminalModel>;
@@ -59,7 +59,7 @@ export class TerminalComponent implements OnDestroy {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder, private api: ApiService) {
+  constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private api: ApiService) {
     this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
     this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
 
@@ -195,8 +195,7 @@ export class TerminalComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   switchModal(): void {

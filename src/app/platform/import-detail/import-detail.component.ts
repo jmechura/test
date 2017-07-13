@@ -1,7 +1,7 @@
 import { Component, OnDestroy, } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { importDetailActions } from '../../shared/reducers/import-detail.reducer';
 import { StateModel } from '../../shared/models/state.model';
@@ -44,7 +44,7 @@ export class ImportDetailComponent implements OnDestroy {
               private fb: FormBuilder,
               private api: ApiService,
               private router: Router,
-              private store: Store<AppState>) {
+              private store: Store<AppStateModel>) {
     this.store.dispatch({type: importTypeActions.IMPORT_TYPE_GET_REQUEST});
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       params => {

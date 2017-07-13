@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../shared/models/app-state.model';
-import { Subject } from 'rxjs/Subject';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { CardRequestModel, CardRequestSearchModel } from '../../shared/models/card-request.model';
 import { StateModel } from '../../shared/models/state.model';
@@ -9,11 +8,12 @@ import { cardRequestActions } from '../../shared/reducers/card-request.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { Moment } from 'moment';
-import { AccountModel } from '../../shared/models/account.model';
+import { ProfileModel } from '../../shared/models/profile.model';
 import { cardRequestStateActions } from '../../shared/reducers/card-request-state.reducer';
 import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/api.service';
 import { CodeModel } from '../../shared/models/code.model';
+import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
 import { LanguageService } from '../../shared/language/language.service';
 
 const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
@@ -26,7 +26,7 @@ const API_ENDPOINT = '/cards/requests';
 })
 export class CardRequestComponent {
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   searchModel: RequestOptions<CardRequestSearchModel> = {
     pagination: {
       number: 10,
@@ -55,20 +55,26 @@ export class CardRequestComponent {
   modalDisplaying: 'confirm' | 'decline';
   confirmDeclineUuid: string;
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateModel>,
               private router: Router,
               private language: LanguageService,
               private api: ApiService) {
+
     this.store.dispatch({type: cardRequestStateActions.CARD_REQUEST_STATE_GET_REQUEST});
-    this.store.select('account').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<AccountModel>) => {
-        if (data.error) {
-          console.error('Error occurred while getting account model.', data.error);
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error}: StateModel<ProfileModel>) => {
+        if (error instanceof MissingTokenResponse) {
           return;
         }
-        if (data.data != undefined && !data.loading) {
-          this.issuerCode = data.data.issuerCode;
-          // TODO: uncomment after issuerCode is got in account model to get valid requests for issuer
+
+        if (error !== null) {
+          console.error('Error occurred while getting profile', error);
+          return;
+        }
+
+        if (data != null) {
+          this.issuerCode = data.issuerCode;
+          // TODO: uncomment after issuerCode is got in profile model to get valid requests for issuer
           // this.searchModel.search.predicateObject.issuerCode = data.data.issuerCode;
           this.searchModel.search.predicateObject.issuerCode = 'bancibo';
           this.store.dispatch(

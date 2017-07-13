@@ -1,7 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { ActivatedRoute } from '@angular/router';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { cardGroupDetailActions } from '../../shared/reducers/card-group-detail.reducer';
 import { StateModel } from '../../shared/models/state.model';
@@ -11,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { optionalEmailValidator } from '../../shared/validators/optional-email.validator';
 import { CardGroupSections } from '../../shared/enums/card-group-sections.enum';
 import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 @Component({
   selector: 'mss-card-group-detail',
@@ -19,7 +19,7 @@ import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
 })
 export class CardGroupDetailComponent implements OnDestroy {
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   cardGroupDetail: CardGroupModel;
   tabsOptions = [
     {
@@ -50,7 +50,7 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
-              private store: Store<AppState>) {
+              private store: Store<AppStateModel>) {
     this.route.params.subscribe(
       (params: { id: string }) => {
         this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
@@ -129,8 +129,7 @@ export class CardGroupDetailComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
 }

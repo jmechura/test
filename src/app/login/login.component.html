@@ -1,11 +1,11 @@
 <div class="login-wrapper">
   <div class="login-container">
-    <form [formGroup]="loginForm" class="login-form">
+    <form [formGroup]="loginForm" class="login-form" (ngSubmit)="login()">
       <img class="logo" src="assets/images/logo.svg">
-      <mss-input formControlName="username" class="input" [(value)]="username" [placeholder]="'Uživatelské jméno'"></mss-input>
-      <span *ngIf="loginForm.invalid && loginForm.touched">Nesprávne zadané jmnéno</span>
-      <mss-input formControlName="password" class="input" type="password" [(value)]="password" [placeholder]="'Heslo'"></mss-input>
-      <mss-button class="login-button" label="PŘIHLÁSIT SE" (click)="login()"></mss-button>
+      <mss-input formControlName="login" class="input" placeholder="Uživatelské jméno"></mss-input>
+      <span *ngIf="loginForm.invalid && loginForm.touched">Nesprávne zadané jméno</span>
+      <mss-input formControlName="password" class="input" type="password" placeholder="Heslo"></mss-input>
+      <mss-button class="login-button" label="PŘIHLÁSIT SE"></mss-button>
     </form>
   </div>
 </div>

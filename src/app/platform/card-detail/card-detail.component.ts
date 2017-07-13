@@ -1,12 +1,12 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
 import { StateModel } from '../../shared/models/state.model';
 import { CardDetailModel } from '../../shared/models/card-detail.model';
 import { cardDetailActions } from '../../shared/reducers/card-detail.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/language/language.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -17,7 +17,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 })
 export class CardDetailComponent implements OnDestroy {
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   cardData: CardDetailModel;
   viewData: {
     basic: any[];
@@ -31,7 +31,7 @@ export class CardDetailComponent implements OnDestroy {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateModel>,
               private language: LanguageService,
               private route: ActivatedRoute) {
 
@@ -158,7 +158,6 @@ export class CardDetailComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 }

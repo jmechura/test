@@ -1,26 +1,51 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestMethod, Response } from '@angular/http';
+import { Headers, Http, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
+import { LoginModel } from '../models/login.model';
+import { parseResponse, MissingTokenResponse } from '../utils';
 
-export const TOKEN_STORAGE_KEY = 'mss_token';
-
-function parseResponse(response: Response): any {
-  try {
-    return response.json();
-  } catch (error) {
-    return response.text();
-  }
-}
+const LOGIN_ENDPOINT = '/login';
+const TOKEN_STORAGE_KEY = 'mss_token';
 
 @Injectable()
 export class ApiService {
+  constructor(private http: Http) {}
 
-  constructor(private http: Http) {
+  acquireToken(login: LoginModel): Observable<void> {
+    return this.post(LOGIN_ENDPOINT, login, false).map(
+      ({token}: {token: string}) => {
+        localStorage.setItem(TOKEN_STORAGE_KEY, token);
+      }
+    );
   }
 
-  request(method: RequestMethod, path: string, payload?: any): Observable<any> {
+  discardToken(): void {
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+  }
+
+  get(path: string, tokenRequired: boolean = true): Observable<any> {
+    return this.request(RequestMethod.Get, path, null, tokenRequired);
+  }
+
+  post(path: string, payload: any, tokenRequired: boolean = true): Observable<any> {
+    return this.request(RequestMethod.Post, path, payload, tokenRequired);
+  }
+
+  put(path: string, payload: any, tokenRequired: boolean = true): Observable<any> {
+    return this.request(RequestMethod.Put, path, payload, tokenRequired);
+  }
+
+  remove(path: string, tokenRequired: boolean = true): Observable<any> {
+    return this.request(RequestMethod.Delete, path, null, tokenRequired);
+  }
+
+  private request(method: RequestMethod, path: string, payload: any, tokenRequired: boolean): Observable<any> {
     const authToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (tokenRequired && authToken === null) {
+      return Observable.throw(new MissingTokenResponse());
+    }
+
     const requestUrl = `${environment.apiUrl}${path}`;
     const requestOptions = {
       method: method,
@@ -28,21 +53,5 @@ export class ApiService {
       headers: new Headers({...(authToken !== null ? {Authorization: authToken} : null)})
     };
     return this.http.request(requestUrl, requestOptions).map(parseResponse);
-  }
-
-  get(path: string): Observable<any> {
-    return this.request(RequestMethod.Get, path);
-  }
-
-  post(path: string, payload: any): Observable<any> {
-    return this.request(RequestMethod.Post, path, payload);
-  }
-
-  put(path: string, payload: any): Observable<any> {
-    return this.request(RequestMethod.Put, path, payload);
-  }
-
-  remove(path: string): Observable<any> {
-    return this.request(RequestMethod.Delete, path);
   }
 }

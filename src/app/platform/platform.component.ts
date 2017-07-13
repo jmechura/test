@@ -2,13 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import { ToolbarPosition } from '../shared/components/bronze/toolbar/toolbar.component';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from '../shared/models/app-state.model';
-import { authActions } from '../shared/reducers/auth.reducer';
-import { TOKEN_STORAGE_KEY } from '../shared/services/api.service';
-import { Subject } from 'rxjs/Subject';
-import { accountActions } from '../shared/reducers/account.reducer';
+import { AppStateModel } from '../shared/models/app-state.model';
 import { StateModel } from '../shared/models/state.model';
-import { AccountModel } from '../shared/models/account.model';
+import { ProfileModel } from '../shared/models/profile.model';
+import { profileActions } from '../shared/reducers/profile.reducer';
+import { UnsubscribeSubject, MissingTokenResponse } from '../shared/utils';
 
 @Component({
   selector: 'mss-platform',
@@ -18,35 +16,34 @@ import { AccountModel } from '../shared/models/account.model';
 export class PlatformComponent implements OnDestroy {
   currentBalance = 0;
   toolbarPosition: ToolbarPosition = 'side';
-  account: AccountModel;
+  profile: ProfileModel;
+  private unsubscribe$ = new UnsubscribeSubject();
 
-  private unsubscribe$ = new Subject<void>();
+  constructor(private router: Router, private store: Store<AppStateModel>) {
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error}: StateModel<ProfileModel>) => {
+        if (error instanceof MissingTokenResponse) {
+          return;
+        }
 
-  constructor(private router: Router, private store: Store<AppState>) {
-    this.store.dispatch({type: accountActions.ACCOUNT_API_GET});
-
-    this.store.select('account').takeUntil(this.unsubscribe$).subscribe(
-      ({data, error}: StateModel<AccountModel>) => {
         if (error) {
           console.error('Account API call returned error', error);
           return;
         }
 
-        if (data != undefined) {
-          this.account = data;
+        if (data != null) {
+          this.profile = data;
         }
       }
     );
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   logOut(): void {
-    this.store.dispatch({type: authActions.LOGOUT});
-    localStorage.removeItem(TOKEN_STORAGE_KEY);
+    this.store.dispatch({type: profileActions.PROFILE_DISCARD});
     this.router.navigateByUrl('/login');
   }
 }

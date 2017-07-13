@@ -63,10 +63,6 @@
       true,
       "LF"
     ],
-    "max-classes-per-file": [
-      true,
-      1
-    ],
     "max-line-length": [
       true,
       140

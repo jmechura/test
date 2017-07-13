@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { importActions, ImportState } from '../../shared/reducers/imports.reducer';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
@@ -44,7 +44,7 @@ export class ImportsComponent implements OnDestroy {
   deletingName: string;
   deleteModalVisible = false;
 
-  constructor(private store: Store<AppState>,
+  constructor(private store: Store<AppStateModel>,
               private route: ActivatedRoute,
               private fb: FormBuilder,
               private api: ApiService,

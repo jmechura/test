@@ -3,11 +3,11 @@ import { ApiService } from '../../shared/services/api.service';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { issuerDetailActions } from '../../shared/reducers/issuer-detail.reducer';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { StateModel } from '../../shared/models/state.model';
 import { fillIssuer, IssuerModel } from '../../shared/models/issuer.model';
-import { Subject } from 'rxjs/Subject';
 import { ActivatedRoute } from '@angular/router';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 @Component({
   selector: 'mss-issuer-detail',
@@ -16,14 +16,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class IssuerDetailComponent implements OnDestroy {
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   id: string;
   issuer: IssuerModel = fillIssuer();
   editIssuer: IssuerModel = fillIssuer();
   isEditing = false;
   editIssuerForm: FormGroup;
 
-  constructor(private store: Store<AppState>, private fb: FormBuilder, private api: ApiService, private route: ActivatedRoute) {
+  constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private api: ApiService, private route: ActivatedRoute) {
     this.editIssuerForm = fb.group({
       addressName: [''],
       city: [''],
@@ -64,8 +64,7 @@ export class IssuerDetailComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   toggleUpdateIssuer(): void {

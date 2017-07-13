@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 import { CanActivateLanguageGuard } from './shared/guards/language.guard';
 
 export const routes: Routes = [
   {
     path: '',
     canActivate: [CanActivateLanguageGuard],
+    canActivateChild: [AuthGuard],
     children: [
-      {path: 'login', component: LoginComponent},
+      {path: 'login', loadChildren: 'app/login/login.module#LoginModule'},
       {path: 'platform', loadChildren: 'app/platform/platform.module#PlatformModule'},
       {path: '**', redirectTo: 'login'}
     ]
@@ -17,7 +18,7 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

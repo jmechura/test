@@ -1,12 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { ApiService } from '../../shared/services/api.service';
 import { OrgUnitModel } from '../../shared/models/org-unit.model';
-import { Subject } from 'rxjs';
 import { OrgUnitState, orgUnitActions } from '../../shared/reducers/org-unit.reducer';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 const ORG_UNIT_ENDPOINT = '/orgUnits';
 
@@ -17,9 +17,9 @@ const ORG_UNIT_ENDPOINT = '/orgUnits';
 })
 export class OrgUnitDetailComponent implements OnDestroy {
   orgUnit: OrgUnitModel;
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>, private api: ApiService, private location: Location) {
+  constructor(private route: ActivatedRoute, private store: Store<AppStateModel>, private api: ApiService, private location: Location) {
     this.route.params.subscribe(
       (params: {id: string}) => {
         this.store.dispatch({type: orgUnitActions.ORG_UNIT_GET_REQUEST, payload: params.id});
@@ -41,8 +41,7 @@ export class OrgUnitDetailComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 
   updateOrgUnit(model: OrgUnitModel): void {

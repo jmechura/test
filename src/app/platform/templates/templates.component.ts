@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../shared/models/app-state.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
 import { Router } from '@angular/router';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
@@ -49,7 +49,7 @@ export class TemplatesComponent implements OnDestroy {
   rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
   totalElements = 0;
 
-  constructor(private store: Store<AppState>, private router: Router, private fb: FormBuilder, private api: ApiService) {
+  constructor(private store: Store<AppStateModel>, private router: Router, private fb: FormBuilder, private api: ApiService) {
     this.newTemplateForm = fb.group({
       code: ['', Validators.required],
       description: [''],
