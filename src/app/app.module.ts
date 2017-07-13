@@ -105,6 +105,16 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from './shared/language/language.service';
 import { CanActivateLanguageGuard } from './shared/guards/language.guard';
+import { importsReducer } from './shared/reducers/imports.reducer';
+import { ImportsEffect } from './shared/effects/imports.effect';
+import { ImportTypeEffect } from './shared/effects/import-type.effect';
+import { importTypeReducer } from './shared/reducers/import-type.reducer';
+import { importDetailReducer } from './shared/reducers/import-detail.reducer';
+import { ImportDetailEffect } from './shared/effects/import-detail.effect';
+import { importPropertyDefReducer } from './shared/reducers/import-property-def.reducer';
+import { ImportPropertyDefEffect } from './shared/effects/import-property-def.effect';
+import { importPropertyReducer } from './shared/reducers/import-property.reducer';
+import { ImportPropertyEffect } from './shared/effects/import-property.effect';
 
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
@@ -170,6 +180,11 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       taxTypes: taxTypesReducer,
       campaignPropertyDefs: campaignPropertyDefReducer,
       campaignProperties: campaignPropertyReducer,
+      imports: importsReducer,
+      importTypes: importTypeReducer,
+      importDetail: importDetailReducer,
+      importPropertyDefs: importPropertyDefReducer,
+      importProperties: importPropertyReducer,
     }),
     EffectsModule.runAfterBootstrap(AuthEffect),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -215,6 +230,11 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(CampaignDetailEffect),
     EffectsModule.runAfterBootstrap(CampaignPropertyDefEffect),
     EffectsModule.runAfterBootstrap(CampaignPropertyEffect),
+    EffectsModule.runAfterBootstrap(ImportsEffect),
+    EffectsModule.runAfterBootstrap(ImportTypeEffect),
+    EffectsModule.runAfterBootstrap(ImportDetailEffect),
+    EffectsModule.runAfterBootstrap(ImportPropertyDefEffect),
+    EffectsModule.runAfterBootstrap(ImportPropertyEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({
       loader: {

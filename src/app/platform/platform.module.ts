@@ -33,6 +33,8 @@ import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.
 import { GoldComponentsModule } from '../shared/components/gold/gold-components.module';
 import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
 import { LanguageModule } from '../shared/language/language.module';
+import { ImportsComponent } from './imports/imports.component';
+import { ImportDetailComponent } from './import-detail/import-detail.component';
 
 @NgModule({
   imports: [
@@ -75,6 +77,8 @@ import { LanguageModule } from '../shared/language/language.module';
     CardGroupDetailComponent,
     CardDetailComponent,
     OrgUnitDetailComponent,
+    ImportsComponent,
+    ImportDetailComponent,
   ]
 })
 export class PlatformModule {}

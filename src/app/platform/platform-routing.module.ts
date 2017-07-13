@@ -26,6 +26,8 @@ import { CardListComponent } from './employer-card/card-list.component';
 import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
 import { TemplatesComponent } from './templates/templates.component';
 import { TemplateDetailComponent } from './template-detail/template-detail.component';
+import { ImportsComponent } from './imports/imports.component';
+import { ImportDetailComponent } from './import-detail/import-detail.component';
 
 export const routes: Routes = [
   {
@@ -55,6 +57,8 @@ export const routes: Routes = [
     {path: 'card-groups', component: CardGroupsComponent},
     {path: 'card-groups/:id', component: CardGroupDetailComponent},
     {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},
+    {path: 'imports', component: ImportsComponent},
+    {path: 'imports/:name', component: ImportDetailComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
   ]
   }

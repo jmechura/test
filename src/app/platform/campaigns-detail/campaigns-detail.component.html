@@ -7,7 +7,7 @@
                   (click)="toggleCampaign()"></mss-button>
       <mss-button class="button right-margin" (click)="modalVisible = true"
                   [label]="'campaigns.detail.deleteCampaign' | translate"></mss-button>
-      <mss-button class="button" [label]="editingCampaign ? ('campaigns.detail.preview' | translate) : ('basic.edit' | translate)"
+      <mss-button class="button" [label]="editingCampaign ? ('basic.preview' | translate) : ('basic.edit' | translate)"
                   (click)="editingCampaign = !editingCampaign"></mss-button>
     </div>
   </div>
@@ -56,7 +56,7 @@
     <div class="header-row">
       <div class="mss-title">Properties</div>
       <mss-button class="button" (click)="toggleProperties()"
-                  [label]="editingProperties ? ('campaigns.detail.preview' | translate) : ('basic.edit' | translate)"></mss-button>
+                  [label]="editingProperties ? ('basic.preview' | translate) : ('basic.edit' | translate)"></mss-button>
     </div>
     <div class="content" *ngIf="!editingProperties">
       <div class="column " *ngIf="properties.length === 0">{{'campaigns.detail.noProperty' | translate}}

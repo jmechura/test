@@ -33,6 +33,8 @@
     "deactivate": "Deaktivovat",
     "description": "Popis",
     "resource": "Zdroj",
+    "preview": "Náhled",
+    "action": "Akce",
     "required": {
       "code": "Kod je povinný údaj.",
       "name": "Jméno je povinný údaj.",
@@ -285,7 +287,6 @@
     "detail": {
       "title": "Kampaň",
       "deleteCampaign": "Smazat kampaň",
-      "preview": "Náhled",
       "noProperty": "Tato kampaň neobsahuuje žádné properties.",
       "noDefaultProperty": "Tento typ kampaně neobsahuje žádné property"
     },
@@ -304,6 +305,25 @@
       "system": "System",
       "systemReceiver": "Systémový příjemce",
       "resources": "Zdroje"
+    }
+  },
+  "imports": {
+    "list": {
+      "title": "Importy",
+      "addImport": "Přidat nový import",
+      "deleteQuestion": "Opravdu chcete import smazat?"
+    },
+    "detail": {
+      "title": "Import",
+      "noProperty": "Tato typ importu neobsahuuje žádné properties.",
+      "noDefaultProperty": "Tento typ importu neobsahuje žádné property"
+    },
+    "dictionary": {
+      "nameRead": "Name read",
+      "runAfterStart": "Run after start",
+      "running": "Running",
+      "type": "Typ importu",
+      "properties": "Properties"
     }
   },
   "enums": {
@@ -578,6 +598,11 @@
       "DISCHARGE": "DISCHARGE",
       "VERIFY_PIN": "VERIFY_PIN",
       "UNKNOWN": "UNKNOWN"
+    },
+    "importTypes": {
+      "USER_CARD": "USER_CARD",
+      "KB_BEST": "KB_BEST",
+      "TOP_UP_SCHEDULE": "TOP_UP_SCHEDULE"
     }
   },
   "menu": {
@@ -596,6 +621,7 @@
     "terminal": "Terminal",
     "campaigns": "Kampaně",
     "showcase": "Showcase",
-    "templates": "Šablony"
+    "templates": "Šablony",
+    "imports": "Importy"
   }
 }

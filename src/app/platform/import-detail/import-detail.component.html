@@ -1,0 +1,111 @@
+<div class="mss-view-container">
+  <div class="header-row">
+    <div class="mss-title">{{'imports.detail.title' | translate}} - {{importName}}</div>
+    <div class="button-container">
+      <mss-button class="button right-margin" *ngIf="importDetail"
+                  [label]="importDetail.running ?  ('basic.deactivate' | translate) : ('basic.activate' | translate)"
+                  (click)="toggleImport()"></mss-button>
+      <mss-button class="button right-margin" (click)="modalVisible = true"
+                  [label]="'basic.delete' | translate"></mss-button>
+      <mss-button class="button" [label]="editingImport ? ('basic.preview' | translate) : ('basic.edit' | translate)"
+                  (click)="editingImport = !editingImport"></mss-button>
+    </div>
+  </div>
+
+  <!-- preview -->
+  <div class="content" *ngIf="importDetail && !editingImport">
+    <div class="column">
+      <div class="mss-input-like-container item">
+        <div class="label">{{'basic.name' | translate}}</div>
+        <div class="value">{{importDetail.name}}</div>
+      </div>
+      <div class="mss-input-like-container item">
+        <div class="label">{{'imports.dictionary.nameRead' | translate}}</div>
+        <div class="value">{{importDetail.nameRead}}</div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="mss-input-like-container item">
+        <div class="label">{{'imports.dictionary.type' | translate}}</div>
+        <div class="value">{{'enums.importTypes.' + importDetail.type | translate}}</div>
+      </div>
+      <div class="mss-input-like-container item">
+        <div class="label">{{'imports.dictionary.runAfterStart' | translate}}</div>
+        <div class="value">{{importDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- edit -->
+  <form [formGroup]="importEditForm" (ngSubmit)="editImport()" *ngIf="importDetail && editingImport">
+    <div class="content">
+      <div class="column">
+        <mss-input class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
+        <mss-input class="item" formControlName="nameRead"
+                   [label]="'imports.dictionary.nameRead' | translate"></mss-input>
+      </div>
+      <div class="column">
+        <mss-select class="item" [options]="importTypes" [label]="'imports.dictionary.type' | translate"
+                    formControlName="type"></mss-select>
+        <mss-toggle [label]="'imports.dictionary.runAfterStart' | translate" formControlName="runAfterStart"></mss-toggle>
+      </div>
+    </div>
+    <div class="button-container">
+      <mss-button type="submit" class="button" [label]="'basic.save' | translate" [disabled]="importEditForm.invalid"></mss-button>
+    </div>
+  </form>
+
+  <!-- Properties -->
+  <div class="properties">
+    <div class="header-row">
+      <div class="mss-title">{{'imports.dictionary.properties' | translate}}</div>
+      <mss-button class="button" (click)="toggleProperties()"
+                  [label]="editingProperties ? ('basic.preview' | translate) : ('basic.edit' | translate)"></mss-button>
+    </div>
+    <div class="content" *ngIf="!editingProperties">
+      <div class="column " *ngIf="properties.length === 0">{{'imports.detail.noProperty' | translate}}
+      </div>
+      <div class="column" *ngIf="properties.length > 0">
+        <div class="mss-input-like-container item" *ngFor="let property of properties">
+          <div class="label">{{property.pk.key}}</div>
+          <div class="value">{{property.value}}</div>
+        </div>
+      </div>
+      <div class="column"></div>
+    </div>
+    <form novalidate *ngIf="editingProperties && propertyForm" [formGroup]="propertyForm" (ngSubmit)="updateProperties()">
+      <div class="content">
+        <div class="column" *ngIf="propertyForm.value.length === 0">
+          {{'imports.detail.noDefaultProperty' | translate}}
+        </div>
+        <div class="column" *ngIf="propertyForm.value.length > 0">
+          <div *ngFor="let property of propertyForm.value; let i = index; trackBy: identifyProperty" [formGroupName]="i" class="item">
+            <mss-input *ngIf="property.type === 'STRING'" [placeholder]="property.placeholder"
+                       [label]="property.key + (property.required ? '*' : '')" formControlName="value"></mss-input>
+            <mss-input *ngIf="property.type === 'NUMBER'" [placeholder]="property.placeholder" [type]="number"
+                       [label]="property.key + (property.required ? '*' : '')" formControlName="value"></mss-input>
+            <mss-toggle *ngIf="property.type === 'BOOLEAN'" [label]="property.key + (property.required ? '*' : '')"
+                        formControlName="value"></mss-toggle>
+            <mss-select *ngIf="property.data" [showName]="property.placeholder" [label]="property.key + (property.required ? '*' : '')"
+                        formControlName="value" [options]="property.data"></mss-select>
+          </div>
+        </div>
+        <div class="column"></div>
+      </div>
+      <div class="button-container">
+        <mss-button *ngIf="propertyForm.value.length > 0" [disabled]="propertyForm.invalid" class="button"
+                    [label]="'basic.save' | translate"></mss-button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<mss-modal-window [(visible)]="modalVisible">
+  <div class="mss-title">
+    {{'imports.list.deleteQuestion' | translate}}
+  </div>
+  <div class="button-container">
+    <mss-button class="button right-margin" [label]="'basic.dismiss' | translate" (click)="modalVisible = false"></mss-button>
+    <mss-button class="button" [label]="'basic.yes' | translate" (click)="deleteImport()"></mss-button>
+  </div>
+</mss-modal-window>

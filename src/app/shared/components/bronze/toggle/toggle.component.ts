@@ -36,8 +36,8 @@ export class ToggleComponent implements ControlValueAccessor {
     }
   }
 
-  writeValue(obj: any): void {
-    this.toggled = obj;
+  writeValue(value: boolean | string): void {
+    this.toggled = value && value !== 'false';
   }
 
   registerOnChange(fn: any): void {

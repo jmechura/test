@@ -5,9 +5,10 @@
   </div>
   <div class="org-unit-list">
     <div class="data-table-container">
-      <ngx-datatable [rows]="tableRows" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" columnMode="force" [externalPaging]="true"
+      <ngx-datatable #table [rows]="tableRows" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" columnMode="force"
+                     [externalPaging]="true"
                      [externalSorting]="true" (sort)="getSortedOrgUnits($event)"
-                     [count]="totalItems" [limit]="itemsPerPage" [offset]="pageNumber" (page)="setPage($event)">
+                     [count]="totalItems" [limit]="rowLimit" [offset]="pageNumber" (page)="setPage($event)">
         <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true"></ngx-datatable-column>
         <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
         <ngx-datatable-column [name]="'dictionary.networkCode' | translate" prop="networkCode" [sortable]="false"></ngx-datatable-column>
@@ -29,16 +30,12 @@
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-footer>
-          <ng-template
-            ngx-datatable-footer-template
-            let-rowCount="rowCount"
-            let-pageSize="pageSize"
-            let-curPage="curPage">
+          <ng-template ngx-datatable-footer-template>
             <mss-table-footer
-              [page]="curPage"
-              [rowsShown]="pageSize"
-              [rowCount]="rowCount"
-              (rowsShownChange)="itemsPerPage"
+              [page]="pageNumber"
+              [rowsShown]="itemLimit"
+              [rowCount]="totalItems"
+              (rowsShownChange)="itemsPerPage($event)"
               (changePage)="table.onFooterPage($event)"
               class="d-table-footer">
             </mss-table-footer>
