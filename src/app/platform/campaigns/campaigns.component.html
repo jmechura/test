@@ -7,10 +7,10 @@
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
-                   [externalPaging]="true" [limit]="campaignsRequest.pagination.number"
+                   [externalPaging]="true" [limit]="rowLimit"
                    [externalSorting]="true" (sort)="getSortedCampaigns($event)"
                    [selectionType]="'single'" (select)="redirectToDetail($event)"
-                   [count]="tableData ? tableData.totalElements : 0 " (page)="setPage($event)">
+                   [count]="totalItems" (page)="setPage($event)">
 
       <ngx-datatable-column prop="name" [name]="'basic.name' | translate" [cellClass]="'mss-click-able'" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
@@ -62,16 +62,19 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.action' | translate" [width]="70" [sortable]="false" prop="running">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <div class="edit-buttons-container">
+            <i (click)="toggle($event,row)" class="material-icons table-icon" *ngIf="editedRow === -1">{{value ? 'stop' : 'play_arrow'}}</i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-footer>
-        <ng-template
-          ngx-datatable-footer-template
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-curPage="curPage">
+        <ng-template ngx-datatable-footer-template>
           <mss-table-footer
-            [page]="curPage"
-            [rowsShown]="pageSize"
-            [rowCount]="rowCount"
+            [page]="pageNumber"
+            [rowsShown]="rowLimit"
+            [rowCount]="totalItems"
             (rowsShownChange)="changeLimit($event)"
             (changePage)="table.onFooterPage($event)"
             class="d-table-footer">

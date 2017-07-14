@@ -10,8 +10,14 @@ import { ApiService } from '../../shared/services/api.service';
 import { campaignFactoriesActions } from '../../shared/reducers/campaign-factories.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { UnsubscribeSubject } from '../../shared/utils';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LanguageService } from '../../shared/language/language.service';
+import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
+
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
+const CAMPAIGN_ROUTE = 'platform/campaigns';
+const CAMPAIGN_DESTROY_ENDPOINT = '/campaigns/destroy';
+const CAMPAIGN_START_ENDPOINT = '/campaigns/start';
 
 @Component({
   selector: 'mss-campaigns',
@@ -21,16 +27,12 @@ import { LanguageService } from '../../shared/language/language.service';
 export class CampaignsComponent implements OnDestroy {
   private unsubscribe$ = new UnsubscribeSubject();
 
-  campaignsRequest: RequestOptions<CampaignPredicateObject> = {
-    pagination: {
-      number: 10,
-      numberOfPages: 0,
-      start: 0,
-    },
-    search: {
-      predicateObject: {},
-    },
-    sort: {}
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
+  pageNumber = 0;
+  totalItems = 0;
+  sortOptions: {
+    predicate: string;
+    reverse: boolean
   };
 
   newCampaignModalShowing = false;
@@ -53,6 +55,7 @@ export class CampaignsComponent implements OnDestroy {
   constructor(private store: Store<AppStateModel>,
               private api: ApiService,
               private router: Router,
+              private route: ActivatedRoute,
               private language: LanguageService,
               private fb: FormBuilder) {
 
@@ -63,7 +66,6 @@ export class CampaignsComponent implements OnDestroy {
     });
 
     this.store.dispatch({type: campaignFactoriesActions.CAMPAIGN_FACTORIES_GET_REQUEST});
-    this.getCampaignsList();
 
     this.store.select('campaignFactories').takeUntil(this.unsubscribe$).subscribe(
       ({data, error}: StateModel<string[]>) => {
@@ -91,8 +93,17 @@ export class CampaignsComponent implements OnDestroy {
 
         if (data != undefined) {
           this.tableData = data;
+          this.totalItems = data.totalElements;
           this.rows = this.tableData.content.map(item => Object.assign({}, item));
         }
+      }
+    );
+
+    this.route.params.takeUntil(this.unsubscribe$).subscribe(
+      (params: ListRouteParamsModel) => {
+        this.pageNumber = Math.max(Number(params.page) || 0, 1);
+        this.rowLimit = ITEM_LIMIT_OPTIONS.find(limit => limit === Number(params.limit)) || ITEM_LIMIT_OPTIONS[0];
+        this.getCampaignsList();
       }
     );
   }
@@ -102,11 +113,11 @@ export class CampaignsComponent implements OnDestroy {
   }
 
   getCampaignsList(): void {
-    this.store.dispatch({type: campaignsActions.CAMPAIGNS_GET_REQUEST, payload: this.campaignsRequest});
+    this.store.dispatch({type: campaignsActions.CAMPAIGNS_GET_REQUEST, payload: this.requestModel});
   }
 
   getSortedCampaigns(sortInfo: any): void {
-    this.campaignsRequest.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.sortOptions = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
     this.getCampaignsList();
   }
 
@@ -151,11 +162,11 @@ export class CampaignsComponent implements OnDestroy {
   }
 
   changeLimit(newLimit: number): void {
-    if (this.campaignsRequest.pagination.number === newLimit) {
-      return;
-    }
-    this.campaignsRequest.pagination.number = newLimit;
-    this.getCampaignsList();
+    const routeParams: ListRouteParamsModel = {
+      page: '1',
+      limit: String(newLimit)
+    };
+    this.router.navigate([`${CAMPAIGN_ROUTE}`, routeParams]);
   }
 
   startEditing(event: MouseEvent, row: any): void {
@@ -184,14 +195,41 @@ export class CampaignsComponent implements OnDestroy {
     );
   }
 
-  setPage(pageInfo: any): void {
-    this.campaignsRequest.pagination.start = pageInfo.offset * this.campaignsRequest.pagination.number;
-    this.getCampaignsList();
+  setPage(pageInfo: { offset: number }): void {
+    const routeParams: ListRouteParamsModel = {
+      page: String(pageInfo.offset + 1),
+      limit: String(this.rowLimit)
+    };
+    this.router.navigate([`${CAMPAIGN_ROUTE}`, routeParams]);
   }
 
   redirectToDetail(event: { selected: any[] }): void {
     if (this.editedRow === -1 && event && event.selected && event.selected.length > 0) {
       this.router.navigateByUrl(`platform/campaigns/${event.selected[0].name}`);
     }
+  }
+
+  toggle(event: MouseEvent, row: CampaignModel): void {
+    event.stopPropagation();
+    this.api.get(`${row.running ? CAMPAIGN_DESTROY_ENDPOINT : CAMPAIGN_START_ENDPOINT}/${row.name}`).subscribe(
+      () => {
+        this.getCampaignsList();
+      },
+      (error) => {
+        console.error('Error occurred while updating state of import.', error);
+      }
+    );
+  }
+
+  private get requestModel(): RequestOptions<CampaignPredicateObject> {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: (this.pageNumber - 1) * this.rowLimit
+      },
+      search: {},
+      sort: this.sortOptions ? this.sortOptions : {}
+    };
   }
 }

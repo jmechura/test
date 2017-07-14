@@ -288,7 +288,8 @@
       "title": "Kampaň",
       "deleteCampaign": "Smazat kampaň",
       "noProperty": "Tato kampaň neobsahuuje žádné properties.",
-      "noDefaultProperty": "Tento typ kampaně neobsahuje žádné property"
+      "noDefaultProperty": "Tento typ kampaně neobsahuje žádné property",
+      "properties": "Properties"
     },
     "dictionary": {
       "campaignName": "Typ kampaně",

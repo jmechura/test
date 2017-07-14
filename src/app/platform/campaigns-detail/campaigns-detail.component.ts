@@ -14,9 +14,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { campaignFactoriesActions } from '../../shared/reducers/campaign-factories.reducer';
 import { ApiService } from '../../shared/services/api.service';
+import { LanguageService } from '../../shared/language/language.service';
 
 const PROPERTY_ENDPOINT = '/campaigns/properties';
 const CAMPAIGNS_ENDPOINT = '/campaigns';
+const CAMPAIGN_DESTROY_ENDPOINT = '/campaigns/destroy';
+const CAMPAIGN_START_ENDPOINT = '/campaigns/start';
 
 @Component({
   selector: 'mss-campaigns-detail',
@@ -40,6 +43,7 @@ export class CampaignsDetailComponent implements OnDestroy {
               private fb: FormBuilder,
               private store: Store<AppStateModel>,
               private router: Router,
+              private language: LanguageService,
               private api: ApiService) {
     this.store.dispatch({type: campaignFactoriesActions.CAMPAIGN_FACTORIES_GET_REQUEST});
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
@@ -73,13 +77,17 @@ export class CampaignsDetailComponent implements OnDestroy {
           this.propertyForm = this.fb.array(data.data.map(
             (propertyDef: PropertyDefModel) => {
               const userProperty = this.properties.find(property => property.pk.key === propertyDef.key);
+              const value = userProperty ? userProperty.value : (propertyDef.required ? propertyDef.defaultValue : null);
               return this.fb.group({
                 key: propertyDef.key,
                 type: propertyDef.type,
                 value: [
-                  userProperty ? userProperty.value : propertyDef.defaultValue,
+                  value,
                   ...propertyDef.required ? [Validators.required] : []
-                ]
+                ],
+                required: propertyDef.required,
+                placeholder: propertyDef.defaultValue,
+                data: [propertyDef.datas ? propertyDef.datas.map(item => ({value: item})) : null]
               });
             }
           ));
@@ -106,7 +114,10 @@ export class CampaignsDetailComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.campaignFactories = data.data.map(item => ({value: item}));
+          this.campaignFactories = data.data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.campaignFactories.${item}`)
+          }));
         }
       }
     );
@@ -151,7 +162,7 @@ export class CampaignsDetailComponent implements OnDestroy {
   }
 
   updateProperties(): void {
-    const payload: PropertyModel[] = this.propertyForm.value.map(propertyGroup => ({
+    const payload: PropertyModel[] = this.propertyForm.value.filter(item => item.value !== null).map(propertyGroup => ({
       pk: {
         data: this.campaignName,
         key: propertyGroup.key
@@ -176,12 +187,14 @@ export class CampaignsDetailComponent implements OnDestroy {
   }
 
   toggleCampaign(): void {
-    this.store.dispatch({
-      type: campaignDetailActions.CAMPAIGN_DETAIL_TOGGLE_GET_REQUEST,
-      payload: {
-        name: this.campaignDetail.name, action: this.campaignDetail.running ? 'destroy' : 'start'
+    this.api.get(`${this.campaignDetail.running ? CAMPAIGN_DESTROY_ENDPOINT : CAMPAIGN_START_ENDPOINT}/${this.campaignName}`).subscribe(
+      () => {
+        this.store.dispatch({type: campaignDetailActions.CAMPAIGN_DETAIL_GET_REQUEST, payload: this.campaignName});
+      },
+      (error) => {
+        console.error('Error occurred while toggling campaign.', error);
       }
-    });
+    );
   }
 
   ngOnDestroy(): void {

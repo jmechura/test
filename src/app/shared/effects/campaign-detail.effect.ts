@@ -29,13 +29,4 @@ export class CampaignDetailEffect {
         .catch((res) => Observable.of({type: campaignDetailActions.CAMPAIGN_DETAIL_PUT_FAIL, payload: res}))
       );
   }
-
-  @Effect() toggleCampaign(): Observable<Action> {
-    return this.actions$
-      .ofType(campaignDetailActions.CAMPAIGN_DETAIL_TOGGLE_GET_REQUEST)
-      .switchMap(action => this.api.get(`${CAMPAIGN_ENDPOINT}/${action.payload.action}/${action.payload.name}`)
-        .map(res => ({type: campaignDetailActions.CAMPAIGN_DETAIL_TOGGLE_GET, payload: res}))
-        .catch((res) => Observable.of({type: campaignDetailActions.CAMPAIGN_DETAIL_TOGGLE_GET_FAIL, payload: res}))
-      );
-  }
 }
