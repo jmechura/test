@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { LanguageService } from '../../../language/language.service';
+import { LanguageService } from '../../../services/language.service';
 
 @Component({
   selector: 'mss-date-picker-input',

@@ -32,9 +32,9 @@ import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
 import { GoldComponentsModule } from '../shared/components/gold/gold-components.module';
 import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
-import { LanguageModule } from '../shared/language/language.module';
 import { ImportsComponent } from './imports/imports.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -45,7 +45,7 @@ import { ImportDetailComponent } from './import-detail/import-detail.component';
     GoldComponentsModule,
     FormsModule,
     ReactiveFormsModule,
-    LanguageModule
+    TranslateModule,
   ],
   declarations: [
     PlatformComponent,

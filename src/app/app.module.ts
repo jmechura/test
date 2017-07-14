@@ -99,8 +99,7 @@ import { campaignPropertyReducer } from './shared/reducers/campaign-property.red
 import { CampaignPropertyEffect } from './shared/effects/campaign-property.effect';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LanguageService } from './shared/language/language.service';
-import { CanActivateLanguageGuard } from './shared/guards/language.guard';
+import { LanguageService } from './shared/services/language.service';
 import { importsReducer } from './shared/reducers/imports.reducer';
 import { ImportsEffect } from './shared/effects/imports.effect';
 import { ImportTypeEffect } from './shared/effects/import-type.effect';
@@ -111,6 +110,7 @@ import { importPropertyDefReducer } from './shared/reducers/import-property-def.
 import { ImportPropertyDefEffect } from './shared/effects/import-property-def.effect';
 import { importPropertyReducer } from './shared/reducers/import-property.reducer';
 import { ImportPropertyEffect } from './shared/effects/import-property.effect';
+import { AppConfigService } from './shared/services/app-config.service';
 
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
@@ -128,7 +128,6 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     AppRoutingModule,
     PlatformModule,
     LoginModule,
-
     BronzeComponentsModule,
     SilverComponentsModule,
     GoldComponentsModule,
@@ -240,7 +239,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
   providers: [
     ApiService,
     LanguageService,
-    CanActivateLanguageGuard
+    AppConfigService,
   ],
   bootstrap: [AppComponent]
 })

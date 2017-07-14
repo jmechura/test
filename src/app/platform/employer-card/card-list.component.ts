@@ -14,7 +14,7 @@ import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.redu
 import { Router } from '@angular/router';
 import { CodeModel } from '../../shared/models/code.model';
 import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
   cardGroupCode: '',

@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/api.service';
 import { CodeModel } from '../../shared/models/code.model';
 import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
 const API_ENDPOINT = '/cards/requests';

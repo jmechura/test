@@ -7,7 +7,7 @@ import { StateModel } from '../../shared/models/state.model';
 import { ProfileModel } from '../../shared/models/profile.model';
 import { ApiService } from '../../shared/services/api.service';
 import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 
 @Component({

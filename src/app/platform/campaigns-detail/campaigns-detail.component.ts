@@ -14,7 +14,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { campaignFactoriesActions } from '../../shared/reducers/campaign-factories.reducer';
 import { ApiService } from '../../shared/services/api.service';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 const PROPERTY_ENDPOINT = '/campaigns/properties';
 const CAMPAIGNS_ENDPOINT = '/campaigns';

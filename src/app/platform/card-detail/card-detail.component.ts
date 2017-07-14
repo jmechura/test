@@ -7,7 +7,7 @@ import { CardDetailModel } from '../../shared/models/card-detail.model';
 import { cardDetailActions } from '../../shared/reducers/card-detail.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { UnsubscribeSubject } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({

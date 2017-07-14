@@ -16,7 +16,7 @@ import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer'
 import { sequencesActions } from '../../shared/reducers/sequences.reducer';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { UnsubscribeSubject } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 @Component({
   selector: 'mss-sequences',

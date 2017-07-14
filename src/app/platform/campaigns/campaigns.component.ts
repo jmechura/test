@@ -11,7 +11,7 @@ import { campaignFactoriesActions } from '../../shared/reducers/campaign-factori
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];

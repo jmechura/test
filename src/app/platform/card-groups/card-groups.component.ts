@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 import { CardGroupSections } from '../../shared/enums/card-group-sections.enum';
 import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
 import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 @Component({
   selector: 'mss-card-groups',

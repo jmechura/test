@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestMethod } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { environment } from '../../../environments/environment';
 import { LoginModel } from '../models/login.model';
 import { parseResponse, MissingTokenResponse } from '../utils';
+import { AppConfigService } from './app-config.service';
 
 const LOGIN_ENDPOINT = '/login';
 const TOKEN_STORAGE_KEY = 'mss_token';
 
 @Injectable()
 export class ApiService {
-  constructor(private http: Http) {}
+  constructor(private http: Http, private appConfig: AppConfigService) {}
 
   acquireToken(login: LoginModel): Observable<void> {
     return this.post(LOGIN_ENDPOINT, login, false).map(
@@ -46,12 +46,14 @@ export class ApiService {
       return Observable.throw(new MissingTokenResponse());
     }
 
-    const requestUrl = `${environment.apiUrl}${path}`;
-    const requestOptions = {
-      method: method,
-      body: payload,
-      headers: new Headers({...(authToken !== null ? {Authorization: authToken} : null)})
-    };
-    return this.http.request(requestUrl, requestOptions).map(parseResponse);
+    return this.appConfig.get('apiUrl').switchMap(apiUrl => {
+      const requestUrl = `${apiUrl}${path}`;
+      const requestOptions = {
+        method: method,
+        body: payload,
+        headers: new Headers({...(authToken !== null ? {Authorization: authToken} : null)})
+      };
+      return this.http.request(requestUrl, requestOptions).map(parseResponse);
+    });
   }
 }

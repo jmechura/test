@@ -7,7 +7,7 @@ import { importDetailActions } from '../../shared/reducers/import-detail.reducer
 import { StateModel } from '../../shared/models/state.model';
 import { ImportModel } from '../../shared/models/import.model';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { importTypeActions } from '../../shared/reducers/import-type.reducer';
 import { ApiService } from '../../shared/services/api.service';

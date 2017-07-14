@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { StateModel } from '../../shared/models/state.model';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 import { importTypeActions } from '../../shared/reducers/import-type.reducer';
 import { ApiService } from '../../shared/services/api.service';
 

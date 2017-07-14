@@ -12,7 +12,7 @@ import { transactionEbankActions } from '../../shared/reducers/transaction-ebank
 import { Transfer } from '../../shared/models/transfer.model';
 import { Ebank } from '../../shared/models/ebank.model';
 import { UnsubscribeSubject } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 @Component({
   selector: 'mss-transaction-detail',

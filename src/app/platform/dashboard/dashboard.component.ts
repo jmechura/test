@@ -20,7 +20,7 @@ import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.redu
 import { CodeModel } from '../../shared/models/code.model';
 import { TransactionFilterSection } from '../../shared/enums/transaction-filter-section.enum';
 import { UnsubscribeSubject } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 const DEFAULT_FILTER: TransactionSearch = {
   uuid: '',

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { SelectItem } from '../../bronze/select/select.component';
-import { LanguageService } from '../../../language/language.service';
+import { LanguageService } from '../../../services/language.service';
 
 @Component({
   selector: 'mss-table-footer',

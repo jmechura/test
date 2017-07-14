@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ProfileModel } from '../../../models/profile.model';
-import { LanguageService } from '../../../language/language.service';
+import { LanguageService } from '../../../services/language.service';
 
 export type ToolbarPosition = 'side' | 'top';
 

@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { UnsubscribeSubject } from '../../shared/utils';
-import { LanguageService } from '../../shared/language/language.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 @Component({
   selector: 'mss-routes',
