@@ -1,0 +1,200 @@
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { reportDetailActions } from '../../shared/reducers/report-detail.reducer';
+import { AppStateModel } from '../../shared/models/app-state.model';
+import { Store } from '@ngrx/store';
+import { ReportModel } from '../../shared/models/report.model';
+import { StateModel } from '../../shared/models/state.model';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { reportTypeActions } from '../../shared/reducers/report-types.reducer';
+import { reportPropertyActions } from '../../shared/reducers/report-property.reducer';
+import { PropertyModel } from '../../shared/models/property.model';
+import { reportPropertyDefActions } from '../../shared/reducers/report-property-def.reducer';
+import { PropertyDefModel } from '../../shared/models/property-def.model.';
+import { ApiService } from '../../shared/services/api.service';
+import { UnsubscribeSubject } from '../../shared/utils';
+import { LanguageService } from '../../shared/services/language.service';
+
+const REPORT_DESTROY_ENDPOINT = '/reports/destroy';
+const REPORT_START_ENDPOINT = '/reports/start';
+const REPORT_ENDPOINT = '/reports';
+const PROPERTY_ENDPOINT = '/reports/properties';
+
+@Component({
+  selector: 'mss-report-detail',
+  templateUrl: './report-detail.component.html',
+  styleUrls: ['./report-detail.component.scss']
+})
+export class ReportDetailComponent implements OnDestroy {
+
+  private unsubscribe$ = new UnsubscribeSubject();
+  reportName: string;
+  reportDetail: ReportModel;
+  reportEditForm: FormGroup;
+  reportTypes: SelectItem[] = [];
+  reportModalVisible = false;
+  editingReport = false;
+  properties: PropertyModel[] = [];
+  propertyForm: FormArray;
+  editingProperties = false;
+
+  constructor(private route: ActivatedRoute,
+              private language: LanguageService,
+              private fb: FormBuilder,
+              private router: Router,
+              private api: ApiService,
+              private store: Store<AppStateModel>) {
+    this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
+    this.route.params.takeUntil(this.unsubscribe$).subscribe(
+      params => {
+        this.reportName = params.name;
+        this.store.dispatch({type: reportDetailActions.REPORTS_DETAIL_GET_REQUEST, payload: this.reportName});
+      }
+    );
+
+    this.store.select('reportDetail').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<ReportModel>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving import detail from API.', data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.reportDetail = data.data;
+          this.reportEditForm.patchValue(this.reportDetail);
+          this.store.dispatch({type: reportPropertyActions.REPORT_PROPERTY_GET_REQUEST, payload: this.reportName});
+        }
+      }
+    );
+
+    this.store.select('reportTypes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting imports.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.reportTypes = data.data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.reportTypes.${item}`)
+          }));
+        }
+      }
+    );
+
+    this.store.select('reportProperties').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<PropertyModel[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting report properties.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.properties = data.data;
+        }
+      }
+    );
+
+    this.store.select('reportPropertyDefs').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<PropertyDefModel[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting report property defs.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.propertyForm = this.fb.array(data.data.map(
+            (propertyDef: PropertyDefModel) => {
+              const userProperty = this.properties.find(property => property.pk.key === propertyDef.key);
+              const value = userProperty ? userProperty.value : (propertyDef.required ? propertyDef.defaultValue : null);
+              return this.fb.group({
+                key: propertyDef.key,
+                type: propertyDef.type,
+                value: [
+                  value,
+                  ...propertyDef.required ? [Validators.required] : []
+                ],
+                required: propertyDef.required,
+                placeholder: propertyDef.defaultValue,
+                data: [propertyDef.datas ? propertyDef.datas.map(item => ({value: item})) : null]
+              });
+            }
+          ));
+        }
+      }
+    );
+
+    this.reportEditForm = this.fb.group(
+      {
+        name: [{value: '', disabled: true}],
+        runAfterStart: [false],
+        type: ['']
+      }
+    );
+  }
+
+  identifyProperty(index: number): number {
+    return index;
+  }
+
+  toggleProperties(): void {
+    this.editingProperties = !this.editingProperties;
+    if (this.editingProperties) {
+      this.store.dispatch({
+        type: reportPropertyDefActions.REPORT_PROPERTY_DEF_GET_REQUEST,
+        payload: this.reportDetail.type
+      });
+    }
+  }
+
+  updateProperties(): void {
+    // null is because of optional properties which we don't want to send to api unless filled
+    const payload: PropertyModel[] = this.propertyForm.value.filter(item => item.value !== null).map(propertyGroup => ({
+      pk: {
+        data: this.reportName,
+        key: propertyGroup.key
+      },
+      value: propertyGroup.value
+    }));
+    this.api.post(PROPERTY_ENDPOINT, payload).subscribe(
+      () => {
+        this.store.dispatch({type: reportPropertyActions.REPORT_PROPERTY_GET_REQUEST, payload: this.reportName});
+        this.editingProperties = false;
+      },
+      (error) => {
+        console.error('Error occurred while updating campaign properties', error);
+      }
+    );
+  }
+
+  toggleReport(): void {
+    this.api.get(`${this.reportDetail.running ? REPORT_DESTROY_ENDPOINT : REPORT_START_ENDPOINT}/${this.reportName}`).subscribe(
+      () => {
+        this.store.dispatch({type: reportDetailActions.REPORTS_DETAIL_GET_REQUEST, payload: this.reportName});
+      },
+      (error) => {
+        console.error('Error occurred while updating state of import.', error);
+      }
+    );
+  }
+
+  deleteReport(): void {
+    this.api.remove(`${REPORT_ENDPOINT}/${this.reportName}`).subscribe(
+      () => {
+        this.router.navigateByUrl('platform/imports');
+      },
+      (error) => {
+        console.error('Error occurred while deleting import.', error);
+      }
+    );
+  }
+
+  editReport(): void {
+    this.store.dispatch({
+      type: reportDetailActions.REPORT_DETAIL_PUT_REQUEST,
+      payload: Object.assign({}, this.reportDetail, this.reportEditForm.value)
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.fire();
+  }
+}

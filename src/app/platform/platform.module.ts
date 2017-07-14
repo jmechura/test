@@ -35,6 +35,8 @@ import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.compon
 import { ImportsComponent } from './imports/imports.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ReportsComponent } from './reports/reports.component';
+import { ReportDetailComponent } from './report-detail/report-detail.component';
 
 @NgModule({
   imports: [
@@ -79,6 +81,8 @@ import { TranslateModule } from '@ngx-translate/core';
     OrgUnitDetailComponent,
     ImportsComponent,
     ImportDetailComponent,
+    ReportsComponent,
+    ReportDetailComponent,
   ]
 })
 export class PlatformModule {}

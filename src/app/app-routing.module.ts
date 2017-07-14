@@ -21,4 +21,5 @@ export const routes: Routes = [
   exports: [RouterModule],
   providers: [AuthGuard, CanActivateLanguageGuard]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}

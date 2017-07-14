@@ -10,7 +10,8 @@ const PLATFORM_ROUTE = 'platform';
 
 @Injectable()
 export class AuthGuard implements CanActivateChild {
-  constructor(private store: Store<AppStateModel>, private router: Router) {}
+  constructor(private store: Store<AppStateModel>, private router: Router) {
+  }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Promise<boolean> {
     return new Promise(resolve => {

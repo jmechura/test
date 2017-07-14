@@ -1,0 +1,47 @@
+@import 'theme';
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  height: 43px;
+  width: 200px;
+
+  &.right-margin {
+    margin-right: 10px;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.content {
+  display: flex;
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-basis: 0;
+
+    &:first-child {
+      margin-right: 30px;
+    }
+
+    &:last-child {
+      margin-left: 30px;
+    }
+
+    .item {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.properties {
+  margin-top: 40px;
+}

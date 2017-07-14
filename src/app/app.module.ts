@@ -110,6 +110,16 @@ import { importPropertyDefReducer } from './shared/reducers/import-property-def.
 import { ImportPropertyDefEffect } from './shared/effects/import-property-def.effect';
 import { importPropertyReducer } from './shared/reducers/import-property.reducer';
 import { ImportPropertyEffect } from './shared/effects/import-property.effect';
+import { ReportsEffect } from './shared/effects/reports.effect';
+import { reportsReducer } from './shared/reducers/reports.reducer';
+import { reportTypeReducer } from './shared/reducers/report-types.reducer';
+import { ReportTypesEffect } from './shared/effects/report-types.effect';
+import { reportDetailReducer } from './shared/reducers/report-detail.reducer';
+import { ReportDetailEffect } from './shared/effects/report-detail.effect';
+import { reportPropertyReducer } from './shared/reducers/report-property.reducer';
+import { ReportPropertyEffect } from './shared/effects/report-property.effect';
+import { reportPropertyDefReducer } from './shared/reducers/report-property-def.reducer';
+import { ReportPropertyDefEffect } from './shared/effects/report-property-def.effect';
 import { AppConfigService } from './shared/services/app-config.service';
 
 
@@ -179,6 +189,11 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       importDetail: importDetailReducer,
       importPropertyDefs: importPropertyDefReducer,
       importProperties: importPropertyReducer,
+      reports: reportsReducer,
+      reportTypes: reportTypeReducer,
+      reportDetail: reportDetailReducer,
+      reportProperties: reportPropertyReducer,
+      reportPropertyDefs: reportPropertyDefReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
     EffectsModule.runAfterBootstrap(ProfileEffect),
@@ -227,6 +242,11 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(ImportDetailEffect),
     EffectsModule.runAfterBootstrap(ImportPropertyDefEffect),
     EffectsModule.runAfterBootstrap(ImportPropertyEffect),
+    EffectsModule.runAfterBootstrap(ReportsEffect),
+    EffectsModule.runAfterBootstrap(ReportTypesEffect),
+    EffectsModule.runAfterBootstrap(ReportDetailEffect),
+    EffectsModule.runAfterBootstrap(ReportPropertyEffect),
+    EffectsModule.runAfterBootstrap(ReportPropertyDefEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({
       loader: {

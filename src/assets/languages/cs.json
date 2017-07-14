@@ -327,6 +327,24 @@
       "properties": "Properties"
     }
   },
+  "reports": {
+    "list": {
+      "title": "Reporty",
+      "addReport": "Přidat nový report",
+      "deleteQuestion": "Opravdu chcete report smazat?"
+    },
+    "detail": {
+      "title": "Report",
+      "noProperty": "Tato typ reportu neobsahuuje žádné properties.",
+      "noDefaultProperty": "Tento typ reportu neobsahuje žádné property"
+    },
+    "dictionary": {
+      "runAfterStart": "Run after start",
+      "running": "Running",
+      "type": "Typ reportu",
+      "properties": "Properties"
+    }
+  },
   "enums": {
     "responseCodes": {
       "APPROVED": "APPROVED",
@@ -604,6 +622,19 @@
       "USER_CARD": "USER_CARD",
       "KB_BEST": "KB_BEST",
       "TOP_UP_SCHEDULE": "TOP_UP_SCHEDULE"
+    },
+    "reportTypes": {
+      "ACQUIRER_REPORT": "ACQUIRER_REPORT",
+      "CLEARING_REPORT": "CLEARING_REPORT",
+      "TRX_SUMMARY_REPORT": "TRX_SUMMARY_REPORT",
+      "TRX_CUSTOMER_SUMMARY_REPORT": "TRX_CUSTOMER_SUMMARY_REPORT",
+      "ACTIVE_CARDS_REPORT": "ACTIVE_CARDS_REPORT",
+      "ACTIVE_ACCOUNTS_REPORT": "ACTIVE_ACCOUNTS_REPORT",
+      "EXPIRED_ACCOUNT_REPORT": "EXPIRED_ACCOUNT_REPORT",
+      "EXPIRED_CARD_ONCOMMING_REPORT": "EXPIRED_CARD_ONCOMMING_REPORT",
+      "MERCHANT_LIST_TRX_REPORT": "MERCHANT_LIST_TRX_REPORT",
+      "POHODA_INVOICE_REPORT": "POHODA_INVOICE_REPORT",
+      "MERCHANT_SUM_TRX_REPORT": "MERCHANT_SUM_TRX_REPORT"
     }
   },
   "menu": {
@@ -623,6 +654,7 @@
     "campaigns": "Kampaně",
     "showcase": "Showcase",
     "templates": "Šablony",
-    "imports": "Importy"
+    "imports": "Importy",
+    "reports": "Reporty"
   }
 }

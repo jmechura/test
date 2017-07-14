@@ -10,11 +10,12 @@ const TOKEN_STORAGE_KEY = 'mss_token';
 
 @Injectable()
 export class ApiService {
-  constructor(private http: Http, private appConfig: AppConfigService) {}
+  constructor(private http: Http, private appConfig: AppConfigService) {
+  }
 
   acquireToken(login: LoginModel): Observable<void> {
     return this.post(LOGIN_ENDPOINT, login, false).map(
-      ({token}: {token: string}) => {
+      ({token}: { token: string }) => {
         localStorage.setItem(TOKEN_STORAGE_KEY, token);
       }
     );

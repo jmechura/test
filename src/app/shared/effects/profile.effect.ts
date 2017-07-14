@@ -10,7 +10,8 @@ const PROFILE_UPDATE_ENDPOINT = '/users';
 
 @Injectable()
 export class ProfileEffect {
-  constructor(private api: ApiService, private actions$: Actions) {}
+  constructor(private api: ApiService, private actions$: Actions) {
+  }
 
   @Effect() get(): Observable<Action> {
     return this.actions$

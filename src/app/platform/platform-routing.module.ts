@@ -28,6 +28,8 @@ import { TemplatesComponent } from './templates/templates.component';
 import { TemplateDetailComponent } from './template-detail/template-detail.component';
 import { ImportsComponent } from './imports/imports.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
+import { ReportsComponent } from './reports/reports.component';
+import { ReportDetailComponent } from './report-detail/report-detail.component';
 
 export const routes: Routes = [
   {
@@ -61,6 +63,8 @@ export const routes: Routes = [
       {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},
       {path: 'imports', component: ImportsComponent},
       {path: 'imports/:name', component: ImportDetailComponent},
+      {path: 'reports', component: ReportsComponent},
+    {path: 'reports/:name', component: ReportDetailComponent},
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
     ]
   }
