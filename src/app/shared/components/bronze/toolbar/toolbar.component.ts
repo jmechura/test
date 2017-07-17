@@ -27,6 +27,7 @@ const TOOLBAR_ITEMS: ToolbarItem[] = [
   {path: 'templates', icon: 'insert_drive_file'},
   {path: 'imports', icon: 'import_export'},
   {path: 'reports', icon: 'insert_drive_file'},
+  {path: 'acquirers', icon: 'shopping_basket'},
   {path: 'showcase', icon: 'view_list'},
 ];
 

@@ -38,6 +38,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
+import { AcquirersComponent } from './acquirers/acquirers.component';
+import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.component';
 
 @NgModule({
   imports: [
@@ -84,6 +86,8 @@ import { ReportDetailComponent } from './report-detail/report-detail.component';
     ImportDetailComponent,
     ReportsComponent,
     ReportDetailComponent,
+    AcquirersComponent,
+    AcquirerDetailComponent,
     EmployeeDetailComponent,
   ]
 })

@@ -1,0 +1,204 @@
+<div class="mss-view-container">
+  <div class="header">
+    <div class="mss-title" *ngIf="acquirerData">
+      {{'acquirers.detail.title' | translate}} - {{acquirerData.name}}
+    </div>
+    <div class="buttons">
+      <mss-button class="button" [label]="'basic.delete' | translate"></mss-button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="tabs">
+      <mss-tabs [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
+    </div>
+    <form [formGroup]="editForm" novalidate (ngSubmit)="editAcquirer()" *ngIf="editFormVisible">
+      <div class="section" [ngClass]="{'visible': visibleTab.value === AcquirerSections.BASIC}">
+        <div class="column">
+          <div class="form-item">
+            <mss-input [label]="'basic.name' | translate" formControlName="name"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('name')">{{'basic.required.name' | translate}}</span>
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'basic.code' | translate" formControlName="code"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('code')">{{'basic.required.code' | translate}}</span>
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'acquirers.dictionary.acquiringInstitutionCode' | translate"
+                       formControlName="acquiringInstitutionCode"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('acquiringInstitutionCode')">{{'acquirers.dictionary.required.acquiringInstitutionCode' |
+                translate}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="form-item">
+            <mss-input [label]="'acquirers.dictionary.hsmKeyName' | translate" formControlName="hsmKeyName"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('hsmKeyName')">{{'acquirers.dictionary.required.hsmKeyName' | translate}}</span>
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'acquirers.dictionary.hsmTransitKeyName' | translate" formControlName="hsmTransitKeyName"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('hsmTransitKeyName')">{{'acquirers.dictionary.required.hsmTransitKeyName' | translate}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section" [ngClass]="{'visible': visibleTab.value === AcquirerSections.ADDRESS}">
+        <div class="column">
+          <div class="form-item">
+            <mss-select [label]="'basic.country' | translate" [options]="countries" formControlName="country"></mss-select>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'basic.region' | translate" formControlName="region"></mss-input>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'basic.city' | translate" formControlName="city"></mss-input>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="form-item">
+            <mss-input [label]="'basic.street' | translate" formControlName="street"></mss-input>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'basic.zip' | translate" formControlName="zip"></mss-input>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="buttons" *ngIf="visibleTab.value !== AcquirerSections.KEYS">
+        <mss-button class="button" (click)="editFormVisible = false" type="button" [label]="'basic.dismiss' | translate"></mss-button>
+        <mss-button class="button" [disabled]="editForm.invalid" [label]="'basic.save' | translate"></mss-button>
+      </div>
+    </form>
+
+    <div class="section" *ngIf="!editFormVisible && acquirerData" [ngClass]="{'visible': visibleTab.value === AcquirerSections.BASIC}">
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.name' | translate}}</div>
+          <div class="value">{{acquirerData.name}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.code' | translate}}</div>
+          <div class="value">{{acquirerData.code}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'acquirers.dictionary.acquiringInstitutionCode' | translate}}</div>
+          <div class="value">{{acquirerData.acquiringInstitutionCode}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'acquirers.dictionary.hsmKeyName' | translate}}</div>
+          <div class="value">{{acquirerData.hsmKeyName}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'acquirers.dictionary.hsmTransitKeyName' | translate}}</div>
+          <div class="value">{{acquirerData.hsmTransitKeyName}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+    </div>
+    <div class="section" *ngIf="!editFormVisible && acquirerData" [ngClass]="{'visible': visibleTab.value === AcquirerSections.ADDRESS}">
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.country' | translate}}</div>
+          <div class="value">{{acquirerData.country}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.region' | translate}}</div>
+          <div class="value">{{acquirerData.region}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.city' | translate}}</div>
+          <div class="value">{{acquirerData.city}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.street' | translate}}</div>
+          <div class="value">{{acquirerData.street}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.zip' | translate}}</div>
+          <div class="value">{{acquirerData.zip}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+    </div>
+    <div class="section column" [ngClass]="{'visible': visibleTab.value === AcquirerSections.KEYS}">
+      <div class="buttons right">
+        <mss-button class="button" (click)="modalVisible = true" [label]="'acquirers.detail.addKey' | translate"></mss-button>
+      </div>
+      <div class="data-table-container">
+        <ngx-datatable [columnMode]="'force'" [rows]="keyRows"
+                       [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                       [selectionType]="'single'">
+          <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [sortable]="true"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'acquirers.dictionary.keyName' | translate" prop="keyName"
+                                [sortable]="false"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'acquirers.dictionary.keyValue' | translate" prop="keyValue"
+                                [sortable]="false"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'acquirers.dictionary.last' | translate" prop="last" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              {{value ? ('basic.yes' | translate) : ('basic.no' | translate)}}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'basic.action' | translate" [sortable]="false" prop="last" [maxWidth]="80">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+              <i class="material-icons icon" *ngIf="!value" [title]="'acquirers.detail.setAsLast' | translate" (click)="setAsLast(row.id)">arrow_upward</i>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+    <div class="buttons">
+      <mss-button class="button" *ngIf="!editFormVisible && visibleTab.value !== AcquirerSections.KEYS" (click)="editFormVisible = true"
+                  [label]="'basic.edit' | translate"></mss-button>
+    </div>
+  </div>
+</div>
+
+<mss-modal-window [(visible)]="modalVisible">
+  <div class="mss-view-container">
+    <div class="mss-title">{{'acquirers.detail.addKey' | translate}}</div>
+    <div class="content">
+      <form novalidate [formGroup]="newKeyForm" (ngSubmit)="addNewKey()">
+        <mss-input [label]="'acquirers.dictionary.keyName' | translate" formControlName="keyName"></mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input [label]="'acquirers.dictionary.keyValue' | translate" formControlName="keyValue"></mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-checkbox [label]="'acquirers.dictionary.last' | translate" formControlName="last"></mss-checkbox>
+        <div class="buttons shifted-down">
+          <mss-button class="button big" type="button" (click)="modalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
+          <mss-button class="button big" type="submit" [disabled]="newKeyForm.invalid"
+                      [label]="'acquirers.detail.addKey' | translate"></mss-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</mss-modal-window>

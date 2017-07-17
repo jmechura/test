@@ -120,8 +120,6 @@ $checkbox-size: 18px;
   border: 1px solid $secondary-color;
   border-radius: 2px;
 
-  margin-right: 10px;
-
   &::after {
     position: relative;
     left: 5px;
@@ -142,8 +140,12 @@ $checkbox-size: 18px;
   }
 }
 
+$label-width: 136px;
+
 @mixin mss-checkbox-label {
   @include default-component-label;
+
+  width: $label-width;
 }
 
 // ---------------- data-table ----------------

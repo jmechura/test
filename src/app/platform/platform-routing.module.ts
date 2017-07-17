@@ -29,6 +29,8 @@ import { TemplatesComponent } from './templates/templates.component';
 import { TemplateDetailComponent } from './template-detail/template-detail.component';
 import { ImportsComponent } from './imports/imports.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
+import { AcquirersComponent } from './acquirers/acquirers.component';
+import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 
@@ -66,7 +68,9 @@ export const routes: Routes = [
       {path: 'imports', component: ImportsComponent},
       {path: 'imports/:name', component: ImportDetailComponent},
       {path: 'reports', component: ReportsComponent},
-    {path: 'reports/:name', component: ReportDetailComponent},
+      {path: 'reports/:name', component: ReportDetailComponent},
+      {path: 'acquirers', component: AcquirersComponent},
+      {path: 'acquirers/:code', component: AcquirerDetailComponent},
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
     ]
   }

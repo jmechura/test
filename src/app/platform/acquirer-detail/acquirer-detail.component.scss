@@ -1,0 +1,74 @@
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  &.shifted-down {
+    margin-top: 30px;
+  }
+
+  &.right {
+    justify-content: flex-start;
+  }
+}
+
+.button {
+  height: 43px;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  &.big {
+    flex-grow: 1;
+  }
+}
+
+.content {
+  margin-bottom: 30px;
+
+  .tabs {
+    margin-bottom: 30px;
+  }
+
+  .section {
+    display: none;
+
+    .column {
+      flex-grow: 1;
+      flex-basis: 0;
+
+      &:first-child {
+        margin-right: 30px;
+      }
+
+      &:last-child {
+        margin-left: 30px;
+      }
+    }
+
+    &.visible {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    &.submit-button {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &.column {
+      flex-direction: column;
+    }
+  }
+}
+
+.icon {
+  cursor: pointer;
+}

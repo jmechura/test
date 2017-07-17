@@ -327,6 +327,34 @@
       "properties": "Properties"
     }
   },
+  "acquirers": {
+    "list": {
+      "title": "Obchodní sítě",
+      "addAcquirer": "Přidat obchodní síť",
+      "deleteQuestion": "Opravdu chcete obchodní síť smazat?"
+    },
+    "dictionary": {
+      "acquiringInstitutionCode": "AIC",
+      "hsmKeyName": "hsmKeyName",
+      "hsmTransitKeyName": "hsmTransitKeyName",
+      "keyName": "keyName",
+      "keyValue": "keyValue",
+      "last": "last",
+      "required": {
+        "acquiringInstitutionCode": "acquiringInstitutionCode je povinny.",
+        "hsmKeyName": "hsmKeyName je povinny.",
+        "hsmTransitKeyName": "hsmTransitKeyName je povinny.",
+        "keyName": "keyName je povinny.",
+        "keyValue": "keyValue je povinny."
+      }
+    },
+    "detail": {
+      "title": "Obchodní síť",
+      "addKey": "Přidat klíč",
+      "keys": "Klíče",
+      "setAsLast": "Nastavit jako poslední."
+    }
+  },
   "employees": {
     "list": {
       "title": "Employees",
@@ -646,6 +674,11 @@
       "KB_BEST": "KB_BEST",
       "TOP_UP_SCHEDULE": "TOP_UP_SCHEDULE"
     },
+    "acquirerSections": {
+      "ADDRESS": "Adresa",
+      "BASIC": "Základní informace",
+      "KEYS": "Klíče"
+    },
     "reportTypes": {
       "ACQUIRER_REPORT": "ACQUIRER_REPORT",
       "CLEARING_REPORT": "CLEARING_REPORT",
@@ -677,7 +710,8 @@
     "campaigns": "Kampaně",
     "showcase": "Showcase",
     "templates": "Šablony",
+    "reports": "Reporty",
     "imports": "Importy",
-    "reports": "Reporty"
+    "acquirers": "Obchodní sítě"
   }
 }

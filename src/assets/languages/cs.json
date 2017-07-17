@@ -368,6 +368,34 @@
       "properties": "Properties"
     }
   },
+  "acquirers": {
+    "list": {
+      "title": "Obchodní sítě",
+      "addAcquirer": "Přidat obchodní síť",
+      "deleteQuestion": "Opravdu chcete obchodní síť smazat?"
+    },
+    "dictionary": {
+      "acquiringInstitutionCode": "AIC",
+      "hsmKeyName": "hsmKeyName",
+      "hsmTransitKeyName": "hsmTransitKeyName",
+      "keyName": "keyName",
+      "keyValue": "keyValue",
+      "last": "last",
+      "required": {
+        "acquiringInstitutionCode": "acquiringInstitutionCode je povinny.",
+        "hsmKeyName": "hsmKeyName je povinny.",
+        "hsmTransitKeyName": "hsmTransitKeyName je povinny.",
+        "keyName": "keyName je povinny.",
+        "keyValue": "keyValue je povinny."
+      }
+    },
+    "detail": {
+      "title": "Obchodní síť",
+      "addKey": "Přidat klíč",
+      "keys": "Klíče",
+      "setAsLast": "Nastavit jako poslední."
+    }
+  },
   "enums": {
     "responseCodes": {
       "APPROVED": "APPROVED",
@@ -658,6 +686,11 @@
       "MERCHANT_LIST_TRX_REPORT": "MERCHANT_LIST_TRX_REPORT",
       "POHODA_INVOICE_REPORT": "POHODA_INVOICE_REPORT",
       "MERCHANT_SUM_TRX_REPORT": "MERCHANT_SUM_TRX_REPORT"
+    },
+    "acquirerSections": {
+      "ADDRESS": "Adresa",
+      "BASIC": "Základní informace",
+      "KEYS": "Klíče"
     }
   },
   "menu": {
@@ -677,6 +710,7 @@
     "campaigns": "Kampaně",
     "showcase": "Showcase",
     "templates": "Šablony",
+    "acquirers": "Obchodní sítě",
     "imports": "Importy",
     "reports": "Reporty"
   }

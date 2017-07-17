@@ -124,6 +124,14 @@ import { ReportPropertyEffect } from './shared/effects/report-property.effect';
 import { reportPropertyDefReducer } from './shared/reducers/report-property-def.reducer';
 import { ReportPropertyDefEffect } from './shared/effects/report-property-def.effect';
 import { AppConfigService } from './shared/services/app-config.service';
+import { acquirersReducer } from './shared/reducers/acquirers.reducer';
+import { AcquirersEffect } from './shared/effects/acquirers.effect';
+import { acquirerDetailReducer } from './shared/reducers/acquirer-detail.reducer';
+import { AcquirerDetailEffect } from './shared/effects/acquirer-detail.effect';
+import { acquirerKeysReducer } from './shared/reducers/acquirer-key.reducer';
+import { AcquirerKeysEffect } from './shared/effects/acquirer-keys.effect';
+import { countryCodeReducer } from './shared/reducers/country-code.reducer';
+import { CountryCodeEffect } from './shared/effects/country-code.effect';
 import { LanguageService } from './shared/services/language.service';
 
 
@@ -195,11 +203,15 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       importProperties: importPropertyReducer,
       userList: userListReducer,
       user: userReducer,
+      acquirers: acquirersReducer,
+      acquirerDetail: acquirerDetailReducer,
+      acquirerKeys: acquirerKeysReducer,
       reports: reportsReducer,
       reportTypes: reportTypeReducer,
       reportDetail: reportDetailReducer,
       reportProperties: reportPropertyReducer,
       reportPropertyDefs: reportPropertyDefReducer,
+      countryCodes: countryCodeReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
     EffectsModule.runAfterBootstrap(ProfileEffect),
@@ -255,6 +267,10 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(ReportDetailEffect),
     EffectsModule.runAfterBootstrap(ReportPropertyEffect),
     EffectsModule.runAfterBootstrap(ReportPropertyDefEffect),
+    EffectsModule.runAfterBootstrap(AcquirersEffect),
+    EffectsModule.runAfterBootstrap(AcquirerDetailEffect),
+    EffectsModule.runAfterBootstrap(AcquirerKeysEffect),
+    EffectsModule.runAfterBootstrap(CountryCodeEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({
       loader: {
