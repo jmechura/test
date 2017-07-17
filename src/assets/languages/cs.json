@@ -327,6 +327,29 @@
       "properties": "Properties"
     }
   },
+  "employees": {
+    "list": {
+      "title": "Employees",
+      "cardGroupCode": "Card Group Code",
+      "expiredDateForWarning": "Expired Date For Warning"
+    },
+    "detail": {
+      "title": "Detail Zaměstnance",
+      "basic": "Basic",
+      "personal": "Personal",
+      "roles": "Roles",
+      "cards": "Cards",
+      "authorities": "Authorities",
+      "resource": "Resource",
+      "resourceId": "Resource ID"
+    },
+    "dictionary": {
+      "login": "Login",
+      "blocked": "Blocked",
+      "firstLogon": "First Logon",
+      "passwordExpired": "Password Expired"
+    }
+  },
   "reports": {
     "list": {
       "title": "Reporty",

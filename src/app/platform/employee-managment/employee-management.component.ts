@@ -1,107 +1,133 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { fillEmployee, User } from '../../shared/models/user.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
+import { Store } from '@ngrx/store';
+import { userListActions } from '../../shared/reducers/user-list.reducer';
+import { Subject } from 'rxjs/Subject';
+import { StateModel } from '../../shared/models/state.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
+import { AppStateModel } from '../../shared/models/app-state.model';
+import { AccountPredicateObject, ProfileModel } from '../../shared/models/profile.model';
+
+const EMPLOYEES_ROUTE = 'platform/employees';
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
+
+const DEFAULT_FILTER = {
+  cardGroupCode: '',
+  cln: '',
+  email: '',
+  firstName: '',
+  issuerCode: '',
+  langKey: '',
+  lastName: '',
+  login: '',
+  merchantCode: '',
+  networkCode: '',
+  orgUnitCode: '',
+  terminalCode: ''
+};
 
 @Component({
   selector: 'mss-employee-management',
   templateUrl: './employee-management.component.html',
   styleUrls: ['./employee-management.component.scss'],
 })
-export class EmployeeManagementComponent {
+export class EmployeeManagementComponent implements OnDestroy {
 
-  columns = [
-    {name: 'Id'},
-    {name: 'Name'},
-    {name: 'Address'},
-    {name: 'City'},
-    {name: 'Country'},
-    {name: 'Postal'},
-    {name: 'Phone'},
-    {name: 'Email'},
-    {name: 'Delete'}
-  ];
-
-  newEmployeeForm: FormGroup;
-  rows = [];
-  rowLimit = 10;
   loading = false;
-  modalShowing = false;
-  edit = '';
-  newEmployee: User = fillEmployee();
 
-  @ViewChild(DatatableComponent) table: DatatableComponent;
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
+  pageNumber = 0;
+  totalItems = 0;
+  tableRows: ProfileModel[];
+  sortOption: {
+    predicate: string;
+    reverse: boolean;
+  };
 
-  constructor(fb: FormBuilder) {
-    this.fetch((data: User[]) => {
-      this.rows = data.map(item => ({
-        id: item.id,
-        name: `${item.name} ${item.surname}`,
-        address: item.address,
-        city: item.city,
-        country: item.country,
-        postal: item.postal,
-        phone: item.phone,
-        email: item.email
-      }));
-      this.loading = false;
-    });
+  private unsubscribe$ = new Subject<void>();
+  usersData: Pagination<ProfileModel>;
 
-    this.newEmployeeForm = fb.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      country: ['', Validators.required],
-      postal: ['', Validators.required],
-      email: ['', control => control.value === '' ? null : Validators.email(control)],
-      phone: null
-    });
+  @ViewChild('table') table: DatatableComponent;
+
+  constructor(private store: Store<AppStateModel>,
+              private router: Router,
+              private route: ActivatedRoute) {
+
+    this.store.select('userList').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error, loading}: StateModel<Pagination<ProfileModel>>) => {
+        this.loading = loading;
+        if (error) {
+          console.error('User list API call returned error', error);
+          return;
+        }
+
+        if (data != undefined) {
+          this.usersData = data;
+          this.tableRows = data.content.map(item => item) || [];
+          this.totalItems = data.totalElements || 0;
+        }
+      }
+    );
+
+    this.route.params.takeUntil(this.unsubscribe$).subscribe(
+      (params: ListRouteParamsModel) => {
+        this.pageNumber = Math.max(Number(params.page) || 0, 1);
+        this.rowLimit = ITEM_LIMIT_OPTIONS.find(limit => limit === Number(params.limit)) || ITEM_LIMIT_OPTIONS[0];
+        this.getUsers();
+      }
+    );
   }
 
-  fetch(cb: any): void {
-    this.loading = true;
-    const req = new XMLHttpRequest();
-    req.open('GET', `assets/mock/employees.json`);
-    req.onload = () => {
-      cb(JSON.parse(req.response));
+  get requestModel(): RequestOptions<AccountPredicateObject> {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: (this.pageNumber - 1) * this.rowLimit,
+      },
+      search: {
+        predicateObject: Object.assign({}, DEFAULT_FILTER)
+      },
+      sort: this.sortOption != null ? this.sortOption : {},
     };
-    req.send();
   }
 
-  editing(edit: string): void {
-    this.edit = edit;
+  setPage(pageInfo: { offset: number }): void {
+    const routeParams: ListRouteParamsModel = {
+      page: String(pageInfo.offset + 1),
+      limit: String(this.rowLimit)
+    };
+    this.router.navigate([`${EMPLOYEES_ROUTE}`, routeParams]);
   }
 
-  updateValue(event: any, cell: any, cellValue: any, row: any): void {
-    this.edit = '';
-    this.rows[row.$$index][cell] = event.target.value;
+  getUsers(): void {
+    this.store.dispatch({type: userListActions.USER_LIST_GET_REQUEST, payload: this.requestModel});
   }
 
-  deleteRow(row: any): void {
-    this.rows.splice(row.$$index, 1);
-  }
-
-  toggleModalShowing(): void {
-    this.modalShowing = !this.modalShowing;
-  }
-
-  add(): void {
-    if (!this.newEmployeeForm.valid) {
-      return;
-    }
-    this.rows.push(this.newEmployee);
-    this.toggleModalShowing();
+  onSelect(select: { selected: ProfileModel[] }): void {
+    this.router.navigate([`${EMPLOYEES_ROUTE}/${select.selected[0].id}`]);
   }
 
   changeLimit(limit: number): void {
-    this.rowLimit = limit;
+    const routeParams: ListRouteParamsModel = {
+      page: '1',
+      limit: String(limit),
+    };
+    this.router.navigate([`${EMPLOYEES_ROUTE}`, routeParams]);
+  }
 
-    setTimeout(
-      () => {
-        this.table.recalculate();
-      },
-      0
-    );
+  getSorted(sortInfo: any): void {
+    this.sortOption = {
+      predicate: sortInfo.sorts[0].prop,
+      reverse: sortInfo.sorts[0].dir === 'asc',
+    };
+    this.getUsers();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

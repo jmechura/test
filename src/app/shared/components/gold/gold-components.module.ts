@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { OrgUnitFormComponent } from './org-unit-form/org-unit-form.component';
 import { BronzeComponentsModule } from '../bronze/bronze-components.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { EmployeeFormComponent } from './employee-form/employee-form.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormComponent,
     AuthFormComponent,
     OrgUnitFormComponent,
+    EmployeeFormComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormComponent,
     AuthFormComponent,
     OrgUnitFormComponent,
+    EmployeeFormComponent,
   ],
   providers: [],
 })

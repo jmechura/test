@@ -4,12 +4,20 @@
   @include mss-data-table;
 }
 
+.datatable-header-cell {
+  @include mss-datatable-header-cell;
+}
+
 .resize-handle {
   @include mss-resize-handle;
 }
 
 .datatable-header {
   @include mss-datatable-header;
+
+  .datatable-row-center {
+    @include mss-header-row-center;
+  }
 }
 
 .datatable-header-cell.sortable:not(.sort-active):hover {
@@ -94,8 +102,47 @@
   }
 }
 
+.ngx-datatable .datatable-body .progress-linear {
+  display: block;
+  width: 100%;
+  height: 5px;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+}
+
+.ngx-datatable .datatable-body .progress-linear .container {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 5px;
+  transform: translate(0, 0) scale(1, 1);
+  background-color: #aad1f9;
+}
+
+.ngx-datatable .datatable-body .progress-linear .container .bar {
+  animation: query 0.8s infinite cubic-bezier(0.39, 0.57, 0.56, 1);
+  transition: -webkit-transform 0.2s linear, transform 0.2s linear, all 0.2s linear;
+  background-color: #106cc8;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5px;
+}
+
 .d-table-footer {
   width: 100%;
+}
+
+.mss-datatable-state-value {
+  color: $positive-number-color;
+
+  &.disabled {
+    color: $negative-number-color;
+  }
 }
 
 .datatable-row-detail {

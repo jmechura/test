@@ -24,6 +24,7 @@ import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
 import { CardListComponent } from './employer-card/card-list.component';
 import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
+import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { TemplatesComponent } from './templates/templates.component';
 import { TemplateDetailComponent } from './template-detail/template-detail.component';
 import { ImportsComponent } from './imports/imports.component';
@@ -41,6 +42,7 @@ export const routes: Routes = [
       {path: 'settings', component: SettingsComponent},
       {path: 'card', component: CardViewComponent},
       {path: 'employees', component: EmployeeManagementComponent},
+      {path: 'employees/:id', component: EmployeeDetailComponent},
       {path: 'employer-card', component: CardListComponent},
       {path: 'employer-card/:uuid', component: CardDetailComponent},
       {path: 'routing-table', component: RoutingTableComponent},

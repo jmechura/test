@@ -169,6 +169,15 @@ $pager-active-color: #4c4c4c;
   background-color: $pager-active-color;
 }
 
+@mixin mss-datatable-header-cell {
+  white-space: normal !important;
+}
+
+@mixin mss-header-row-center {
+  display: flex;
+  align-items: center;
+}
+
 @mixin mss-data-table {
   width: 100%;
   margin-top: $default-margin;
@@ -206,6 +215,11 @@ $pager-active-color: #4c4c4c;
   background-color: $contrast-color;
   padding: 0 $side-padding;
   color: $row-text-color;
+
+  &:hover {
+    background-color: rgba($row-text-color, 0.05);
+    cursor: pointer;
+  }
 }
 
 @mixin mss-datatable-row-wrapper {

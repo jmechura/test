@@ -1,72 +1,27 @@
-<div class="empl-container">
-  <div class="add-buttons">
-    <mss-button (click)="toggleModalShowing()" class="add-button" [label]="'Nový Zaměstnanec'"></mss-button>
-    <mss-upload-input class="margin-row" [acceptFiles]="'.csv'" [type]="'input'" [label]="'Nahrát CSV file'"></mss-upload-input>
+<div class="mss-view-container">
+  <div class="mss-title">
+    {{'employees.list.title' | translate}}
   </div>
   <div class="data-table-container">
-    <ngx-datatable #table [columns]="columns" [loadingIndicator]="loading"
-                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="rowLimit" [rows]="rows">
-      <ngx-datatable-column name="Id" [maxWidth]="80"></ngx-datatable-column>
-
-      <ngx-datatable-column name="Name">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="editing(row.$$index + '-name')"
-            *ngIf="edit !== row.$$index + '-name'">{{value}}</span>
-          <input class="table-input" autofocus (blur)="updateValue($event, 'name', value, row)" *ngIf="edit === row.$$index + '-name'"
-            type="text" [value]="value"/>
+    <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="usersData ? usersData.totalElements : 0 "
+                   [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50"
+                   [rowHeight]="'auto'" [externalSorting]="true" [limit]="rowLimit"
+                   [rows]="tableRows" [selectionType]="'single'" (select)="onSelect($event)"
+                   (page)="setPage($event)" (sort)="getSorted($event)">
+      <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [maxWidth]="80"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'employees.dictionary.login' | translate"  prop="login"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'employees.list.cardGroupCode' | translate" prop="cardGroupCode"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.firstName' | translate" prop="firstName"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.lastName' | translate" prop="lastName"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'employees.dictionary.firstLogon' | translate" prop="firstLogon"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'employees.list.expiredDateForWarning' | translate" prop="expiredDateForWarning"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'employees.dictionary.passwordExpired' | translate" prop="passwordExpired"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'employees.dictionary.blocked' | translate" prop="blocked"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <span class="mss-datatable-state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-
-      <ngx-datatable-column name="Address">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="editing(row.$$index + '-address')"
-                *ngIf="edit !== row.$$index + '-address'">{{value}}</span>
-          <input class="table-input" autofocus (blur)="updateValue($event, 'address', value, row)" *ngIf="edit === row.$$index + '-address'"
-                 type="text" [value]="value"/>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="City">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="editing(row.$$index + '-city')"
-                *ngIf="edit !== row.$$index + '-city'">{{value}}</span>
-          <input class="table-input" autofocus (blur)="updateValue($event, 'city', value, row)" *ngIf="edit === row.$$index + '-city'"
-                 type="text" [value]="value"/>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Country">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="editing(row.$$index + '-country')"
-                *ngIf="edit !== row.$$index + '-country'">{{value}}</span>
-          <input class="table-input" autofocus (blur)="updateValue($event, 'country', value, row)" *ngIf="edit === row.$$index + '-country'"
-                 type="text" [value]="value"/>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Phone">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="editing(row.$$index + '-phone')"
-                *ngIf="edit !== row.$$index + '-phone'">{{value}}</span>
-          <input class="table-input" autofocus (blur)="updateValue($event, 'phone', value, row)" *ngIf="edit === row.$$index + '-phone'"
-                 type="text" [value]="value"/>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Email">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="editing(row.$$index + '-email')"
-                *ngIf="edit !== row.$$index + '-email'">{{value}}</span>
-          <input class="table-input" autofocus (blur)="updateValue($event, 'email', value, row)" *ngIf="edit === row.$$index + '-email'"
-                 type="text" [value]="value"/>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column name="Delete" [width]="70">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <i (click)="deleteRow(row)" class="material-icons delete">clear</i>
-        </ng-template>
-      </ngx-datatable-column>
-
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template
@@ -74,9 +29,9 @@
           let-pageSize="pageSize"
           let-curPage="curPage">
           <mss-table-footer
-            [page]="curPage"
-            [rowsShown]="pageSize"
-            [rowCount]="rowCount"
+            [page]="pageNumber"
+            [rowsShown]="rowLimit"
+            [rowCount]="totalItems"
             (rowsShownChange)="changeLimit($event)"
             (changePage)="table.onFooterPage($event)"
             class="d-table-footer">
@@ -87,20 +42,3 @@
   </div>
 </div>
 
-<mss-modal-window [(visible)]="modalShowing">
-  <form [formGroup]="newEmployeeForm" class="form">
-    <mss-input formControlName="name" [(value)]="newEmployee.name" [label]="'Jméno'" class="new-input"></mss-input>
-    <mss-input formControlName="surname" [(value)]="newEmployee.surname" [label]="'Příjmení'" class="new-input"></mss-input>
-    <mss-input formControlName="address" [(value)]="newEmployee.address" [label]="'Ulice, č.p.'" class="new-input"></mss-input>
-    <mss-input formControlName="city" [(value)]="newEmployee.city" [label]="'Město'" class="new-input"></mss-input>
-    <mss-input formControlName="country" [(value)]="newEmployee.country" [label]="'Země'" class="new-input"></mss-input>
-    <mss-input formControlName="postal" [(value)]="newEmployee.postal" [label]="'PSČ'" class="new-input"></mss-input>
-    <mss-input formControlName="phone" [(value)]="newEmployee.phone" [label]="'Telefon'" class="new-input"></mss-input>
-    <mss-input formControlName="email" [(value)]="newEmployee.email" [label]="'E-mail'" class="new-input"></mss-input>
-    <div class="modal-buttons">
-      <mss-button class="modal-btn" (click)="toggleModalShowing()" [label]="'Zavřít'"></mss-button>
-      <mss-button class="modal-btn" [disabled]="!newEmployeeForm.valid" (click)="add()" [label]="'Přidat'"></mss-button>
-    </div>
-  </form>
-
-</mss-modal-window>

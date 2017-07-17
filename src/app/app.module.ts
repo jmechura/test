@@ -99,7 +99,10 @@ import { campaignPropertyReducer } from './shared/reducers/campaign-property.red
 import { CampaignPropertyEffect } from './shared/effects/campaign-property.effect';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LanguageService } from './shared/services/language.service';
+import { userListReducer } from './shared/reducers/user-list.reducer';
+import { UserListEffect } from './shared/effects/user-list.effect';
+import { userReducer } from './shared/reducers/user.reducer';
+import { UserEffect } from './shared/effects/user.effect';
 import { importsReducer } from './shared/reducers/imports.reducer';
 import { ImportsEffect } from './shared/effects/imports.effect';
 import { ImportTypeEffect } from './shared/effects/import-type.effect';
@@ -121,6 +124,7 @@ import { ReportPropertyEffect } from './shared/effects/report-property.effect';
 import { reportPropertyDefReducer } from './shared/reducers/report-property-def.reducer';
 import { ReportPropertyDefEffect } from './shared/effects/report-property-def.effect';
 import { AppConfigService } from './shared/services/app-config.service';
+import { LanguageService } from './shared/services/language.service';
 
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
@@ -189,6 +193,8 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       importDetail: importDetailReducer,
       importPropertyDefs: importPropertyDefReducer,
       importProperties: importPropertyReducer,
+      userList: userListReducer,
+      user: userReducer,
       reports: reportsReducer,
       reportTypes: reportTypeReducer,
       reportDetail: reportDetailReducer,
@@ -242,6 +248,8 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(ImportDetailEffect),
     EffectsModule.runAfterBootstrap(ImportPropertyDefEffect),
     EffectsModule.runAfterBootstrap(ImportPropertyEffect),
+    EffectsModule.runAfterBootstrap(UserListEffect),
+    EffectsModule.runAfterBootstrap(UserEffect),
     EffectsModule.runAfterBootstrap(ReportsEffect),
     EffectsModule.runAfterBootstrap(ReportTypesEffect),
     EffectsModule.runAfterBootstrap(ReportDetailEffect),

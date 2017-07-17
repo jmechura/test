@@ -1,13 +1,5 @@
 @import 'theme';
 
-.state-value {
-  color: $positive-number-color;
-
-  &.disabled {
-    color: $negative-number-color;
-  }
-}
-
 .row-action {
   display: inline-block;
   margin-right: 10px;

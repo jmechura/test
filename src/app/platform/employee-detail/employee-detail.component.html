@@ -1,0 +1,67 @@
+<div *ngIf="user" class="mss-view-container">
+  <div class="mss-title title">{{'employees.detail.title' | translate}} - {{user.id}}</div>
+
+  <mss-tabs [items]="detailOptions" (itemChanged)="setSelectedOption($event)"></mss-tabs>
+
+  <div class="employee-detail-content" [formGroup]="userForm">
+    <div *ngIf="selectedOption === detailOptions[0]">
+      <div class="category-wrapper">
+        <div class="column" *ngFor="let infoColumn of basicInfo">
+          <div *ngIf="!editing">
+            <div class="mss-input-like-container employee-detail-item" *ngFor="let item of infoColumn">
+              <div class="label">{{item['label']}}</div>
+              <div class="value">{{item['value']}}</div>
+            </div>
+          </div>
+          <div *ngIf="editing">
+            <div class="employee-detail-item" *ngFor="let item of infoColumn">
+              <mss-input [label]="item['label']" [formControlName]="item['formName']"></mss-input>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="selectedOption === detailOptions[1]">
+      <div class="category-wrapper">
+        <div class="column" *ngFor="let infoColumn of personalInfo">
+          <div *ngIf="!editing">
+            <div class="mss-input-like-container employee-detail-item" *ngFor="let item of infoColumn">
+              <div class="label">{{item['label']}}</div>
+              <div class="value">{{item['value']}}</div>
+            </div>
+          </div>
+
+          <div *ngIf="editing">
+            <div class="employee-detail-item" *ngFor="let item of infoColumn">
+              <mss-input [label]="item['label']" [formControlName]="item['formName']"></mss-input>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedOption === detailOptions[2]">
+      <ngx-datatable #table *ngIf="roleInfo" [rows]="roleInfo"
+                     [headerHeight]="60" [footerHeight]="50"
+                     [columnMode]="'force'" [rowHeight]="'auto'">
+        <ngx-datatable-column [name]="'employees.detail.authorities' | translate" prop="authorities"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'employees.detail.resource' | translate" prop="resource" [maxWidth]="200"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'employees.detail.resourceId' | translate" prop="resourceId" [maxWidth]="200"></ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+
+    <div *ngIf="selectedOption === detailOptions[3]">
+      Cards placeholder
+    </div>
+
+
+    <div class="edit-buttons-container" *ngIf="selectedOption === detailOptions[0] || selectedOption === detailOptions[1]">
+      <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="edit-button"></mss-button>
+      <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()" class="edit-button"></mss-button>
+      <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()" class="edit-button"></mss-button>
+    </div>
+  </div>
+</div>

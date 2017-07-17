@@ -27,7 +27,23 @@ export interface ProfileModel {
     resource: 'SYSTEM' | null;
     resourceId: string
   }[];
+  state: 'NEW' | 'ENABLED' | 'DISABLED' | 'DELETED';
   street: string;
   system: string;
   zip: string;
+}
+
+export interface AccountPredicateObject {
+  cardGroupCode: string;
+  cln: string;
+  email: string;
+  firstName: string;
+  issuerCode: string;
+  langKey: string;
+  lastName: string;
+  login: string;
+  merchantCode: string;
+  networkCode: string;
+  orgUnitCode: string;
+  terminalCode: string;
 }

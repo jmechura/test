@@ -35,6 +35,7 @@ import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.compon
 import { ImportsComponent } from './imports/imports.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 
@@ -83,6 +84,7 @@ import { ReportDetailComponent } from './report-detail/report-detail.component';
     ImportDetailComponent,
     ReportsComponent,
     ReportDetailComponent,
+    EmployeeDetailComponent,
   ]
 })
 export class PlatformModule {}

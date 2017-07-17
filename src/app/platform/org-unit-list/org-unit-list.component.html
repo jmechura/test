@@ -16,7 +16,7 @@
         <ngx-datatable-column [name]="'basic.note' | translate" prop="note" [sortable]="false"></ngx-datatable-column>
         <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-value="value">
-            <span class="state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
+            <span class="mss-datatable-state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column [name]="'basic.options' | translate" [sortable]="false">
