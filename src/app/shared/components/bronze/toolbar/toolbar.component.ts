@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ProfileModel } from '../../../models/profile.model';
 import { LanguageService } from '../../../services/language.service';
+import { routeToRule } from '../../../guards/auth.guard';
 
 export type ToolbarPosition = 'side' | 'top';
 
@@ -8,6 +9,7 @@ interface ToolbarItem {
   path: string;
   label?: string;
   icon: string;
+  rule?: string;
 }
 
 const TOOLBAR_ITEMS: ToolbarItem[] = [
@@ -15,7 +17,7 @@ const TOOLBAR_ITEMS: ToolbarItem[] = [
   {path: 'card', icon: 'credit_card'},
   {path: 'settings', icon: 'settings'},
   {path: 'employees', icon: 'group'},
-  {path: 'employer-card', icon: 'markunread_mailbox'},
+  {path: 'cards', icon: 'markunread_mailbox'},
   {path: 'card-groups', icon: 'markunread_mailbox'},
   {path: 'issuers', icon: 'card_giftcard'},
   {path: 'card-request', icon: 'markunread_mailbox'},
@@ -43,7 +45,8 @@ export class ToolbarComponent {
 
   constructor(private language: LanguageService) {
     this.toolbarItems = TOOLBAR_ITEMS.map(item => ({
-      ...item, label: this.language.translate(`menu.${item.path}`), path: `/platform/${item.path}`
+      ...item, label: this.language.translate(`menu.${item.path}`), path: `/platform/${item.path}`, rule: routeToRule[item.path]
     }));
   }
 }
+

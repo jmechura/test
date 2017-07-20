@@ -16,7 +16,16 @@
         <div class="label">{{'dictionary.to' | translate}}</div>
         <mss-date-picker-input class="date-picker" [pickedDate]="toDate" (pickedDateChange)="changeToDate($event)"></mss-date-picker-input>
       </div>
+      <mss-select [disabled]="issuerCodes.length === 0"
+                  *mssRoleIf="'filters.issuerCodeSelect'"
+                  class="filter-item"
+                  [label]="'dictionary.issuerCode' | translate"
+                  labelPosition="top"
+                  [options]="issuerCodes"
+                  [selectedOption]="searchModel.search.predicateObject.issuerCode"
+                  (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
       <mss-select [disabled]="cardGroupCodes.length === 0"
+                  *mssRoleIf="'filters.cardGroupCodeSelect'"
                   class="filter-item"
                   [options]="cardGroupCodes"
                   [label]="'dictionary.cardGroupCode' | translate"
@@ -44,15 +53,32 @@
                    (sort)="getSortedCardRequests($event)"
                    [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [limit]="searchModel.pagination.number"
                    [rows]="rows">
-      <ngx-datatable-column [name]="'cards.cardRequests.employerName' | translate" prop="name" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'cards.cardRequests.numberOfCards' | translate" prop="number" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'cards.cardRequests.decline' | translate" [maxWidth]="100" [sortable]="false">
+      <ngx-datatable-column [name]="'basic.id' | translate" prop="uuid" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.employerName' | translate" prop="cardGroupName"
+                            [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.created' | translate" prop="created" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.createdBy' | translate" prop="createdBy" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.numberOfCards' | translate" prop="cardNumber"
+                            [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.processedCard' | translate" prop="processedCard"
+                            [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.sendCard' | translate" prop="sendCard"
+                            [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardRequests.decline' | translate" [maxWidth]="100"
+                            [sortable]="false" *mssRoleIf="'cardRequests.confirm'">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i class="material-icons table-icon" (click)="handleActionClick(row, 'decline', $event)">clear</i>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'cards.cardRequests.accept' | translate" [maxWidth]="100" [sortable]="false">
+      <ngx-datatable-column [name]="'cards.cardRequests.accept' | translate" [maxWidth]="100"
+                            [sortable]="false" *mssRoleIf="'cardRequests.confirm'">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i class="material-icons table-icon" (click)="handleActionClick(row, 'confirm', $event)">done</i>
         </ng-template>

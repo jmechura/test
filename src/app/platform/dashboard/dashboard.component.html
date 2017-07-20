@@ -41,6 +41,7 @@
                       labelPosition="top"
                       [(selectedOption)]="pagination.search.predicateObject.state"></mss-select>
           <mss-select [disabled]="cardGroupCodes.length === 0"
+                      *mssRoleIf="'filters.cardGroupCodeSelect'"
                       class="filter-item"
                       [options]="cardGroupCodes"
                       [label]="'dictionary.cardGroupCode' | translate"
@@ -61,6 +62,7 @@
       <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.LOCATION">
         <div class="row wrapped">
           <mss-select [disabled]="issuerCodes.length === 0"
+                      *mssRoleIf="'filters.issuerCodeSelect'"
                       class="filter-item"
                       [label]="'dictionary.issuerCode' | translate"
                       labelPosition="top"
@@ -69,6 +71,7 @@
                       (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
           <mss-select [disabled]="networkCodes.length === 0"
                       class="filter-item"
+                      *mssRoleIf="'filters.networkCodeSelect'"
                       [label]="'dictionary.networkCode' | translate"
                       labelPosition="top"
                       [options]="networkCodes"
@@ -76,12 +79,14 @@
                       (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
           <mss-select [disabled]="merchantCodes.length === 0"
                       class="filter-item"
+                      *mssRoleIf="'filters.merchantCodeSelect'"
                       [label]="'dictionary.merchantCode' | translate"
                       labelPosition="top"
                       [options]="merchantCodes"
                       [selectedOption]="pagination.search.predicateObject.merchantCode"
                       (selectedOptionChange)="selectMerchantCode($event)"></mss-select>
           <mss-select [disabled]="orgUnitCodes.length === 0"
+                      *mssRoleIf="'filters.orgUnitCodeSelect'"
                       class="filter-item"
                       [label]="'dictionary.orgUnitCode' | translate"
                       labelPosition="top"
@@ -127,22 +132,35 @@
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.terminalDate' | translate" prop="termDttm" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.terminalId' | translate" prop="terminalCode" [sortable]="false">
+      <ngx-datatable-column [name]="'dictionary.terminalCode' | translate" prop="terminalCode" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span class="cell clickable" title="Click to move to the detail." (click)="goToDetail('terminal', value)"> {{value}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.transactionState' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
+
+      <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode"
+                            [sortable]="false" *mssRoleIf="'filters.orgUnitCodeSelect'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode"
+                            [sortable]="false" *mssRoleIf="'filters.merchantCodeSelect'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.transactionType' | translate" prop="transactionType"
+                            [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode"
+                            [sortable]="false" *mssRoleIf="'filters.cardGroupCodeSelect'">
+      </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.approvalCode' | translate" prop="approvalCode" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.responseCode' | translate" prop="responseCode" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.transactionCode' | translate" prop="transactionType"
-                            [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.dstStan' | translate" prop="dstStan" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.rrn' | translate" prop="rrn" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.variableSymbol' | translate" prop="vs" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="CLN" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cln' | translate" prop="cln" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.transactionState' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
+
+      <ngx-datatable-column [name]="'dictionary.dstStan' | translate" prop="dstStan" [sortable]="false"
+                            *mssRoleIf="'transactions.dstStanColumn'"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.rrn' | translate" prop="rrn" [sortable]="false"
+                            *mssRoleIf="'transactions.rrnColumn'"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.variableSymbol' | translate" prop="vs" [sortable]="false"
+                            *mssRoleIf="'transactions.variableSymbolColumn'"></ngx-datatable-column>
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template

@@ -21,7 +21,7 @@ const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 export class OrgUnitListComponent implements OnDestroy {
   pageNumber = 1;
   totalItems = 0;
-  private itemLimit = ITEM_LIMIT_OPTIONS[0];
+  itemLimit = ITEM_LIMIT_OPTIONS[0];
   sortOption: {
     reverse: boolean;
     predicate: string
@@ -42,7 +42,7 @@ export class OrgUnitListComponent implements OnDestroy {
         }
 
         if (state.data) {
-          this.tableRows = state.data.content;
+          this.tableRows = state.data.content.map(item => item);
           this.totalItems = state.data.totalElements;
         }
       }
@@ -55,8 +55,6 @@ export class OrgUnitListComponent implements OnDestroy {
         this.store.dispatch({type: orgUnitListActions.ORG_UNIT_LIST_GET_REQUEST, payload: this.requestModel});
       }
     );
-
-    this.store.dispatch({type: orgUnitListActions.ORG_UNIT_LIST_GET_REQUEST, payload: this.requestModel});
   }
 
   ngOnDestroy(): void {

@@ -19,6 +19,7 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { RouterModule } from '@angular/router';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     HttpModule,
-    RouterModule
+    RouterModule,
+    DirectivesModule,
   ],
   exports: [
     AvatarComponent,

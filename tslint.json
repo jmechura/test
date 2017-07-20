@@ -46,7 +46,7 @@
     "directive-selector": [
       true,
       "attribute",
-      "fu",
+      "mss",
       "camelCase"
     ],
     "eofline": true,

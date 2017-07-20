@@ -4,19 +4,40 @@ import { Store } from '@ngrx/store';
 import { AppStateModel } from '../models/app-state.model';
 import { UnsubscribeSubject } from '../utils';
 import { profileActions, ProfileState } from '../reducers/profile.reducer';
+import { RoleService } from '../services/role.service';
 
 const LOGIN_ROUTE = 'login';
 const PLATFORM_ROUTE = 'platform';
 
+export const routeToRule: { [childRoute: string]: string } = {
+  'dashboard': 'transactions.read',
+  'employees': 'users.read',
+  'cards': 'cards.read',
+  'card-request': 'cardRequests.read',
+  'card-groups': 'cardGroups.read',
+  'issuers': 'admin.view',
+  'routing-table': 'admin.view',
+  'merchants': 'merchants.read',
+  'org-units': 'orgUnits.read',
+  'sequences': 'admin.view',
+  'terminal': 'terminals.read',
+  'campaigns': 'admin.view',
+  'templates': 'admin.view',
+  'imports': 'admin.view',
+  'reports': 'admin.view',
+  'acquirers': 'admin.view',
+  'showcase': 'admin.view',
+};
+
 @Injectable()
 export class AuthGuard implements CanActivateChild {
-  constructor(private store: Store<AppStateModel>, private router: Router) {
+  constructor(private store: Store<AppStateModel>, private router: Router, private roleService: RoleService) {
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Promise<boolean> {
     return new Promise(resolve => {
-      const route = routerState.url.match(/^\/([a-z-]+)?/)[1];
-      if (route !== LOGIN_ROUTE && route !== PLATFORM_ROUTE) {
+      const [mainRoute, secondaryRoute] = routerState.url.match(/^\/([a-z-]+)?(?:\/([a-z-]+))?/).slice(1);
+      if (mainRoute !== LOGIN_ROUTE && mainRoute !== PLATFORM_ROUTE) {
         // trying to route neither to login nor to platform => do not guard
         resolve(true);
         return;
@@ -39,7 +60,7 @@ export class AuthGuard implements CanActivateChild {
               return;
             }
 
-            switch (route) {
+            switch (mainRoute) {
               case LOGIN_ROUTE:
                 // error getting the profile => permit routing to login
                 unsubscribe$.fire();
@@ -61,7 +82,7 @@ export class AuthGuard implements CanActivateChild {
             return;
           }
 
-          switch (route) {
+          switch (mainRoute) {
             case LOGIN_ROUTE:
               // valid profile present => force-route to platform
               unsubscribe$.fire();
@@ -72,7 +93,14 @@ export class AuthGuard implements CanActivateChild {
             case PLATFORM_ROUTE:
               // valid profile present => permit routing to platform
               unsubscribe$.fire();
-              resolve(true);
+              const rule = routeToRule[secondaryRoute];
+              if (rule != undefined) {
+                this.roleService.isVisible(rule).subscribe(
+                  result => resolve(result)
+                );
+              } else {
+                resolve(true);
+              }
               return;
           }
         }

@@ -57,11 +57,12 @@
       Cards placeholder
     </div>
 
-
-    <div class="edit-buttons-container" *ngIf="selectedOption === detailOptions[0] || selectedOption === detailOptions[1]">
-      <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="edit-button"></mss-button>
-      <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()" class="edit-button"></mss-button>
-      <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()" class="edit-button"></mss-button>
+    <div *mssRoleIf="'users.edit'">
+      <div class="edit-buttons-container" *ngIf="selectedOption === detailOptions[0] || selectedOption === detailOptions[1]">
+        <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="edit-button"></mss-button>
+        <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()" class="edit-button"></mss-button>
+        <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()" class="edit-button"></mss-button>
+      </div>
     </div>
   </div>
 </div>

@@ -13,8 +13,10 @@ import { cardRequestStateActions } from '../../shared/reducers/card-request-stat
 import { Router } from '@angular/router';
 import { ApiService } from '../../shared/services/api.service';
 import { CodeModel } from '../../shared/models/code.model';
-import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
+import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
+import { RoleService } from '../../shared/services/role.service';
+import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 
 const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
 const API_ENDPOINT = '/cards/requests';
@@ -46,10 +48,10 @@ export class CardRequestComponent {
   requestStates: SelectItem[] = [{value: 'NEW'}, {value: 'ENABLED'}, {value: 'BLOCKED'}];
   fromDate: Moment = null;
   toDate: Moment = null;
-  issuerCode: string;
   loading = false;
   tableData: Pagination<CardRequestModel>;
   rows: any[] = [];
+  issuerCodes: SelectItem[] = [];
 
   modalVisible = false;
   modalDisplaying: 'confirm' | 'decline';
@@ -58,7 +60,8 @@ export class CardRequestComponent {
   constructor(private store: Store<AppStateModel>,
               private router: Router,
               private language: LanguageService,
-              private api: ApiService) {
+              private api: ApiService,
+              private roles: RoleService) {
 
     this.store.dispatch({type: cardRequestStateActions.CARD_REQUEST_STATE_GET_REQUEST});
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
@@ -73,19 +76,43 @@ export class CardRequestComponent {
         }
 
         if (data != null) {
-          this.issuerCode = data.issuerCode;
-          // TODO: uncomment after issuerCode is got in profile model to get valid requests for issuer
-          // this.searchModel.search.predicateObject.issuerCode = data.data.issuerCode;
-          this.searchModel.search.predicateObject.issuerCode = 'bancibo';
-          this.store.dispatch(
-            {
-              type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST,
-              payload: this.searchModel.search.predicateObject.issuerCode
+          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+            issuerResult => {
+              if (issuerResult) {
+                this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+              } else {
+                this.searchModel.search.predicateObject.issuerCode = data.resourceId;
+                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                  cardGroupResult => {
+                    if (cardGroupResult) {
+                      this.store.dispatch(
+                        {
+                          type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST,
+                          payload: data.resourceId
+                        }
+                      );
+                    }
+                  }
+                );
+              }
             }
           );
         }
       }
     );
+
+    this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error, loading}: StateModel<CodeModel[]>) => {
+        if (error) {
+          console.error('Issuer code API call has returned an error', error);
+          return;
+        }
+        if (data != null && !loading) {
+          this.issuerCodes = data.map(item => ({label: item.code, value: item.id}));
+        }
+      }
+    );
+
     this.store.select('cardRequests').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<Pagination<CardRequestModel>>) => {
         this.loading = data.loading;
@@ -95,14 +122,7 @@ export class CardRequestComponent {
         }
         if (data.data != undefined && !data.loading) {
           this.tableData = data.data;
-          this.rows = this.tableData.content.map(item => (
-            {
-              name: item.cardGroupName,
-              state: item.state,
-              number: item.cardNumber,
-              uuid: item.uuid
-            }
-          ));
+          this.rows = this.tableData.content.map(item => item);
         }
       }
     );
@@ -161,6 +181,14 @@ export class CardRequestComponent {
     this.toDate = null;
     this.searchModel.search.predicateObject.cardGroupCode = '';
     this.searchModel.search.predicateObject.state = 'NEW';
+    this.searchModel.search.predicateObject.issuerCode = '';
+  }
+
+  selectIssuerCode(id: string): void {
+    this.searchModel.search.predicateObject.issuerCode = id;
+    // clear it before new data arrives
+    this.cardGroupCodes = [];
+    this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
   }
 
   /**

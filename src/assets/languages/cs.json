@@ -76,13 +76,15 @@
     "pan": "PAN",
     "typeOfCard": "Typ karty",
     "expiration": "Platnost",
+    "expiryDate": "Expiry Date",
     "serviceCode": "Service code",
     "limit": "Limit",
     "limitType": "Typ limity",
     "taxType": "Typ daně",
     "tax": "Hodnota daně",
     "externalCode": "Externí kód",
-    "bankAccount": "Bankovní účet"
+    "bankAccount": "Bankovní účet",
+    "processRequest": "Process request"
   },
   "components": {
     "pager": {
@@ -190,6 +192,10 @@
       "numberOfCards": "Počet karet",
       "accept": "Schválit",
       "decline": "Zamítnout",
+      "created": "Datum vytvoření",
+      "createdBy": "Vytvořil",
+      "processedCard": "Vyrobené karty",
+      "sendCard": "Odeslaných karet",
       "warnModal": {
         "titleAccept": "Opravu chcete žádost o kartu potvrdit?",
         "titleDecline": "Opravdu chcete žádost o kartu zamítnout?"
@@ -251,12 +257,12 @@
   },
   "orgUnits": {
     "list": {
-      "title": "Obchodní místa",
-      "addOrgUnit": "Přidat obchodní místo",
+      "title": "Provozovny",
+      "addOrgUnit": "Přidat provozovnu",
       "removeQuestion": "Opravdu odstranit?"
     },
     "detail": {
-      "title": "Detail obchodního místa",
+      "title": "Detail provozovny",
       "sections": {
         "nameCode": "Název a kód",
         "networkMerchant": "Síť a obchodník"
@@ -698,13 +704,13 @@
     "card": "Moje karta",
     "settings": "Nastavení",
     "employees": "Zaměstnanci",
-    "employer-card": "Přehled karet",
+    "cards": "Přehled karet",
     "card-groups": "Zaměstnavatelé",
     "issuers": "Vydavatelé karet",
     "card-request": "Žádosti o kartu",
     "routing-table": "Routovací tabulka",
     "merchants": "Obchodníci",
-    "org-units": "Obchodní místa",
+    "org-units": "Provozovny",
     "sequences": "Sequence",
     "terminal": "Terminal",
     "campaigns": "Kampaně",

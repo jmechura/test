@@ -3,7 +3,7 @@
   <!--header-->
   <div class="header-row">
     <div class="mss-title">{{'merchants.title' | translate}}</div>
-    <mss-button [label]="'merchants.addMerchant' | translate" (click)="toggleNewMerchantModal()"></mss-button>
+    <mss-button *mssRoleIf="'merchants.create'" [label]="'merchants.addMerchant' | translate" (click)="toggleNewMerchantModal()"></mss-button>
   </div>
 
   <!--merchants data table-->
@@ -63,7 +63,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [name]="'basic.edit' | translate" [width]="70" [sortable]="false">
+      <ngx-datatable-column [name]="'basic.edit' | translate" [width]="70" [sortable]="false" *mssRoleIf="'merchants.edit'">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
             <i (click)="startEditing(row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
@@ -95,7 +95,7 @@
 
 
 <!--Add new merchant modal-->
-<mss-modal-window [(visible)]="newMerchantModalShowing">
+<mss-modal-window [(visible)]="newMerchantModalShowing" *mssRoleIf="'merchants.create'">
   <div class="new-merchant-form-title">{{'merchants.addMerchant' | translate}}</div>
   <form [formGroup]="newMerchantForm" class="new-merchant-form">
     <div class="new-merchant-inputs">

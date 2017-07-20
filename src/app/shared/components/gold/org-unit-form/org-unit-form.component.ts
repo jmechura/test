@@ -1,12 +1,15 @@
-import { Component, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppStateModel } from '../../../models/app-state.model';
-import { NetworkCodeState, networkCodeActions } from '../../../reducers/network-code.reducer';
+import { networkCodeActions, NetworkCodeState } from '../../../reducers/network-code.reducer';
 import { SelectItem } from '../../bronze/select/select.component';
-import { MerchantCodeState, merchantCodeActions } from '../../../reducers/merchant-code.reducer';
+import { merchantCodeActions, MerchantCodeState } from '../../../reducers/merchant-code.reducer';
 import { OrgUnitModel } from '../../../models/org-unit.model';
-import { UnsubscribeSubject } from '../../../utils';
+import { MissingTokenResponse, UnsubscribeSubject } from '../../../utils';
+import { RoleService } from '../../../services/role.service';
+import { ProfileModel } from '../../../models/profile.model';
+import { StateModel } from '../../../models/state.model';
 
 type OrgUnitFormVariant = 'create' | 'update';
 
@@ -24,12 +27,12 @@ export class OrgUnitFormComponent implements OnDestroy {
   merchantOptions: SelectItem[] = [];
   private unsubscribe$ = new UnsubscribeSubject();
 
-  constructor(private store: Store<AppStateModel>, private fb: FormBuilder) {
+  constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private roles: RoleService) {
     this.form = this.fb.group({
       city: '',
       code: ['', Validators.required],
       id: '',
-      merchantId: [{value: '', disabled: true}, Validators.required],
+      merchantId: ['', Validators.required],
       name: ['', Validators.required],
       note: '',
       networkCode: ['', Validators.required],
@@ -38,6 +41,43 @@ export class OrgUnitFormComponent implements OnDestroy {
       street: '',
       zip: ''
     });
+
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error, loading}: StateModel<ProfileModel>) => {
+        if (error) {
+          if (error instanceof MissingTokenResponse) {
+            return;
+          }
+          console.error('Profile API call has returned error', error);
+          return;
+        }
+
+        if (data != null && !loading) {
+          const user = data;
+          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+            networkResult => {
+              if (networkResult) {
+                this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
+                this.form.get('networkCode').valueChanges.takeUntil(this.unsubscribe$).subscribe(networkCode => {
+                  this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: networkCode});
+                });
+              } else {
+                this.form.patchValue({networkCode: user.networkCode});
+                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                  merchantResult => {
+                    if (merchantResult) {
+                      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
+                    } else {
+                      this.form.patchValue({merchantId: user.resourceAcquirerId});
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+    );
 
     this.store.select('networkCodes').takeUntil(this.unsubscribe$).subscribe(
       (state: NetworkCodeState) => {
@@ -65,22 +105,16 @@ export class OrgUnitFormComponent implements OnDestroy {
         }
       }
     );
-
-    this.form.get('networkCode').valueChanges.takeUntil(this.unsubscribe$).subscribe(networkCode => {
-      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: networkCode});
-    });
-
-    this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
   }
 
-  @Input() set modelTemplate(model: OrgUnitModel) {
+  @Input()
+  set modelTemplate(model: OrgUnitModel) {
     if (model != null) {
       this.form.patchValue(model);
-      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: model.networkCode});
     }
   }
 

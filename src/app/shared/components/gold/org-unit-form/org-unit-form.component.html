@@ -8,9 +8,11 @@
       <mss-input formControlName="code" [label]="'basic.code' | translate"></mss-input>
     </div>
   </div>
-  <h1 class="org-unit-form-heading">{{'orgUnits.detail.sections.networkMerchant' | translate}}</h1>
-  <div class="org-unit-form-body">
-    <div class="org-unit-form-input-container">
+  <h1 class="org-unit-form-heading" *mssRoleIf="'filters.merchantCodeSelect'" >
+    {{'orgUnits.detail.sections.networkMerchant' | translate}}
+  </h1>
+  <div class="org-unit-form-body" *mssRoleIf="'filters.merchantCodeSelect'">
+    <div class="org-unit-form-input-container" *mssRoleIf="'filters.networkCodeSelect'">
       <mss-select formControlName="networkCode" [options]="networkOptions" [label]="'dictionary.networkCode' | translate"></mss-select>
     </div>
     <div class="org-unit-form-input-container">

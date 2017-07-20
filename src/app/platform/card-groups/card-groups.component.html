@@ -1,25 +1,30 @@
 <div class="card-groups-container">
   <div class="header">
     <span>{{'cardGroups.title' | translate}}</span>
-    <mss-button class="button" (click)="addCardGroup()" [label]="'cardGroups.addCardGroup' | translate"></mss-button>
+    <mss-button class="button" (click)="addCardGroup()" [label]="'cardGroups.addCardGroup' | translate"
+                *mssRoleIf="'cardGroups.create'">
+    </mss-button>
   </div>
   <form [formGroup]="filterForm" (ngSubmit)="getCardGroups()">
     <div class="filter">
       <div class="select-row">
         <div class="filter-item">
-          <mss-select [options]="issuerCodes"
-                      formControlName="issuerCode"
+          <mss-select [options]="issuerCodes" *mssRoleIf="'filters.issuerCodeSelect'"
+                      formControlName="issuerCode" [disabled]="issuerCodes.length === 0"
                       [label]="'dictionary.issuerCode' | translate"></mss-select>
         </div>
         <mss-button class="button" type="button" (click)="clearFilter()" [label]="'basic.clearFilter' | translate"></mss-button>
       </div>
       <div class="filter-item">
-        <mss-select [options]="cardGroupCodes"
+        <mss-select [options]="cardGroupCodes" [disabled]="cardGroupCodes.length === 0"
                     formControlName="cardGroupCode"
                     [label]="'dictionary.cardGroupCode' | translate"></mss-select>
       </div>
       <div class="filter-item">
         <mss-input [label]="'basic.name' | translate" formControlName="name"></mss-input>
+      </div>
+      <div class="filter-item">
+        <mss-input [label]="'basic.id' | translate" formControlName="id"></mss-input>
       </div>
       <div class="button">
         <mss-button [label]="'cardGroups.search' | translate" type="submit"></mss-button>
@@ -34,12 +39,19 @@
                    [externalSorting]="true"
                    (sort)="getSortedCardGroups($event)"
                    [limit]="requestModel.pagination.number" [rows]="rows" (page)="setPage($event)">
-      <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [sortable]="false" [cellClass]="'mss-click-able'">
+      <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.issuerCode' | translate" prop="issuerCode"
+                            [sortable]="false" *mssRoleIf="'admin.view'">
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.issuerCode' | translate" prop="issuerCode" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [sortable]="false" [cellClass]="'mss-click-able'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.specificSymbol' | translate" prop="specificSymbol" [sortable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.ico' | translate" prop="ico" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.bankAccount' | translate" prop="bankAccount" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
+
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template

@@ -76,13 +76,15 @@
     "pan": "PAN",
     "typeOfCard": "Typ karty",
     "expiration": "Platnost",
+    "expiryDate": "Expiry Date",
     "serviceCode": "Service code",
     "limit": "Limit",
     "limitType": "Typ limity",
     "taxType": "Typ daně",
     "tax": "Hodnota daně",
     "externalCode": "Externí kód",
-    "bankAccount": "Bankovní účet"
+    "bankAccount": "Bankovní účet",
+    "processRequest": "Process request"
   },
   "components": {
     "pager": {

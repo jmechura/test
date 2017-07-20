@@ -22,11 +22,10 @@ export class PlatformComponent implements OnDestroy {
   constructor(private router: Router, private store: Store<AppStateModel>) {
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
       ({data, error}: StateModel<ProfileModel>) => {
-        if (error instanceof MissingTokenResponse) {
-          return;
-        }
-
         if (error) {
+          if (error instanceof MissingTokenResponse) {
+            return;
+          }
           console.error('Account API call returned error', error);
           return;
         }

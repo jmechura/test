@@ -13,7 +13,9 @@ import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { UnsubscribeSubject } from '../../shared/utils';
+import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
+import { RoleService } from '../../shared/services/role.service';
+import { ProfileModel } from '../../shared/models/profile.model';
 
 const API_ENDPOINT = 'terminals';
 const DEFAULT_FILTER: TerminalSearch = {
@@ -59,9 +61,11 @@ export class TerminalComponent implements OnDestroy {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private api: ApiService) {
+  constructor(private store: Store<AppStateModel>,
+              private fb: FormBuilder,
+              private api: ApiService,
+              private roles: RoleService) {
     this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
-    this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
 
     this.newTerminalForm = fb.group({
       code: ['', Validators.required],
@@ -78,6 +82,50 @@ export class TerminalComponent implements OnDestroy {
       zip: '',
     });
 
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<ProfileModel>) => {
+        if (data.error) {
+          if (data.error instanceof MissingTokenResponse) {
+            return;
+          }
+          console.error('Profile API call has returned error', data.error);
+          return;
+        }
+        if (data.data && !data.loading /*because pn would be sad*/) {
+          const user = data.data;
+
+          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+            networkResult => {
+              if (networkResult) {
+                this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
+              } else {
+                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                  merchResult => {
+                    if (merchResult) {
+                      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
+                    } else {
+
+                      this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
+                        orgUnitResult => {
+                          if (orgUnitResult) {
+                            this.store.dispatch({
+                              type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST,
+                              payload: user.resourceAcquirerId
+                            });
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+    );
+
+
     this.store.select('terminal').takeUntil(this.unsubscribe$).subscribe(
       ({data, error, loading}: StateModel<Pagination<TerminalModel>>) => {
         this.loading = loading;
@@ -88,14 +136,7 @@ export class TerminalComponent implements OnDestroy {
 
         if (data != undefined) {
           this.terminalData = data;
-          this.terminalRows = data.content.map(item => ({
-            id: item.id,
-            code: item.code,
-            name: item.name,
-            coefficient: item.coefficient,
-            address: this.getAddress(item),
-            state: item.state
-          }));
+          this.terminalRows = data.content.map(item => item);
         }
       }
     );
@@ -152,32 +193,6 @@ export class TerminalComponent implements OnDestroy {
         this.newTerminalForm.get('orgUnitId').reset();
       }
     );
-  }
-
-  getAddress(item: TerminalModel): string {
-    let result = '';
-    const valueUsed = (value): boolean => value !== null && value !== undefined && value !== '';
-
-    if (valueUsed(item.street)) {
-      result += `${item.street}`;
-    }
-
-    if (valueUsed(item.city)) {
-      if (result.length > 0) {
-        result += `, ${item.city}`;
-      } else {
-        result += `${item.city}`;
-      }
-    }
-
-    if (valueUsed(item.zip)) {
-      if (result.length > 0) {
-        result += `, ${item.zip}`;
-      } else {
-        result += `${item.zip}`;
-      }
-    }
-    return result;
   }
 
   getSortedTerminals(sortInfo: any): void {

@@ -19,8 +19,10 @@ import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer'
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { CodeModel } from '../../shared/models/code.model';
 import { TransactionFilterSection } from '../../shared/enums/transaction-filter-section.enum';
-import { UnsubscribeSubject } from '../../shared/utils';
+import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
+import { RoleService } from '../../shared/services/role.service';
+import { ProfileModel } from '../../shared/models/profile.model';
 
 const DEFAULT_FILTER: TransactionSearch = {
   uuid: '',
@@ -150,12 +152,75 @@ export class DashboardComponent implements OnDestroy {
    */
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private store: Store<AppStateModel>, private router: Router, private language: LanguageService) {
+  constructor(private store: Store<AppStateModel>,
+              private router: Router,
+              private language: LanguageService,
+              private roles: RoleService) {
+
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<ProfileModel>) => {
+        if (data.error) {
+          if (data.error instanceof MissingTokenResponse) {
+            return;
+          }
+          console.error('Profile API call has returned error', data.error);
+          return;
+        }
+        if (data.data && !data.loading /*because pn would be sad*/) {
+          const user = data.data;
+
+          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+            result => {
+              if (result) {
+                this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+              } else {
+                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                  cardGroupResult => {
+                    if (cardGroupResult) {
+                      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: user.resourceId});
+                    }
+                  }
+                );
+              }
+            }
+          );
+
+          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+            networkResult => {
+              if (networkResult) {
+                this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
+              } else {
+                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                  merchResult => {
+                    if (merchResult) {
+                      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
+                    } else {
+
+                      this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
+                        orgUnitResult => {
+                          if (orgUnitResult) {
+                            this.store.dispatch({
+                              type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST,
+                              payload: user.resourceAcquirerId
+                            });
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+    );
+
+
     this.store.dispatch({type: transactionCodesActions.TRANSACTION_CODES_GET_REQUEST});
     this.store.dispatch({type: transactionTypesActions.TRANSACTION_TYPES_GET_REQUEST});
     this.store.dispatch({type: transactionStatesActions.TRANSACTION_STATES_GET_REQUEST});
-    this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
-    this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
+
     this.store.select('transactions').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<Pagination<Transaction>>) => {
         this.loading = data.loading;

@@ -1,29 +1,34 @@
 <div class="employer-card-container">
   <div class="header-row">
     <div class="header">{{'cards.cardList.title' | translate}}</div>
-    Changes view
-    <mss-toggle label="Issuer" [(toggled)]="issuer"></mss-toggle>
   </div>
 
   <div class="filter-container">
     <div class="filters">
-      <div class="filter-item" *ngIf="issuer">
+      <div class="filter-item" *mssRoleIf="'filters.issuerCodeSelect'">
+        <mss-select [disabled]="issuerCodes.length === 0"
+                    [label]="'dictionary.issuerCode' | translate"
+                    [options]="issuerCodes"
+                    [selectedOption]="requestModel.search.predicateObject.issuerCode"
+                    (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
+      </div>
+      <div class="filter-item" *mssRoleIf="'filters.cardGroupCodeSelect'">
         <mss-select [disabled]="cardGroupCodes.length === 0"
                     [options]="cardGroupCodes"
-                    [label]="'dictionary.cardGroupCode'"
-                    [(selectedOption)]="payload.search.predicateObject.cardGroupCode"></mss-select>
+                    [label]="'dictionary.cardGroupCode' | translate"
+                    [(selectedOption)]="requestModel.search.predicateObject.cardGroupCode"></mss-select>
       </div>
       <div class="filter-item">
         <mss-select [disabled]="cardStates.length === 0"
                     [options]="cardStates"
                     [label]="'cards.cardList.cardState' | translate"
-                    [(selectedOption)]="payload.search.predicateObject.state"></mss-select>
+                    [(selectedOption)]="requestModel.search.predicateObject.state"></mss-select>
       </div>
       <div class="filter-item">
-        <mss-input [label]="'dictionary.cln' | translate" [(value)]="payload.search.predicateObject.cln"></mss-input>
+        <mss-input [label]="'dictionary.cln' | translate" [(value)]="requestModel.search.predicateObject.cln"></mss-input>
       </div>
       <div class="filter-item">
-        <mss-input [label]="'cards.cardList.lastName' | translate" [(value)]="payload.search.predicateObject.lastname"></mss-input>
+        <mss-input [label]="'cards.cardList.lastName' | translate" [(value)]="requestModel.search.predicateObject.lastname"></mss-input>
       </div>
     </div>
     <mss-button [label]="'basic.clearFilter' | translate" class="button" (click)="clearFilter()"></mss-button>
@@ -39,9 +44,29 @@
                    (activate)="goToDetail($event)"
                    [externalSorting]="true"
                    (sort)="getSortedCards($event)"
-                   [limit]="payload.pagination.number" [rows]="rows" (page)="setPage($event)">
-      <ngx-datatable-column [name]="'cards.cardList.name' | translate" prop="jmeno" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="status" [sortable]="false">
+                   [limit]="requestModel.pagination.number" [rows]="rows" (page)="setPage($event)">
+      <ngx-datatable-column [name]="'basic.id' | translate" prop="cardUuid" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cln'| translate" prop="cln" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.pan'| translate" prop="panSequenceNumber" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cardGroupCode'| translate" prop="cardGroupPrimaryCode"
+                            [sortable]="false" *mssRoleIf="'filters.cardGroupCodeSelect'"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.expiration' | translate" prop="expiration" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.expiryDate' | translate" prop="expiryDate"
+                            [sortable]="false" *mssRoleIf="'cards.expiryDateColumn'"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.limitType' | translate" prop="limitType" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.limit' | translate" prop="limit" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardDetail.track2' | translate" prop="track2"
+                            [sortable]="false" *mssRoleIf="'cards.track2Column'"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cards.cardList.request' | translate" prop="processRequest"
+                            [maxWidth]="190" *mssRoleIf="'cardRequests.create'">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <mss-button (click)="sendRequest(row, $event)"
+                      [label]="value ? ('cards.cardList.requestSent' | translate) : ('cards.cardList.sendRequest' | translate)"
+                      [disabled]="value"></mss-button>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <span *ngIf="editingRow !== row.$$index" title="Double click to edit" (click)="$event.stopPropagation()"
                 (dblclick)="startEditing(row, $event)">{{value}}</span>
@@ -50,18 +75,12 @@
           </mss-select>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.expiration' | translate" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.cln'| translate" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'cards.cardList.request' | translate" prop="processRequest" [maxWidth]="190" *ngIf="issuer">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <mss-button (click)="sendRequest(row, $event)"
-                      [label]="value ? ('cards.cardList.requestSent' | translate) : ('cards.cardList.sendRequest' | translate)"
-                      [disabled]="value"></mss-button>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.edit' | translate" [maxWidth]="100" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-row="row">
-          <div class="icons-container">
+
+
+      <ngx-datatable-column [name]="'basic.edit' | translate" prop="processRequest" [maxWidth]="100" [sortable]="false"
+                            *mssRoleIf="'cards.edit'">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <div class="icons-container" *ngIf="!value">
             <i class="material-icons edit" (click)="startEditing(row, $event)" *ngIf="editingRow === -1">mode_edit</i>
             <i class="material-icons" (click)="cancelEditing($event)" *ngIf="editingRow === row.$$index">not_interested</i>
             <i class="material-icons" (click)="submitEdit($event)" *ngIf="editingRow === row.$$index">check</i>

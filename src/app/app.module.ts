@@ -133,6 +133,7 @@ import { AcquirerKeysEffect } from './shared/effects/acquirer-keys.effect';
 import { countryCodeReducer } from './shared/reducers/country-code.reducer';
 import { CountryCodeEffect } from './shared/effects/country-code.effect';
 import { LanguageService } from './shared/services/language.service';
+import { RoleService } from './shared/services/role.service';
 
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
@@ -284,6 +285,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     ApiService,
     LanguageService,
     AppConfigService,
+    RoleService,
   ],
   bootstrap: [AppComponent]
 })

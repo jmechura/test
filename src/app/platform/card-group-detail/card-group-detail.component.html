@@ -25,6 +25,10 @@
             </div>
           </div>
           <div class="column">
+            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="label">Id</div>
+              <div class="value">{{cardGroupDetail.id}}</div>
+            </div>
             <mss-select *ngIf="edit" class="tab-item" label="Stav" formControlName="state" [options]="stateOptions"></mss-select>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
               <div class="label">Kod provozovatele</div>
@@ -133,10 +137,11 @@
       </form>
     </div>
     <div class="buttons">
-      <mss-button class="button"
+      <mss-button class="button" *mssRoleIf="'cardGroups.edit'"
                   [label]="cardGroupDetail?.state === 'ENABLED' ? 'Deaktivovat zaměstnavatele' : 'Aktivovat zaměstnavatele'"
                   (click)="modalVisible = true"></mss-button>
-      <mss-button class="button padded" [label]="edit ? 'Přehled' : 'Edit'" (click)="edit = !edit"></mss-button>
+      <mss-button class="button padded" [label]="edit ? 'Přehled' : 'Edit'" (click)="edit = !edit" *mssRoleIf="'cardGroups.edit'">
+      </mss-button>
     </div>
   </div>
 </div>

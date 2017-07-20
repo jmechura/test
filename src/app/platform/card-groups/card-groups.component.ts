@@ -16,8 +16,9 @@ import { optionalEmailValidator } from 'app/shared/validators/optional-email.val
 import { Router } from '@angular/router';
 import { CardGroupSections } from '../../shared/enums/card-group-sections.enum';
 import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
-import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
+import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
+import { RoleService } from '../../shared/services/role.service';
 
 @Component({
   selector: 'mss-card-groups',
@@ -38,7 +39,6 @@ export class CardGroupsComponent implements OnDestroy {
   };
 
   issuerCodes: SelectItem[] = [];
-  userIssuerCode: string;
   cardGroupCodes: SelectItem[] = [];
   tableData: Pagination<CardGroupModel>;
   loading = false;
@@ -74,8 +74,8 @@ export class CardGroupsComponent implements OnDestroy {
               private fb: FormBuilder,
               private api: ApiService,
               private language: LanguageService,
-              private router: Router) {
-    this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+              private router: Router,
+              private roles: RoleService) {
     this.store.dispatch({type: taxTypeActions.TAX_TYPES_GET_REQUEST});
     this.store.select('cardGroups').takeUntil(this.unsubscribe$).subscribe(
       (data: CardGroupState) => {
@@ -85,15 +85,7 @@ export class CardGroupsComponent implements OnDestroy {
         }
         if (data.data !== undefined && !data.loading) {
           this.tableData = data.data;
-          this.rows = data.data.content.map(item => (
-            {
-              id: item.id,
-              name: item.name,
-              code: item.code,
-              issuerCode: item.issuerCode,
-              state: item.state
-            }
-          ));
+          this.rows = data.data.content.map(item => item);
         }
       }
     );
@@ -110,16 +102,25 @@ export class CardGroupsComponent implements OnDestroy {
         }
 
         if (data != null) {
-          // TODO: edit this after issuer code is got from profile model and role system works
-          // TODO: issuer code select in filter and createNew should be visible only to SA, others should use their issuerCode
-          this.userIssuerCode = data.issuerCode;
-          this.userIssuerCode = 'bancibo';
-          this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: this.userIssuerCode});
+          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+            issuerResult => {
+              if (issuerResult) {
+                this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+              } else {
+                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                  cardGroupResult => {
+                    if (cardGroupResult) {
+                      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: data.resourceId});
+                    }
+                  }
+                );
+              }
+            }
+          );
         }
       }
     );
 
-    // TODO: this is useless unless user is SA
     this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
         if (data.error) {
@@ -160,7 +161,8 @@ export class CardGroupsComponent implements OnDestroy {
       {
         issuerCode: [''],
         cardGroupCode: [''],
-        name: ['']
+        name: [''],
+        id: [''],
       }
     );
 

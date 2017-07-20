@@ -40,6 +40,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { AcquirersComponent } from './acquirers/acquirers.component';
 import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.component';
+import { DirectivesModule } from '../shared/directives/directives.module';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.compo
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
+    DirectivesModule
   ],
   declarations: [
     PlatformComponent,

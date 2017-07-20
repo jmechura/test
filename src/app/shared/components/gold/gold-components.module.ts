@@ -8,6 +8,7 @@ import { OrgUnitFormComponent } from './org-unit-form/org-unit-form.component';
 import { BronzeComponentsModule } from '../bronze/bronze-components.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
+import { DirectivesModule } from '../../directives/directives.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { EmployeeFormComponent } from './employee-form/employee-form.component';
     ReactiveFormsModule,
     BronzeComponentsModule,
     TranslateModule,
+    DirectivesModule,
   ],
   exports: [
     FormComponent,

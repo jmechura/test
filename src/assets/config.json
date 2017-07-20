@@ -1,3 +1,170 @@
 {
-  "apiUrl": "http://172.29.33.5:8907/rest"
+  "apiUrl": "http://172.29.33.5:8907/rest",
+  "roles": {
+    "showcase": {
+      "test": [
+        "ROLE_ADMIN"
+      ]
+    },
+    "filters": {
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ"
+      ]
+    },
+    "admin": {
+      "view": [
+        "ROLE_ADMIN"
+      ]
+    },
+    "transactions": {
+      "read": [
+        "ROLE_ADMIN",
+        "ROLE_TRX_READ"
+      ],
+      "dstStanColumn": [
+        "ROLE_ADMIN",
+        "CARD_ROLE_RESOURCE_READ"
+      ],
+      "rrnColumn": [
+        "ROLE_ADMIN",
+        "CARD_ROLE_RESOURCE_READ"
+      ],
+      "variableSymbolColumn": [
+        "ROLE_ADMIN",
+        "CARD_ROLE_RESOURCE_READ"
+      ]
+    },
+    "users": {
+      "read": [
+        "ROLE_ADMIN",
+        "ROLE_USER_READ"
+      ],
+      "create": [
+        "ROLE_ADMIN",
+        "ROLE_USER_CREATE"
+      ],
+      "edit": [
+        "ROLE_ADMIN",
+        "ROLE_USER_EDIT"
+      ]
+    },
+    "cards": {
+      "read": [
+        "ROLE_ADMIN",
+        "CARD_GROUP_ROLE_RESOURCE_READ",
+        "ISSUER_ROLE_RESOURCE_READ"
+      ],
+      "edit": [
+        "ROLE_ADMIN",
+        "ROLE_CARD_STATE"
+      ],
+      "simpleEdit": [
+        "ROLE_ADMIN",
+        "ROLE_CARD_STATE_SIMPLE"
+      ],
+      "expiryDateColumn": [
+        "ROLE_ADMIN",
+        "CARD_GROUP_ROLE_RESOURCE_READ"
+      ],
+      "track2Column": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ"
+      ]
+    },
+    "cardRequests": {
+      "read": [
+        "ROLE_ADMIN",
+        "ROLE_CARD_REQUEST"
+      ],
+      "create": [
+        "ROLE_ADMIN",
+        "ROLE_CARD_REQUEST_CREATE"
+      ],
+      "confirm": [
+        "ROLE_ADMIN",
+        "ROLE_CARD_REQUEST_CONFIRM"
+      ]
+    },
+    "cardGroups": {
+      "read": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ"
+      ],
+      "create": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_CREATE"
+      ],
+      "edit": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_EDIT"
+      ]
+    },
+    "merchants": {
+      "read": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ"
+      ],
+      "create": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_CREATE"
+      ],
+      "edit": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_EDIT"
+      ]
+    },
+    "orgUnits": {
+      "read": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ"
+      ],
+      "create": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_CREATE",
+        "MERCHANT_ROLE_RESOURCE_CREATE"
+      ],
+      "edit": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_EDIT",
+        "MERCHANT_ROLE_RESOURCE_EDIT"
+      ]
+    },
+    "terminals": {
+      "read": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ"
+      ],
+      "create": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_CREATE",
+        "MERCHANT_ROLE_RESOURCE_CREATE",
+        "ORG_UNIT_ROLE_RESOURCE_CREATE"
+      ],
+      "edit": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_EDIT",
+        "MERCHANT_ROLE_RESOURCE_EDIT",
+        "ORG_UNIT_ROLE_RESOURCE_EDIT"
+      ]
+    }
+  }
 }
