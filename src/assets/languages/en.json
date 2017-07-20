@@ -207,6 +207,12 @@
     "newQuestion": "Nová otázka",
     "newAnswer": "Nová odpověď"
   },
+  "cardGroupDetail": {
+    "title": "Detail zaměstnavatele",
+    "activateEmployer": "Aktivovat zaměstnavatele",
+    "deactivateEmployer": "Deaktivovat zaměstnavatele",
+    "titleActivate": "Potvrdit změnu aktivace?"
+  },
   "cardGroups": {
     "title": "Zaměstnavatelé",
     "addCardGroup": "Přidat zaměstnavatele",

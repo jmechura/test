@@ -79,7 +79,7 @@
     "expiryDate": "Expiry Date",
     "serviceCode": "Service code",
     "limit": "Limit",
-    "limitType": "Typ limity",
+    "limitType": "Typ limitu",
     "taxType": "Typ daně",
     "tax": "Hodnota daně",
     "externalCode": "Externí kód",
@@ -210,6 +210,12 @@
     "changeQuestion": "Chcete změnit i kontrolní otázku?",
     "newQuestion": "Nová otázka",
     "newAnswer": "Nová odpověď"
+  },
+  "cardGroupDetail": {
+    "title": "Detail zaměstnavatele",
+    "activateEmployer": "Aktivovat zaměstnavatele",
+    "deactivateEmployer": "Deaktivovat zaměstnavatele",
+    "titleActivate": "Potvrdit změnu aktivace?"
   },
   "cardGroups": {
     "title": "Zaměstnavatelé",

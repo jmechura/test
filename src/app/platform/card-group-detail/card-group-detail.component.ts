@@ -11,6 +11,7 @@ import { optionalEmailValidator } from '../../shared/validators/optional-email.v
 import { CardGroupSections } from '../../shared/enums/card-group-sections.enum';
 import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
 import { UnsubscribeSubject } from '../../shared/utils';
+import { LanguageService } from '../../shared/services/language.service';
 
 @Component({
   selector: 'mss-card-group-detail',
@@ -21,26 +22,9 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   private unsubscribe$ = new UnsubscribeSubject();
   cardGroupDetail: CardGroupModel;
-  tabsOptions = [
-    {
-      label: 'základní',
-      value: CardGroupSections.BASIC
-    },
-    {
-      label: 'limity',
-      value: CardGroupSections.LIMITS
-    },
-    {
-      label: 'kontakt',
-      value: CardGroupSections.CONTACTS
-    },
-    {
-      label: 'adresa',
-      value: CardGroupSections.ADDRESS
-    }
-  ];
+  tabsOptions: SelectItem[] = [];
   CardGroupSections = CardGroupSections;
-  visibleTab = this.tabsOptions[0];
+  visibleTab: SelectItem;
   stateOptions: SelectItem[] = [{value: 'ENABLED'}, {value: 'DISABLED'}];
   limitOptions: SelectItem[] = [{value: 'ENABLED'}];
   taxTypes: SelectItem[] = [];
@@ -50,7 +34,8 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
-              private store: Store<AppStateModel>) {
+              private store: Store<AppStateModel>,
+              private langService: LanguageService) {
     this.route.params.subscribe(
       (params: { id: string }) => {
         this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
@@ -104,6 +89,26 @@ export class CardGroupDetailComponent implements OnDestroy {
         zip: ['']
       }
     );
+
+    this.tabsOptions = [
+      {
+        label: this.langService.translate('cardGroups.sections.BASIC'),
+        value: CardGroupSections.BASIC
+      },
+      {
+        label: this.langService.translate('cardGroups.sections.LIMITS'),
+        value: CardGroupSections.LIMITS
+      },
+      {
+        label: this.langService.translate('cardGroups.sections.CONTACTS'),
+        value: CardGroupSections.CONTACTS
+      },
+      {
+        label: this.langService.translate('cardGroups.sections.ADDRESS'),
+        value: CardGroupSections.ADDRESS
+      }
+    ];
+    this.visibleTab = this.tabsOptions[0];
 
   }
 

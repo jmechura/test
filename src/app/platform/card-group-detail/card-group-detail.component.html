@@ -1,6 +1,6 @@
 <div class="mss-view-container">
   <div class="mss-title header">
-    <span>Detail zaměstnavatele - {{cardGroupDetail?.name}}</span>
+    <span>{{ 'cardGroupDetail.title' | translate }} - {{cardGroupDetail?.name}}</span>
   </div>
 
   <div class="content">
@@ -10,146 +10,156 @@
       <form [formGroup]="editForm" novalidate (ngSubmit)="editCardGroup()">
         <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.BASIC}">
           <div class="column">
-            <mss-input *ngIf="edit" class="tab-item" label="Jméno" formControlName="name"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Jméno</div>
+              <div class="label">{{ 'basic.name' | translate }}</div>
               <div class="value">{{cardGroupDetail.name}}</div>
             </div>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Kod</div>
+              <div class="label">{{ 'basic.code' | translate }}</div>
               <div class="value">{{cardGroupDetail.code}}</div>
             </div>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Externí kod</div>
+              <div class="label">{{ 'dictionary.externalCode' | translate }}</div>
               <div class="value">{{cardGroupDetail.externalCode}}</div>
             </div>
           </div>
           <div class="column">
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Id</div>
+              <div class="label">{{ 'basic.id' | translate }}</div>
               <div class="value">{{cardGroupDetail.id}}</div>
             </div>
-            <mss-select *ngIf="edit" class="tab-item" label="Stav" formControlName="state" [options]="stateOptions"></mss-select>
+            <mss-select *ngIf="edit" class="tab-item" [label]="'dictionary.state' | translate" formControlName="state"
+                        [options]="stateOptions"></mss-select>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Kod provozovatele</div>
+              <div class="label">{{ 'dictionary.issuerCode' | translate }}</div>
               <div class="value">{{cardGroupDetail.issuerCode}}</div>
             </div>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Stav</div>
+              <div class="label">{{ 'dictionary.state' | translate }}</div>
               <div class="value">{{cardGroupDetail.state}}</div>
             </div>
           </div>
         </div>
         <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.LIMITS}">
           <div class="column">
-            <mss-input *ngIf="edit" class="tab-item" label="Limit" type="number" formControlName="limit"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'dictionary.limit' | translate" type="number"
+                       formControlName="limit"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Limit</div>
+              <div class="label">{{ 'dictionary.limit' | translate }}</div>
               <div class="value">{{cardGroupDetail.limit}}</div>
             </div>
           </div>
           <div class="column">
-            <mss-select *ngIf="edit" class="tab-item" label="Typ limitu" formControlName="limitType" [options]="limitOptions"></mss-select>
+            <mss-select *ngIf="edit" class="tab-item" [label]="'dictionary.limitType' | translate" formControlName="limitType"
+                        [options]="limitOptions"></mss-select>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Typ limitu</div>
+              <div class="label">{{ 'dictionary.limitType' | translate }}</div>
               <div class="value">{{cardGroupDetail.limitType}}</div>
             </div>
           </div>
         </div>
         <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.CONTACTS}">
           <div class="column">
-            <mss-input *ngIf="edit" class="tab-item" label="IČO" formControlName="ico"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.ico' | translate" formControlName="ico"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">IČO</div>
+              <div class="label">{{ 'basic.ico' | translate }}</div>
               <div class="value">{{cardGroupDetail.ico}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" label="DIČ" formControlName="dic"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.dic' | translate" formControlName="dic"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">DIČ</div>
+              <div class="label">{{ 'basic.dic' | translate }}</div>
               <div class="value">{{cardGroupDetail.dic}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" label="Email" formControlName="email"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.email' | translate" formControlName="email"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Email</div>
+              <div class="label">{{ 'basic.email' | translate }}</div>
               <div class="value">{{cardGroupDetail.email}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" label="Telefon" formControlName="phone"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.phone' | translate" formControlName="phone"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Telefon</div>
+              <div class="label">{{ 'basic.phone' | translate }}</div>
               <div class="value">{{cardGroupDetail.phone}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" label="Kontakt #1" formControlName="contact"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.contact' | translate" formControlName="contact"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Kontakt #1</div>
+              <div class="label">{{ 'basic.contact' | translate }}</div>
               <div class="value">{{cardGroupDetail.contact}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" label="Kontakt #2" formControlName="contact2"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.contact2' | translate" formControlName="contact2"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Kontakt #2</div>
+              <div class="label">{{ 'basic.contact2' | translate }}</div>
               <div class="value">{{cardGroupDetail.contact2}}</div>
             </div>
           </div>
           <div class="column">
-            <mss-input *ngIf="edit" class="tab-item" label="Bankovní účet" formControlName="bankAccount"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'dictionary.bankAccount' | translate"
+                       formControlName="bankAccount"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Bankovní účet</div>
+              <div class="label">{{ 'dictionary.bankAccount' | translate }}</div>
               <div class="value">{{cardGroupDetail.bankAccount}}</div>
             </div>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Specifický symbol</div>
+              <div class="label">{{ 'dictionary.specificSymbol' | translate }}</div>
               <div class="value">{{cardGroupDetail.specificSymbol}}</div>
             </div>
-            <mss-select *ngIf="edit" class="tab-item" label="Typ daně" [options]="taxTypes" formControlName="taxType"></mss-select>
+            <mss-select *ngIf="edit" class="tab-item" [label]="'dictionary.taxType' | translate" [options]="taxTypes"
+                        formControlName="taxType"></mss-select>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Typ daně</div>
+              <div class="label">{{ 'dictionary.taxType' | translate }}</div>
               <div class="value">{{cardGroupDetail.taxType}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" label="Hodnota daně" type="number" formControlName="taxValue"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'dictionary.tax' | translate" type="number"
+                       formControlName="taxValue"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Hodnota daně</div>
+              <div class="label">{{ 'dictionary.tax' | translate }}</div>
               <div class="value">{{cardGroupDetail.taxValue}}</div>
             </div>
           </div>
         </div>
         <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.ADDRESS}">
           <div class="column">
-            <mss-input *ngIf="edit" class="tab-item" label="Ulice" formControlName="street"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.street' | translate" formControlName="street"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Ulice</div>
+              <div class="label">{{ 'basic.street' | translate }}</div>
               <div class="value">{{cardGroupDetail.street}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" label="Město" formControlName="city"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.city' | translate" formControlName="city"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">Město</div>
+              <div class="label">{{ 'basic.city' | translate }}</div>
               <div class="value">{{cardGroupDetail.city}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" label="PSČ" formControlName="zip"></mss-input>
+            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.zip' | translate" formControlName="zip"></mss-input>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">PSČ</div>
+              <div class="label">{{ 'basic.zip' | translate }}</div>
               <div class="value">{{cardGroupDetail.zip}}</div>
             </div>
           </div>
           <div class="column"></div>
         </div>
         <div class="button">
-          <mss-button [disabled]="editForm.invalid" *ngIf="edit" label="Potvrdit editaci"></mss-button>
+          <mss-button [disabled]="editForm.invalid" *ngIf="edit" [label]="'basic.save' | translate"></mss-button>
         </div>
       </form>
     </div>
     <div class="buttons">
       <mss-button class="button" *mssRoleIf="'cardGroups.edit'"
-                  [label]="cardGroupDetail?.state === 'ENABLED' ? 'Deaktivovat zaměstnavatele' : 'Aktivovat zaměstnavatele'"
+                  [label]="cardGroupDetail?.state === 'ENABLED' ?
+                  ('cardGroupDetail.deactivateEmployer' | translate) : ('cardGroupDetail.activateEmployer' | translate)"
                   (click)="modalVisible = true"></mss-button>
-      <mss-button class="button padded" [label]="edit ? 'Přehled' : 'Edit'" (click)="edit = !edit" *mssRoleIf="'cardGroups.edit'">
+      <mss-button
+        class="button padded"
+        [label]="edit ? ('basic.preview' | translate) : ('basic.edit' | translate)"
+        (click)="edit = !edit" *mssRoleIf="'cardGroups.edit'">
       </mss-button>
     </div>
   </div>
 </div>
 
 <mss-modal-window [(visible)]="modalVisible">
-  <div class="mss-title">Potvrdit změnu aktivace?</div>
+  <div class="mss-title">{{ 'cardGroupDetail.titleActivate' | translate }}</div>
   <div class="modal-buttons">
-    <mss-button class="button" (click)="modalVisible = false" label="Zavřít"></mss-button>
-    <mss-button class="button" (click)="toggleCardGroup()" label="Ano"></mss-button>
+    <mss-button class="button" (click)="modalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
+    <mss-button class="button" (click)="toggleCardGroup()" [label]="'basic.yes' | translate"></mss-button>
   </div>
 </mss-modal-window>
