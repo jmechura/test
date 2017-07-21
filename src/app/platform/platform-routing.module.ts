@@ -31,8 +31,9 @@ import { ImportsComponent } from './imports/imports.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
 import { AcquirersComponent } from './acquirers/acquirers.component';
 import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.component';
-import { ReportsComponent } from './reports/reports.component';
+import { AdminReportsComponent } from './admin-reports/admin-reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
+import { ReportsComponent } from './reports/reports.component';
 import { TerminalDetailComponent } from './terminal-detail/terminal-detail.component';
 
 export const routes: Routes = [
@@ -69,8 +70,9 @@ export const routes: Routes = [
       {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},
       {path: 'imports', component: ImportsComponent},
       {path: 'imports/:name', component: ImportDetailComponent},
+      {path: 'admin-reports', component: AdminReportsComponent},
+      {path: 'admin-reports/:name', component: ReportDetailComponent},
       {path: 'reports', component: ReportsComponent},
-      {path: 'reports/:name', component: ReportDetailComponent},
       {path: 'acquirers', component: AcquirersComponent},
       {path: 'acquirers/:code', component: AcquirerDetailComponent},
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'}

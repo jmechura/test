@@ -7,14 +7,17 @@
   </div>
   <div class="date-picker-dropdown-container" [ngClass]="{hidden: calendarHidden}">
     <div class="container">
-      <mss-date-picker [bordered]="false" [pickedDate]="pickedDate" (pickedDateChange)="submitDate($event)"></mss-date-picker>
+      <mss-date-picker [bordered]="false" [(pickedDate)]="submitTime"></mss-date-picker>
       <div class="time-container">
         <div class="fake-header"></div>
         <div class="fill">
-          <mss-time-picker [pickedTime]="pickedDate" (pickedTimeChange)="submitTime($event)"></mss-time-picker>
+          <mss-time-picker [(pickedTime)]="submitTime"></mss-time-picker>
         </div>
       </div>
     </div>
-
   </div>
+</div>
+
+<div class="date-picker-overlay" [ngClass]="{'active': !calendarHidden}" (click)="toggleCalendar()">
+
 </div>

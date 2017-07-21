@@ -1,24 +1,30 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '../../shared/services/api.service';
-import { reportActions, ReportsState } from '../../shared/reducers/reports.reducer';
-import { RequestOptions } from '../../shared/models/pagination.model';
-import { ReportModel, ReportPredicateObject } from '../../shared/models/report.model';
-import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
-import { reportTypeActions } from '../../shared/reducers/report-types.reducer';
-import { SelectItem } from '../../shared/components/bronze/select/select.component';
-import { StateModel } from '../../shared/models/state.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppStateModel } from '../../shared/models/app-state.model';
-import { UnsubscribeSubject } from '../../shared/utils';
+import { Store } from '@ngrx/store';
 import { LanguageService } from '../../shared/services/language.service';
+import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
+import { reportsActions, ReportState } from '../../shared/reducers/reports.reducer';
+import { ReportModel, ReportPredicateObject } from '../../shared/models/report.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
+import { RequestOptions } from '../../shared/models/pagination.model';
+import { ReportFilterSections } from '../../shared/enums/reports-filter-sections.enum';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { RoleService } from '../../shared/services/role.service';
+import { StateModel } from '../../shared/models/state.model';
+import { ProfileModel } from '../../shared/models/profile.model';
+import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
+import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
+import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
+import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer';
+import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
+import { CodeModel } from '../../shared/models/code.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Moment } from 'moment';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const REPORT_ROUTE = 'platform/reports';
-const REPORT_ENDPOINT = '/reports';
-const REPORT_DESTROY_ENDPOINT = '/reports/destroy';
-const REPORT_START_ENDPOINT = '/reports/start';
+const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
 
 @Component({
   selector: 'mss-reports',
@@ -28,28 +34,43 @@ const REPORT_START_ENDPOINT = '/reports/start';
 export class ReportsComponent implements OnDestroy {
 
   private unsubscribe$ = new UnsubscribeSubject();
-  newReportModalVisible = false;
+  rows: ReportModel[] = [];
+  loading = false;
+  pageNumber = 0;
   rowLimit = ITEM_LIMIT_OPTIONS[0];
   totalItems = 0;
-  pageNumber = 0;
   sortOptions: {
     predicate: string;
-    reverse: boolean
+    reverse: boolean;
   };
-  reportTypes: SelectItem[] = [];
-  loading = false;
-  tableRows: ReportModel[] = [];
-  newReportForm: FormGroup;
-  deleteModalVisible = false;
-  deletingName: string;
+  filterSections: SelectItem[] = [];
+  visibleSection: SelectItem;
+  reportFilterSection = ReportFilterSections;
+  networkCodes: SelectItem[] = [];
+  merchantCodes: SelectItem[] = [];
+  orgUnitCodes: SelectItem[] = [];
+  issuerCodes: SelectItem[] = [];
+  cardGroupCodes: SelectItem[] = [];
+  filterForm: FormGroup;
 
   constructor(private store: Store<AppStateModel>,
-              private language: LanguageService,
-              private router: Router,
-              private fb: FormBuilder,
               private route: ActivatedRoute,
-              private api: ApiService) {
-    this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
+              private router: Router,
+              private roles: RoleService,
+              private fb: FormBuilder,
+              private language: LanguageService) {
+
+    this.filterForm = this.fb.group({
+      createdFrom: [null],
+      createdTo: [null],
+      reportName: [''],
+      networkCode: [{value: '', disabled: true}],
+      merchantCode: [{value: '', disabled: true}],
+      orgUnitCode: [{value: '', disabled: true}],
+      issuerCode: [{value: '', disabled: true}],
+      cardGroupCode: [{value: '', disabled: true}],
+    });
+
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: ListRouteParamsModel) => {
         this.pageNumber = Math.max(Number(params.page) || 0, 1);
@@ -58,45 +79,209 @@ export class ReportsComponent implements OnDestroy {
       }
     );
 
-    this.store.select('reportTypes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<string[]>) => {
+    this.filterSections = Object.keys(ReportFilterSections).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`reports.list.sections.${item}`),
+        value: ReportFilterSections[item]
+      }));
+    this.visibleSection = this.filterSections[0];
+
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<ProfileModel>) => {
         if (data.error) {
-          console.error(`Error occurred while getting report types.`, data.error);
+          if (data.error instanceof MissingTokenResponse) {
+            return;
+          }
+          console.error('Profile API call has returned error', data.error);
           return;
         }
-        if (data.data !== undefined && !data.loading) {
-          this.reportTypes = data.data.map(item => ({
-            value: item,
-            label: this.language.translate(`enums.reportTypes.${item}`)
-          }));
+        if (data.data && !data.loading /*because pn would be sad*/) {
+          const user = data.data;
+
+          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+            result => {
+              if (result) {
+                this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+              } else {
+                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                  cardGroupResult => {
+                    if (cardGroupResult) {
+                      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: user.resourceId});
+                    } else {
+                      // remove this tab from view because there is nothing to display
+                      this.filterSections = this.filterSections.filter(section => section.value !== ReportFilterSections.ISSUER);
+                    }
+                  }
+                );
+              }
+            }
+          );
+
+          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+            networkResult => {
+              if (networkResult) {
+                this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
+              } else {
+                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                  merchResult => {
+                    if (merchResult) {
+                      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
+                    } else {
+
+                      this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
+                        orgUnitResult => {
+                          if (orgUnitResult) {
+                            this.store.dispatch({
+                              type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST,
+                              payload: user.resourceAcquirerId
+                            });
+                          } else {
+                            // remove this tab from view because there is nothing to display
+                            this.filterSections = this.filterSections.filter(section => section.value !== ReportFilterSections.ACQUIRER);
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+            }
+          );
         }
       }
     );
 
     this.store.select('reports').takeUntil(this.unsubscribe$).subscribe(
-      (data: ReportsState) => {
+      (data: ReportState) => {
         this.loading = data.loading;
         if (data.error) {
-          console.error(`Error occurred while getting reports.`, data.error);
+          console.error('Error occurred while retrieving reports data from api.', data.error);
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.tableRows = data.data.content;
+          this.rows = data.data.content;
           this.totalItems = data.data.totalElements;
         }
       }
     );
 
-    this.newReportForm = this.fb.group({
-      name: ['', Validators.required],
-      runAfterStart: [false],
-      type: ['']
-    });
+    this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting issuer codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.issuerCodes = data.data.map(item => ({value: item.id, label: item.code}));
+          this.enableFormItem('issuerCode');
+        }
+      }
+    );
 
+    this.store.select('networkCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting network codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.networkCodes = data.data.map(item => ({value: item.id, label: item.code}));
+          this.enableFormItem('networkCode');
+        }
+      }
+    );
+
+    this.store.select('merchantCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting merchant codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.merchantCodes = data.data.map(item => ({value: item.id, label: item.code}));
+          this.enableFormItem('merchantCode');
+        }
+      }
+    );
+
+    this.store.select('orgUnitCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting org unit codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.orgUnitCodes = data.data.map(item => ({value: item.id, label: item.code}));
+          this.enableFormItem('orgUnitCode');
+        }
+      }
+    );
+
+    this.store.select('cardGroupCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting card group codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.cardGroupCodes = data.data.map(item => ({value: item.id, label: item.code}));
+          this.enableFormItem('cardGroupCode');
+        }
+      }
+    );
+
+    this.filterForm.get('networkCode').valueChanges.subscribe(
+      (id) => {
+        if (id && id.length > 0) {
+          this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
+          this.merchantCodes = [];
+          this.orgUnitCodes = [];
+          this.disableFormItem('merchantCode');
+          this.disableFormItem('orgUnitCode');
+        }
+      }
+    );
+
+    this.filterForm.get('merchantCode').valueChanges.subscribe(
+      (id) => {
+        if (id && id.length > 0) {
+          this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id});
+          this.orgUnitCodes = [];
+          this.disableFormItem('orgUnitCode');
+        }
+
+      }
+    );
+
+    this.filterForm.get('issuerCode').valueChanges.subscribe(
+      (id) => {
+        if (id && id.length > 0) {
+          this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
+          this.cardGroupCodes = [];
+          this.disableFormItem('cardGroupCode');
+        }
+
+      }
+    );
+  }
+
+  clearFilter(): void {
+    this.filterForm.reset();
+  }
+
+  enableFormItem(key: string): void {
+    if (this.filterForm) {
+      this.filterForm.get(key).enable();
+    }
+  }
+
+  disableFormItem(key: string): void {
+    this.filterForm.get(key).patchValue('');
+    this.filterForm.get(key).disable();
   }
 
   getReports(): void {
-    this.store.dispatch({type: reportActions.REPORTS_GET_REQUEST, payload: this.requestModel});
+    this.store.dispatch({type: reportsActions.REPORTS_GET_REQUEST, payload: this.requestModel});
   }
 
   getSortedReports(sortInfo: any): void {
@@ -104,52 +289,8 @@ export class ReportsComponent implements OnDestroy {
     this.getReports();
   }
 
-  addNewReport(): void {
-    this.api.post(REPORT_ENDPOINT, this.newReportForm.value).subscribe(
-      () => {
-        this.newReportModalVisible = false;
-        this.getReports();
-      },
-      (error) => {
-        console.error('Error occurred while creating new report.', error);
-        this.newReportModalVisible = false;
-      }
-    );
-  }
-
-  showDeleteModal(event: MouseEvent, name: string): void {
-    event.stopPropagation();
-    this.deletingName = name;
-    this.deleteModalVisible = true;
-  }
-
-  deleteReport(): void {
-    this.api.remove(`${REPORT_ENDPOINT}/${this.deletingName}`).subscribe(
-      () => {
-        this.deleteModalVisible = false;
-        this.getReports();
-      },
-      (error) => {
-        console.error('Error occurred while creating new report.', error);
-        this.deleteModalVisible = false;
-      }
-    );
-  }
-
-  toggle(event: MouseEvent, row: ReportModel): void {
-    event.stopPropagation();
-    this.api.get(`${row.running ? REPORT_DESTROY_ENDPOINT : REPORT_START_ENDPOINT}/${row.name}`).subscribe(
-      () => {
-        this.getReports();
-      },
-      (error) => {
-        console.error('Error occurred while updating state of import.', error);
-      }
-    );
-  }
-
-  goToDetail(name: string): void {
-    this.router.navigateByUrl(`platform/reports/${name}`);
+  download(id: number): void {
+    // TODO: :o
   }
 
   setPage(pageInfo: { offset: number }): void {
@@ -160,21 +301,12 @@ export class ReportsComponent implements OnDestroy {
     this.router.navigate([`${REPORT_ROUTE}`, routeParams]);
   }
 
-  isPresent(value: string): boolean {
-    const item = this.newReportForm.get(value);
-    return item.touched && item.errors != null && item.errors.required;
-  }
-
   itemsPerPage(itemLimit: number): void {
     const routeParams: ListRouteParamsModel = {
       page: '1',
       limit: String(itemLimit)
     };
     this.router.navigate([`${REPORT_ROUTE}`, routeParams]);
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.fire();
   }
 
   private get requestModel(): RequestOptions<ReportPredicateObject> {
@@ -184,9 +316,24 @@ export class ReportsComponent implements OnDestroy {
         numberOfPages: 0,
         start: (this.pageNumber - 1 ) * this.rowLimit
       },
-      search: {},
+      search: this.predicateObject,
       sort: this.sortOptions ? this.sortOptions : {}
     };
   }
 
+  private getDate(date: Moment): string {
+    return date.format(DATE_FORMAT);
+  }
+
+  private get predicateObject(): ReportPredicateObject {
+    return {
+      ...this.filterForm.value,
+      ...{createdTo: this.filterForm.value.createdTo ? this.getDate(this.filterForm.value.createdTo) : ''},
+      ...{createdFrom: this.filterForm.value.createdFrom ? this.getDate(this.filterForm.value.createdFrom) : ''}
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.fire();
+  }
 }

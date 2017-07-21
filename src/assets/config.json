@@ -165,6 +165,16 @@
         "MERCHANT_ROLE_RESOURCE_EDIT",
         "ORG_UNIT_ROLE_RESOURCE_EDIT"
       ]
+    },
+    "reports": {
+      "read": [
+        "ROLE_ADMIN",
+        "ROLE_REPORT_READ"
+      ],
+      "issuerPortal": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ"
+      ]
     }
   }
 }

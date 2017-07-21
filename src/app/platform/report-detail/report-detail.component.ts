@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { reportDetailActions } from '../../shared/reducers/report-detail.reducer';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
-import { ReportModel } from '../../shared/models/report.model';
+import { AdminReportModel } from '../../shared/models/admin-report.model';
 import { StateModel } from '../../shared/models/state.model';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
@@ -30,7 +30,7 @@ export class ReportDetailComponent implements OnDestroy {
 
   private unsubscribe$ = new UnsubscribeSubject();
   reportName: string;
-  reportDetail: ReportModel;
+  reportDetail: AdminReportModel;
   reportEditForm: FormGroup;
   reportTypes: SelectItem[] = [];
   reportModalVisible = false;
@@ -54,7 +54,7 @@ export class ReportDetailComponent implements OnDestroy {
     );
 
     this.store.select('reportDetail').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<ReportModel>) => {
+      (data: StateModel<AdminReportModel>) => {
         if (data.error) {
           console.error('Error occurred while retrieving import detail from API.', data.error);
           return;

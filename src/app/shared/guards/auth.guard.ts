@@ -24,9 +24,10 @@ export const routeToRule: { [childRoute: string]: string } = {
   'campaigns': 'admin.view',
   'templates': 'admin.view',
   'imports': 'admin.view',
-  'reports': 'admin.view',
+  'admin-reports': 'admin.view',
   'acquirers': 'admin.view',
   'showcase': 'admin.view',
+  'reports': 'reports.read'
 };
 
 @Injectable()

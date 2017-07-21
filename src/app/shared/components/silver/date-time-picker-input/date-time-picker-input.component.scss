@@ -1,5 +1,13 @@
 @import 'theme';
 
+.date-picker-overlay {
+  @include mss-modal-window-overlay;
+
+  &.active {
+    @include mss-date-picker-overlay-active;
+  }
+}
+
 .date-picker-input-container {
   @include mss-date-picker-input-container;
 

@@ -1,43 +1,84 @@
 <div class="mss-view-container">
-  <div class="header">
-    <div class="mss-title">
-      {{'reports.list.title' | translate}}
+  <div class="mss-title">{{'reports.list.title' | translate}}</div>
+
+  <div class="row">
+    <div class="column" [formGroup]="filterForm">
+      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+      <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
+        <div class="row">
+          <mss-input class="filter-item" formControlName="reportName" [label]="'basic.name' | translate"></mss-input>
+        </div>
+        <div class="row wrapped">
+          <div class="calendar-select filter-item">
+            <span class="label">{{'dictionary.from' | translate}}</span>
+            <mss-date-time-picker-input formControlName="createdFrom"></mss-date-time-picker-input>
+          </div>
+          <div class="calendar-select filter-item">
+            <span class="label">{{'dictionary.to' | translate}}</span>
+            <mss-date-time-picker-input formControlName="createdTo"></mss-date-time-picker-input>
+          </div>
+        </div>
+      </div>
+
+      <div class="content" *ngIf="visibleSection.value === reportFilterSection.ACQUIRER">
+        <div class="row wrapped">
+          <mss-select class="filter-item" formControlName="networkCode" *mssRoleIf="'filters.networkCodeSelect'" [options]="networkCodes"
+                      [label]="'dictionary.networkCode' | translate"></mss-select>
+          <mss-select class="filter-item" formControlName="merchantCode" *mssRoleIf="'filters.merchantCodeSelect'" [options]="merchantCodes"
+                      [label]="'dictionary.merchantCode' | translate"></mss-select>
+          <mss-select class="filter-item" formControlName="orgUnitCode" *mssRoleIf="'filters.orgUnitCodeSelect'" [options]="orgUnitCodes"
+                      [label]="'dictionary.orgUnitCode' | translate"></mss-select>
+        </div>
+      </div>
+
+      <div class="content" *ngIf="visibleSection.value === reportFilterSection.ISSUER">
+        <mss-select class="filter-item" formControlName="issuerCode" [options]="issuerCodes" *mssRoleIf="'filters.issuerCodeSelect'"
+                    [label]="'dictionary.issuerCode' | translate"></mss-select>
+        <mss-select class="filter-item" formControlName="cardGroupCode" *mssRoleIf="'filters.cardGroupCodeSelect'"
+                    [options]="cardGroupCodes" [label]="'dictionary.cardGroupCode' | translate"></mss-select>
+      </div>
     </div>
-    <mss-button class="button" [label]="'reports.list.addReport' | translate" (click)="newReportModalVisible = true"></mss-button>
+    <mss-button class="button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+
+  <div class="button">
+    <mss-button [label]="'reports.list.search' | translate" (click)="getReports()"></mss-button>
   </div>
 
   <div class="data-table-container">
-    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="tableRows"
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                    [externalPaging]="true" [limit]="rowLimit"
                    [externalSorting]="true" (sort)="getSortedReports($event)"
                    [selectionType]="'single'"
-                   (activate)="goToDetail($event.row.name)"
                    [count]="totalItems " (page)="setPage($event)">
-      <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true"
-                            [cellClass]="'mss-click-able'"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'reports.dictionary.runAfterStart' | translate" prop="runAfterStart" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value">
-          {{value ? ('basic.yes' | translate) : ('basic.no' | translate)}}
-        </ng-template>
+      <ngx-datatable-column [name]="'basic.id' | translate" prop="id"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'reports.dictionary.reportDataName' | translate" prop="reportDataName"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="false">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'reports.dictionary.running' | translate" prop="running" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value">
-          {{value ? ('basic.yes' | translate) : ('basic.no' | translate)}}
-        </ng-template>
+      <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.networkCode' | translate" prop="networkCode"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.issuerCode' | translate" prop="issuerCode"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'reports.dictionary.createdBy' | translate" prop="createdBy"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'reports.dictionary.path' | translate" prop="path"
+                            *mssRoleIf="'reports.issuerPortal'" [sortable]="false">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'reports.dictionary.type' | translate" prop="type" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.delete' | translate" [sortable]="false" [width]="40">
+      <ngx-datatable-column [name]="'reports.dictionary.type' | translate" prop="type" [sortable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'reports.dictionary.download' | translate" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row">
           <div class="edit-buttons-container">
-            <i (click)="showDeleteModal($event,row.name)" class="material-icons icon">clear</i>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.action' | translate" prop="running" [sortable]="false" [width]="40">
-        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-          <div class="edit-buttons-container">
-            <i (click)="toggle($event,row)" class="material-icons icon">{{value ? 'stop' : 'play_arrow'}}</i>
+            <i (click)="download(row.id)" class="material-icons icon">file_download</i>
           </div>
         </ng-template>
       </ngx-datatable-column>
@@ -56,33 +97,3 @@
     </ngx-datatable>
   </div>
 </div>
-
-<mss-modal-window [(visible)]="newReportModalVisible">
-  <div class="mss-view-container">
-    <div class="mss-title">{{'reports.list.addReport' | translate}}</div>
-    <form [formGroup]="newReportForm" (ngSubmit)="addNewReport()">
-      <mss-input [label]="('basic.name' | translate) + '*'" [warn]="isPresent('name')" formControlName="name"></mss-input>
-      <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
-      <mss-checkbox formControlName="runAfterStart" [label]="'reports.dictionary.runAfterStart' | translate"></mss-checkbox>
-      <mss-select [label]="'reports.dictionary.type' | translate" formControlName="type" [options]="reportTypes"></mss-select>
-      <div class="buttons">
-        <mss-button class="button" (click)="newReportModalVisible = false" type="button" [label]="'basic.dismiss' | translate"></mss-button>
-        <mss-button class="button" [disabled]="newReportForm.invalid" [label]="'reports.list.addReport' | translate"
-                    type="submit"></mss-button>
-      </div>
-    </form>
-  </div>
-</mss-modal-window>
-
-<mss-modal-window [(visible)]="deleteModalVisible">
-  <div class="mss-view-container">
-    <div class="mss-title">
-      {{'reports.list.deleteQuestion' | translate}}
-    </div>
-
-    <div class="buttons">
-      <mss-button class="button" (click)="deleteModalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
-      <mss-button class="button" (click)="deleteReport()" [label]="'basic.yes' | translate"></mss-button>
-    </div>
-  </div>
-</mss-modal-window>

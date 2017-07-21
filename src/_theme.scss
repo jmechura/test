@@ -16,6 +16,8 @@ $animation-time: 0.25s;
 $default-margin: 12px;
 $default-padding: 12px;
 
+$modal-window-z-index: 999;
+
 @mixin default-component-label {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
@@ -347,6 +349,8 @@ $date-picker-selected-date-color: $primary-color;
 
 @mixin mss-picked-month-label {
   @include default-component-label;
+
+  color: $contrast-color;
 }
 
 @mixin mss-date-picker-calendar {
@@ -413,6 +417,11 @@ $date-picker-icon-background-color: #4a4a4a;
 
 @mixin mss-date-picker-input-container {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  z-index: $modal-window-z-index - 1;
+}
+
+@mixin mss-date-picker-overlay-active {
+  pointer-events: auto;
 }
 
 @mixin mss-date-input-label {
@@ -448,7 +457,7 @@ $date-picker-icon-background-color: #4a4a4a;
 @mixin mss-date-picker-dropdown-container {
   position: absolute;
   overflow: hidden;
-  z-index: 3;
+  z-index: $modal-window-z-index - 1;
   padding-top: 10px;
 
   &.hidden {
@@ -791,8 +800,6 @@ $select-height: $input-height;
 
 // ---------------- modal window ----------------
 
-$modal-window-z-index: 999;
-
 @mixin mss-modal-window-overlay {
   position: fixed;
   top: 0;
@@ -803,7 +810,7 @@ $modal-window-z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: calc(#{$modal-window-z-index} - 1);
+  z-index: calc(#{$modal-window-z-index} - 2);
 }
 
 @mixin mss-modal-window-overlay-active {

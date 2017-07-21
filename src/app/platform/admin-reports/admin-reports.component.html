@@ -1,0 +1,88 @@
+<div class="mss-view-container">
+  <div class="header">
+    <div class="mss-title">
+      {{'reports.list.title' | translate}}
+    </div>
+    <mss-button class="button" [label]="'reports.list.addReport' | translate" (click)="newReportModalVisible = true"></mss-button>
+  </div>
+
+  <div class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="tableRows"
+                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [externalPaging]="true" [limit]="rowLimit"
+                   [externalSorting]="true" (sort)="getSortedReports($event)"
+                   [selectionType]="'single'"
+                   (activate)="goToDetail($event.row.name)"
+                   [count]="totalItems " (page)="setPage($event)">
+      <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true"
+                            [cellClass]="'mss-click-able'"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'reports.dictionary.runAfterStart' | translate" prop="runAfterStart" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{value ? ('basic.yes' | translate) : ('basic.no' | translate)}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'reports.dictionary.running' | translate" prop="running" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{value ? ('basic.yes' | translate) : ('basic.no' | translate)}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'reports.dictionary.type' | translate" prop="type" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.delete' | translate" [sortable]="false" [width]="40">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <div class="edit-buttons-container">
+            <i (click)="showDeleteModal($event,row.name)" class="material-icons icon">clear</i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.action' | translate" prop="running" [sortable]="false" [width]="40">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <div class="edit-buttons-container">
+            <i (click)="toggle($event,row)" class="material-icons icon">{{value ? 'stop' : 'play_arrow'}}</i>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-footer>
+        <ng-template ngx-datatable-footer-template>
+          <mss-table-footer
+            [page]="pageNumber"
+            [rowsShown]="rowLimit"
+            [rowCount]="totalItems"
+            (rowsShownChange)="itemsPerPage($event)"
+            (changePage)="table.onFooterPage($event)"
+            class="d-table-footer">
+          </mss-table-footer>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+  </div>
+</div>
+
+<mss-modal-window [(visible)]="newReportModalVisible">
+  <div class="mss-view-container">
+    <div class="mss-title">{{'reports.list.addReport' | translate}}</div>
+    <form [formGroup]="newReportForm" (ngSubmit)="addNewReport()">
+      <mss-input [label]="('basic.name' | translate) + '*'" [warn]="isPresent('name')" formControlName="name"></mss-input>
+      <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
+      <mss-checkbox formControlName="runAfterStart" [label]="'reports.dictionary.runAfterStart' | translate"></mss-checkbox>
+      <mss-select [label]="'reports.dictionary.type' | translate" formControlName="type" [options]="reportTypes"></mss-select>
+      <div class="buttons">
+        <mss-button class="button" (click)="newReportModalVisible = false" type="button" [label]="'basic.dismiss' | translate"></mss-button>
+        <mss-button class="button" [disabled]="newReportForm.invalid" [label]="'reports.list.addReport' | translate"
+                    type="submit"></mss-button>
+      </div>
+    </form>
+  </div>
+</mss-modal-window>
+
+<mss-modal-window [(visible)]="deleteModalVisible">
+  <div class="mss-view-container">
+    <div class="mss-title">
+      {{'reports.list.deleteQuestion' | translate}}
+    </div>
+
+    <div class="buttons">
+      <mss-button class="button" (click)="deleteModalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
+      <mss-button class="button" (click)="deleteReport()" [label]="'basic.yes' | translate"></mss-button>
+    </div>
+  </div>
+</mss-modal-window>

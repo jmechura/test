@@ -381,7 +381,13 @@
     "list": {
       "title": "Reporty",
       "addReport": "Přidat nový report",
-      "deleteQuestion": "Opravdu chcete report smazat?"
+      "deleteQuestion": "Opravdu chcete report smazat?",
+      "search": "Vyhledat reporty",
+      "sections": {
+        "BASIC": "Základní",
+        "ACQUIRER": "Acquirer",
+        "ISSUER": "Issuer"
+      }
     },
     "detail": {
       "title": "Report",
@@ -392,7 +398,12 @@
       "runAfterStart": "Run after start",
       "running": "Running",
       "type": "Typ reportu",
-      "properties": "Properties"
+      "properties": "Properties",
+      "reportDataName": "Report Data Name",
+      "created": "Vytvořeno",
+      "createdBy": "Vytvořil",
+      "path": "Path",
+      "download": "Download"
     }
   },
   "acquirers": {
@@ -739,6 +750,7 @@
     "templates": "Šablony",
     "acquirers": "Obchodní sítě",
     "imports": "Importy",
+    "admin-reports": "Admin reporty",
     "reports": "Reporty"
   }
 }

@@ -1,6 +1,6 @@
 import { StateModel } from '../models/state.model';
 import { Action } from '@ngrx/store';
-import { ReportModel } from '../models/report.model';
+import { AdminReportModel } from '../models/admin-report.model';
 
 export const reportDetailActions = {
   REPORTS_DETAIL_GET_REQUEST: 'REPORTS_DETAIL_GET_REQUEST',
@@ -12,9 +12,9 @@ export const reportDetailActions = {
 };
 
 
-const INITIAL_STATE: StateModel<ReportModel> = {error: null, loading: false};
+const INITIAL_STATE: StateModel<AdminReportModel> = {error: null, loading: false};
 
-export function reportDetailReducer(state: StateModel<ReportModel> = INITIAL_STATE, action: Action): StateModel<ReportModel> {
+export function reportDetailReducer(state: StateModel<AdminReportModel> = INITIAL_STATE, action: Action): StateModel<AdminReportModel> {
   switch (action.type) {
     case reportDetailActions.REPORTS_DETAIL_GET_REQUEST:
       return {data: state.data, error: null, loading: true};

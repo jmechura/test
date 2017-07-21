@@ -113,8 +113,8 @@ import { importPropertyDefReducer } from './shared/reducers/import-property-def.
 import { ImportPropertyDefEffect } from './shared/effects/import-property-def.effect';
 import { importPropertyReducer } from './shared/reducers/import-property.reducer';
 import { ImportPropertyEffect } from './shared/effects/import-property.effect';
-import { ReportsEffect } from './shared/effects/reports.effect';
-import { reportsReducer } from './shared/reducers/reports.reducer';
+import { AdminReportsEffect } from './shared/effects/admin-reports.effect';
+import { adminReportsReducer } from './shared/reducers/admin-reports.reducer';
 import { reportTypeReducer } from './shared/reducers/report-types.reducer';
 import { ReportTypesEffect } from './shared/effects/report-types.effect';
 import { reportDetailReducer } from './shared/reducers/report-detail.reducer';
@@ -136,6 +136,8 @@ import { LanguageService } from './shared/services/language.service';
 import { RoleService } from './shared/services/role.service';
 import { terminalDetailReducer } from './shared/reducers/terminal-detail.reducer';
 import { TerminalDetailEffect } from './shared/effects/terminal-detail.effect';
+import { reportsReducer } from './shared/reducers/reports.reducer';
+import { ReportsEffect } from './shared/effects/reports.effect';
 
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
@@ -210,12 +212,13 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       acquirers: acquirersReducer,
       acquirerDetail: acquirerDetailReducer,
       acquirerKeys: acquirerKeysReducer,
-      reports: reportsReducer,
+      adminReports: adminReportsReducer,
       reportTypes: reportTypeReducer,
       reportDetail: reportDetailReducer,
       reportProperties: reportPropertyReducer,
       reportPropertyDefs: reportPropertyDefReducer,
       countryCodes: countryCodeReducer,
+      reports: reportsReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
     EffectsModule.runAfterBootstrap(ProfileEffect),
@@ -267,7 +270,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(ImportPropertyEffect),
     EffectsModule.runAfterBootstrap(UserListEffect),
     EffectsModule.runAfterBootstrap(UserEffect),
-    EffectsModule.runAfterBootstrap(ReportsEffect),
+    EffectsModule.runAfterBootstrap(AdminReportsEffect),
     EffectsModule.runAfterBootstrap(ReportTypesEffect),
     EffectsModule.runAfterBootstrap(ReportDetailEffect),
     EffectsModule.runAfterBootstrap(ReportPropertyEffect),
@@ -276,6 +279,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(AcquirerDetailEffect),
     EffectsModule.runAfterBootstrap(AcquirerKeysEffect),
     EffectsModule.runAfterBootstrap(CountryCodeEffect),
+    EffectsModule.runAfterBootstrap(ReportsEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({
       loader: {

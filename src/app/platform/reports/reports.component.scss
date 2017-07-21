@@ -1,30 +1,57 @@
-.header {
-  display: flex;
-  justify-content: space-between;
+@import 'theme';
 
-  .button {
-    height: 43px;
+$filter-item-width: 500px;
+$calendar-text-color: #747474;
+$date-label-width: 136px;
+
+.button {
+  height: 43px;
+  width: 200px;
+  min-width: 200px;
+
+  &.shifted {
+    height: 50px;
+    margin-left: 50px;
   }
 }
 
-.buttons {
+.row {
   display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
 
-  .button {
+  &.wrapped {
+    flex-wrap: wrap;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
+  }
+}
 
-    &:first-child {
-      margin-right: 20px;
-    }
+.content {
+  margin: 25px 0 20px 0;
+  display: flex;
 
-    &:last-child {
-      margin-left: 20px;
+  .filter-item {
+    margin-right: 60px;
+    margin-bottom: 15px;
+    width: $filter-item-width;
+
+    .label {
+      width: $date-label-width;
     }
   }
 }
 
-.icon {
-  cursor: pointer;
+.calendar-select {
+  @include default-component-label;
+
+  display: flex;
+  align-items: center;
+  color: $calendar-text-color;
 }

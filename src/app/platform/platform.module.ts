@@ -37,11 +37,12 @@ import { ImportsComponent } from './imports/imports.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
-import { ReportsComponent } from './reports/reports.component';
+import { AdminReportsComponent } from './admin-reports/admin-reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { AcquirersComponent } from './acquirers/acquirers.component';
 import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.component';
 import { DirectivesModule } from '../shared/directives/directives.module';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   imports: [
@@ -88,11 +89,12 @@ import { DirectivesModule } from '../shared/directives/directives.module';
     OrgUnitDetailComponent,
     ImportsComponent,
     ImportDetailComponent,
-    ReportsComponent,
+    AdminReportsComponent,
     ReportDetailComponent,
     AcquirersComponent,
     AcquirerDetailComponent,
     EmployeeDetailComponent,
+    ReportsComponent,
   ]
 })
 export class PlatformModule {}
