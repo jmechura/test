@@ -35,6 +35,7 @@
     "resource": "Zdroj",
     "preview": "Náhled",
     "action": "Akce",
+    "search": "Vyhledat",
     "required": {
       "code": "Kod je povinný údaj.",
       "name": "Jméno je povinný údaj.",

@@ -3,6 +3,10 @@
 .input-container {
   @include mss-input-container;
 
+  &.input-label-top {
+    @include mss-input-label-top;
+  }
+
   .input-label {
     @include mss-input-label;
   }

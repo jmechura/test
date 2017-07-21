@@ -631,6 +631,13 @@ $input-label-width: 136px;
   align-items: center;
 }
 
+@mixin mss-input-label-top {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  height: 100%;
+}
+
 @mixin mss-input-label {
   @include default-component-label;
 

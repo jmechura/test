@@ -3,74 +3,56 @@
   <!--header-->
   <div class="header-row">
     <div class="mss-title">{{'merchants.title' | translate}}</div>
-    <mss-button *mssRoleIf="'merchants.create'" [label]="'merchants.addMerchant' | translate" (click)="toggleNewMerchantModal()"></mss-button>
+    <mss-button *mssRoleIf="'merchants.create'" [label]="'merchants.addMerchant' | translate"
+                (click)="toggleNewMerchantModal()" class="merchant-card-button">
+    </mss-button>
+  </div>
+
+  <!--filters-->
+  <div class="filter-container">
+    <div class="filters">
+      <mss-select [disabled]="networkCodes.length === 0"
+                  *mssRoleIf="'filters.networkCodeSelect'"
+                  class="filter-item"
+                  [label]="'dictionary.networkCode' | translate"
+                  labelPosition="top"
+                  [options]="networkCodes"
+                  [selectedOption]="networkCode"
+                  (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
+      <mss-select [disabled]="merchantCodes.length === 0"
+                  *mssRoleIf="'filters.merchantCodeSelect'"
+                  class="filter-item"
+                  [options]="merchantCodes"
+                  [label]="'dictionary.merchantCode' | translate"
+                  labelPosition="top"
+                  [(selectedOption)]="code"></mss-select>
+      <mss-input [(value)]="name" [label]="'basic.name' | translate" labelPosition="top"></mss-input>
+    </div>
+    <mss-button class="merchant-card-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+
+  <div class="merchant-card-button">
+    <mss-button [label]="'basic.search' | translate" (click)="getMerchantList()"></mss-button>
   </div>
 
   <!--merchants data table-->
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
-                   [externalPaging]="true" [limit]="merchantsRequest.pagination.number"
-                   [externalSorting]="true"
-                   (sort)="getSortedMerchants($event)"
-                   [count]="tableData ? tableData.totalElements : 0 " (page)="setPage($event)">
-
+                   [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
+                   [limit]="requestModel.pagination.number" [count]="tableData ? tableData.totalElements : 0"
+                   [externalSorting]="true" [externalPaging]="true"
+                   (sort)="getSortedMerchants($event)" (page)="setPage($event)">
       <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.name"/>
-        </ng-template>
       </ngx-datatable-column>
-
       <ngx-datatable-column prop="bankAccount" [name]="'dictionary.bankAccount' | translate" [sortable]="true">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.bankAccount"/>
-        </ng-template>
       </ngx-datatable-column>
-
-      <ngx-datatable-column prop="ico" [name]="'basic.ico' | translate" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.ico"/>
-        </ng-template>
+      <ngx-datatable-column prop="ico" [name]="'basic.ico' | translate" [sortable]="true">
       </ngx-datatable-column>
-
-      <ngx-datatable-column prop="city" [name]="'basic.city' | translate" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.city"/>
-        </ng-template>
+      <ngx-datatable-column prop="city" [name]="'basic.city' | translate" [sortable]="true">
       </ngx-datatable-column>
-
-      <ngx-datatable-column prop="email" [name]="'basic.email' | translate" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedMerchant.email"/>
-        </ng-template>
+      <ngx-datatable-column prop="email" [name]="'basic.email' | translate" [sortable]="true">
       </ngx-datatable-column>
-
-      <ngx-datatable-column prop="state" [name]="'dictionary.state' | translate" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell" title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <mss-toggle [(toggled)]="merchantState" *ngIf="editedRow === row.$$index"></mss-toggle>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column [name]="'basic.edit' | translate" [width]="70" [sortable]="false" *mssRoleIf="'merchants.edit'">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <div class="edit-buttons-container">
-            <i (click)="startEditing(row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
-            <i class="material-icons table-icon" (click)="cancelEditing()" *ngIf="editedRow === row.$$index">not_interested</i>
-            <i class="material-icons table-icon" (click)="submitEdit()" *ngIf="editedRow === row.$$index">check</i>
-          </div>
-        </ng-template>
+      <ngx-datatable-column prop="state" [name]="'dictionary.state' | translate" [sortable]="true">
       </ngx-datatable-column>
       <ngx-datatable-footer>
         <ng-template
