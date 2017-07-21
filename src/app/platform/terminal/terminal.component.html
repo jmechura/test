@@ -1,12 +1,53 @@
-<div class="terminal-container mss-view-container">
-  <div class="mss-title">
-    {{'terminals.title' | translate}}
+<div class="terminal-container">
+  <div class="header">
+    <span>{{'terminals.title' | translate}}</span>
+    <mss-button class="action-button" [label]="'terminals.addTerminal' | translate"
+                (click)="switchModal()" *mssRoleIf="'terminals.create'">
+    </mss-button>
   </div>
-  <mss-button class="action-button" [label]="'terminals.addTerminal' | translate"
-              (click)="switchModal()" *mssRoleIf="'terminals.create'"></mss-button>
+
+  <div class="filter-container">
+    <div class="filters" [formGroup]="filterForm">
+      <mss-select [disabled]="networkCodes.length === 0"
+                  *mssRoleIf="'filters.networkCodeSelect'"
+                  class="filter-item"
+                  [options]="networkCodes"
+                  [label]="'dictionary.networkCode' | translate"
+                  formControlName="networkCode"
+                  labelPosition="top"
+                  (selectedOptionChange)="networkSelect($event)"></mss-select>
+      <mss-select [disabled]="merchantCodes.length === 0"
+                  *mssRoleIf="'filters.merchantCodeSelect'"
+                  class="filter-item"
+                  [options]="merchantCodes"
+                  [label]="'dictionary.merchantCode' | translate"
+                  formControlName="merchantCode"
+                  labelPosition="top"
+                  (selectedOptionChange)="merchantSelect($event)"></mss-select>
+      <mss-select [disabled]="orgUnitCodes.length === 0"
+                  *mssRoleIf="'filters.orgUnitCodeSelect'"
+                  class="filter-item"
+                  [options]="orgUnitCodes"
+                  [label]="'dictionary.orgUnitCode' | translate"
+                  formControlName="orgUnitCode"
+                  labelPosition="top"></mss-select>
+      <mss-input formControlName="code" class="filter-item"
+                 [label]="'basic.code' | translate" labelPosition="top">
+      </mss-input>
+      <mss-input formControlName="name" class="filter-item"
+                 [label]="'basic.name' | translate" labelPosition="top">
+      </mss-input>
+    </div>
+    <mss-button class="terminal-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+
+  <div class="terminal-button">
+    <mss-button [label]="'basic.search' | translate" (click)="getTerminalList()"></mss-button>
+  </div>
+
   <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="terminalData ? terminalData.totalElements : 0 "
                  [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50"
-                 [rowHeight]="'auto'" [externalSorting]="true" [limit]="pagination.pagination.number"
+                 [rowHeight]="'auto'" [externalSorting]="true" [limit]="rowLimit"
                  [rows]="terminalRows" [selectionType]="'single'" (select)="onSelect($event)"
                  (page)="setPage($event)" (sort)="getSortedTerminals($event)"
                  [offset]="terminalData ? terminalData.number : 0">

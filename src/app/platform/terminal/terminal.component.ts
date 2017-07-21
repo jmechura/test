@@ -3,7 +3,7 @@ import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { StateModel } from '../../shared/models/state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
-import { TerminalModel, TerminalSearch } from '../../shared/models/terminal.model';
+import { TerminalModel, TerminalPredicateObject } from '../../shared/models/terminal.model';
 import { terminalActions } from '../../shared/reducers/terminal.reducer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
@@ -16,16 +16,12 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { RoleService } from '../../shared/services/role.service';
 import { ProfileModel } from '../../shared/models/profile.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const TERMINALS_ROUTE = 'platform/terminal';
-const API_ENDPOINT = 'terminals';
-const DEFAULT_FILTER: TerminalSearch = {
-  code: '',
-  name: '',
-  networkCode: '',
-  orgUnitId: null
-};
+const API_ENDPOINT = '/terminals';
 
 @Component({
   selector: 'mss-terminal',
@@ -34,19 +30,11 @@ const DEFAULT_FILTER: TerminalSearch = {
 })
 export class TerminalComponent implements OnDestroy {
 
-  pagination: RequestOptions<TerminalSearch> = {
-    pagination: {
-      number: 10,
-      numberOfPages: 0,
-      start: 0,
-    },
-    search: {
-      predicateObject: Object.assign({}, DEFAULT_FILTER)
-    },
-    sort: {}
-  };
-
   private unsubscribe$ = new UnsubscribeSubject();
+
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
+  pageNumber = 0;
+  totalItems = 0;
 
   newTerminalForm: FormGroup;
   terminalData: Pagination<TerminalModel>;
@@ -61,14 +49,22 @@ export class TerminalComponent implements OnDestroy {
   loading = false;
   modalShowing = false;
 
+  filterForm: FormGroup;
+
+  sortOption: {
+    predicate: string;
+    reverse: boolean;
+  };
+
   @ViewChild('table') table: DatatableComponent;
 
   constructor(private store: Store<AppStateModel>,
               private fb: FormBuilder,
               private api: ApiService,
               private router: Router,
+              private route: ActivatedRoute,
               private roles: RoleService) {
-    this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
+    this.getTerminalList();
 
     this.newTerminalForm = fb.group({
       code: ['', Validators.required],
@@ -84,6 +80,23 @@ export class TerminalComponent implements OnDestroy {
       street: '',
       zip: '',
     });
+
+    this.filterForm = fb.group({
+        code: '',
+        name: '',
+        networkCode: '',
+        merchantCode: '',
+        orgUnitCode: '',
+      }
+    );
+
+    this.route.params.takeUntil(this.unsubscribe$).subscribe(
+      (params: ListRouteParamsModel) => {
+        this.pageNumber = Math.max(Number(params.page) || 0, 1);
+        this.rowLimit = ITEM_LIMIT_OPTIONS.find(limit => limit === Number(params.limit)) || ITEM_LIMIT_OPTIONS[0];
+        this.getTerminalList();
+      }
+    );
 
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<ProfileModel>) => {
@@ -184,6 +197,9 @@ export class TerminalComponent implements OnDestroy {
 
     this.newTerminalForm.get('networkCode').valueChanges.takeUntil(this.unsubscribe$).subscribe(
       (value: string | number) => {
+        if (value == null || value.toString().length === 0) {
+          return;
+        }
         this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
         this.newTerminalForm.get('merchantId').reset();
         this.newTerminalForm.get('orgUnitId').disable();
@@ -192,24 +208,44 @@ export class TerminalComponent implements OnDestroy {
 
     this.newTerminalForm.get('merchantId').valueChanges.takeUntil(this.unsubscribe$).subscribe(
       (value: string | number) => {
+        if (value == null || value.toString().length === 0) {
+          return;
+        }
         this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
         this.newTerminalForm.get('orgUnitId').reset();
       }
     );
   }
 
+  get requestModel(): RequestOptions<TerminalPredicateObject> {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: (this.pageNumber - 1) * this.rowLimit,
+      },
+      search: {
+        predicateObject: this.filterForm ? this.filterForm.value : {},
+      },
+      sort: this.sortOption != null ? this.sortOption : {},
+    };
+  }
+
   getSortedTerminals(sortInfo: any): void {
-    this.pagination.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
-    this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
+    this.sortOption = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getTerminalList();
   }
 
   get newFormInvalid(): boolean {
     return this.newTerminalForm.invalid || this.newTerminalForm.get('orgUnitId').disabled;
   }
 
-  setPage(pageInfo: any): void {
-    this.pagination.pagination.start = pageInfo.offset * this.pagination.pagination.number;
-    this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
+  setPage(pageInfo: { offset: number }): void {
+    const routeParams: ListRouteParamsModel = {
+      page: String(pageInfo.offset + 1),
+      limit: String(this.rowLimit)
+    };
+    this.router.navigate([`${TERMINALS_ROUTE}`, routeParams]);
   }
 
   ngOnDestroy(): void {
@@ -223,7 +259,7 @@ export class TerminalComponent implements OnDestroy {
   addTerminal(): void {
     this.api.post(`${API_ENDPOINT}`, this.newTerminalForm.value).subscribe(
       () => {
-        this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
+        this.getTerminalList();
       },
       (error) => {
         console.error('Terminal API call returned error.', error);
@@ -251,14 +287,30 @@ export class TerminalComponent implements OnDestroy {
   }
 
   changeLimit(limit: number): void {
-    if (this.pagination.pagination.number === limit) {
-      return;
-    }
-    this.pagination.pagination.number = limit;
-    this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
+    const routeParams: ListRouteParamsModel = {
+      page: '1',
+      limit: String(limit),
+    };
+    this.router.navigate([TERMINALS_ROUTE, routeParams]);
   }
 
   onSelect(select: { selected: TerminalModel[] }): void {
     this.router.navigate([`${TERMINALS_ROUTE}/${select.selected[0].id}`]);
+  }
+
+  clearFilter(): void {
+    this.filterForm.reset();
+  }
+
+  getTerminalList(): void {
+    this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.requestModel});
+  }
+
+  networkSelect(networkCode: string): void {
+    this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: networkCode});
+  }
+
+  merchantSelect(merchantCode: string): void {
+    this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: merchantCode});
   }
 }

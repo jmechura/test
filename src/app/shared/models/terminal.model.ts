@@ -16,9 +16,10 @@ export interface TerminalModel {
   zip: string;
 }
 
-export interface TerminalSearch {
-  code: string;
-  name: string;
-  networkCode: string;
-  orgUnitId: number;
+export interface TerminalPredicateObject {
+  code?: string;
+  name?: string;
+  networkCode?: string;
+  merchantCode?: string;
+  orgUnitCode?: string;
 }
