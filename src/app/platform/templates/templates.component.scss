@@ -11,40 +11,6 @@
   }
 }
 
-.new-template-form-title {
-  color: $primary-text-color;
-  font-size: 25px;
-  padding: 18px 24px 0 24px;
-}
-
-.new-template-form {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-
-  .new-template-inputs {
-    display: flex;
-    justify-content: space-between;
-
-    .new-template-input-side {
-      display: flex;
-      flex-direction: column;
-      width: 50%;
-    }
-  }
-
-  .new-template-buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 24px;
-
-    .new-template-button {
-      width: 160px;
-      margin-left: 24px;
-    }
-  }
-}
-
 .table-input {
   background-color: transparent;
   border: none;

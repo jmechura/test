@@ -35,6 +35,7 @@ import { AdminReportsComponent } from './admin-reports/admin-reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { ReportsComponent } from './reports/reports.component';
 import { TerminalDetailComponent } from './terminal-detail/terminal-detail.component';
+import { TemplateCreateComponent } from './template-create/template-create.component';
 
 export const routes: Routes = [
   {
@@ -58,7 +59,8 @@ export const routes: Routes = [
       {path: 'issuers', component: IssuersComponent},
       {path: 'issuers/:id', component: IssuerDetailComponent},
       {path: 'templates', component: TemplatesComponent},
-      {path: 'templates/:id', component: TemplateDetailComponent},
+      {path: 'templates/add', component: TemplateCreateComponent},
+      {path: 'templates/detail/:id', component: TemplateDetailComponent},
       {path: 'campaigns', component: CampaignsComponent},
       {path: 'campaigns/:name', component: CampaignsDetailComponent},
       {path: 'card-request', component: CardRequestComponent},

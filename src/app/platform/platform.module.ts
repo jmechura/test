@@ -43,6 +43,7 @@ import { AcquirersComponent } from './acquirers/acquirers.component';
 import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.component';
 import { DirectivesModule } from '../shared/directives/directives.module';
 import { ReportsComponent } from './reports/reports.component';
+import { TemplateCreateComponent } from './template-create/template-create.component';
 
 @NgModule({
   imports: [
@@ -95,6 +96,7 @@ import { ReportsComponent } from './reports/reports.component';
     AcquirerDetailComponent,
     EmployeeDetailComponent,
     ReportsComponent,
+    TemplateCreateComponent,
   ]
 })
 export class PlatformModule {}

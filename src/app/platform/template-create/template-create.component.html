@@ -1,0 +1,62 @@
+<div class="mss-view-container">
+  <div class="header">
+    <div class="mss-title">{{'templates.list.addTemplate' | translate}}</div>
+    <mss-button class="button" [label]="'basic.back' | translate" routerLink="/platform/templates"></mss-button>
+  </div>
+
+  <form [formGroup]="templateForm" class="new-template-form">
+    <div class="new-template-inputs">
+      <div class="form-item">
+        <mss-input formControlName="code" [label]="('basic.code' | translate) + '*'"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
+        <mss-input formControlName="name" [label]="('basic.name' | translate) + '*'"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
+        <mss-input formControlName="description" [label]="'basic.description' | translate"></mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-select formControlName="resource" [label]="'basic.resource' | translate" [options]="resourcesArray"></mss-select>
+        <div class="mss-validation-label"></div>
+        <mss-select formControlName="system" [label]="'templates.dictionary.system' | translate" [options]="systemsArray"></mss-select>
+        <div class="mss-validation-label"></div>
+        <mss-select formControlName="systemReceiver" [label]="'templates.dictionary.systemReceiver' | translate"
+                    [options]="systemsArray"></mss-select>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div class="form-item">
+        <div class="form-row">
+          <p>{{'templates.dictionary.resources' | translate}}</p>
+          <i (click)="addResource()" class="material-icons action-icon">add</i>
+        </div>
+        <div formArrayName="resources">
+          <div class="resources-container" *ngFor="let res of resources.controls; let i=index; trackBy: identifyResource"
+               [formGroupName]="i">
+            <div class="form-row">
+              <mss-select formControlName="resource" [label]="('basic.resource' | translate) + ' ' + (i + 1)"
+                          class="form-select"
+                          [options]="resourcesArray"></mss-select>
+              <i *ngIf="resources.controls.length > 1" (click)="removeResource(i)" class="material-icons action-icon">remove</i>
+            </div>
+            <div class="left-padding">
+              <div class="form-row">
+                <p>Role </p>
+                <i (click)="addRole(res)" class="material-icons action-icon">add</i>
+              </div>
+              <div formArrayName="roles">
+                <div class="form-row" *ngFor="let role of getRoles(res).controls; let j=index; trackBy: identifyRole;">
+                  <mss-select [formControlName]="j" [label]="('basic.resource' | translate) + ' ' + (j + 1)"
+                              class="form-select"
+                              [options]="rolesArray"></mss-select>
+                  <i *ngIf="getRoles(res).value.length > 1" (click)="removeRole(res, j)" class="material-icons action-icon">remove</i>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="resources.controls.length !== i + 1" class="resource-divider"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="new-template-buttons">
+      <mss-button [label]="'basic.yes' | translate" class="new-template-button" (click)="addTemplate()"
+                  [disabled]="templateForm.invalid"></mss-button>
+    </div>
+  </form>
+</div>

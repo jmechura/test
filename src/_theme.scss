@@ -98,6 +98,7 @@ $button-color: $primary-color;
 @mixin mss-button-icon {
   height: 16px;
   width: 16px;
+  font-size: 16px;
 
   margin: 0 6px;
 }

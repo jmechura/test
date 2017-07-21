@@ -177,7 +177,7 @@ export class TemplatesComponent implements OnDestroy {
 
   onSelect({selected}: { selected: TemplateModel[] }): void {
     if (selected && selected.length > 0) {
-      this.router.navigateByUrl(`/platform/templates/${selected[0].id}`);
+      this.router.navigateByUrl(`/platform/templates/detail/${selected[0].id}`);
     }
   }
 

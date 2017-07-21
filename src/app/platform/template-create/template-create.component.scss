@@ -1,0 +1,82 @@
+@import 'theme';
+
+.new-template-form {
+  display: flex;
+  flex-direction: column;
+
+  .new-template-inputs {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .new-template-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+
+    .new-template-button {
+      width: 160px;
+      margin-left: 24px;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  .button {
+    height: 43px;
+  }
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.action-icon {
+  cursor: pointer;
+  background-color: $button-color;
+  padding: 2px;
+  border-radius: 5px;
+  color: #f2f2f2;
+  margin: 0 2px;
+}
+
+.left-padding {
+  padding-left: 50px;
+  margin-top: 15px;
+}
+
+.resources-container {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.resource-divider {
+  border-bottom: 1px solid #b2b2b2;
+  margin-bottom: 10px;
+}
+
+.form-item {
+  flex-grow: 1;
+  flex-basis: 0;
+
+  &:first-child {
+    margin-right: 30px;
+  }
+
+  &:last-child {
+    margin-left: 30px;
+  }
+
+  .form-select {
+    flex-grow: 1;
+  }
+}
