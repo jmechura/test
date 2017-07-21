@@ -1,5 +1,7 @@
 @import 'theme';
 
+$filter-item-width: 500px;
+
 .row-action {
   display: inline-block;
   margin-right: 10px;
@@ -25,4 +27,48 @@
 
 .delete-prompt-action {
   width: 100px;
+}
+
+.row {
+  display: flex;
+
+  &.wrapped {
+    flex-wrap: wrap;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}
+
+.content {
+  margin: 25px 0 20px 0;
+  display: flex;
+
+  .filter-item {
+    margin-right: 60px;
+    margin-bottom: 15px;
+    width: $filter-item-width;
+
+    .label {
+      margin-right: 12px;
+    }
+  }
+}
+
+.button {
+  height: 43px;
+  width: 200px;
+  min-width: 200px;
+
+  &.shifted {
+    height: 50px;
+    margin-left: 50px;
+  }
 }

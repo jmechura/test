@@ -3,6 +3,38 @@
     <h1 class="mss-title">{{'orgUnits.list.title' | translate}}</h1>
     <mss-button [label]="'orgUnits.list.addOrgUnit' | translate" (click)="showCreateModal()" *mssRoleIf="'orgUnits.create'"></mss-button>
   </div>
+
+  <div class="row">
+    <div class="column" [formGroup]="filterForm">
+      <mss-tabs class="tabs" [items]="filterOptions" (itemChanged)="visibleFilter = $event"></mss-tabs>
+
+      <div class="content column" *ngIf="visibleFilter.value ===  OrgUnitFilterSections.BASIC">
+        <div class="row wrapped">
+          <mss-input class="filter-item" formControlName="name" [label]="'basic.name' | translate"></mss-input>
+          <mss-input class="filter-item" formControlName="code" [label]="'basic.code' | translate"></mss-input>
+        </div>
+      </div>
+      <div class="content column" *ngIf="visibleFilter.value ===  OrgUnitFilterSections.NETWORK">
+        <div class="row wrapped" *mssRoleIf="'filters.networkCodeSelect'">
+          <mss-input class="filter-item" formControlName="networkName" [label]="'orgUnits.dictionary.networkName' | translate"></mss-input>
+          <mss-select class="filter-item" formControlName="networkCode" [options]="networkCodes"
+                      [label]="'dictionary.networkCode' | translate"></mss-select>
+        </div>
+        <div class="row wrapped" *mssRoleIf="'filters.merchantCodeSelect'">
+          <mss-input class="filter-item" formControlName="merchantName"
+                     [label]="'orgUnits.dictionary.merchantName' | translate"></mss-input>
+          <mss-select class="filter-item" formControlName="merchantId" [options]="merchantCodes"
+                      [label]="'orgUnits.dictionary.merchantId' | translate"></mss-select>
+        </div>
+      </div>
+    </div>
+    <mss-button class="button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+
+  <div class="button">
+    <mss-button [label]="'orgUnits.list.search' | translate" (click)="getOrgUnits()"></mss-button>
+  </div>
+
   <div class="org-unit-list">
     <div class="data-table-container">
       <ngx-datatable #table [rows]="tableRows" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" columnMode="force"

@@ -266,7 +266,12 @@
     "list": {
       "title": "Provozovny",
       "addOrgUnit": "Přidat provozovnu",
-      "removeQuestion": "Opravdu odstranit?"
+      "removeQuestion": "Opravdu odstranit?",
+      "search": "Vyhledat provozovny",
+      "sections": {
+        "BASIC": "Základní",
+        "NETWORK": "Acquirer"
+      }
     },
     "detail": {
       "title": "Detail provozovny",
@@ -274,6 +279,11 @@
         "nameCode": "Název a kód",
         "networkMerchant": "Síť a obchodník"
       }
+    },
+    "dictionary": {
+      "merchantId": "Merchant ID",
+      "merchantName": "Merchant name",
+      "networkName": "Network name"
     }
   },
   "sequences": {

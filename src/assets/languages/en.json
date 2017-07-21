@@ -80,7 +80,7 @@
     "expiryDate": "Expiry Date",
     "serviceCode": "Service code",
     "limit": "Limit",
-    "limitType": "Typ limity",
+    "limitType": "Typ limitu",
     "taxType": "Typ daně",
     "tax": "Hodnota daně",
     "externalCode": "Externí kód",
@@ -193,6 +193,10 @@
       "numberOfCards": "Počet karet",
       "accept": "Schválit",
       "decline": "Zamítnout",
+      "created": "Datum vytvoření",
+      "createdBy": "Vytvořil",
+      "processedCard": "Vyrobené karty",
+      "sendCard": "Odeslaných karet",
       "warnModal": {
         "titleAccept": "Opravu chcete žádost o kartu potvrdit?",
         "titleDecline": "Opravdu chcete žádost o kartu zamítnout?"
@@ -260,16 +264,26 @@
   },
   "orgUnits": {
     "list": {
-      "title": "Obchodní místa",
-      "addOrgUnit": "Přidat obchodní místo",
-      "removeQuestion": "Opravdu odstranit?"
+      "title": "Provozovny",
+      "addOrgUnit": "Přidat provozovnu",
+      "removeQuestion": "Opravdu odstranit?",
+      "search": "Vyhledat provozovny",
+      "sections": {
+        "BASIC": "Základní",
+        "NETWORK": "Acquirer"
+      }
     },
     "detail": {
-      "title": "Detail obchodního místa",
+      "title": "Detail provozovny",
       "sections": {
         "nameCode": "Název a kód",
         "networkMerchant": "Síť a obchodník"
       }
+    },
+    "dictionary": {
+      "merchantId": "Merchant ID",
+      "merchantName": "Merchant name",
+      "networkName": "Network name"
     }
   },
   "sequences": {
@@ -340,34 +354,6 @@
       "properties": "Properties"
     }
   },
-  "acquirers": {
-    "list": {
-      "title": "Obchodní sítě",
-      "addAcquirer": "Přidat obchodní síť",
-      "deleteQuestion": "Opravdu chcete obchodní síť smazat?"
-    },
-    "dictionary": {
-      "acquiringInstitutionCode": "AIC",
-      "hsmKeyName": "hsmKeyName",
-      "hsmTransitKeyName": "hsmTransitKeyName",
-      "keyName": "keyName",
-      "keyValue": "keyValue",
-      "last": "last",
-      "required": {
-        "acquiringInstitutionCode": "acquiringInstitutionCode je povinny.",
-        "hsmKeyName": "hsmKeyName je povinny.",
-        "hsmTransitKeyName": "hsmTransitKeyName je povinny.",
-        "keyName": "keyName je povinny.",
-        "keyValue": "keyValue je povinny."
-      }
-    },
-    "detail": {
-      "title": "Obchodní síť",
-      "addKey": "Přidat klíč",
-      "keys": "Klíče",
-      "setAsLast": "Nastavit jako poslední."
-    }
-  },
   "employees": {
     "list": {
       "title": "Employees",
@@ -375,7 +361,7 @@
       "expiredDateForWarning": "Expired Date For Warning"
     },
     "detail": {
-      "title": "Employee Detail",
+      "title": "Detail Zaměstnance",
       "basic": "Basic",
       "personal": "Personal",
       "roles": "Roles",
@@ -407,6 +393,34 @@
       "running": "Running",
       "type": "Typ reportu",
       "properties": "Properties"
+    }
+  },
+  "acquirers": {
+    "list": {
+      "title": "Obchodní sítě",
+      "addAcquirer": "Přidat obchodní síť",
+      "deleteQuestion": "Opravdu chcete obchodní síť smazat?"
+    },
+    "dictionary": {
+      "acquiringInstitutionCode": "AIC",
+      "hsmKeyName": "hsmKeyName",
+      "hsmTransitKeyName": "hsmTransitKeyName",
+      "keyName": "keyName",
+      "keyValue": "keyValue",
+      "last": "last",
+      "required": {
+        "acquiringInstitutionCode": "acquiringInstitutionCode je povinny.",
+        "hsmKeyName": "hsmKeyName je povinny.",
+        "hsmTransitKeyName": "hsmTransitKeyName je povinny.",
+        "keyName": "keyName je povinny.",
+        "keyValue": "keyValue je povinny."
+      }
+    },
+    "detail": {
+      "title": "Obchodní síť",
+      "addKey": "Přidat klíč",
+      "keys": "Klíče",
+      "setAsLast": "Nastavit jako poslední."
     }
   },
   "enums": {
@@ -687,11 +701,6 @@
       "KB_BEST": "KB_BEST",
       "TOP_UP_SCHEDULE": "TOP_UP_SCHEDULE"
     },
-    "acquirerSections": {
-      "ADDRESS": "Adresa",
-      "BASIC": "Základní informace",
-      "KEYS": "Klíče"
-    },
     "reportTypes": {
       "ACQUIRER_REPORT": "ACQUIRER_REPORT",
       "CLEARING_REPORT": "CLEARING_REPORT",
@@ -704,6 +713,11 @@
       "MERCHANT_LIST_TRX_REPORT": "MERCHANT_LIST_TRX_REPORT",
       "POHODA_INVOICE_REPORT": "POHODA_INVOICE_REPORT",
       "MERCHANT_SUM_TRX_REPORT": "MERCHANT_SUM_TRX_REPORT"
+    },
+    "acquirerSections": {
+      "ADDRESS": "Adresa",
+      "BASIC": "Základní informace",
+      "KEYS": "Klíče"
     }
   },
   "menu": {
@@ -711,20 +725,20 @@
     "card": "Moje karta",
     "settings": "Nastavení",
     "employees": "Zaměstnanci",
-    "employer-card": "Přehled karet",
+    "cards": "Přehled karet",
     "card-groups": "Zaměstnavatelé",
     "issuers": "Vydavatelé karet",
     "card-request": "Žádosti o kartu",
     "routing-table": "Routovací tabulka",
     "merchants": "Obchodníci",
-    "org-units": "Obchodní místa",
+    "org-units": "Provozovny",
     "sequences": "Sequence",
     "terminal": "Terminal",
     "campaigns": "Kampaně",
     "showcase": "Showcase",
     "templates": "Šablony",
-    "reports": "Reporty",
+    "acquirers": "Obchodní sítě",
     "imports": "Importy",
-    "acquirers": "Obchodní sítě"
+    "reports": "Reporty"
   }
 }
