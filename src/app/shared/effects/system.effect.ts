@@ -12,7 +12,8 @@ export class SystemsEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getSystems(): Observable<Action> {
+  @Effect()
+  getSystems(): Observable<Action> {
     return this.actions$
       .ofType(systemsActions.SYSTEMS_GET_REQUEST)
       .switchMap(action => this.api.get(SYSTEMS_ENDPOINT_LIST)

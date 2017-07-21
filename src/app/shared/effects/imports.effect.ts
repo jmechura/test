@@ -13,7 +13,8 @@ export class ImportsEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getImports(): Observable<Action> {
+  @Effect()
+  getImports(): Observable<Action> {
     return this.actions$
       .ofType(importActions.IMPORTS_GET_REQUEST)
       .switchMap(action => this.api.post(`${IMPORTS_ENDPOINT}/${IMPORTS_GET}`, action.payload)

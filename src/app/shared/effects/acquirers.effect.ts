@@ -12,7 +12,8 @@ export class AcquirersEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getAcquirers(): Observable<Action> {
+  @Effect()
+  getAcquirers(): Observable<Action> {
     return this.actions$
       .ofType(acquirerActions.ACQUIRERS_GET_REQUEST)
       .switchMap(action => this.api.post(ACQUIRERS_ENDPOINT_LIST, action.payload)

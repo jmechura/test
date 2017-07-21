@@ -36,8 +36,8 @@ export class TerminalDetailComponent implements OnDestroy {
   addressInfo: InfoModel[][];
 
   stateSelect: SelectItem[] = [
-    { value: 'ENABLED'},
-    { value: 'DISABLED'}
+    {value: 'ENABLED'},
+    {value: 'DISABLED'}
   ];
 
   editing = false;
@@ -178,7 +178,7 @@ export class TerminalDetailComponent implements OnDestroy {
 
   submitEdit(): void {
     this.editing = false;
-    const editedTerminal = { ...this.terminal, ...this.terminalForm.value};
+    const editedTerminal = {...this.terminal, ...this.terminalForm.value};
     this.store.dispatch({type: terminalDetailActions.TERMINAL_DETAIL_POST_REQUEST, payload: editedTerminal});
   }
 }

@@ -12,7 +12,8 @@ export class TerminalDetailEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getTerminals(): Observable<Action> {
+  @Effect()
+  getTerminals(): Observable<Action> {
     return this.actions$
       .ofType(terminalDetailActions.TERMINAL_DETAIL_GET_REQUEST)
       .switchMap(action => this.api.get(`${TERMINAL_DETAIL_ENDPOINT}/${action.payload}`)
@@ -21,7 +22,8 @@ export class TerminalDetailEffect {
       );
   }
 
-  @Effect() postTerminal(): Observable<Action> {
+  @Effect()
+  postTerminal(): Observable<Action> {
     return this.actions$
       .ofType(terminalDetailActions.TERMINAL_DETAIL_POST_REQUEST)
       .switchMap(action => this.api.post(TERMINAL_DETAIL_ENDPOINT, action.payload)

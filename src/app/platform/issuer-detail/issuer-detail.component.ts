@@ -5,9 +5,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { issuerDetailActions } from '../../shared/reducers/issuer-detail.reducer';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { StateModel } from '../../shared/models/state.model';
-import { fillIssuer, IssuerModel } from '../../shared/models/issuer.model';
+import { IssuerModel } from '../../shared/models/issuer.model';
 import { ActivatedRoute } from '@angular/router';
 import { UnsubscribeSubject } from '../../shared/utils';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
 
 @Component({
   selector: 'mss-issuer-detail',
@@ -18,28 +19,31 @@ export class IssuerDetailComponent implements OnDestroy {
 
   private unsubscribe$ = new UnsubscribeSubject();
   id: string;
-  issuer: IssuerModel = fillIssuer();
-  editIssuer: IssuerModel = fillIssuer();
+  issuer: IssuerModel;
   isEditing = false;
   editIssuerForm: FormGroup;
+  stateOptions: SelectItem[] = [
+    {value: 'ENABLED'},
+    {value: 'DISABLED'}
+  ];
 
   constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private api: ApiService, private route: ActivatedRoute) {
     this.editIssuerForm = fb.group({
       addressName: [''],
-      city: [''],
+      city: ['', Validators.required],
       code: [{value: '', disabled: true}],
       contactFirstname: [''],
       contactLastname: [''],
-      dic: [''],
-      email: ['', control => control.value === '' ? null : Validators.email(control)],
-      ico: [''],
+      dic: ['', Validators.required],
+      email: ['', control => control.value === '' || control.value === null ? null : Validators.email(control)],
+      ico: ['', Validators.required],
       maskedClnUse: [''],
       name: [{value: '', disabled: true}],
       passwordHashValidityMinutes: [''],
-      phone: [''],
+      phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
       state: [''],
-      street: [''],
-      zip: [''],
+      street: ['', Validators.required],
+      zip: ['', Validators.required],
     });
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: { id: string }) => {
@@ -57,7 +61,7 @@ export class IssuerDetailComponent implements OnDestroy {
         }
         if (data != null) {
           this.issuer = data;
-          this.editIssuer = JSON.parse(JSON.stringify(this.issuer));
+          this.editIssuerForm.patchValue(this.issuer);
         }
       }
     );
@@ -69,27 +73,22 @@ export class IssuerDetailComponent implements OnDestroy {
 
   toggleUpdateIssuer(): void {
     this.isEditing = !this.isEditing;
-    this.editIssuer = JSON.parse(JSON.stringify(this.issuer));
+    this.editIssuerForm.patchValue(this.issuer);
   }
 
   updateIssuer(): void {
-    this.api.put('/issuers', this.editIssuer).subscribe(
+    this.api.put('/issuers', {
+      ...this.issuer,
+      ...this.editIssuerForm.value
+    }).subscribe(
       () => {
         this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_API_GET, payload: this.id});
         this.toggleUpdateIssuer();
       },
       error => {
-        console.error('Update merchant fail', error);
+        console.error('Update issuer fail', error);
       }
     );
-  }
-
-  get issuerState(): boolean {
-    return this.editIssuer.state === 'ENABLED';
-  }
-
-  set issuerState(newState: boolean) {
-    this.editIssuer.state = newState ? 'ENABLED' : 'DISABLED';
   }
 
   isPresent(value: string): boolean {

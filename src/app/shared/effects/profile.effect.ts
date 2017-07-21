@@ -13,7 +13,8 @@ export class ProfileEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() get(): Observable<Action> {
+  @Effect()
+  get(): Observable<Action> {
     return this.actions$
       .ofType(profileActions.PROFILE_GET_REQUEST)
       .switchMap(action => this.api.get(PROFILE_GET_ENDPOINT)
@@ -22,7 +23,8 @@ export class ProfileEffect {
       );
   }
 
-  @Effect() update(): Observable<Action> {
+  @Effect()
+  update(): Observable<Action> {
     return this.actions$
       .ofType(profileActions.PROFILE_PUT_REQUEST)
       .switchMap(action => this.api.put(PROFILE_UPDATE_ENDPOINT, action.payload)
@@ -31,7 +33,8 @@ export class ProfileEffect {
       );
   }
 
-  @Effect() discard(): Observable<Action> {
+  @Effect()
+  discard(): Observable<Action> {
     return this.actions$
       .ofType(profileActions.PROFILE_DISCARD)
       .switchMap(() => {

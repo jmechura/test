@@ -23,22 +23,3 @@ export interface IssuerPredicateObject {
   networkName?: string;
 }
 
-export function fillIssuer(): IssuerModel {
-  return {
-    addressName: '',
-    city: '',
-    code: '',
-    contactFirstname: '',
-    contactLastname: '',
-    dic: '',
-    email: '',
-    ico: '',
-    maskedClnUse: '',
-    name: '',
-    passwordHashValidityMinutes: 0,
-    phone: '',
-    state: 'ENABLED',
-    street: '',
-    zip: '',
-  };
-}

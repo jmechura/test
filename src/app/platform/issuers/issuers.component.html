@@ -83,36 +83,37 @@
   <form [formGroup]="newIssuerForm" class="new-issuer-form">
     <div class="new-issuer-inputs">
       <div class="new-issuer-input-side">
-        <mss-input formControlName="code" [(value)]="newIssuer.code" [label]="('basic.code' | translate) + '*'"
+        <mss-input formControlName="code" [label]="('basic.code' | translate) + '*'"
                    [warn]="isPresent('code')"></mss-input>
         <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
-        <mss-input formControlName="name" [(value)]="newIssuer.name" [label]="('basic.name' | translate) + '*'"
+        <mss-input formControlName="name" [label]="('basic.name' | translate) + '*'"
                    [warn]="isPresent('name')"></mss-input>
         <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
-        <mss-input formControlName="addressName" [(value)]="newIssuer.addressName" [label]="'basic.address' | translate"></mss-input>
+        <mss-input formControlName="addressName" [label]="'basic.address' | translate"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="city" [(value)]="newIssuer.city" [label]="'basic.city' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="contactFirstname" [(value)]="newIssuer.contactFirstname"
+        <mss-input formControlName="city" [label]="'basic.city' | translate"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('city')">{{'basic.required.city' | translate}}</span></div>
+        <mss-input formControlName="contactFirstname"
                    [label]="'basic.firstName' | translate"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="contactLastname" [(value)]="newIssuer.contactLastname"
+        <mss-input formControlName="contactLastname"
                    [label]="'basic.lastName' | translate"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="dic" [(value)]="newIssuer.dic" [label]="'basic.dic' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
+        <mss-input formControlName="dic" [label]="'basic.dic' | translate"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('dic')">{{'basic.required.dic' | translate}}</span></div>
       </div>
       <div class="new-issuer-input-side">
-        <mss-input formControlName="email" [(value)]="newIssuer.email" [label]="'basic.email' | translate"></mss-input>
+        <mss-input formControlName="email" [label]="'basic.email' | translate"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="ico" [(value)]="newIssuer.ico" [label]="'basic.ico' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="phone" [(value)]="newIssuer.phone" [label]="'basic.phone' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="street" [(value)]="newIssuer.street" [label]="'basic.street' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="zip" [(value)]="newIssuer.zip" [label]="'basic.zip' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
+        <mss-input formControlName="ico" [label]="'basic.ico' | translate"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('ico')">{{'basic.required.ico' | translate}}</span></div>
+        <mss-input formControlName="phone" [label]="'basic.phone' | translate"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="newIssuerForm.get('phone').hasError('pattern')">{{'basic.required.phone' |
+          translate}}</span></div>
+        <mss-input formControlName="street" [label]="'basic.street' | translate"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('street')">{{'basic.required.street' | translate}}</span></div>
+        <mss-input formControlName="zip" [label]="'basic.zip' | translate"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('zip')">{{'basic.required.zip' | translate}}</span></div>
       </div>
     </div>
     <div class="new-issuer-buttons">

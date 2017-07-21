@@ -12,7 +12,8 @@ export class CountryCodeEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getCountryCodes(): Observable<Action> {
+  @Effect()
+  getCountryCodes(): Observable<Action> {
     return this.actions$
       .ofType(countryCodeActions.COUNTRY_CODE_GET_REQUEST)
       .switchMap(action => this.api.get(`${COUNTRY_CODE_ENDPOINT}`)

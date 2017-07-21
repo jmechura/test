@@ -12,7 +12,8 @@ export class UserAuthoritiesEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getUserAuthority(): Observable<Action> {
+  @Effect()
+  getUserAuthority(): Observable<Action> {
     return this.actions$
       .ofType(userAuthorityActions.USER_AUTHORITY_GET_REQUEST)
       .switchMap(action => this.api.get(USER_AUTHORITY_ENDPOINT)

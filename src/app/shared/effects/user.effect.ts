@@ -12,7 +12,8 @@ export class UserEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getUser(): Observable<Action> {
+  @Effect()
+  getUser(): Observable<Action> {
     return this.actions$
       .ofType(userActions.USER_GET_REQUEST)
       .switchMap(action => this.api.get(`${USER_ENDPOINT}/${action.payload}`)
@@ -21,7 +22,8 @@ export class UserEffect {
       );
   }
 
-  @Effect() puttUser(): Observable<Action> {
+  @Effect()
+  puttUser(): Observable<Action> {
     return this.actions$
       .ofType(userActions.USER_PUT_REQUEST)
       .switchMap(action => this.api.put(USER_ENDPOINT, action.payload)

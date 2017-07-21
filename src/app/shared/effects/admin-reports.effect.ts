@@ -12,7 +12,8 @@ export class AdminReportsEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() get(): Observable<Action> {
+  @Effect()
+  get(): Observable<Action> {
     return this.actions$
       .ofType(adminReportActions.ADMIN_REPORTS_GET_REQUEST)
       .switchMap(action => this.api.post(REPORTS_ENDPOINT, action.payload)

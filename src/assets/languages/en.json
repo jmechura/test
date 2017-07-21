@@ -39,7 +39,13 @@
     "required": {
       "code": "Kod je povinný údaj.",
       "name": "Jméno je povinný údaj.",
-      "badEmail": "Zle zadaný email."
+      "badEmail": "Zle zadaný email.",
+      "ico": "Ico je povinny udaj.",
+      "dic": "Dic je povinny udaj.",
+      "city": "Mesto je povinny udaj.",
+      "street": "Ulice je povinny udaj.",
+      "zip": "PSC je povinny udaj.",
+      "phone": "Telefon musi byt v tvaru +42XXXXXXXXXX"
     }
   },
   "dictionary": {

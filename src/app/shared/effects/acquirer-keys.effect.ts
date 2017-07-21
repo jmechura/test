@@ -12,7 +12,8 @@ export class AcquirerKeysEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getAcquirerKeys(): Observable<Action> {
+  @Effect()
+  getAcquirerKeys(): Observable<Action> {
     return this.actions$
       .ofType(acquirerKeysActions.ACQUIRER_KEYS_GET_REQUEST)
       .switchMap(action => this.api.get(`${ACQUIRER_KEYS_ENDPOINT}/list/${action.payload}`)
@@ -21,7 +22,8 @@ export class AcquirerKeysEffect {
       );
   }
 
-  @Effect() addAcquirerKey(): Observable<Action> {
+  @Effect()
+  addAcquirerKey(): Observable<Action> {
     return this.actions$
       .ofType(acquirerKeysActions.ACQUIRER_KEYS_POST_REQUEST)
       .switchMap(action => this.api.post(ACQUIRER_KEYS_ENDPOINT, action.payload)
@@ -30,7 +32,8 @@ export class AcquirerKeysEffect {
       );
   }
 
-  @Effect() setKeyAsLast(): Observable<Action> {
+  @Effect()
+  setKeyAsLast(): Observable<Action> {
     return this.actions$
       .ofType(acquirerKeysActions.ACQUIRER_KEYS_SET_LAST_POST_REQUEST)
       .switchMap(action => this.api.post(`${ACQUIRER_KEYS_ENDPOINT}/last/${action.payload}`, {})

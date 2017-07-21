@@ -12,7 +12,8 @@ export class ReportPropertyDefEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getReportPropertyDefs(): Observable<Action> {
+  @Effect()
+  getReportPropertyDefs(): Observable<Action> {
     return this.actions$
       .ofType(reportPropertyDefActions.REPORT_PROPERTY_DEF_GET_REQUEST)
       .switchMap(action => this.api.get(`${PROPERTY_DEF_ENDPOINT}/${action.payload}`)

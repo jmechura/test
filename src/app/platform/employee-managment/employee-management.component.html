@@ -9,7 +9,7 @@
                    [rows]="tableRows" [selectionType]="'single'" (select)="onSelect($event)"
                    (page)="setPage($event)" (sort)="getSorted($event)">
       <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [maxWidth]="80"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'employees.dictionary.login' | translate"  prop="login"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'employees.dictionary.login' | translate" prop="login"></ngx-datatable-column>
       <ngx-datatable-column [name]="'employees.list.cardGroupCode' | translate" prop="cardGroupCode"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.firstName' | translate" prop="firstName"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.lastName' | translate" prop="lastName"></ngx-datatable-column>

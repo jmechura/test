@@ -12,7 +12,8 @@ export class ImportTypeEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getImportTypes(): Observable<Action> {
+  @Effect()
+  getImportTypes(): Observable<Action> {
     return this.actions$
       .ofType(importTypeActions.IMPORT_TYPE_GET_REQUEST)
       .switchMap(action => this.api.get(IMPORT_TYPE_ENDPOINT)

@@ -1,4 +1,4 @@
-export enum AcquirerSections  {
+export enum AcquirerSections {
   BASIC,
   ADDRESS,
   KEYS

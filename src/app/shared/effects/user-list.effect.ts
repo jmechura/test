@@ -12,7 +12,8 @@ export class UserListEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getUsers(): Observable<Action> {
+  @Effect()
+  getUsers(): Observable<Action> {
     return this.actions$
       .ofType(userListActions.USER_LIST_GET_REQUEST)
       .switchMap(action => this.api.post(`${USER_ENDPOINT}/list`, action.payload)

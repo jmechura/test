@@ -4,7 +4,7 @@ import { AppStateModel } from '../../shared/models/app-state.model';
 import { StateModel } from '../../shared/models/state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { issuersActions } from '../../shared/reducers/issuer.reducer';
-import { fillIssuer, IssuerModel, IssuerPredicateObject } from '../../shared/models/issuer.model';
+import { IssuerModel, IssuerPredicateObject } from '../../shared/models/issuer.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
 import { Router } from '@angular/router';
@@ -19,7 +19,6 @@ export class IssuersComponent implements OnDestroy {
 
   tableData: Pagination<IssuerModel>;
   issuers: IssuerModel[] = [];
-  newIssuer: IssuerModel = fillIssuer();
   newIssuerModalShowing = false;
   newIssuerForm: FormGroup;
   private unsubscribe$ = new UnsubscribeSubject();
@@ -40,20 +39,20 @@ export class IssuersComponent implements OnDestroy {
   constructor(private store: Store<AppStateModel>, private router: Router, private fb: FormBuilder, private api: ApiService) {
     this.newIssuerForm = fb.group({
       addressName: [''],
-      city: [''],
+      city: ['', Validators.required],
       code: ['', Validators.required],
       contactFirstname: [''],
       contactLastname: [''],
-      dic: [''],
+      dic: ['', Validators.required],
       email: ['', control => control.value === '' ? null : Validators.email(control)],
-      ico: [''],
+      ico: ['', Validators.required],
       maskedClnUse: [''],
       name: ['', Validators.required],
-      passwordHashValidityMinutes: [''],
-      phone: [''],
-      state: [''],
-      street: [''],
-      zip: [''],
+      passwordHashValidityMinutes: [0],
+      phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
+      state: ['ENABLED'],
+      street: ['', Validators.required],
+      zip: ['', Validators.required],
     });
 
     this.store.select('issuers').takeUntil(this.unsubscribe$).subscribe(
@@ -82,19 +81,15 @@ export class IssuersComponent implements OnDestroy {
       // show some error messages maybe ?
       return;
     }
-    for (const key in this.newIssuer) {
-      if (this.newIssuer[key] === '') {
-        delete this.newIssuer[key];
-      }
-    }
 
-    this.api.post('/issuers', this.newIssuer).subscribe(
+
+    this.api.post('/issuers', this.newIssuerForm.value).subscribe(
       () => {
-        this.newIssuer = fillIssuer();
+        this.newIssuerForm.reset();
         this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
       },
       error => {
-        console.error('Create merchant fail', error);
+        console.error('Create issuer fail', error);
       }
     );
     this.toggleNewIssuerModal();

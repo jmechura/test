@@ -12,7 +12,8 @@ export class ImportPropertyEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getImportProperties(): Observable<Action> {
+  @Effect()
+  getImportProperties(): Observable<Action> {
     return this.actions$
       .ofType(importPropertyActions.IMPORT_PROPERTY_GET_REQUEST)
       .switchMap(action => this.api.get(`${IMPORT_ENDPOINT}/${action.payload}`)

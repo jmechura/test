@@ -13,7 +13,8 @@ export class ImportDetailEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getImport(): Observable<Action> {
+  @Effect()
+  getImport(): Observable<Action> {
     return this.actions$
       .ofType(importDetailActions.IMPORT_DETAIL_GET_REQUEST)
       .switchMap(action => this.api.get(`${IMPORT_ENDPOINT}/${action.payload}`)
@@ -22,7 +23,8 @@ export class ImportDetailEffect {
       );
   }
 
-  @Effect() editImport(): Observable<Action> {
+  @Effect()
+  editImport(): Observable<Action> {
     return this.actions$
       .ofType(importDetailActions.IMPORT_DETAIL_PUT_REQUEST)
       .switchMap(action => this.api.put(`${IMPORT_EDIT_ENDPOINT}`, action.payload)

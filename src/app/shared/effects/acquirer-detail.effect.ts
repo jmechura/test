@@ -12,7 +12,8 @@ export class AcquirerDetailEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getAcquirerDetail(): Observable<Action> {
+  @Effect()
+  getAcquirerDetail(): Observable<Action> {
     return this.actions$
       .ofType(acquirerDetailActions.ACQUIRER_DETAIL_GET_REQUEST)
       .switchMap(action => this.api.get(`${ACQUIRER_ENDPOINT_LIST}/${action.payload}`)
@@ -21,7 +22,8 @@ export class AcquirerDetailEffect {
       );
   }
 
-  @Effect() updateAcquirerDetail(): Observable<Action> {
+  @Effect()
+  updateAcquirerDetail(): Observable<Action> {
     return this.actions$
       .ofType(acquirerDetailActions.ACQUIRER_DETAIL_PUT_REQUEST)
       .switchMap(action => this.api.put(ACQUIRER_ENDPOINT_LIST, action.payload)

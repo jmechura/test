@@ -12,7 +12,8 @@ export class TemplatesEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getIssuers(): Observable<Action> {
+  @Effect()
+  getIssuers(): Observable<Action> {
     return this.actions$
       .ofType(templatesActions.TEMPLATES_GET_REQUEST)
       .switchMap(action => this.api.post(TEMPLATES_ENDPOINT_LIST, action.payload)

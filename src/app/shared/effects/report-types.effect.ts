@@ -12,7 +12,8 @@ export class ReportTypesEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getReportTypes(): Observable<Action> {
+  @Effect()
+  getReportTypes(): Observable<Action> {
     return this.actions$
       .ofType(reportTypeActions.REPORT_TYPE_GET_REQUEST)
       .switchMap(action => this.api.get(REPORT_TYPE_ENDPOINT)
