@@ -40,13 +40,6 @@
                       [label]="'dictionary.transactionState' | translate"
                       labelPosition="top"
                       [(selectedOption)]="pagination.search.predicateObject.state"></mss-select>
-          <mss-select [disabled]="cardGroupCodes.length === 0"
-                      *mssRoleIf="'filters.cardGroupCodeSelect'"
-                      class="filter-item"
-                      [options]="cardGroupCodes"
-                      [label]="'dictionary.cardGroupCode' | translate"
-                      labelPosition="top"
-                      [(selectedOption)]="pagination.search.predicateObject.cardGroupCode"></mss-select>
         </div>
         <div class="row wrapped">
           <mss-input [label]="'dictionary.approvalCode' | translate" class="filter-item"
@@ -69,6 +62,13 @@
                       [options]="issuerCodes"
                       [selectedOption]="pagination.search.predicateObject.issuerCode"
                       (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
+          <mss-select [disabled]="cardGroupCodes.length === 0"
+                      *mssRoleIf="'filters.cardGroupCodeSelect'"
+                      class="filter-item"
+                      [options]="cardGroupCodes"
+                      [label]="'dictionary.cardGroupCode' | translate"
+                      labelPosition="top"
+                      [(selectedOption)]="pagination.search.predicateObject.cardGroupCode"></mss-select>
           <mss-select [disabled]="networkCodes.length === 0"
                       class="filter-item"
                       *mssRoleIf="'filters.networkCodeSelect'"
