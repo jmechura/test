@@ -15,7 +15,21 @@
           </div>
           <div *ngIf="editing">
             <div class="employee-detail-item" *ngFor="let item of infoColumn">
-              <mss-input [label]="item['label']" [formControlName]="item['formName']"></mss-input>
+              <mss-input
+                *ngIf="item['type'] == null"
+                [label]="item['label']"
+                [formControlName]="item['formName']">
+              </mss-input>
+              <mss-select
+                *ngIf="item['type'] === 'select'"
+                [options]="stateOptions" [label]="item['label']"
+                [formControlName]="item['formName']">
+              </mss-select>
+              <mss-toggle
+                *ngIf="item['type'] === 'toggle'"
+                [label]="item['label']"
+                [formControlName]="item['formName']">
+              </mss-toggle>
             </div>
           </div>
         </div>

@@ -14,6 +14,8 @@ interface InfoModel {
   label: string;
   value: any;
   formName?: string;
+  type?: string;
+  options?: SelectItem[];
 }
 
 @Component({
@@ -36,6 +38,7 @@ export class EmployeeDetailComponent implements OnDestroy {
   basicInfo: InfoModel[][];
   personalInfo: InfoModel[][];
   roleInfo: any[];
+  stateOptions: SelectItem[] = [{value: 'ENABLED'}, {value: 'DISABLED'}];
 
   editing = false;
 
@@ -99,6 +102,7 @@ export class EmployeeDetailComponent implements OnDestroy {
                 label: this.langService.translate('employees.dictionary.blocked'),
                 value: this.user.blocked,
                 formName: 'blocked',
+                type: 'toggle'
               },
             ],
             [
@@ -106,16 +110,20 @@ export class EmployeeDetailComponent implements OnDestroy {
                 label: this.langService.translate('dictionary.state'),
                 value: this.user.state,
                 formName: 'state',
+                type: 'select',
+                options: this.stateOptions
               },
               {
                 label: this.langService.translate('employees.dictionary.firstLogon'),
                 value: this.user.firstLogon,
                 formName: 'firstLogon',
+                type: 'toggle'
               },
               {
                 label: this.langService.translate('employees.dictionary.passwordExpired'),
                 value: this.user.passwordExpired,
                 formName: 'passwordExpired',
+                type: 'toggle'
               },
             ],
           ];
