@@ -284,7 +284,11 @@
   },
   "terminals": {
     "title": "Terminály",
-    "addTerminal": "Přidat terminál"
+    "addTerminal": "Přidat terminál",
+    "detail": {
+      "detailTitle": "Terminal detail",
+      "merchantId": "Merchant ID"
+    }
   },
   "campaigns": {
     "list": {

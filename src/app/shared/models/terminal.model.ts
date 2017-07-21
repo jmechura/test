@@ -4,6 +4,7 @@ export interface TerminalModel {
   coefficient: number;
   country: string;
   id: string;
+  merchantCode: string;
   merchantId: string;
   name: string;
   networkCode: string;

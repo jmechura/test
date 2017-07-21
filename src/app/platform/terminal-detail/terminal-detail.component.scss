@@ -1,0 +1,33 @@
+@import 'theme';
+
+.employee-detail-content {
+  margin: 25px 0;
+}
+
+.category-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .column {
+    flex-grow: 1;
+    min-width: 300px;
+    margin: 0 12px;
+
+    .employee-detail-item {
+      margin: 6px 0;
+    }
+  }
+}
+
+.edit-buttons-container {
+  display: flex;
+  margin-top: 24px;
+  justify-content: flex-end;
+
+  .edit-button {
+    width: 212px;
+    margin-left: 24px;
+  }
+}

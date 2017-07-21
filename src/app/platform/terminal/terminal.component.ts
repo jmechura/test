@@ -16,7 +16,9 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { RoleService } from '../../shared/services/role.service';
 import { ProfileModel } from '../../shared/models/profile.model';
+import { Router } from '@angular/router';
 
+const TERMINALS_ROUTE = 'platform/terminal';
 const API_ENDPOINT = 'terminals';
 const DEFAULT_FILTER: TerminalSearch = {
   code: '',
@@ -64,6 +66,7 @@ export class TerminalComponent implements OnDestroy {
   constructor(private store: Store<AppStateModel>,
               private fb: FormBuilder,
               private api: ApiService,
+              private router: Router,
               private roles: RoleService) {
     this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
 
@@ -217,11 +220,6 @@ export class TerminalComponent implements OnDestroy {
     this.modalShowing = !this.modalShowing;
   }
 
-  editSaveDisabled(): boolean {
-    const oldModel = this.terminalData.content.find(item => item.id === this.editModel.id);
-    return this.editModel.name === '' || Object.keys(this.editModel).every(key => this.editModel[key] === oldModel[key]);
-  }
-
   addTerminal(): void {
     this.api.post(`${API_ENDPOINT}`, this.newTerminalForm.value).subscribe(
       () => {
@@ -231,14 +229,6 @@ export class TerminalComponent implements OnDestroy {
         console.error('Terminal API call returned error.', error);
       }
     );
-  }
-
-  get editToggle(): boolean {
-    return this.editModel.state === 'ENABLED';
-  }
-
-  set editToggle(value: boolean) {
-    this.editModel.state = value ? 'ENABLED' : 'DISABLED';
   }
 
   editing(row: any): void {
@@ -266,5 +256,9 @@ export class TerminalComponent implements OnDestroy {
     }
     this.pagination.pagination.number = limit;
     this.store.dispatch({type: terminalActions.TERMINAL_GET_REQUEST, payload: this.pagination});
+  }
+
+  onSelect(select: { selected: TerminalModel[] }): void {
+    this.router.navigate([`${TERMINALS_ROUTE}/${select.selected[0].id}`]);
   }
 }

@@ -1,11 +1,15 @@
 <div class="terminal-container mss-view-container">
-  <div class="mss-title">{{'terminals.title' | translate}}</div>
+  <div class="mss-title">
+    {{'terminals.title' | translate}}
+  </div>
   <mss-button class="action-button" [label]="'terminals.addTerminal' | translate"
               (click)="switchModal()" *mssRoleIf="'terminals.create'"></mss-button>
   <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="terminalData ? terminalData.totalElements : 0 "
-                 [offset]="terminalData ? terminalData.number : 0" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-                 [rowHeight]="'auto'" [externalSorting]="true" (sort)="getSortedTerminals($event)"
-                 [limit]="pagination.pagination.number" [rows]="terminalRows" (page)="setPage($event)">
+                 [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50"
+                 [rowHeight]="'auto'" [externalSorting]="true" [limit]="pagination.pagination.number"
+                 [rows]="terminalRows" [selectionType]="'single'" (select)="onSelect($event)"
+                 (page)="setPage($event)" (sort)="getSortedTerminals($event)"
+                 [offset]="terminalData ? terminalData.number : 0">
     <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [cellClass]="'mss-click-able'"
                           [sortable]="true"></ngx-datatable-column>
     <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
@@ -21,33 +25,6 @@
     <ngx-datatable-column [name]="'basic.country' | translate" prop="country" [sortable]="false"></ngx-datatable-column>
     <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
     <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'basic.edit' | translate" [resizeable]="false" [draggable]="false" [sortable]="false"
-                          *mssRoleIf="'terminals.edit'">
-      <ng-template ngx-datatable-cell-template let-row="row">
-        <i class="material-icons click-able" (click)="editing(row)">edit</i>
-      </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-row-detail [rowHeight]="350">
-      <ng-template let-row="row" ngx-datatable-row-detail-template>
-        <div class="detail-row-container">
-          <div class="detail-column">
-            <mss-input class="detail-shift" [label]="'basic.name' | translate" [(value)]="editModel.name"></mss-input>
-            <mss-input class="detail-shift" [label]="'basic.street' | translate" [(value)]="editModel.street"></mss-input>
-            <mss-input class="detail-shift" [label]="'basic.city' | translate" [(value)]="editModel.city"></mss-input>
-            <mss-input [label]="'basic.zip' | translate" [(value)]="editModel.zip"></mss-input>
-          </div>
-
-          <div class="detail-column">
-            <mss-toggle class="detail-shift" [label]="'dictionary.state' | translate" [(toggled)]="editToggle"></mss-toggle>
-            <mss-input class="detail-shift" [label]="'basic.region' | translate" [(value)]="editModel.region"></mss-input>
-            <mss-input class="detail-shift" [label]="'basic.country' | translate" [(value)]="editModel.country"></mss-input>
-            <mss-input class="detail-shift" [label]="'basic.note' | translate" [(value)]="editModel.note"></mss-input>
-            <mss-button class="edit-button" [label]="'basic.save' | translate" (click)="saveEditing()"
-                        [disabled]="editSaveDisabled()"></mss-button>
-          </div>
-        </div>
-      </ng-template>
-    </ngx-datatable-row-detail>
     <ngx-datatable-footer>
       <ng-template
         ngx-datatable-footer-template

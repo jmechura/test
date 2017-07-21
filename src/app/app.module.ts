@@ -134,6 +134,8 @@ import { countryCodeReducer } from './shared/reducers/country-code.reducer';
 import { CountryCodeEffect } from './shared/effects/country-code.effect';
 import { LanguageService } from './shared/services/language.service';
 import { RoleService } from './shared/services/role.service';
+import { terminalDetailReducer } from './shared/reducers/terminal-detail.reducer';
+import { TerminalDetailEffect } from './shared/effects/terminal-detail.effect';
 
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
@@ -188,6 +190,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       orgUnitCodes: orgUnitCodeReducer,
       cardGroupCodes: cardGroupCodeReducer,
       terminal: terminalReducer,
+      terminalDetail: terminalDetailReducer,
       cardStates: cardStateReducer,
       cardRequests: cardRequestReducer,
       cardRequestStates: cardRequestStateReducer,
@@ -243,6 +246,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(SequencesTypeEffect),
     EffectsModule.runAfterBootstrap(UserResourceEffect),
     EffectsModule.runAfterBootstrap(TerminalEffect),
+    EffectsModule.runAfterBootstrap(TerminalDetailEffect),
     EffectsModule.runAfterBootstrap(UserAuthoritiesEffect),
     EffectsModule.runAfterBootstrap(CardStateEffect),
     EffectsModule.runAfterBootstrap(CardRequestEffect),

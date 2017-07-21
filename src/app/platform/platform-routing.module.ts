@@ -33,6 +33,7 @@ import { AcquirersComponent } from './acquirers/acquirers.component';
 import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
+import { TerminalDetailComponent } from './terminal-detail/terminal-detail.component';
 
 export const routes: Routes = [
   {
@@ -62,6 +63,7 @@ export const routes: Routes = [
       {path: 'card-request', component: CardRequestComponent},
       {path: 'card-request/:uuid', component: CardRequestDetailComponent},
       {path: 'terminal', component: TerminalComponent},
+      {path: 'terminal/:id', component: TerminalDetailComponent},
       {path: 'card-groups', component: CardGroupsComponent},
       {path: 'card-groups/:id', component: CardGroupDetailComponent},
       {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},

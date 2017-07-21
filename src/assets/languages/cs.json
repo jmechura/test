@@ -288,7 +288,11 @@
   },
   "terminals": {
     "title": "Terminály",
-    "addTerminal": "Přidat terminál"
+    "addTerminal": "Přidat terminál",
+    "detail": {
+      "detailTitle": "Detail terminálu",
+      "merchantId": "ID obchodníka"
+    }
   },
   "campaigns": {
     "list": {

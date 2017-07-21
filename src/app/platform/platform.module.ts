@@ -28,6 +28,7 @@ import { CardDetailComponent } from './card-detail/card-detail.component';
 import { TemplatesComponent } from './templates/templates.component';
 import { TemplateDetailComponent } from './template-detail/template-detail.component';
 import { TerminalComponent } from './terminal/terminal.component';
+import { TerminalDetailComponent } from './terminal-detail/terminal-detail.component';
 import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
 import { GoldComponentsModule } from '../shared/components/gold/gold-components.module';
@@ -80,6 +81,7 @@ import { DirectivesModule } from '../shared/directives/directives.module';
     TemplateDetailComponent,
     CardDetailComponent,
     TerminalComponent,
+    TerminalDetailComponent,
     CardGroupsComponent,
     CardGroupDetailComponent,
     CardDetailComponent,
