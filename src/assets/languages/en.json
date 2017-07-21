@@ -240,7 +240,12 @@
   "issuers": {
     "title": "Vydavatelé karet",
     "addIssuer": "Přidat vydavatele karet",
-    "titleDetail": "Vydavatel karty - detail"
+    "passwordHashValidityMinut": "Password hash validity (min.)",
+    "maskedClnUse": "Masked CLN use",
+    "titleDetail": "Vydavatel karty - detail",
+    "required": {
+      "passwordHashValidityMinut": "passwordHashValidityMinute je povinny udaj"
+    }
   },
   "routingTables": {
     "list": {

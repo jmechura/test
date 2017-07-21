@@ -48,7 +48,7 @@ export class IssuersComponent implements OnDestroy {
       ico: ['', Validators.required],
       maskedClnUse: [''],
       name: ['', Validators.required],
-      passwordHashValidityMinutes: [0],
+      passwordHashValidityMinute: [0],
       phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
       state: ['ENABLED'],
       street: ['', Validators.required],

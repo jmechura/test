@@ -7,9 +7,9 @@ export interface IssuerModel {
   dic?: string;
   email?: string;
   ico?: string;
-  maskedClnUse?: string;
+  maskedClnUse?: boolean;
   name?: string;
-  passwordHashValidityMinutes?: number;
+  passwordHashValidityMinute?: number;
   phone?: string;
   state?: 'ENABLED' | 'DISABLED';
   street?: string;

@@ -65,14 +65,11 @@
 
 .detail-container {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  width: 45%;
 
-  .detail-col:nth-child(odd) {
-    padding-right: 50px;
-
-    .detail-title {
-      color: $primary-text-color;
-    }
+  .mss-input-like-container {
+    margin-bottom: 18px;
   }
 
   .detail-row {
