@@ -21,7 +21,7 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer';
 
-const EMPLOYEES_ROUTE = 'platform/employees';
+const USERS_ROUTE = 'platform/users';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 
 const DEFAULT_FILTER = {
@@ -40,11 +40,11 @@ const DEFAULT_FILTER = {
 };
 
 @Component({
-  selector: 'mss-employee-management',
-  templateUrl: './employee-management.component.html',
-  styleUrls: ['./employee-management.component.scss'],
+  selector: 'mss-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss'],
 })
-export class EmployeeManagementComponent implements OnDestroy {
+export class UsersComponent implements OnDestroy {
 
   loading = false;
 
@@ -213,7 +213,7 @@ export class EmployeeManagementComponent implements OnDestroy {
       page: String(pageInfo.offset + 1),
       limit: String(this.rowLimit)
     };
-    this.router.navigate([`${EMPLOYEES_ROUTE}`, routeParams]);
+    this.router.navigate([`${USERS_ROUTE}`, routeParams]);
   }
 
   getUsers(): void {
@@ -221,7 +221,7 @@ export class EmployeeManagementComponent implements OnDestroy {
   }
 
   onSelect(select: { selected: ProfileModel[] }): void {
-    this.router.navigate([`${EMPLOYEES_ROUTE}/${select.selected[0].id}`]);
+    this.router.navigate([`${USERS_ROUTE}/${select.selected[0].id}`]);
   }
 
   changeLimit(limit: number): void {
@@ -229,7 +229,7 @@ export class EmployeeManagementComponent implements OnDestroy {
       page: '1',
       limit: String(limit),
     };
-    this.router.navigate([`${EMPLOYEES_ROUTE}`, routeParams]);
+    this.router.navigate([`${USERS_ROUTE}`, routeParams]);
   }
 
   getSorted(sortInfo: any): void {

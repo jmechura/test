@@ -36,6 +36,10 @@
     "preview": "Náhled",
     "action": "Akce",
     "search": "Vyhledat",
+    "login": "Login",
+    "password": "Heslo",
+    "passwordAgain": "Heslo znovu",
+    "template": "Šablona",
     "required": {
       "code": "Kod je povinný údaj.",
       "name": "Jméno je povinný údaj.",
@@ -45,7 +49,14 @@
       "city": "Mesto je povinny udaj.",
       "street": "Ulice je povinny udaj.",
       "zip": "PSC je povinny udaj.",
-      "phone": "Telefon musi byt v tvaru +42XXXXXXXXXX"
+      "phone": "Telefon musi byt v tvaru +42XXXXXXXXXX",
+      "firstName": "Jméno je povinný údaj.",
+      "lastName": "Příjmení je povinný údaj.",
+      "password": "Heslo je povinný údaj.",
+      "passwordAgain": "Heslo znovu je povinný údaj.",
+      "template": "Šablona je povinný údaj.",
+      "login": "Login je povinný údaj.",
+      "passwordsNotEqual": "Hesla se nezhodují"
     }
   },
   "dictionary": {
@@ -370,14 +381,15 @@
       "properties": "Properties"
     }
   },
-  "employees": {
+  "users": {
     "list": {
-      "title": "Employees",
+      "title": "Uživetelé",
       "cardGroupCode": "Card Group Code",
-      "expiredDateForWarning": "Expired Date For Warning"
+      "expiredDateForWarning": "Expired Date For Warning",
+      "addUser": "Přidat uživetele"
     },
     "detail": {
-      "title": "Detail Zaměstnance",
+      "title": "Detail Uživetele",
       "basic": "Basic",
       "personal": "Personal",
       "roles": "Roles",
@@ -751,7 +763,7 @@
     "dashboard": "Přehled transakcí",
     "card": "Moje karta",
     "settings": "Nastavení",
-    "employees": "Zaměstnanci",
+    "users": "Uživatelé",
     "cards": "Přehled karet",
     "card-groups": "Zaměstnavatelé",
     "issuers": "Vydavatelé karet",

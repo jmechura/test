@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlatformRoutingModule } from './platform-routing.module';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { CardViewComponent } from './card-view/card-view.component';
-import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
+import { UsersComponent } from './users/users.component';
 import { CardListComponent } from './employer-card/card-list.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import { RoutingTableComponent } from './routing-table/routing-table.component';
@@ -36,7 +36,7 @@ import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.compon
 import { ImportsComponent } from './imports/imports.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 import { AdminReportsComponent } from './admin-reports/admin-reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { AcquirersComponent } from './acquirers/acquirers.component';
@@ -64,7 +64,7 @@ import { TemplateCreateComponent } from './template-create/template-create.compo
     SettingsComponent,
     ShowcaseComponent,
     CardViewComponent,
-    EmployeeManagementComponent,
+    UsersComponent,
     CardListComponent,
     TransactionDetailComponent,
     RoutingTableComponent,
@@ -95,7 +95,7 @@ import { TemplateCreateComponent } from './template-create/template-create.compo
     ReportDetailComponent,
     AcquirersComponent,
     AcquirerDetailComponent,
-    EmployeeDetailComponent,
+    UserDetailComponent,
     ReportsComponent,
     MerchantsDetailComponent,
     TemplateCreateComponent,

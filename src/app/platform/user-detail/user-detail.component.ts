@@ -19,19 +19,19 @@ interface InfoModel {
 }
 
 @Component({
-  selector: 'mss-employee-detail',
-  templateUrl: './employee-detail.component.html',
-  styleUrls: ['./employee-detail.component.scss']
+  selector: 'mss-user-detail',
+  templateUrl: './user-detail.component.html',
+  styleUrls: ['./user-detail.component.scss']
 })
-export class EmployeeDetailComponent implements OnDestroy {
+export class UserDetailComponent implements OnDestroy {
   private unsubscribe$ = new UnsubscribeSubject();
   user: ProfileModel;
 
   detailOptions: SelectItem[] = [
-    {value: 'Basic', label: this.langService.translate('employees.detail.basic')},
-    {value: 'Personal', label: this.langService.translate('employees.detail.personal')},
-    {value: 'Roles', label: this.langService.translate('employees.detail.roles')},
-    {value: 'Cards', label: this.langService.translate('employees.detail.cards')}
+    {value: 'Basic', label: this.langService.translate('users.detail.basic')},
+    {value: 'Personal', label: this.langService.translate('users.detail.personal')},
+    {value: 'Roles', label: this.langService.translate('users.detail.roles')},
+    {value: 'Cards', label: this.langService.translate('users.detail.cards')}
   ];
   selectedOption = this.detailOptions[0];
 
@@ -94,12 +94,12 @@ export class EmployeeDetailComponent implements OnDestroy {
                 formName: 'id',
               },
               {
-                label: this.langService.translate('employees.dictionary.login'),
+                label: this.langService.translate('users.dictionary.login'),
                 value: this.user.login,
                 formName: 'login',
               },
               {
-                label: this.langService.translate('employees.dictionary.blocked'),
+                label: this.langService.translate('users.dictionary.blocked'),
                 value: this.user.blocked,
                 formName: 'blocked',
                 type: 'toggle'
@@ -114,13 +114,13 @@ export class EmployeeDetailComponent implements OnDestroy {
                 options: this.stateOptions
               },
               {
-                label: this.langService.translate('employees.dictionary.firstLogon'),
+                label: this.langService.translate('users.dictionary.firstLogon'),
                 value: this.user.firstLogon,
                 formName: 'firstLogon',
                 type: 'toggle'
               },
               {
-                label: this.langService.translate('employees.dictionary.passwordExpired'),
+                label: this.langService.translate('users.dictionary.passwordExpired'),
                 value: this.user.passwordExpired,
                 formName: 'passwordExpired',
                 type: 'toggle'

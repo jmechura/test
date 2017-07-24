@@ -5,7 +5,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { NgModule } from '@angular/core';
 import { PlatformComponent } from './platform.component';
 import { CardViewComponent } from './card-view/card-view.component';
-import { EmployeeManagementComponent } from './employee-managment/employee-management.component';
+import { UsersComponent } from './users/users.component';
 import { TransactionDetailComponent } from './transaction-detail/transaction-detail.component';
 import { RoutingTableComponent } from './routing-table/routing-table.component';
 import { RoutesComponent } from './routes/routes.component';
@@ -24,7 +24,7 @@ import { CardGroupsComponent } from './card-groups/card-groups.component';
 import { CardGroupDetailComponent } from './card-group-detail/card-group-detail.component';
 import { CardListComponent } from './employer-card/card-list.component';
 import { OrgUnitDetailComponent } from './org-unit-detail/org-unit-detail.component';
-import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 import { TemplatesComponent } from './templates/templates.component';
 import { TemplateDetailComponent } from './template-detail/template-detail.component';
 import { ImportsComponent } from './imports/imports.component';
@@ -47,8 +47,8 @@ export const routes: Routes = [
       {path: 'showcase', component: ShowcaseComponent},
       {path: 'settings', component: SettingsComponent},
       {path: 'card', component: CardViewComponent},
-      {path: 'employees', component: EmployeeManagementComponent},
-      {path: 'employees/:id', component: EmployeeDetailComponent},
+      {path: 'users', component: UsersComponent},
+      {path: 'users/:id', component: UserDetailComponent},
       {path: 'cards', component: CardListComponent},
       {path: 'cards/:uuid', component: CardDetailComponent},
       {path: 'routing-table', component: RoutingTableComponent},

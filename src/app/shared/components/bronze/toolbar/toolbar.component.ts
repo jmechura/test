@@ -16,7 +16,7 @@ const TOOLBAR_ITEMS: ToolbarItem[] = [
   {path: 'dashboard', icon: 'dashboard'},
   {path: 'card', icon: 'credit_card'},
   {path: 'settings', icon: 'settings'},
-  {path: 'employees', icon: 'group'},
+  {path: 'users', icon: 'group'},
   {path: 'cards', icon: 'markunread_mailbox'},
   {path: 'card-groups', icon: 'markunread_mailbox'},
   {path: 'issuers', icon: 'card_giftcard'},

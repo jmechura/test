@@ -1,9 +1,9 @@
 <div class="mss-view-container">
   <div class="header-row">
     <div class="mss-title">
-      {{'employees.list.title' | translate}}
+      {{'users.list.title' | translate}}
     </div>
-    <mss-button label="Přidat uživatele" (click)="toggleNewUserModal($event)"></mss-button>
+    <mss-button label="{{'users.list.addUser' | translate}}" (click)="toggleNewUserModal($event)"></mss-button>
   </div>
   <div class="data-table-container">
     <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="usersData ? usersData.totalElements : 0 "
@@ -12,14 +12,14 @@
                    [rows]="tableRows" [selectionType]="'single'" (select)="onSelect($event)"
                    (page)="setPage($event)" (sort)="getSorted($event)">
       <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [maxWidth]="80"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'employees.dictionary.login' | translate" prop="login"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'employees.list.cardGroupCode' | translate" prop="cardGroupCode"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.dictionary.login' | translate" prop="login"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.list.cardGroupCode' | translate" prop="cardGroupCode"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.firstName' | translate" prop="firstName"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.lastName' | translate" prop="lastName"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'employees.dictionary.firstLogon' | translate" prop="firstLogon"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'employees.list.expiredDateForWarning' | translate" prop="expiredDateForWarning"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'employees.dictionary.passwordExpired' | translate" prop="passwordExpired"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'employees.dictionary.blocked' | translate" prop="blocked"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.dictionary.firstLogon' | translate" prop="firstLogon"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.list.expiredDateForWarning' | translate" prop="expiredDateForWarning"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.dictionary.passwordExpired' | translate" prop="passwordExpired"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.dictionary.blocked' | translate" prop="blocked"></ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state">
         <ng-template ngx-datatable-cell-template let-value="value">
           <span class="mss-datatable-state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
@@ -47,42 +47,42 @@
 
 <!--Add new user modal-->
 <mss-modal-window [(visible)]="newUserModalShowing">
-  <div class="new-user-form-title">Přidat uživatele</div>
+  <div class="new-user-form-title">{{'users.list.addUser' | translate}}</div>
   <form [formGroup]="newUserForm" class="new-user-form">
     <div class="new-user-inputs">
       <div class="new-user-input-side">
-        <mss-input formControlName="firstName" label="Křestní jméno*" [warn]="isPresent('firstName')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('firstName')">Křestní jméno je povinný údaj</span></div>
-        <mss-input formControlName="lastName" label="Příjmení*" [warn]="isPresent('lastName')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('lastName')">Příjmení je povinný údaj</span></div>
-        <mss-input formControlName="login" label="Login*" [warn]="isPresent('login')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('login')">Login je povinný údaj</span></div>
-        <mss-input formControlName="password" label="Heslo*" [warn]="isPresent('password')" [type]="'password'"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('password')">Heslo je povinný údaj</span></div>
-        <mss-input formControlName="passwordAgain" label="Heslo znovu*" [warn]="isPresent('passwordAgain') || !isPasswordsEqual"
+        <mss-input formControlName="firstName" label="{{'basic.firstName' | translate}}*" [warn]="isPresent('firstName')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('firstName')">{{'basic.required.firstName' | translate}}</span></div>
+        <mss-input formControlName="lastName" label="{{'basic.lastName' | translate}}*" [warn]="isPresent('lastName')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('lastName')">{{'basic.required.lastName' | translate}}</span></div>
+        <mss-input formControlName="login" label="{{'basic.login' | translate}}*" [warn]="isPresent('login')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('login')">{{'basic.required.login' | translate}}</span></div>
+        <mss-input formControlName="password" label="{{'basic.password' | translate}}*" [warn]="isPresent('password')" [type]="'password'"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('password')">{{'basic.required.password' | translate}}</span></div>
+        <mss-input formControlName="passwordAgain" label="{{'basic.passwordAgain' | translate}}*" [warn]="isPresent('passwordAgain') || !isPasswordsEqual"
                    [type]="'password'"></mss-input>
         <div class="mss-validation-label">
-          <span *ngIf="isPresent('passwordAgain')">Heslo znovu je povinný údaj</span>
-          <span *ngIf="!isPasswordsEqual">Hesla se nezhodují</span>
+          <span *ngIf="isPresent('passwordAgain')">{{'basic.required.passwordAgain' | translate}}</span>
+          <span *ngIf="!isPasswordsEqual">{{'basic.required.passwordsNotEqual' | translate}}</span>
         </div>
-        <mss-input formControlName="email" label="Email*" [warn]="isPresent('email') || !isValidEmail"></mss-input>
+        <mss-input formControlName="email" label="{{'basic.email' | translate}}*" [warn]="isPresent('email') || !isValidEmail"></mss-input>
         <div class="mss-validation-label">
-          <span *ngIf="isPresent('email')">Email je povinný údaj</span>
-          <span *ngIf="!isValidEmail">Email je nesprávního formátu</span>
+          <span *ngIf="isPresent('email')">{{'basic.required.badEmail' | translate}}</span>
+          <span *ngIf="!isValidEmail">{{'basic.required.badEmail' | translate}}</span>
         </div>
-        <mss-input formControlName="phone" label="Telefon"></mss-input>
+        <mss-input formControlName="phone" label="{{'basic.phone' | translate}}"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="city" label="Město"></mss-input>
+        <mss-input formControlName="city" label="{{'basic.city' | translate}}"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="street" label="Ulice"></mss-input>
+        <mss-input formControlName="street" label="{{'basic.street' | translate}}"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="zip" label="PSČ"></mss-input>
+        <mss-input formControlName="zip" label="{{'basic.zip' | translate}}"></mss-input>
         <div class="mss-validation-label"></div>
       </div>
       <div class="new-user-input-side">
         <mss-select formControlName="template" (selectedOptionChange)="onChangeTemplate($event)" [options]="templatesOptions"
-                    variant="small" label="Šablona*"></mss-select>
-        <div class="mss-validation-label"><span *ngIf="isPresent('template')">Příjmení je povinný údaj</span></div>
+                    variant="small" label="{{'basic.template' | translate}}*"></mss-select>
+        <div class="mss-validation-label"><span *ngIf="isPresent('template')">{{'basic.required.template' | translate}}</span></div>
         <hr>
         <div class="mss-validation-label"></div>
         <div formArrayName="resources">
