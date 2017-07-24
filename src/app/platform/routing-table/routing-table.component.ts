@@ -98,6 +98,10 @@ export class RoutingTableComponent implements OnDestroy {
     this.modalShowing = !this.modalShowing;
   }
 
+  switchWarnModal(): void {
+    this.warnModalVisible = !this.warnModalVisible;
+  }
+
   addRoutingTable(): void {
     if (this.newTableForm.invalid) {
       return;
@@ -108,11 +112,12 @@ export class RoutingTableComponent implements OnDestroy {
 
   showDeleteModal(row: RoutingTable): void {
     this.deleteRowName = row.name;
-    this.warnModalVisible = true;
+    this.switchWarnModal();
   }
 
   deleteRow(): void {
     this.store.dispatch({type: routingTableActions.ROUTING_TABLE_API_DELETE, payload: this.deleteRowName});
+    this.switchWarnModal();
   }
 
   selectRow(row: RoutingTable): void {

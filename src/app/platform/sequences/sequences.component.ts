@@ -285,12 +285,17 @@ export class SequencesComponent implements OnDestroy {
   }
 
   showDeleteModal(row: any): void {
-    this.warnModalVisible = true;
+    this.toggleWarnModal();
     this.deletingRow = row;
+  }
+
+  toggleWarnModal(): void {
+    this.warnModalVisible = !this.warnModalVisible;
   }
 
   deleteRow(): void {
     this.store.dispatch({type: sequencesActions.SEQUENCES_DELETE_REQUEST, payload: this.mapSequence(this.deletingRow, false)});
+    this.toggleWarnModal();
   }
 
   mapSequence(input: any, edit?: boolean): SequencesModel {

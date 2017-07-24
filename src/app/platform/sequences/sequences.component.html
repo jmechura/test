@@ -99,7 +99,7 @@
 <mss-modal-window [(visible)]="warnModalVisible">
   <div class="mss-title">Opravdu odstranit zaznam?</div>
   <div class="warn-buttons">
-    <mss-button class="button" (click)="warnModalVisible = false" label="Zavřít"></mss-button>
+    <mss-button class="button" (click)="toggleWarnModal()" label="Zavřít"></mss-button>
     <mss-button class="button" (click)="deleteRow()" label="Ano"></mss-button>
   </div>
 </mss-modal-window>
