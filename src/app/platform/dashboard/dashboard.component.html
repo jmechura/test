@@ -22,23 +22,17 @@
       </div>
       <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.TRANSACTION">
         <div class="row wrapped">
-          <mss-select [disabled]="codes.length === 0"
-                      class="filter-item"
-                      [options]="codes"
-                      [label]="'dictionary.responseCode' | translate"
-                      labelPosition="top"
-                      [(selectedOption)]="pagination.search.predicateObject.responseCode"></mss-select>
+          <mss-input [label]="'dictionary.responseCode' | translate" class="filter-item"
+                     [(value)]="pagination.search.predicateObject.responseCode"></mss-input>
           <mss-select [disabled]="types.length === 0"
                       class="filter-item"
                       [label]="'dictionary.transactionType' | translate"
-                      labelPosition="top"
                       [options]="types"
                       [(selectedOption)]="pagination.search.predicateObject.transactionType"></mss-select>
           <mss-select [disabled]="states.length === 0"
                       class="filter-item"
                       [options]="states"
                       [label]="'dictionary.transactionState' | translate"
-                      labelPosition="top"
                       [(selectedOption)]="pagination.search.predicateObject.state"></mss-select>
         </div>
         <div class="row wrapped">

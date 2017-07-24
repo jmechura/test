@@ -62,11 +62,6 @@ export class DashboardComponent implements OnDestroy {
    */
   toDate: Moment = null;
   /**
-   * Transaction code options
-   * @type {Array}
-   */
-  codes: SelectItem[] = [];
-  /**
    * Transaction type options
    * @type {Array}
    */
@@ -239,23 +234,6 @@ export class DashboardComponent implements OnDestroy {
             },
             0
           );
-        }
-      }
-    );
-
-    this.store.select('transactionCodes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<string[]>) => {
-        if (data.error) {
-          console.error('Error while getting transaction codes', data.error);
-          return;
-        }
-        if (data.data != null && !data.loading) {
-          this.codes = data.data.map(item => (
-            {
-              value: item,
-              label: this.language.translate(`enums.responseCodes.${item}`)
-            }
-          ));
         }
       }
     );
