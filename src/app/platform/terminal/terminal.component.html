@@ -1,7 +1,7 @@
 <div class="terminal-container">
-  <div class="header">
-    <span>{{'terminals.title' | translate}}</span>
-    <mss-button class="action-button" [label]="'terminals.addTerminal' | translate"
+  <div class="mss-header-row ">
+    <span class="mss-title">{{'terminals.title' | translate}}</span>
+    <mss-button class="mss-action-button" [label]="'terminals.addTerminal' | translate"
                 (click)="switchModal()" *mssRoleIf="'terminals.create'">
     </mss-button>
   </div>
@@ -38,10 +38,10 @@
                  [label]="'basic.name' | translate" labelPosition="top">
       </mss-input>
     </div>
-    <mss-button class="terminal-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button class="mss-action-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
-  <div class="terminal-button">
+  <div class="mss-action-button">
     <mss-button [label]="'basic.search' | translate" (click)="getTerminalList()"></mss-button>
   </div>
 

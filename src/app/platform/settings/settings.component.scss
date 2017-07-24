@@ -9,13 +9,6 @@ $text-color: #747474;
   padding-left: 50px;
 }
 
-.header {
-  color: $header-text-color;
-  font-size: 36px;
-  margin-top: 30px;
-  margin-bottom: 15px;
-}
-
 .form-container {
   display: flex;
   flex-direction: column;
@@ -59,5 +52,4 @@ $text-color: #747474;
 .save {
   align-self: flex-end;
   margin-bottom: 30px;
-  width: 212px;
 }

@@ -1,15 +1,6 @@
 @import 'theme';
 
 .routing-table-container {
-  .button-container {
-    display: flex;
-
-    .routing-table-btn {
-      width: 150px;
-      margin-right: 20px;
-    }
-  }
-
   .click-able {
     cursor: pointer;
   }

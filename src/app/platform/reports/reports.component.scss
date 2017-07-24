@@ -4,13 +4,8 @@ $filter-item-width: 500px;
 $calendar-text-color: #747474;
 $date-label-width: 136px;
 
-.button {
-  height: 43px;
-  width: 200px;
-  min-width: 200px;
-
+.mss-action-button {
   &.shifted {
-    height: 50px;
     margin-left: 50px;
   }
 }

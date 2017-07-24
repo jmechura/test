@@ -1,10 +1,10 @@
 <div class="mss-view-container">
 
   <!--header-->
-  <div class="header-row">
-    <div class="mss-title">{{'merchants.title' | translate}}</div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'merchants.title' | translate}}</span>
     <mss-button *mssRoleIf="'merchants.create'" [label]="'merchants.addMerchant' | translate"
-                (click)="toggleNewMerchantModal()" class="merchant-card-button">
+                (click)="toggleNewMerchantModal()" class="mss-action-button">
     </mss-button>
   </div>
 
@@ -28,10 +28,10 @@
                   [(selectedOption)]="code"></mss-select>
       <mss-input [(value)]="name" [label]="'basic.name' | translate" labelPosition="top"></mss-input>
     </div>
-    <mss-button class="merchant-card-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button class="mss-action-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
-  <div class="merchant-card-button">
+  <div class="mss-action-button">
     <mss-button [label]="'basic.search' | translate" (click)="getMerchantList()"></mss-button>
   </div>
 

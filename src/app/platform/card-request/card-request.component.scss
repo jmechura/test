@@ -7,18 +7,6 @@ $calendar-text-color: #747474;
   padding: 40px 50px;
 }
 
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-
-  .header {
-    color: $header-text-color;
-    font-size: 36px;
-  }
-}
-
 .filter-container {
   display: flex;
   justify-content: space-between;
@@ -49,15 +37,6 @@ $calendar-text-color: #747474;
   @include default-component-label;
 
   color: $calendar-text-color;
-}
-
-.issuer-card-button {
-  height: 43px;
-  width: 200px;
-
-  &.bottom {
-    align-self: flex-end;
-  }
 }
 
 .modal-buttons {

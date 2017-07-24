@@ -1,6 +1,6 @@
 <div class="employer-card-container">
-  <div class="header-row">
-    <div class="header">{{'cards.cardList.title' | translate}}</div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'cards.cardList.title' | translate}}</span>
   </div>
 
   <div class="filter-container">
@@ -31,9 +31,9 @@
         <mss-input [label]="'cards.cardList.lastName' | translate" [(value)]="requestModel.search.predicateObject.lastname"></mss-input>
       </div>
     </div>
-    <mss-button [label]="'basic.clearFilter' | translate" class="button" (click)="clearFilter()"></mss-button>
+    <mss-button [label]="'basic.clearFilter' | translate" class="mss-action-button" (click)="clearFilter()"></mss-button>
   </div>
-  <div class="button">
+  <div class="mss-action-button">
     <mss-button [label]="'cards.cardList.search' | translate" (click)="getCards()"></mss-button>
   </div>
 

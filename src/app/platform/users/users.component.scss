@@ -1,16 +1,5 @@
 @import 'theme';
 
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-
-  .mss-title {
-    margin: 0;
-  }
-}
-
 .data-table-container {
   margin-top: 12px;
 }
@@ -24,15 +13,6 @@
 
 .delete {
   cursor: pointer;
-}
-
-.add-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.add-button:first-child {
-  width: 212px;
 }
 
 .form {

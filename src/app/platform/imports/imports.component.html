@@ -1,9 +1,7 @@
 <div class="mss-view-container">
-  <div class="header">
-    <div class="mss-title">
-      {{'imports.list.title' | translate}}
-    </div>
-    <mss-button class="button" [label]="'imports.list.addImport' | translate" (click)="newImportModalVisible = true"></mss-button>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'imports.list.title' | translate}}</span>
+    <mss-button class="mss-action-button" [label]="'imports.list.addImport' | translate" (click)="newImportModalVisible = true"></mss-button>
   </div>
 
   <div class="data-table-container">

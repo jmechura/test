@@ -11,21 +11,10 @@ $filter-item-width: 500px;
   }
 }
 
-.button {
-  height: 43px;
-  width: 200px;
-  min-width: 200px;
-
+.mss-action-button {
   &.shifted {
-    height: 50px;
     margin-left: 50px;
   }
-}
-
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .row {

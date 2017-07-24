@@ -1,7 +1,7 @@
 <div class="card-groups-container">
-  <div class="header">
-    <span>{{'cardGroups.title' | translate}}</span>
-    <mss-button class="button" (click)="addCardGroup()" [label]="'cardGroups.addCardGroup' | translate"
+  <div class="mss-header-row">
+    <span class="mss-title">{{'cardGroups.title' | translate}}</span>
+    <mss-button class="mss-action-button" (click)="addCardGroup()" [label]="'cardGroups.addCardGroup' | translate"
                 *mssRoleIf="'cardGroups.create'">
     </mss-button>
   </div>
@@ -13,7 +13,7 @@
                       formControlName="issuerCode" [disabled]="issuerCodes.length === 0"
                       [label]="'dictionary.issuerCode' | translate"></mss-select>
         </div>
-        <mss-button class="button" type="button" (click)="clearFilter()" [label]="'basic.clearFilter' | translate"></mss-button>
+        <mss-button class="mss-action-button" type="button" (click)="clearFilter()" [label]="'basic.clearFilter' | translate"></mss-button>
       </div>
       <div class="filter-item">
         <mss-select [options]="cardGroupCodes" [disabled]="cardGroupCodes.length === 0"
@@ -26,7 +26,7 @@
       <div class="filter-item">
         <mss-input [label]="'basic.id' | translate" formControlName="id"></mss-input>
       </div>
-      <div class="button">
+      <div class="mss-action-button">
         <mss-button [label]="'cardGroups.search' | translate" type="submit"></mss-button>
       </div>
     </div>

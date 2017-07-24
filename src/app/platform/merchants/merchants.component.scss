@@ -1,16 +1,5 @@
 @import 'theme';
 
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-
-  .mss-title {
-    margin: 0;
-  }
-}
-
 .filter-container {
   display: flex;
   justify-content: space-between;
@@ -26,15 +15,6 @@
         margin-bottom: 10px;
       }
     }
-  }
-}
-
-.merchant-card-button {
-  height: 43px;
-  width: 200px;
-
-  &.bottom {
-    align-self: flex-end;
   }
 }
 

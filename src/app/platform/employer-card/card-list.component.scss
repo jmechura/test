@@ -12,12 +12,6 @@ $calendar-text-color: #747474;
   }
 }
 
-.header {
-  color: $header-text-color;
-  font-size: 36px;
-  margin-bottom: 30px;
-}
-
 .filter-container {
   display: flex;
   justify-content: space-between;
@@ -26,9 +20,4 @@ $calendar-text-color: #747474;
 .filter-item {
   width: 500px;
   margin-bottom: 10px;
-}
-
-.button {
-  width: 200px;
-  height: 43px;
 }

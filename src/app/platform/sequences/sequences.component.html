@@ -1,6 +1,11 @@
 <div class="sequences-wrapper mss-view-container">
-  <div class="mss-title">{{'sequences.title' | translate}}</div>
-  <mss-button class="add-button" [label]="'sequences.addSequence' | translate" (click)="switchModal()"></mss-button>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'sequences.title' | translate}}</span>
+    <mss-button class="mss-action-button" [label]="'sequences.addSequence' | translate"
+                (click)="switchModal()" *mssRoleIf="'terminals.create'">
+    </mss-button>
+  </div>
+
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
                    [rowHeight]="'auto'" [limit]="rowLimit" [rows]="sequenceRows">

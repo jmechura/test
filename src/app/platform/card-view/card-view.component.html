@@ -1,5 +1,8 @@
 <div class="mss-view-container">
-  <div class="mss-title">{{'cards.userCard.title' | translate}}</div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'cards.userCard.title' | translate}}</span>
+  </div>
+
   <div class="form-wrapper">
     <div class="mss-form-container">
       <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.oldPin' | translate" [(value)]="pin.actual"></mss-input>
@@ -7,14 +10,14 @@
       <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.confirmPin' | translate"
                  [(value)]="pin.control"></mss-input>
       <div class="pin-button-container">
-        <mss-button class="card-view-button" [label]="'cards.userCard.pin.changePin' | translate"></mss-button>
+        <mss-button class="mss-action-button" [label]="'cards.userCard.pin.changePin' | translate"></mss-button>
       </div>
     </div>
 
     <div class="mss-form-container">
       <div class="card-status-container">
         <div class="card-status-label">{{'cards.userCard.cardState.title' | translate}}:
-          <span class="card-status-enabled" [ngClass]="{'card-status-disabled': !cardActive}">
+          <span class="mss-action-button card-status-enabled" [ngClass]="{'card-status-disabled': !cardActive}">
             {{cardActive ? ('cards.userCard.cardState.ENABLED' | translate) : ('cards.userCard.cardState.DISABLED' | translate) }}
           </span>
         </div>

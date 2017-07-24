@@ -6,18 +6,6 @@ $form-item-width: 400px;
 
 .terminal-container {
   padding: 40px 50px;
-
-  .header {
-    color: $header-text-color;
-    font-size: 36px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .button {
-    height: 43px;
-  }
 }
 
 .filter-container {
@@ -35,15 +23,6 @@ $form-item-width: 400px;
         margin-bottom: 10px;
       }
     }
-  }
-}
-
-.terminal-button {
-  height: 43px;
-  width: 200px;
-
-  &.bottom {
-    align-self: flex-end;
   }
 }
 
@@ -105,10 +84,6 @@ $form-item-width: 400px;
     display: flex;
     flex-direction: column;
   }
-}
-
-.action-button {
-  width: 150px;
 }
 
 .edit-button {

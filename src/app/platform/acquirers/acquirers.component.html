@@ -1,7 +1,8 @@
 <div class="mss-view-container">
-  <div class="title-container">
-    <div class="mss-title">{{'acquirers.list.title' | translate}}</div>
-    <mss-button class="button" [label]="'acquirers.list.addAcquirer' | translate" (click)="newAcquirerModalVisible = true"></mss-button>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'acquirers.list.title' | translate}}</span>
+    <mss-button class="mss-action-button" [label]="'acquirers.list.addAcquirer' | translate"
+                (click)="newAcquirerModalVisible = true"></mss-button>
   </div>
 
   <div class="data-table-container">

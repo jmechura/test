@@ -1,8 +1,6 @@
 <div class="issuer-card-container">
-  <div class="header-row">
-    <div class="header">
-      {{'cards.cardRequests.title' | translate}}
-    </div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'cards.cardRequests.title' | translate}}</span>
   </div>
 
   <div class="filter-container">
@@ -38,10 +36,10 @@
                   [label]="'dictionary.state' | translate"
                   [(selectedOption)]="searchModel.search.predicateObject.state"></mss-select>
     </div>
-    <mss-button class="issuer-card-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button class="mss-action-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
-  <div class="issuer-card-button">
+  <div class="mss-action-button">
     <mss-button [label]="'cards.cardRequests.search' | translate" (click)="getRequests()"></mss-button>
   </div>
 

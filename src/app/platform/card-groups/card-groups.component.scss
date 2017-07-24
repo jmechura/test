@@ -1,33 +1,15 @@
 @import 'theme';
 
-$header-text-color: $secondary-color;
-$button-width: 200px;
 $form-item-width: 400px;
 
 .card-groups-container {
   padding: 40px 50px;
-
-  .header {
-    color: $header-text-color;
-    font-size: 36px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .button {
-    height: 43px;
-  }
 }
 
 .filter {
   .select-row {
     display: flex;
     justify-content: space-between;
-  }
-
-  .button {
-    width: $button-width;
   }
 
   .filter-item {
@@ -61,11 +43,5 @@ $form-item-width: 400px;
     &.visible {
       display: flex;
     }
-  }
-
-  .submit-button {
-    float: right;
-    width: $button-width;
-    margin-top: 30px;
   }
 }

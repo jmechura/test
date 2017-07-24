@@ -1,5 +1,7 @@
 <div class="settings-container">
-  <div class="header">{{'settings.title' | translate}}</div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'settings.title' | translate}}</span>
+  </div>
 
   <div class="form-wrapper">
     <div class="form-container">
@@ -15,7 +17,7 @@
         <mss-input formControlName="phone" class="input" [(value)]="editableProfile.phone" [label]="'basic.phone' | translate">
         </mss-input>
       </form>
-      <mss-button class="save" [label]="'basic.save' | translate" (click)="updateUser()"></mss-button>
+      <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updateUser()"></mss-button>
     </div>
     <div class="form-container">
       <form [formGroup]="passwordForm" class="form">
@@ -40,7 +42,7 @@
                    [label]="'settings.newAnswer' | translate" [placeholder]="' '">
         </mss-input>
       </form>
-      <mss-button class="save" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
+      <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
     </div>
     <mss-select [options]="languages" [selectedOption]="selectedLanguage" [label]="'Jazyk'" [labelPosition]="'top'"
                 (selectedOptionChange)="selectLanguage($event)"></mss-select>

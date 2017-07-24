@@ -1,7 +1,7 @@
 <div class="routing-table-container mss-view-container">
-  <div class="mss-title">{{'routingTables.list.title' | translate}}</div>
-  <div class="button-container">
-    <mss-button class="routing-table-btn" (click)="switchModal()" [label]="'routingTables.list.addTable' | translate"></mss-button>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'routingTables.list.title' | translate}}</span>
+    <mss-button class="mss-action-button" (click)="switchModal()" [label]="'routingTables.list.addTable' | translate"></mss-button>
   </div>
   <div *ngIf="rows.length > 0" class="data-table-container">
     <ngx-datatable #table [columns]="columns" [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"

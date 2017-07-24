@@ -1,9 +1,7 @@
 <div class="mss-view-container">
-  <div class="header-row">
-    <div class="mss-title">
-      {{'users.list.title' | translate}}
-    </div>
-    <mss-button label="{{'users.list.addUser' | translate}}" (click)="toggleNewUserModal($event)"></mss-button>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'users.list.title' | translate}}</span>
+    <mss-button class="mss-action-button" label="{{'users.list.addUser' | translate}}" (click)="toggleNewUserModal($event)"></mss-button>
   </div>
   <div class="data-table-container">
     <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="usersData ? usersData.totalElements : 0 "

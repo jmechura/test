@@ -32,7 +32,6 @@ input {
 .mss-title {
   color: $secondary-color;
   font-size: 36px;
-  margin-bottom: 15px;
 }
 
 .mss-click-able {
@@ -67,6 +66,22 @@ input {
     @include mss-input;
 
     border: none;
+  }
+}
+
+.mss-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.mss-action-button {
+  width: 200px;
+  height: 43px;
+
+  &.bottom {
+    align-self: flex-end;
   }
 }
 
