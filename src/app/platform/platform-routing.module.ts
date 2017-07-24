@@ -35,6 +35,7 @@ import { AdminReportsComponent } from './admin-reports/admin-reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { ReportsComponent } from './reports/reports.component';
 import { TerminalDetailComponent } from './terminal-detail/terminal-detail.component';
+import { MerchantsDetailComponent } from './merchants-detail/merchants-detail.component';
 import { TemplateCreateComponent } from './template-create/template-create.component';
 
 export const routes: Routes = [
@@ -53,6 +54,7 @@ export const routes: Routes = [
       {path: 'routing-table', component: RoutingTableComponent},
       {path: 'routing-table/:id', component: RoutesComponent},
       {path: 'merchants', component: MerchantsComponent},
+      {path: 'merchants/:id', component: MerchantsDetailComponent},
       {path: 'sequences', component: SequencesComponent},
       {path: 'org-units', component: OrgUnitListComponent},
       {path: 'org-units/:id', component: OrgUnitDetailComponent},

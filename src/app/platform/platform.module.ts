@@ -43,6 +43,7 @@ import { AcquirersComponent } from './acquirers/acquirers.component';
 import { AcquirerDetailComponent } from './acquirer-detail/acquirer-detail.component';
 import { DirectivesModule } from '../shared/directives/directives.module';
 import { ReportsComponent } from './reports/reports.component';
+import { MerchantsDetailComponent } from './merchants-detail/merchants-detail.component';
 import { TemplateCreateComponent } from './template-create/template-create.component';
 
 @NgModule({
@@ -96,6 +97,7 @@ import { TemplateCreateComponent } from './template-create/template-create.compo
     AcquirerDetailComponent,
     EmployeeDetailComponent,
     ReportsComponent,
+    MerchantsDetailComponent,
     TemplateCreateComponent,
   ]
 })

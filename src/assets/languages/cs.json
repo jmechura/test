@@ -271,7 +271,12 @@
   },
   "merchants": {
     "title": "Obchodníci",
-    "addMerchant": "Přidat obchodníka"
+    "addMerchant": "Přidat obchodníka",
+    "detail": {
+      "BASIC": "Základní informace",
+      "title": "Detail obchodníka",
+      "contact": "Kontakt"
+    }
   },
   "orgUnits": {
     "list": {

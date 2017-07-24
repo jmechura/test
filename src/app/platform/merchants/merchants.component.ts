@@ -33,7 +33,6 @@ export class MerchantsComponent implements OnDestroy {
   newMerchantModalShowing = false;
   newMerchantForm: FormGroup;
 
-
   networkCodes: SelectItem[] = [];
   merchantCodes: SelectItem[] = [];
 
@@ -269,4 +268,7 @@ export class MerchantsComponent implements OnDestroy {
     this.networkCode = '';
   }
 
+  onSelect(select: { selected: MerchantModel[] }): void {
+    this.router.navigate([`${MERCHANT_ROUTE}/${select.selected[0].id}`]);
+  }
 }

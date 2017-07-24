@@ -240,11 +240,11 @@
   "issuers": {
     "title": "Vydavatelé karet",
     "addIssuer": "Přidat vydavatele karet",
-    "passwordHashValidityMinut": "Password hash validity (min.)",
+    "passwordHashValidityMinute": "Password hash validity (min.)",
     "maskedClnUse": "Masked CLN use",
     "titleDetail": "Vydavatel karty - detail",
     "required": {
-      "passwordHashValidityMinut": "passwordHashValidityMinute je povinny udaj"
+      "passwordHashValidityMinute": "passwordHashValidityMinute je povinny udaj"
     }
   },
   "routingTables": {
@@ -271,7 +271,12 @@
   },
   "merchants": {
     "title": "Obchodníci",
-    "addMerchant": "Přidat obchodníka"
+    "addMerchant": "Přidat obchodníka",
+    "detail": {
+      "BASIC": "Základní informace",
+      "title": "Detail obchodníka",
+      "contact": "Kontakt"
+    }
   },
   "orgUnits": {
     "list": {

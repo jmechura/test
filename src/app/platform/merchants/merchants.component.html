@@ -40,7 +40,7 @@
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
                    [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    [limit]="requestModel.pagination.number" [count]="tableData ? tableData.totalElements : 0"
-                   [externalSorting]="true" [externalPaging]="true"
+                   [externalSorting]="true" [externalPaging]="true" [selectionType]="'single'" (select)="onSelect($event)"
                    (sort)="getSortedMerchants($event)" (page)="setPage($event)">
       <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true">
       </ngx-datatable-column>

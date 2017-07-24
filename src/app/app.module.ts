@@ -37,6 +37,8 @@ import { routesReducer } from './shared/reducers/routes.reducer';
 import { RoutesEffect } from './shared/effects/routes.effect';
 import { merchantsReducer } from './shared/reducers/merchant.reducer';
 import { MerchantsEffect } from './shared/effects/merchant.effect';
+import { merchantsDetailReducer } from './shared/reducers/merchant-detail.reducer';
+import { MerchantsDetailEffect } from './shared/effects/merchant-detail.effect';
 import { transactionTransferReducer } from './shared/reducers/transaction-transfer.reducer';
 import { TransactionTransferEffect } from './shared/effects/transaction-transfer.effect';
 import { sequencesReducer } from './shared/reducers/sequences.reducer';
@@ -172,6 +174,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       transactionTransfers: transactionTransferReducer,
       transaction: singleTransactionReducer,
       merchants: merchantsReducer,
+      merchantsDetail: merchantsDetailReducer,
       issuers: issuersReducer,
       issuerDetail: issuerDetailReducer,
       routingTable: routingTableReducer,
@@ -237,6 +240,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(TargetEffect),
     EffectsModule.runAfterBootstrap(RuleEffect),
     EffectsModule.runAfterBootstrap(MerchantsEffect),
+    EffectsModule.runAfterBootstrap(MerchantsDetailEffect),
     EffectsModule.runAfterBootstrap(OrgUnitListEffect),
     EffectsModule.runAfterBootstrap(OrgUnitEffect),
     EffectsModule.runAfterBootstrap(IssuersEffect),
