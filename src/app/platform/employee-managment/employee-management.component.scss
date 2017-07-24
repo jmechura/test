@@ -1,5 +1,16 @@
 @import 'theme';
 
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+
+  .mss-title {
+    margin: 0;
+  }
+}
+
 .data-table-container {
   margin-top: 12px;
 }
@@ -45,4 +56,32 @@
 .new-input {
   margin-bottom: 20px;
   width: 415px;
+}
+
+.new-user-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+
+  .new-user-inputs {
+    display: flex;
+    justify-content: space-between;
+
+    .new-user-input-side {
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+    }
+  }
+
+  .new-user-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+
+    .new-user-button {
+      width: 160px;
+      margin-left: 24px;
+    }
+  }
 }

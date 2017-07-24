@@ -138,6 +138,8 @@ import { terminalDetailReducer } from './shared/reducers/terminal-detail.reducer
 import { TerminalDetailEffect } from './shared/effects/terminal-detail.effect';
 import { reportsReducer } from './shared/reducers/reports.reducer';
 import { ReportsEffect } from './shared/effects/reports.effect';
+import { templatesSimpleReducer } from './shared/reducers/template-simple.reducer';
+import { TemplatesSimpleEffect } from './shared/effects/template-simple.effect';
 
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
@@ -219,6 +221,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       reportPropertyDefs: reportPropertyDefReducer,
       countryCodes: countryCodeReducer,
       reports: reportsReducer,
+      templatesSimple: templatesSimpleReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
     EffectsModule.runAfterBootstrap(ProfileEffect),
@@ -280,6 +283,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(AcquirerKeysEffect),
     EffectsModule.runAfterBootstrap(CountryCodeEffect),
     EffectsModule.runAfterBootstrap(ReportsEffect),
+    EffectsModule.runAfterBootstrap(TemplatesSimpleEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({
       loader: {

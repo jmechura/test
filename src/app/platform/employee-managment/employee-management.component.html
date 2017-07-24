@@ -1,6 +1,9 @@
 <div class="mss-view-container">
-  <div class="mss-title">
-    {{'employees.list.title' | translate}}
+  <div class="header-row">
+    <div class="mss-title">
+      {{'employees.list.title' | translate}}
+    </div>
+    <mss-button label="Přidat uživatele" (click)="toggleNewUserModal($event)"></mss-button>
   </div>
   <div class="data-table-container">
     <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="usersData ? usersData.totalElements : 0 "
@@ -41,4 +44,67 @@
     </ngx-datatable>
   </div>
 </div>
+
+<!--Add new user modal-->
+<mss-modal-window [(visible)]="newUserModalShowing">
+  <div class="new-user-form-title">Přidat uživatele</div>
+  <form [formGroup]="newUserForm" class="new-user-form">
+    <div class="new-user-inputs">
+      <div class="new-user-input-side">
+        <mss-input formControlName="firstName" label="Křestní jméno*" [warn]="isPresent('firstName')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('firstName')">Křestní jméno je povinný údaj</span></div>
+        <mss-input formControlName="lastName" label="Příjmení*" [warn]="isPresent('lastName')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('lastName')">Příjmení je povinný údaj</span></div>
+        <mss-input formControlName="login" label="Login*" [warn]="isPresent('login')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('login')">Login je povinný údaj</span></div>
+        <mss-input formControlName="password" label="Heslo*" [warn]="isPresent('password')" [type]="'password'"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('password')">Heslo je povinný údaj</span></div>
+        <mss-input formControlName="passwordAgain" label="Heslo znovu*" [warn]="isPresent('passwordAgain') || !isPasswordsEqual"
+                   [type]="'password'"></mss-input>
+        <div class="mss-validation-label">
+          <span *ngIf="isPresent('passwordAgain')">Heslo znovu je povinný údaj</span>
+          <span *ngIf="!isPasswordsEqual">Hesla se nezhodují</span>
+        </div>
+        <mss-input formControlName="email" label="Email*" [warn]="isPresent('email') || !isValidEmail"></mss-input>
+        <div class="mss-validation-label">
+          <span *ngIf="isPresent('email')">Email je povinný údaj</span>
+          <span *ngIf="!isValidEmail">Email je nesprávního formátu</span>
+        </div>
+        <mss-input formControlName="phone" label="Telefon"></mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input formControlName="city" label="Město"></mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input formControlName="street" label="Ulice"></mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input formControlName="zip" label="PSČ"></mss-input>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div class="new-user-input-side">
+        <mss-select formControlName="template" (selectedOptionChange)="onChangeTemplate($event)" [options]="templatesOptions"
+                    variant="small" label="Šablona*"></mss-select>
+        <div class="mss-validation-label"><span *ngIf="isPresent('template')">Příjmení je povinný údaj</span></div>
+        <hr>
+        <div class="mss-validation-label"></div>
+        <div formArrayName="resources">
+          <div *ngFor="let res of resources.controls; let i=index;" [formGroupName]="i">
+            <mss-select *ngIf="getResourceLabel(i) === 'MERCHANT'" formControlName="networkCode" label="Network"
+                        [options]="getTemplateResourcesOptionsByName('NETWORK')"
+                        (selectedOptionChange)="onChangeCode($event, i)"></mss-select>
+            <mss-select *ngIf="getResourceLabel(i) === 'CARD_GROUP'" formControlName="networkCode" label="Issuer"
+                        [options]="getTemplateResourcesOptionsByName('ISSUER')"
+                        (selectedOptionChange)="onChangeCode($event, i)"></mss-select>
+            <mss-select formControlName="resourceId" label="{{getResourceLabel(i)}}*"
+                        [options]="getTemplateResourcesOptionsByIndex(i)"></mss-select>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="new-user-buttons">
+      <mss-button label="Zavřít" class="new-user-button" (click)="toggleNewUserModal()"></mss-button>
+      <mss-button label="Přidat" class="new-user-button" (click)="addUser()"
+                  [disabled]="newUserForm.invalid || !isPasswordsEqual || !isValidEmail"></mss-button>
+    </div>
+  </form>
+</mss-modal-window>
 
