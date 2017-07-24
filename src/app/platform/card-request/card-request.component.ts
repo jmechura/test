@@ -153,6 +153,8 @@ export class CardRequestComponent {
         }
       }
     );
+
+    this.getRequests();
   }
 
   /**

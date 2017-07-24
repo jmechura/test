@@ -199,6 +199,8 @@ export class CardGroupsComponent implements OnDestroy {
         value: CardGroupSections[item]
       }));
     this.visibleTab = this.tabsOptions[0];
+
+    this.getCardGroups();
   }
 
 

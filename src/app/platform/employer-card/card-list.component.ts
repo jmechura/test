@@ -147,6 +147,8 @@ export class CardListComponent implements OnDestroy {
         }
       }
     );
+
+    this.getCards();
   }
 
   setPage(pageInfo: any): void {

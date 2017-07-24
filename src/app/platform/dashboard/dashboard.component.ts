@@ -338,6 +338,8 @@ export class DashboardComponent implements OnDestroy {
         value: TransactionFilterSection[item]
       }));
     this.visibleFilter = this.filterOptions[0];
+
+    this.getTransactions();
   }
 
   /**
