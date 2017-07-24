@@ -6,6 +6,9 @@
             type="button" class="select-button">
       <span>{{selectedOptionLabel}}</span>
       <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
+      <div *ngIf="clearAble" (click)="clearInput($event)" class="clear-container">
+        <div class="clear">+</div>
+      </div>
     </button>
     <div *ngIf="options && options.length > 0" [ngClass]="{'show': show}" class="select-content">
       <a class="option" *ngFor="let item of options" (click)="selectOption(item.value)">{{item.label ? item.label : item.value}}</a>

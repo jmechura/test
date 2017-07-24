@@ -1,7 +1,13 @@
 $form-item-width: 400px;
 
-.buttons {
+.title-container {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .button {
+    height: 43px;
+  }
 }
 
 .icon {

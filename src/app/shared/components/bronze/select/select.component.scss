@@ -48,3 +48,10 @@
   }
 }
 
+.clear-container {
+  @include mss-select-clear-container;
+
+  .clear {
+    @include mss-select-clear;
+  }
+}

@@ -40,6 +40,8 @@ export class SelectComponent implements ControlValueAccessor {
    */
   @Input() disabled = false;
 
+  @Input() clearAble = false;
+
 
   @Input() label: string;
 
@@ -70,6 +72,11 @@ export class SelectComponent implements ControlValueAccessor {
     }
     this.touched();
     this.switchDropdown();
+  }
+
+  clearInput(event: MouseEvent): void {
+    event.stopPropagation();
+    typeof this.selectedOption === 'number' ? this.selectedOptionChange.emit(null) : this.selectedOptionChange.emit('');
   }
 
   switchDropdown(): void {

@@ -1,6 +1,6 @@
 <div class="mss-view-container">
-  <div class="mss-title">{{'acquirers.list.title' | translate}}</div>
-  <div class="buttons">
+  <div class="title-container">
+    <div class="mss-title">{{'acquirers.list.title' | translate}}</div>
     <mss-button class="button" [label]="'acquirers.list.addAcquirer' | translate" (click)="newAcquirerModalVisible = true"></mss-button>
   </div>
 
@@ -71,19 +71,19 @@
         <div class="section" [ngClass]="{'visible': visibleTab.value === AcquirerSections.BASIC}">
           <div class="column">
             <div class="form-item">
-              <mss-input [label]="'basic.name' | translate" formControlName="name"></mss-input>
+              <mss-input [label]="('basic.name' | translate) + '*'" formControlName="name"></mss-input>
               <div class="mss-validation-label">
                 <span *ngIf="isInvalid('name')">{{'basic.required.name' | translate}}</span>
               </div>
             </div>
             <div class="form-item">
-              <mss-input [label]="'basic.code' | translate" formControlName="code"></mss-input>
+              <mss-input [label]="('basic.code' | translate) + '*'" formControlName="code"></mss-input>
               <div class="mss-validation-label">
                 <span *ngIf="isInvalid('code')">{{'basic.required.code' | translate}}</span>
               </div>
             </div>
             <div class="form-item">
-              <mss-input [label]="'acquirers.dictionary.acquiringInstitutionCode' | translate"
+              <mss-input [label]="('acquirers.dictionary.acquiringInstitutionCode' | translate) + '*'"
                          formControlName="acquiringInstitutionCode"></mss-input>
               <div class="mss-validation-label">
                 <span *ngIf="isInvalid('acquiringInstitutionCode')">{{'acquirers.dictionary.required.acquiringInstitutionCode' |
@@ -93,13 +93,14 @@
           </div>
           <div class="column">
             <div class="form-item">
-              <mss-input [label]="'acquirers.dictionary.hsmKeyName' | translate" formControlName="hsmKeyName"></mss-input>
+              <mss-input [label]="('acquirers.dictionary.hsmKeyName' | translate) + '*'" formControlName="hsmKeyName"></mss-input>
               <div class="mss-validation-label">
                 <span *ngIf="isInvalid('hsmKeyName')">{{'acquirers.dictionary.required.hsmKeyName' | translate}}</span>
               </div>
             </div>
             <div class="form-item">
-              <mss-input [label]="'acquirers.dictionary.hsmTransitKeyName' | translate" formControlName="hsmTransitKeyName"></mss-input>
+              <mss-input [label]="('acquirers.dictionary.hsmTransitKeyName' | translate) + '*'"
+                         formControlName="hsmTransitKeyName"></mss-input>
               <div class="mss-validation-label">
                 <span *ngIf="isInvalid('hsmTransitKeyName')">{{'acquirers.dictionary.required.hsmTransitKeyName' | translate}}</span>
               </div>

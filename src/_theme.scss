@@ -738,6 +738,26 @@ $select-height: $input-height;
   }
 }
 
+@mixin mss-select-clear-container {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 0.5px solid $primary-text-color;
+  margin-left: 5px;
+  padding-left: 10px;
+}
+
+@mixin mss-select-clear {
+  transform: rotate(45deg);
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 300;
+  color: $primary-text-color;
+}
+
 @mixin mss-select-label {
   @include default-component-label;
 
