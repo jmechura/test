@@ -140,6 +140,14 @@ import { terminalDetailReducer } from './shared/reducers/terminal-detail.reducer
 import { TerminalDetailEffect } from './shared/effects/terminal-detail.effect';
 import { reportsReducer } from './shared/reducers/reports.reducer';
 import { ReportsEffect } from './shared/effects/reports.effect';
+import { templateDetailReducer } from './shared/reducers/template-detail.reducer';
+import { TemplateDetailEffect } from './shared/effects/template-detail.effect';
+import { configurationTypeReducer } from './shared/reducers/configuration-type.reducer';
+import { ConfigurationTypeEffect } from './shared/effects/configuration-type.effect';
+import { configurationReducer } from './shared/reducers/configuration.reducer';
+import { ConfigurationEffect } from './shared/effects/configuration.effect';
+import { configurationInstanceReducer } from './shared/reducers/configuration-instance.reducer';
+import { ConfigurationInstanceEffect } from './shared/effects/configuration-instance.effect';
 import { templatesSimpleReducer } from './shared/reducers/template-simple.reducer';
 import { TemplatesSimpleEffect } from './shared/effects/template-simple.effect';
 
@@ -224,6 +232,10 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       reportPropertyDefs: reportPropertyDefReducer,
       countryCodes: countryCodeReducer,
       reports: reportsReducer,
+      templateDetail: templateDetailReducer,
+      configurationTypes: configurationTypeReducer,
+      configurations: configurationReducer,
+      configurationInstances: configurationInstanceReducer,
       templatesSimple: templatesSimpleReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
@@ -287,6 +299,10 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(AcquirerKeysEffect),
     EffectsModule.runAfterBootstrap(CountryCodeEffect),
     EffectsModule.runAfterBootstrap(ReportsEffect),
+    EffectsModule.runAfterBootstrap(TemplateDetailEffect),
+    EffectsModule.runAfterBootstrap(ConfigurationTypeEffect),
+    EffectsModule.runAfterBootstrap(ConfigurationEffect),
+    EffectsModule.runAfterBootstrap(ConfigurationInstanceEffect),
     EffectsModule.runAfterBootstrap(TemplatesSimpleEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({

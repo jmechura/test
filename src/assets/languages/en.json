@@ -3,6 +3,7 @@
     "yes": "Ano",
     "no": "Ne",
     "dismiss": "Zrušit",
+    "add": "Přidat",
     "edit": "Upravit",
     "clearFilter": "Vymazat filtr",
     "firstName": "Jméno",
@@ -356,10 +357,31 @@
       "title": "Šablony",
       "addTemplate": "Přidat šablonu"
     },
+    "detail": {
+      "title": "Detail šablony",
+      "sections": {
+        "BASIC": "Základní",
+        "RESOURCE": "Resource",
+        "CONFIGURATION": "Configuration"
+      },
+      "configuration": {
+        "add": "Přidat konfiguraci",
+        "addTitle": "Nová konfigurace",
+        "type": "Typ konfigurace",
+        "name": "Název konfigurace"
+      },
+      "required": {
+        "resource": "Zdroj je povinný údaj",
+        "type": "Typ konfigurace je povinný údaj",
+        "name": "Jméno konfigurace je povinný údaj"
+      }
+    },
     "dictionary": {
       "system": "System",
       "systemReceiver": "Systémový příjemce",
-      "resources": "Zdroje"
+      "resources": "Zdroje",
+      "resource": "Zdroj",
+      "resourceId": "ID Zdroja"
     }
   },
   "imports": {

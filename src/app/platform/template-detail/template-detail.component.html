@@ -1,3 +1,180 @@
-<p>
-  template-detail works!
-</p>
+<div class="mss-view-container">
+  <div class="mss-title">{{'templates.detail.title' | translate}} - {{templateDetail?.name || ''}}</div>
+
+  <div class="content" [formGroup]="templateForm">
+    <div class="tabs">
+      <mss-tabs class="tabs" [items]="templateSections" (itemChanged)="visibleTab = $event"></mss-tabs>
+    </div>
+
+    <!--BASIC NORMAL VIEW-->
+    <div class="section" *ngIf="!editFormVisible && templateDetail && visibleTab.value === TemplateSections.BASIC">
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.code' | translate}}</div>
+          <div class="value">{{templateDetail.code}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.name' | translate}}</div>
+          <div class="value">{{templateDetail.name}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.description' | translate}}</div>
+          <div class="value">{{templateDetail.description}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'templates.dictionary.system' | translate}}</div>
+          <div class="value">{{templateDetail.system}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'templates.dictionary.systemReceiver' | translate}}</div>
+          <div class="value">{{templateDetail.systemReceiver}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.resource' | translate}}</div>
+          <div class="value">{{templateDetail.resource}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+    </div>
+
+    <!--BASIC EDIT VIEW -->
+    <div class="section" *ngIf="editFormVisible && templateDetail && visibleTab.value === TemplateSections.BASIC">
+      <div class="column">
+        <mss-input formControlName="code" [label]="('basic.code' | translate) + '*'"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
+        <mss-input formControlName="name" [label]="('basic.name' | translate) + '*'"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
+        <mss-input formControlName="description" [label]="'basic.description' | translate"></mss-input>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div class="column">
+        <mss-select formControlName="resource" [label]="'basic.resource' | translate" [options]="resourcesArray"></mss-select>
+        <div class="mss-validation-label"></div>
+        <mss-select formControlName="system" [label]="'templates.dictionary.system' | translate" [options]="systemsArray"></mss-select>
+        <div class="mss-validation-label"></div>
+        <mss-select formControlName="systemReceiver" [label]="'templates.dictionary.systemReceiver' | translate"
+                    [options]="systemsArray"></mss-select>
+        <div class="mss-validation-label"></div>
+      </div>
+    </div>
+
+
+    <!--RESOURCE NORMAL VIEW-->
+    <div class="section column" *ngIf="!editFormVisible && templateDetail && visibleTab.value === TemplateSections.RESOURCE">
+      <mss-select [label]="'RESOURCE'" [options]="resourceOptions" [selectedOption]="selectedResource"
+                  (selectedOptionChange)="selectedResource = $event"></mss-select>
+      <div class="mss-validation-label"></div>
+      <ng-container *ngFor="let role of templateDetail.resources[selectedResource].roles; let i = index">
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.resource' | translate}} {{i+1}}</div>
+          <div class="value">{{role}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </ng-container>
+    </div>
+
+    <div class="section" *ngIf="editFormVisible && templateDetail && visibleTab.value === TemplateSections.RESOURCE">
+      <!--TAKEN FROM TEMPLATE-CREATE -->
+      <div class="form-item">
+        <div class="form-row">
+          <p>{{'templates.dictionary.resources' | translate}}</p>
+          <i (click)="addResource()" class="material-icons action-icon">add</i>
+        </div>
+        <div formArrayName="resources">
+          <div class="resources-container" *ngFor="let res of resources.controls; let i=index; trackBy: identifyResource"
+               [formGroupName]="i">
+            <div class="form-row">
+              <mss-select formControlName="resource" [label]="('basic.resource' | translate) + ' ' + (i + 1)"
+                          class="form-select"
+                          [options]="resourcesArray"></mss-select>
+              <i *ngIf="resources.controls.length > 1" (click)="removeResource(i)" class="material-icons action-icon">remove</i>
+            </div>
+            <div class="left-padding">
+              <div class="form-row">
+                <p>Role </p>
+                <i (click)="addRole(res)" class="material-icons action-icon">add</i>
+              </div>
+              <div formArrayName="roles">
+                <div class="form-row" *ngFor="let role of getRoles(res).controls; let j=index; trackBy: identifyRole;">
+                  <mss-select [formControlName]="j" [label]="('basic.resource' | translate) + ' ' + (j + 1)"
+                              class="form-select"
+                              [options]="rolesArray"></mss-select>
+                  <i *ngIf="getRoles(res).value.length > 1" (click)="removeRole(res, j)" class="material-icons action-icon">remove</i>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="resources.controls.length !== i + 1" class="resource-divider"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" *ngIf="visibleTab.value === TemplateSections.CONFIGURATION">
+      <div class="configurations-header">
+        <mss-select [label]="'templates.dictionary.resource' | translate" [options]="resourceConfigurationOptions"
+                    (selectedOptionChange)="displayedResourceChange($event)" class="resource-select">
+        </mss-select>
+        <mss-button [label]="'templates.detail.configuration.add' | translate" (click)="toggleAddConfigurationModal()">
+        </mss-button>
+      </div>
+
+      <div class="data-table-container templates-data-table">
+        <ngx-datatable #table [loadingIndicator]="configurationsLoading"
+                       [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50" [rowHeight]="48"
+                       [rows]="configurations">
+          <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [sortable]="true"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'templates.dictionary.resource' | translate" prop="resource" [sortable]="true">
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'templates.dictionary.resourceId' | translate" prop="userAuthorityResourceId">
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'templates.detail.configuration.type' | translate" prop="type"></ngx-datatable-column>
+
+        </ngx-datatable>
+      </div>
+    </div>
+
+    <div class="buttons" *ngIf="visibleTab.value != TemplateSections.CONFIGURATION">
+      <mss-button class="button" *ngIf="!editFormVisible" (click)="editFormVisible = true"
+                  [label]="'basic.edit' | translate"></mss-button>
+      <mss-button class="button" *ngIf="editFormVisible" (click)="editFormVisible = false"
+                  [label]="'basic.dismiss' | translate"></mss-button>
+      <mss-button class="button" *ngIf="editFormVisible" (click)="editTemplate()" [disabled]="templateForm.invalid"
+                  [label]="'basic.save' | translate"></mss-button>
+    </div>
+  </div>
+</div>
+
+<mss-modal-window [(visible)]="addConfigurationModalShowing">
+  <div class="add-configuration-title">{{'templates.detail.configuration.addTitle' | translate}}</div>
+  <div [formGroup]="newConfigurationForm" class="add-configuration-form">
+    <mss-select [label]="'templates.dictionary.resource' | translate"
+                [options]="resourceConfigurationOptions"
+                formControlName="userAuthorityResourceId"
+                (selectedOptionChange)="onConfigurationResourceSelect($event)">
+    </mss-select>
+    <div class="mss-validation-label"><span *ngIf="isPresentConfig('resource')">{{'templates.required.resource' | translate}}</span></div>
+    <mss-select [label]="'templates.detail.configuration.type' | translate"
+                [options]="configurationTypes" formControlName="type"
+                (selectedOptionChange)="onConfigurationTypeSelect($event)">
+    </mss-select>
+    <div class="mss-validation-label"><span *ngIf="isPresentConfig('type')">{{'templates.required.type' | translate}}</span></div>
+    <mss-select [label]="'templates.detail.configuration.name' | translate"
+                [options]="configurationInstances" formControlName="name">
+    </mss-select>
+    <div class="mss-validation-label"><span *ngIf="isPresentConfig('name')">{{'templates.required.name' | translate}}</span></div>
+
+    <div class="add-configuration-buttons">
+      <mss-button [label]="'basic.dismiss' | translate" (click)="toggleAddConfigurationModal()" class="mss-action-button"></mss-button>
+      <mss-button [label]="'basic.add' | translate" (click)="confirmConfigurationAdd()" class="mss-action-button"></mss-button>
+    </div>
+
+  </div>
+</mss-modal-window>

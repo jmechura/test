@@ -141,11 +141,11 @@ export class AcquirerDetailComponent implements OnDestroy {
       payload: id
     });
   }
-
   isInvalid(value: string): boolean {
     const item = this.editForm.get(value);
     return item.touched && item.invalid;
   }
+
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();

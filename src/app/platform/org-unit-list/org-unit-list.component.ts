@@ -95,6 +95,13 @@ export class OrgUnitListComponent implements OnDestroy {
       networkName: ['']
     });
 
+    this.filterOptions = Object.keys(OrgUnitFilterSections).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`orgUnits.list.sections.${item}`),
+        value: OrgUnitFilterSections[item]
+      }));
+    this.visibleFilter = this.filterOptions[0];
+
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<ProfileModel>) => {
         if (data.error) {
