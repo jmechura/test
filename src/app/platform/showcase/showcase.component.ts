@@ -3,6 +3,7 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 import { RadioItem } from '../../shared/components/bronze/radio-button-group/radio-button-group.component';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'mss-showcase',
@@ -52,7 +53,12 @@ export class ShowcaseComponent {
   dateTimeDate: Moment = moment();
 
   completeArray: any[] = [];
-  constructor() {
+
+  multiselectForm: FormGroup;
+  constructor(private fb: FormBuilder) {
+    this.multiselectForm = this.fb.group({
+      multiselect: [['WOW']]
+    });
     this.fetch((data) => {
       this.completeArray = data;
     });

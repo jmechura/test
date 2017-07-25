@@ -5,6 +5,13 @@
     asdasdasdasd
   </div>
 
+  <!--multiselect-->
+  <div class="showcase-row">
+    <form [formGroup]="multiselectForm">
+      <mss-multiselect formControlName="multiselect" [options]="selectOptions"></mss-multiselect>
+    </form>
+  </div>
+
   <!--buttons-->
   <div class="showcase-row">
     <mss-button class="showcase-button" (click)="buttonClicked()" label="Button..."></mss-button>

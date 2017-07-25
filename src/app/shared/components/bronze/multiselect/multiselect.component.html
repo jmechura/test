@@ -1,0 +1,20 @@
+<div *ngIf="show" class="multiselect-overlay" (click)="switchDropdown()"></div>
+<div class="multiselect-container" [ngClass]="{'left': labelPosition === 'left', 'top': labelPosition === 'top'}">
+  <div class="multiselect-label" [ngClass]="{'left': labelPosition === 'left', 'top': labelPosition === 'top'}" *ngIf="label">{{label}}</div>
+  <div class="multiselect-inner-container">
+    <button (click)="switchDropdown()" [ngClass]="{'disabled': disabled, 'multiselect-button-small': variant === 'small'}" [disabled]="disabled"
+            type="button" class="multiselect-button">
+      <span class="multiselect-selected-items-label">{{selectedOptionLabel}}</span>
+      <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
+      <div *ngIf="clearAble" (click)="clearInput($event)" class="clear-container">
+        <div class="clear">+</div>
+      </div>
+    </button>
+    <div *ngIf="optionsValues && optionsValues.length > 0" [ngClass]="{'show': show}" class="multiselect-content">
+      <div class="option" *ngFor="let item of optionsValues" [ngClass]="{'multiselect-selected-option': item.selected}" (click)="selectOption(item.value)">
+        <span>{{item.label ? item.label : item.value}}</span>
+        <div *ngIf="item.selected" class="multiselect-select-icon"></div>
+      </div>
+    </div>
+  </div>
+</div>

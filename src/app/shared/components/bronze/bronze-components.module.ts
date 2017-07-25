@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { ListComponent } from './list/list.component';
 import { RouterModule } from '@angular/router';
 import { DirectivesModule } from '../../directives/directives.module';
+import { MultiselectComponent } from './multiselect/multiselect.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DirectivesModule } from '../../directives/directives.module';
     ToolbarComponent,
     DatePickerComponent,
     ListComponent,
+    MultiselectComponent,
   ],
   imports: [
     CommonModule,
@@ -63,7 +65,8 @@ import { DirectivesModule } from '../../directives/directives.module';
     RadioButtonGroupComponent,
     ToolbarComponent,
     DatePickerComponent,
-    ListComponent
+    ListComponent,
+    MultiselectComponent,
   ],
   providers: [],
 })

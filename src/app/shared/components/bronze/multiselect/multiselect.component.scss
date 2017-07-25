@@ -1,0 +1,69 @@
+@import 'theme';
+
+.multiselect-overlay {
+  @include mss-multiselect-overlay;
+}
+
+.multiselect-container {
+  @include mss-multiselect-container;
+
+  .multiselect-label {
+    @include mss-multiselect-label;
+  }
+
+  .multiselect-inner-container {
+    @include mss-multiselect-inner-container;
+
+    .multiselect-button {
+      @include mss-multiselect-button;
+
+      &.disabled {
+        @include mss-multiselect-button-disabled;
+      }
+
+      &.multiselect-button-small {
+        @include mss-multiselect-button-small;
+      }
+    }
+  }
+}
+
+.multiselect-content {
+  @include mss-multiselect-content;
+
+  &.show {
+    @include mss-show-multiselect;
+  }
+}
+
+.option {
+  @include mss-multiselect-option;
+}
+
+.arrow {
+  @include mass-multiselect-arrow;
+
+  &.rotate {
+    @include mss-arrow-rotate;
+  }
+}
+
+.clear-container {
+  @include mss-multiselect-clear-container;
+
+  .clear {
+    @include mss-multiselect-clear;
+  }
+}
+
+.multiselect-selected-option {
+  @include mss-multiselect-selected-option;
+}
+
+.multiselect-select-icon {
+  @include mss-multiselect-select-icon;
+}
+
+.multiselect-selected-items-label {
+  @include multiselect-selected-items-label;
+}

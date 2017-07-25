@@ -724,6 +724,172 @@ $input-label-width: 136px;
   border-color: $warn-color;
 }
 
+// ---------------- multiselect ----------------
+$multiselect-height: $input-height;
+
+@mixin mass-multiselect-arrow {
+  width: 14px;
+  height: 14px;
+  margin-left: 10px;
+  transition: transform $animation-time;
+}
+
+@mixin mss-multiselect-button {
+  @include default-component-label;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: $select-height;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: $default-background-color;
+  padding: 0 $default-padding;
+  border: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  &:hover {
+    background-color: rgba($primary-text-color, 0.2);
+  }
+}
+
+@mixin mss-multiselect-button-small {
+  font-size: 14px;
+  border: none;
+  color: $row-text-color;
+  box-shadow: none;
+  height: 26px;
+}
+
+@mixin mss-multiselect-button-disabled {
+  background-color: $disabled-color;
+}
+
+@mixin mss-multiselect-container {
+  display: flex;
+
+  &.left {
+    align-items: center;
+  }
+
+  &.top {
+    flex-direction: column;
+  }
+}
+
+@mixin mss-multiselect-clear-container {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 0.5px solid $primary-text-color;
+  margin-left: 5px;
+  padding-left: 10px;
+}
+
+@mixin mss-multiselect-clear {
+  transform: rotate(45deg);
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 300;
+  color: $primary-text-color;
+}
+
+@mixin mss-multiselect-label {
+  @include default-component-label;
+
+  &.left {
+    min-width: $input-label-width;
+    max-width: $input-label-width;
+  }
+
+  &.top {
+    margin-bottom: 10px;
+  }
+}
+
+@mixin mss-multiselect-inner-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+@mixin mss-multiselect-content {
+  position: absolute;
+  z-index: 4;
+  max-height: 0;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: max-height $animation-time;
+  background-color: $default-background-color;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  margin-top: 2px;
+}
+
+@mixin mss-show-multiselect {
+  max-height: 250px;
+}
+
+@mixin mss-multiselect-option {
+  padding: $default-padding;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+@mixin mss-key-multiselect-option {
+  color: $primary-color;
+  background-color: rgba($disabled-color, 0.2);
+}
+
+@mixin mss-multiselect-overlay {
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+}
+
+@mixin mss-multiselect-selected-option {
+  background-color: $disabled-color;
+}
+
+@mixin mss-multiselect-select-icon {
+  height: $checkbox-size;
+  width: $checkbox-size;
+
+  &::after {
+    position: relative;
+    left: 5px;
+    display: block;
+    content: '';
+    width: 5px;
+    height: 10px;
+    transform: rotate(45deg);
+    border: transparent;
+    transition: border 0.2s;
+    border-right: 2px solid $primary-color;
+    border-bottom: 2px solid $primary-color;
+  }
+}
+
+@mixin multiselect-selected-items-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 // ---------------- select ----------------
 $select-height: $input-height;
 
