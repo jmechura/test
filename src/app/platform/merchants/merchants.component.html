@@ -36,8 +36,8 @@
   </div>
 
   <!--merchants data table-->
-  <div class="data-table-container">
-    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
+  <div class="data-table-container row-break">
+    <ngx-datatable #table [loadingIndicator]="loading" [rows]="rows"
                    [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    [limit]="requestModel.pagination.number" [count]="tableData ? tableData.totalElements : 0"
                    [externalSorting]="true" [externalPaging]="true" [selectionType]="'single'" (select)="onSelect($event)"

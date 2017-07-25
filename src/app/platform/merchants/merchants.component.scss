@@ -69,3 +69,7 @@
 .table-icon {
   cursor: pointer;
 }
+
+.row-break {
+  @include mss-datatable-row-break(6, false);
+}

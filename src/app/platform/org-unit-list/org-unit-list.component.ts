@@ -58,6 +58,13 @@ export class OrgUnitListComponent implements OnDestroy {
               private fb: FormBuilder,
               private roles: RoleService,
               private route: ActivatedRoute) {
+    this.filterOptions = Object.keys(OrgUnitFilterSections).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`orgUnits.list.sections.${item}`),
+        value: OrgUnitFilterSections[item]
+      }));
+    this.visibleFilter = this.filterOptions[0];
+
     this.store.select('orgUnitList').takeUntil(this.unsubscribe$).subscribe(
       (state: OrgUnitListState) => {
         if (state.error !== null) {
@@ -97,7 +104,7 @@ export class OrgUnitListComponent implements OnDestroy {
           console.error('Profile API call has returned error', data.error);
           return;
         }
-        if (data.data && !data.loading /*because pn would be sad*/) {
+        if (data.data && !data.loading) {
           const user = data.data;
 
           this.roles.isVisible('filters.networkCodeSelect').subscribe(
@@ -109,11 +116,6 @@ export class OrgUnitListComponent implements OnDestroy {
                   merchResult => {
                     if (merchResult) {
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
-                      this.filterOptions = Object.keys(OrgUnitFilterSections).filter(key => isNaN(Number(key)))
-                        .map(item => ({
-                          label: this.language.translate(`orgUnits.list.sections.${item}`),
-                          value: OrgUnitFilterSections[item]
-                        }));
                     } else {
                       this.filterOptions = [
                         {
@@ -121,8 +123,8 @@ export class OrgUnitListComponent implements OnDestroy {
                           value: OrgUnitFilterSections.BASIC
                         }
                       ];
+                      this.visibleFilter = this.filterOptions[0];
                     }
-                    this.visibleFilter = this.filterOptions[0];
                   }
                 );
               }
@@ -168,6 +170,8 @@ export class OrgUnitListComponent implements OnDestroy {
         }
       }
     );
+
+    this.getOrgUnits();
   }
 
   clearFilter(): void {
@@ -206,7 +210,8 @@ export class OrgUnitListComponent implements OnDestroy {
     );
   }
 
-  showDeleteModal(orgUnitId: string): void {
+  showDeleteModal(orgUnitId: string, event: Event): void {
+    event.stopPropagation();
     this.selectedOrgUnitId = orgUnitId;
     this.deleteModalShown = true;
   }
@@ -227,11 +232,7 @@ export class OrgUnitListComponent implements OnDestroy {
     );
   }
 
-  getDetailLink(orgUnitId: string): string {
-    return `${ORG_UNIT_ROUTE}/${orgUnitId}`;
-  }
-
-  setPage(pageInfo: { offset: number }): void {
+  setPage(pageInfo: {offset: number}): void {
     const routeParams: ListRouteParamsModel = {
       page: String(pageInfo.offset + 1),
       limit: String(this.itemLimit)
@@ -247,6 +248,10 @@ export class OrgUnitListComponent implements OnDestroy {
     this.sortOption = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
     this.getOrgUnits();
 
+  }
+
+  onRowActivate({row}: {row: OrgUnitModel}): void {
+    this.router.navigate([ORG_UNIT_ROUTE, row.id]);
   }
 
   private get requestModel(): RequestOptions<OrgUnitPredicateObject> {

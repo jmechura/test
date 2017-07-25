@@ -1,11 +1,11 @@
-<div class="mss-view-container" xmlns="">
+<div class="mss-view-container">
   <div class="view-header">
     <h1 class="mss-title">{{'orgUnits.list.title' | translate}}</h1>
     <mss-button [label]="'orgUnits.list.addOrgUnit' | translate" (click)="showCreateModal()" *mssRoleIf="'orgUnits.create'"></mss-button>
   </div>
 
   <div class="row">
-    <div class="column" [formGroup]="filterForm">
+    <div class="column" [formGroup]="filterForm" *ngIf="visibleFilter">
       <mss-tabs class="tabs" [items]="filterOptions" (itemChanged)="visibleFilter = $event"></mss-tabs>
 
       <div class="content column" *ngIf="visibleFilter.value ===  OrgUnitFilterSections.BASIC">
@@ -37,9 +37,8 @@
 
   <div class="org-unit-list">
     <div class="data-table-container">
-      <ngx-datatable #table [rows]="tableRows" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" columnMode="force"
-                     [externalPaging]="true"
-                     [externalSorting]="true" (sort)="getSortedOrgUnits($event)"
+      <ngx-datatable #table [rows]="tableRows" [headerHeight]="70" [footerHeight]="50" rowHeight="auto"
+                     [externalPaging]="true" [externalSorting]="true" (sort)="getSortedOrgUnits($event)" (activate)="onRowActivate($event)"
                      [count]="totalItems" [limit]="itemLimit" [offset]="pageNumber" (page)="setPage($event)">
         <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true"></ngx-datatable-column>
         <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
@@ -61,12 +60,9 @@
         </ngx-datatable-column>
         <ngx-datatable-column [name]="'basic.options' | translate" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-row="row">
-            <a class="row-action">
-              <i class="material-icons" [routerLink]="getDetailLink(row.id)" [title]="'basic.showDetail' | translate">description</i>
-            </a>
             <ng-container *mssRoleIf="'orgUnits.edit'">
               <a class="row-action" *ngIf="row.state !== 'DISABLED'">
-                <i class="material-icons" (click)="showDeleteModal(row.id)" [title]="'basic.delete' | translate">delete</i>
+                <i class="material-icons" (click)="showDeleteModal(row.id, $event)" [title]="'basic.delete' | translate">delete</i>
               </a>
             </ng-container>
           </ng-template>

@@ -274,6 +274,51 @@ $pager-active-color: #4c4c4c;
   }
 }
 
+@mixin mss-datatable-row-break($column-count, $has-options) {
+  $options-cell-width: 100px;
+
+  /deep/ {
+    .datatable-scroll {
+      width: 100% !important;
+    }
+
+    .datatable-body-row {
+      width: 100% !important;
+    }
+
+    .datatable-header-cell {
+      padding: 0 10px !important;
+    }
+
+    .datatable-body-cell, .datatable-header-cell {
+      flex: 0 0 #{2 * percentage(1 / (ceil($column-count / 2) * 2))} !important;
+      width: auto !important;
+      overflow: hidden !important;
+
+      @if ($has-options) {
+        &:last-child {
+          position: absolute !important;
+          right: -$options-cell-width !important;
+          top: 0 !important;
+          width: $options-cell-width !important;
+          height: 100% !important;
+        }
+      }
+    }
+
+    .datatable-row-center {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      position: relative !important;
+      width: 100% !important;
+
+      @if ($has-options) {
+        width: calc(100% - #{$options-cell-width}) !important;
+      }
+    }
+  }
+}
+
 @mixin mss-datatable-pager {
   text-align: left !important;
 }

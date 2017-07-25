@@ -5,6 +5,8 @@ $button-width: 200px;
 $form-item-width: 400px;
 
 .terminal-container {
+  @include mss-datatable-row-break(10, false);
+
   padding: 40px 50px;
 }
 
