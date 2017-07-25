@@ -21,7 +21,7 @@
             {{cardActive ? ('cards.userCard.cardState.ENABLED' | translate) : ('cards.userCard.cardState.DISABLED' | translate) }}
           </span>
         </div>
-        <mss-button class="card-view-button"
+        <mss-button class="mss-action-button"
                     [label]="cardActive ? ('cards.userCard.deactivate' | translate) : ('cards.userCard.activate' | translate)"
                     (click)="toggleStatusChange()"></mss-button>
       </div>

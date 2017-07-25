@@ -1,5 +1,7 @@
 <div class="mss-view-container">
-  <div class="mss-title">{{'templates.detail.title' | translate}} - {{templateDetail?.name || ''}}</div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'templates.detail.title' | translate}} - {{templateDetail?.name || ''}}</span>
+  </div>
 
   <div class="content" [formGroup]="templateForm">
     <div class="tabs">
@@ -121,7 +123,8 @@
         <mss-select [label]="'templates.dictionary.resource' | translate" [options]="resourceConfigurationOptions"
                     (selectedOptionChange)="displayedResourceChange($event)" class="resource-select">
         </mss-select>
-        <mss-button [label]="'templates.detail.configuration.add' | translate" (click)="toggleAddConfigurationModal()">
+        <mss-button class="mss-action-button" [label]="'templates.detail.configuration.add' | translate"
+                    (click)="toggleAddConfigurationModal()">
         </mss-button>
       </div>
 
@@ -142,11 +145,11 @@
     </div>
 
     <div class="buttons" *ngIf="visibleTab.value != TemplateSections.CONFIGURATION">
-      <mss-button class="button" *ngIf="!editFormVisible" (click)="editFormVisible = true"
+      <mss-button class="mss-action-button" *ngIf="!editFormVisible" (click)="editFormVisible = true"
                   [label]="'basic.edit' | translate"></mss-button>
-      <mss-button class="button" *ngIf="editFormVisible" (click)="editFormVisible = false"
+      <mss-button class="mss-action-button" *ngIf="editFormVisible" (click)="editFormVisible = false"
                   [label]="'basic.dismiss' | translate"></mss-button>
-      <mss-button class="button" *ngIf="editFormVisible" (click)="editTemplate()" [disabled]="templateForm.invalid"
+      <mss-button class="mss-action-button" *ngIf="editFormVisible" (click)="editTemplate()" [disabled]="templateForm.invalid"
                   [label]="'basic.save' | translate"></mss-button>
     </div>
   </div>

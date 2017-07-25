@@ -1,7 +1,8 @@
 <div class="mss-view-container" *ngIf="transaction">
-  <div class="mss-title">
-    {{'transactions.detail.title' | translate}} - {{transaction.uuid}}
+  <div class="mss-header-row">
+    <span class="mss-title">{{'transactions.detail.title' | translate}} - {{transaction.uuid}}</span>
   </div>
+
   <mss-tabs [items]="sections" (itemChanged)="visibleSection = $event"></mss-tabs>
 
   <!--Basic information about transaction-->

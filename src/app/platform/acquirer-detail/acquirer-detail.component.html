@@ -1,11 +1,7 @@
 <div class="mss-view-container">
-  <div class="header">
-    <div class="mss-title" *ngIf="acquirerData">
-      {{'acquirers.detail.title' | translate}} - {{acquirerData.name}}
-    </div>
-    <div class="buttons">
-      <mss-button class="button" [label]="'basic.delete' | translate"></mss-button>
-    </div>
+  <div class="mss-header-row">
+    <span class="mss-title" *ngIf="acquirerData">{{'acquirers.detail.title' | translate}} - {{acquirerData.name}}</span>
+    <mss-button class="mss-action-button" [label]="'basic.delete' | translate"></mss-button>
   </div>
 
   <div class="content">
@@ -83,8 +79,9 @@
         </div>
       </div>
       <div class="buttons" *ngIf="visibleTab.value !== AcquirerSections.KEYS">
-        <mss-button class="button" (click)="editFormVisible = false" type="button" [label]="'basic.dismiss' | translate"></mss-button>
-        <mss-button class="button" [disabled]="editForm.invalid" [label]="'basic.save' | translate"></mss-button>
+        <mss-button class="mss-action-button right-margin" (click)="editFormVisible = false" type="button"
+                    [label]="'basic.dismiss' | translate"></mss-button>
+        <mss-button class="mss-action-button" [disabled]="editForm.invalid" [label]="'basic.save' | translate"></mss-button>
       </div>
     </form>
 
@@ -152,7 +149,7 @@
     </div>
     <div class="section column" [ngClass]="{'visible': visibleTab.value === AcquirerSections.KEYS}">
       <div class="buttons right">
-        <mss-button class="button" (click)="modalVisible = true" [label]="'acquirers.detail.addKey' | translate"></mss-button>
+        <mss-button class="mss-action-button" (click)="modalVisible = true" [label]="'acquirers.detail.addKey' | translate"></mss-button>
       </div>
       <div class="data-table-container">
         <ngx-datatable [columnMode]="'force'" [rows]="keyRows"
@@ -177,7 +174,7 @@
       </div>
     </div>
     <div class="buttons">
-      <mss-button class="button" *ngIf="!editFormVisible && visibleTab.value !== AcquirerSections.KEYS" (click)="editFormVisible = true"
+      <mss-button class="mss-action-button" *ngIf="!editFormVisible && visibleTab.value !== AcquirerSections.KEYS" (click)="editFormVisible = true"
                   [label]="'basic.edit' | translate"></mss-button>
     </div>
   </div>
@@ -194,8 +191,8 @@
         <div class="mss-validation-label"></div>
         <mss-checkbox [label]="'acquirers.dictionary.last' | translate" formControlName="last"></mss-checkbox>
         <div class="buttons shifted-down">
-          <mss-button class="button big" type="button" (click)="modalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
-          <mss-button class="button big" type="submit" [disabled]="newKeyForm.invalid"
+          <mss-button class="mss-action-button right-margin" type="button" (click)="modalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
+          <mss-button class="mss-action-button" type="submit" [disabled]="newKeyForm.invalid"
                       [label]="'acquirers.detail.addKey' | translate"></mss-button>
         </div>
       </form>

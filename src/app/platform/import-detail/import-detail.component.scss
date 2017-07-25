@@ -1,19 +1,5 @@
 @import 'theme';
 
-.header-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.button {
-  height: 43px;
-  width: 200px;
-
-  &.right-margin {
-    margin-right: 10px;
-  }
-}
-
 .button-container {
   display: flex;
   justify-content: flex-end;

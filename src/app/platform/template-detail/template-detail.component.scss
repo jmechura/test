@@ -39,13 +39,8 @@
   display: flex;
   justify-content: flex-end;
 
-  .button {
-    width: 200px;
-    height: 43px;
-
-    &:not(:first-child) {
-      margin-left: 12px;
-    }
+  .mss-action-button:not(:first-child) {
+    margin-left: 12px;
   }
 }
 

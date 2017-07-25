@@ -1,5 +1,7 @@
 <div *ngIf="user" class="mss-view-container">
-  <div class="mss-title title">{{'users.detail.title' | translate}} - {{user.id}}</div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'users.detail.title' | translate}} - {{user.id}}</span>
+  </div>
 
   <mss-tabs [items]="detailOptions" (itemChanged)="setSelectedOption($event)"></mss-tabs>
 
@@ -73,9 +75,10 @@
 
     <div *mssRoleIf="'users.edit'">
       <div class="edit-buttons-container" *ngIf="selectedOption === detailOptions[0] || selectedOption === detailOptions[1]">
-        <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="edit-button"></mss-button>
-        <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()" class="edit-button"></mss-button>
-        <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()" class="edit-button"></mss-button>
+        <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="mss-action-button"></mss-button>
+        <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()"
+                    class="mss-action-button right-margin"></mss-button>
+        <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()" class="mss-action-button"></mss-button>
       </div>
     </div>
   </div>

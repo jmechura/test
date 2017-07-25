@@ -1,5 +1,7 @@
 <div *ngIf="cardData" class="mss-view-container">
-  <div class="mss-title">{{'cards.cardDetail.title' | translate}} - {{cardData.card.cardUuid}}</div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'cards.cardDetail.title' | translate}} - {{cardData.card.cardUuid}}</span>
+  </div>
 
   <mss-tabs [items]="detailOptions" (itemChanged)="setSelectedOption($event)"></mss-tabs>
 

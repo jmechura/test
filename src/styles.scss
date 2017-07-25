@@ -83,6 +83,14 @@ input {
   &.bottom {
     align-self: flex-end;
   }
+
+  &.right-margin {
+    margin-right: $default-margin;
+  }
+
+  &.shifted {
+    margin-left: 50px;
+  }
 }
 
 // data-table related classes

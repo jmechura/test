@@ -1,5 +1,8 @@
 <div class="mss-view-container">
-  <div class="mss-title">{{'issuers.titleDetail' | translate}}</div>
+  <div class="mss-header-row">
+    <span class="mss-title">{{'issuers.titleDetail' | translate}}</span>
+  </div>
+
   <div class="form-wrapper">
     <div>
       <form [formGroup]="editIssuerForm" class="edit-issuer-form">
@@ -118,11 +121,11 @@
           </div>
         </div>
         <div class="edit-issuer-buttons">
-          <mss-button *ngIf="!isEditing" class="edit-issuer-button" [label]="'basic.edit' | translate"
+          <mss-button *ngIf="!isEditing" class="mss-action-button" [label]="'basic.edit' | translate"
                       (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="edit-issuer-button"
+          <mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="mss-action-button"
                       (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="isEditing" [label]="'basic.save' | translate" class="edit-issuer-button" (click)="updateIssuer()"
+          <mss-button *ngIf="isEditing" [label]="'basic.save' | translate" class="mss-action-button" (click)="updateIssuer()"
                       [disabled]="editIssuerForm.invalid"></mss-button>
         </div>
       </form>

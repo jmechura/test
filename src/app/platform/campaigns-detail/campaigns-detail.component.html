@@ -1,13 +1,13 @@
 <div class="mss-view-container">
-  <div class="header-row">
+  <div class="mss-header-row">
     <div class="mss-title">{{'campaigns.detail.title' | translate}} - {{campaignName}}</div>
     <div class="button-container">
-      <mss-button class="button right-margin" *ngIf="campaignDetail"
+      <mss-button class="mss-action-button right-margin" *ngIf="campaignDetail"
                   [label]="campaignDetail.running ?  ('basic.deactivate' | translate) : ('basic.activate' | translate)"
                   (click)="toggleCampaign()"></mss-button>
-      <mss-button class="button right-margin" (click)="modalVisible = true"
+      <mss-button class="mss-action-button right-margin" (click)="modalVisible = true"
                   [label]="'campaigns.detail.deleteCampaign' | translate"></mss-button>
-      <mss-button class="button" [label]="editingCampaign ? ('basic.preview' | translate) : ('basic.edit' | translate)"
+      <mss-button class="mss-action-button" [label]="editingCampaign ? ('basic.preview' | translate) : ('basic.edit' | translate)"
                   (click)="editingCampaign = !editingCampaign"></mss-button>
     </div>
   </div>
@@ -48,14 +48,14 @@
       </div>
     </div>
     <div class="button-container">
-      <mss-button type="submit" class="button" [label]="'basic.save' | translate" [disabled]="campaingForm.invalid"></mss-button>
+      <mss-button type="submit" class="mss-action-button" [label]="'basic.save' | translate" [disabled]="campaingForm.invalid"></mss-button>
     </div>
   </form>
 
   <div class="properties">
-    <div class="header-row">
+    <div class="mss-header-row">
       <div class="mss-title">{{'campaigns.detail.properties' | translate}}</div>
-      <mss-button class="button" (click)="toggleProperties()"
+      <mss-button class="mss-action-button" (click)="toggleProperties()"
                   [label]="editingProperties ? ('basic.preview' | translate) : ('basic.edit' | translate)"></mss-button>
     </div>
     <div class="content" *ngIf="!editingProperties">
@@ -89,7 +89,7 @@
         <div class="column"></div>
       </div>
       <div class="button-container">
-        <mss-button *ngIf="propertyForm.value.length > 0" [disabled]="propertyForm.invalid" class="button"
+        <mss-button *ngIf="propertyForm.value.length > 0" [disabled]="propertyForm.invalid" class="mss-action-button"
                     [label]="'basic.save' | translate"></mss-button>
       </div>
     </form>
@@ -101,7 +101,7 @@
     {{'campaigns.list.deleteQuestion' | translate}}
   </div>
   <div class="button-container">
-    <mss-button class="button right-margin" [label]="'basic.dismiss' | translate" (click)="modalVisible = false"></mss-button>
-    <mss-button class="button" [label]="'basic.yes' | translate" (click)="deleteCampaign()"></mss-button>
+    <mss-button class="mss-action-button right-margin" [label]="'basic.dismiss' | translate" (click)="modalVisible = false"></mss-button>
+    <mss-button class="mss-action-button" [label]="'basic.yes' | translate" (click)="deleteCampaign()"></mss-button>
   </div>
 </mss-modal-window>
