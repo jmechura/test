@@ -31,4 +31,14 @@ export class ConfigurationEffect {
         .catch(res => Observable.of({type: configurationActions.CONFIGURATIONS_CREATE_FAIL, payload: res}))
       );
   }
+
+  @Effect()
+  deleteConfiguration(): Observable<Action> {
+    return this.actions$
+      .ofType(configurationActions.CONFIGURATIONS_DELETE_REQUEST)
+      .switchMap(action => this.api.remove(`${CONFIGURATIONS_ENDPOINT}/${action.payload}`)
+        .map(res => ({type: configurationActions.CONFIGURATIONS_DELETE, payload: res}))
+        .catch(res => Observable.of({type: configurationActions.CONFIGURATIONS_DELETE_FAIL, payload: res}))
+      );
+  }
 }

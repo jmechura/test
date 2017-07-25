@@ -139,6 +139,11 @@
           <ngx-datatable-column [name]="'templates.dictionary.resourceId' | translate" prop="userAuthorityResourceId">
           </ngx-datatable-column>
           <ngx-datatable-column [name]="'templates.detail.configuration.type' | translate" prop="type"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'basic.delete' | translate">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <i class="material-icons delete-configuration-button" (click)="deleteConfiguration(row)">delete</i>
+            </ng-template>
+          </ngx-datatable-column>
 
         </ngx-datatable>
       </div>
@@ -174,10 +179,19 @@
     </mss-select>
     <div class="mss-validation-label"><span *ngIf="isPresentConfig('name')">{{'templates.required.name' | translate}}</span></div>
 
-    <div class="add-configuration-buttons">
+    <div class="configuration-buttons">
       <mss-button [label]="'basic.dismiss' | translate" (click)="toggleAddConfigurationModal()" class="mss-action-button"></mss-button>
       <mss-button [label]="'basic.add' | translate" (click)="confirmConfigurationAdd()" class="mss-action-button"></mss-button>
     </div>
 
   </div>
 </mss-modal-window>
+
+<mss-modal-window [(visible)]="deleteConfigurationModalShowing">
+  <h3 class="mss-modal-title">{{'templates.detail.configuration.deleteTitle' | translate}}</h3>
+  <div class="configuration-buttons">
+    <mss-button [label]="'basic.no' | translate" (click)="toggleDeleteConfigurationModal()" class="mss-action-button"></mss-button>
+    <mss-button [label]="'basic.yes' | translate" (click)="confirmConfigurationDelete()" class="mss-action-button"></mss-button>
+  </div>
+</mss-modal-window>
+

@@ -107,7 +107,7 @@
   width: 600px;
 }
 
-.add-configuration-buttons {
+.configuration-buttons {
   display: flex;
   justify-content: flex-end;
   margin-top: 24px;
@@ -115,5 +115,9 @@
   .mss-action-button:first-child {
     margin-right: 24px;
   }
+}
+
+.delete-configuration-button {
+  cursor: pointer;
 }
 

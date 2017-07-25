@@ -9,6 +9,9 @@ export const configurationActions = {
   CONFIGURATIONS_CREATE_REQUEST: 'CONFIGURATIONS_CREATE_REQUEST',
   CONFIGURATIONS_CREATE: 'CONFIGURATIONS_CREATE',
   CONFIGURATIONS_CREATE_FAIL: 'CONFIGURATIONS_CREATE_FAIL',
+  CONFIGURATIONS_DELETE_REQUEST: 'CONFIGURATIONS_DELETE_REQUEST',
+  CONFIGURATIONS_DELETE: 'CONFIGURATIONS_DELETE',
+  CONFIGURATIONS_DELETE_FAIL: 'CONFIGURATIONS_DELETE_FAIL',
 };
 
 const INITIAL_STATE: StateModel<ConfigurationModel[]> = {error: null, loading: false};
@@ -32,6 +35,15 @@ export function configurationReducer(state: StateModel<ConfigurationModel[]> = I
       return {data: state.data, error: null, loading: false};
 
     case configurationActions.CONFIGURATIONS_CREATE_FAIL:
+      return {data: state.data, error: action.payload, loading: false};
+
+    case configurationActions.CONFIGURATIONS_DELETE_REQUEST:
+      return {data: state.data, error: null, loading: true};
+
+    case configurationActions.CONFIGURATIONS_DELETE:
+      return {data: state.data, error: null, loading: false};
+
+    case configurationActions.CONFIGURATIONS_DELETE_FAIL:
       return {data: state.data, error: action.payload, loading: false};
 
     default:

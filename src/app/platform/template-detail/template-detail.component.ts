@@ -46,7 +46,10 @@ export class TemplateDetailComponent implements OnDestroy {
   resourceConfigurationOptions: SelectItem[] = [];
   addConfigurationModalShowing = false;
   configurationsLoading = false;
-  currentyDisplayedConfigResourceId = null;
+  currentlyDisplayedConfigResourceId = null;
+
+  deleteConfigurationModalShowing = false;
+  deleteConfigurationId: number = null;
 
   constructor(private store: Store<AppStateModel>,
               private language: LanguageService,
@@ -160,6 +163,13 @@ export class TemplateDetailComponent implements OnDestroy {
         }
         if (data != null && !loading) {
           this.configurations = data.map(item => item);
+          if (this.deleteConfigurationId != null) {
+            this.deleteConfigurationId = null;
+            this.store.dispatch({
+              type: configurationActions.CONFIGURATIONS_GET_REQUEST,
+              payload: this.currentlyDisplayedConfigResourceId
+            });
+          }
         }
       }
     );
@@ -274,7 +284,7 @@ export class TemplateDetailComponent implements OnDestroy {
 
   displayedResourceChange(resourceId: number): void {
     if (resourceId != null) {
-      this.currentyDisplayedConfigResourceId = resourceId;
+      this.currentlyDisplayedConfigResourceId = resourceId;
       this.store.dispatch({type: configurationActions.CONFIGURATIONS_GET_REQUEST, payload: resourceId});
     }
   }
@@ -282,9 +292,23 @@ export class TemplateDetailComponent implements OnDestroy {
   confirmConfigurationAdd(): void {
     this.store.dispatch({type: configurationActions.CONFIGURATIONS_CREATE_REQUEST, payload: [this.newConfigurationForm.value]});
     this.toggleAddConfigurationModal();
-    if (this.currentyDisplayedConfigResourceId != null) {
-      this.store.dispatch({type: configurationActions.CONFIGURATIONS_GET_REQUEST, payload: this.currentyDisplayedConfigResourceId});
+    if (this.currentlyDisplayedConfigResourceId != null) {
+      this.store.dispatch({type: configurationActions.CONFIGURATIONS_GET_REQUEST, payload: this.currentlyDisplayedConfigResourceId});
     }
+  }
+
+  confirmConfigurationDelete(): void {
+    this.store.dispatch({type: configurationActions.CONFIGURATIONS_DELETE_REQUEST, payload: this.deleteConfigurationId});
+    this.toggleDeleteConfigurationModal();
+  }
+
+  toggleDeleteConfigurationModal(): void {
+    this.deleteConfigurationModalShowing = !this.deleteConfigurationModalShowing;
+  }
+
+  deleteConfiguration(row: any): void {
+    this.deleteConfigurationId = row.id;
+    this.toggleDeleteConfigurationModal();
   }
 
   ngOnDestroy(): void {

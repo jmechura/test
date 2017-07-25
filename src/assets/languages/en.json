@@ -370,6 +370,7 @@
       "configuration": {
         "add": "Přidat konfiguraci",
         "addTitle": "Nová konfigurace",
+        "deleteTitle": "Opravdu chcete tuto konfiguraci odstranit?",
         "type": "Typ konfigurace",
         "name": "Název konfigurace"
       },
