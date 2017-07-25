@@ -85,8 +85,8 @@ export class TerminalComponent implements OnDestroy {
         code: '',
         name: '',
         networkCode: '',
-        merchantCode: '',
-        orgUnitCode: '',
+        merchantCode: {value: '', disabled: true},
+        orgUnitCode: {value: '', disabled: true},
       }
     );
 
@@ -178,6 +178,7 @@ export class TerminalComponent implements OnDestroy {
         if (data != undefined) {
           this.merchantCodes = data.map(item => ({value: item.id, label: item.code}));
           this.newTerminalForm.get('merchantId').enable();
+          this.filterForm.get('merchantCode').enable();
         }
       }
     );
@@ -191,6 +192,7 @@ export class TerminalComponent implements OnDestroy {
         if (data != undefined) {
           this.orgUnitCodes = data.map(item => ({value: item.id, label: item.code}));
           this.newTerminalForm.get('orgUnitId').enable();
+          this.filterForm.get('orgUnitCode').enable();
         }
       }
     );
@@ -307,6 +309,8 @@ export class TerminalComponent implements OnDestroy {
   }
 
   networkSelect(networkCode: string): void {
+    this.filterForm.get('merchantCode').disable();
+    this.filterForm.get('orgUnitCode').disable();
     this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: networkCode});
   }
 

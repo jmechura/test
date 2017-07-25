@@ -1,5 +1,5 @@
 <div class="terminal-container">
-  <div class="mss-header-row ">
+  <div class="mss-header-row">
     <span class="mss-title">{{'terminals.title' | translate}}</span>
     <mss-button class="mss-action-button" [label]="'terminals.addTerminal' | translate"
                 (click)="switchModal()" *mssRoleIf="'terminals.create'">
@@ -8,24 +8,21 @@
 
   <div class="filter-container">
     <div class="filters" [formGroup]="filterForm">
-      <mss-select [disabled]="networkCodes.length === 0"
-                  *mssRoleIf="'filters.networkCodeSelect'"
+      <mss-select *mssRoleIf="'filters.networkCodeSelect'"
                   class="filter-item"
                   [options]="networkCodes"
                   [label]="'dictionary.networkCode' | translate"
                   formControlName="networkCode"
                   labelPosition="top"
                   (selectedOptionChange)="networkSelect($event)"></mss-select>
-      <mss-select [disabled]="merchantCodes.length === 0"
-                  *mssRoleIf="'filters.merchantCodeSelect'"
+      <mss-select *mssRoleIf="'filters.merchantCodeSelect'"
                   class="filter-item"
                   [options]="merchantCodes"
                   [label]="'dictionary.merchantCode' | translate"
                   formControlName="merchantCode"
                   labelPosition="top"
                   (selectedOptionChange)="merchantSelect($event)"></mss-select>
-      <mss-select [disabled]="orgUnitCodes.length === 0"
-                  *mssRoleIf="'filters.orgUnitCodeSelect'"
+      <mss-select *mssRoleIf="'filters.orgUnitCodeSelect'"
                   class="filter-item"
                   [options]="orgUnitCodes"
                   [label]="'dictionary.orgUnitCode' | translate"

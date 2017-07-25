@@ -1,7 +1,8 @@
 <div class="mss-view-container">
-  <div class="view-header">
+  <div class="mss-header-row">
     <h1 class="mss-title">{{'orgUnits.list.title' | translate}}</h1>
-    <mss-button [label]="'orgUnits.list.addOrgUnit' | translate" (click)="showCreateModal()" *mssRoleIf="'orgUnits.create'"></mss-button>
+    <mss-button class="mss-action-button" [label]="'orgUnits.list.addOrgUnit' | translate" (click)="showCreateModal()"
+                *mssRoleIf="'orgUnits.create'"></mss-button>
   </div>
 
   <div class="row">
@@ -28,10 +29,10 @@
         </div>
       </div>
     </div>
-    <mss-button class="button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
-  <div class="button">
+  <div class="mss-action-button">
     <mss-button [label]="'orgUnits.list.search' | translate" (click)="getOrgUnits()"></mss-button>
   </div>
 

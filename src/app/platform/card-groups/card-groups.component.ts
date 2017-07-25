@@ -76,6 +76,15 @@ export class CardGroupsComponent implements OnDestroy {
               private language: LanguageService,
               private router: Router,
               private roles: RoleService) {
+    this.filterForm = fb.group(
+      {
+        issuerCode: '',
+        cardGroupCode: {value: '', disabled: true},
+        name: '',
+        id: '',
+      }
+    );
+
     this.store.dispatch({type: taxTypeActions.TAX_TYPES_GET_REQUEST});
     this.store.select('cardGroups').takeUntil(this.unsubscribe$).subscribe(
       (data: CardGroupState) => {
@@ -141,6 +150,7 @@ export class CardGroupsComponent implements OnDestroy {
         }
         if (data.data !== undefined && !data.loading) {
           this.cardGroupCodes = data.data.map(code => ({value: code.code}));
+          this.filterForm.get('cardGroupCode').enable();
         }
       }
     );
@@ -154,15 +164,6 @@ export class CardGroupsComponent implements OnDestroy {
         if (data.data !== undefined && !data.loading) {
           this.taxTypes = data.data.map(item => ({value: item}));
         }
-      }
-    );
-
-    this.filterForm = fb.group(
-      {
-        issuerCode: [''],
-        cardGroupCode: [''],
-        name: [''],
-        id: [''],
       }
     );
 
@@ -259,6 +260,10 @@ export class CardGroupsComponent implements OnDestroy {
     this.router.navigateByUrl(`platform/card-groups/${item.row.id}`);
   }
 
+  issuerSelect(issuerCode: string): void {
+    this.filterForm.get('cardGroupCode').disable();
+    this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: issuerCode});
+  }
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();

@@ -10,13 +10,14 @@
       <div class="select-row">
         <div class="filter-item">
           <mss-select [options]="issuerCodes" *mssRoleIf="'filters.issuerCodeSelect'"
-                      formControlName="issuerCode" [disabled]="issuerCodes.length === 0"
-                      [label]="'dictionary.issuerCode' | translate"></mss-select>
+                      formControlName="issuerCode"
+                      [label]="'dictionary.issuerCode' | translate"
+                      (selectedOptionChange)="issuerSelect($event)"></mss-select>
         </div>
         <mss-button class="mss-action-button" type="button" (click)="clearFilter()" [label]="'basic.clearFilter' | translate"></mss-button>
       </div>
       <div class="filter-item">
-        <mss-select [options]="cardGroupCodes" [disabled]="cardGroupCodes.length === 0"
+        <mss-select [options]="cardGroupCodes"
                     formControlName="cardGroupCode"
                     [label]="'dictionary.cardGroupCode' | translate"></mss-select>
       </div>
