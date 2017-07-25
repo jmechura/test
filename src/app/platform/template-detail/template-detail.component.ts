@@ -26,7 +26,7 @@ import { configurationInstanceActions } from '../../shared/reducers/configuratio
 })
 export class TemplateDetailComponent implements OnDestroy {
 
-  private unsubscribe$ = new UnsubscribeSubject();
+  currentlyDisplayedConfigResourceId = null;
   templateDetail: TemplateModel;
   templateSections: SelectItem[] = [];
   visibleTab: SelectItem;
@@ -46,10 +46,9 @@ export class TemplateDetailComponent implements OnDestroy {
   resourceConfigurationOptions: SelectItem[] = [];
   addConfigurationModalShowing = false;
   configurationsLoading = false;
-  currentlyDisplayedConfigResourceId = null;
-
   deleteConfigurationModalShowing = false;
   deleteConfigurationId: number = null;
+  private unsubscribe$ = new UnsubscribeSubject();
 
   constructor(private store: Store<AppStateModel>,
               private language: LanguageService,

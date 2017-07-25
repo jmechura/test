@@ -239,7 +239,7 @@ export class OrgUnitListComponent implements OnDestroy {
     );
   }
 
-  setPage(pageInfo: {offset: number}): void {
+  setPage(pageInfo: { offset: number }): void {
     const routeParams: ListRouteParamsModel = {
       page: String(pageInfo.offset + 1),
       limit: String(this.itemLimit)
@@ -257,7 +257,7 @@ export class OrgUnitListComponent implements OnDestroy {
 
   }
 
-  onRowActivate({row}: {row: OrgUnitModel}): void {
+  onRowActivate({row}: { row: OrgUnitModel }): void {
     this.router.navigate([ORG_UNIT_ROUTE, row.id]);
   }
 

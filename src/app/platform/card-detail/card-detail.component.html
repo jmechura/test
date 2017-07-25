@@ -38,7 +38,8 @@
                       (selectedOptionChange)="setAccount($event)"></mss-select>
         </div>
         <div class="item">
-          <mss-list class="list" [data]="selectedAccount.list" *ngIf="selectedAccount">{{'cards.cardDetail.accountInfo' | translate}}</mss-list>
+          <mss-list class="list" [data]="selectedAccount.list" *ngIf="selectedAccount">{{'cards.cardDetail.accountInfo' | translate}}
+          </mss-list>
         </div>
         <div class="data-table-container" *ngIf="selectedAccount">
           <ngx-datatable #table

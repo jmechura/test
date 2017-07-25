@@ -10,9 +10,9 @@
       <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
       <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
         <div class="row wrapped">
-            <mss-input class="filter-item" formControlName="login" [label]="'basic.login' | translate"></mss-input>
-            <mss-input class="filter-item" formControlName="firstName" [label]="'basic.firstName' | translate"></mss-input>
-            <mss-input class="filter-item" formControlName="lastName" [label]="'basic.lastName' | translate"></mss-input>
+          <mss-input class="filter-item" formControlName="login" [label]="'basic.login' | translate"></mss-input>
+          <mss-input class="filter-item" formControlName="firstName" [label]="'basic.firstName' | translate"></mss-input>
+          <mss-input class="filter-item" formControlName="lastName" [label]="'basic.lastName' | translate"></mss-input>
           <mss-input class="filter-item" formControlName="email" [label]="'basic.email' | translate"></mss-input>
           <mss-input class="filter-item" formControlName="state" [label]="'basic.state' | translate"></mss-input>
         </div>

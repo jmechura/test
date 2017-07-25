@@ -8,7 +8,7 @@ import { StateModel } from '../../shared/models/state.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { AppStateModel } from '../../shared/models/app-state.model';
-import { ProfilePredicateObject, ProfileModel } from '../../shared/models/profile.model';
+import { ProfileModel, ProfilePredicateObject } from '../../shared/models/profile.model';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TemplateSimpleModel } from '../../shared/models/template-simple.model';
 import { ApiService } from '../../shared/services/api.service';
@@ -55,11 +55,9 @@ export class UsersComponent implements OnDestroy {
   templatesOptions = [];
   profile: ProfileModel;
   itemsForSelect: { [key: string]: SelectItem[]; } = {};
-
-  private unsubscribe$ = new Subject<void>();
   usersData: Pagination<ProfileModel>;
-
   @ViewChild('table') table: DatatableComponent;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(private store: Store<AppStateModel>,
               private router: Router,
@@ -99,8 +97,7 @@ export class UsersComponent implements OnDestroy {
       street: [''],
       zip: [''],
       template: ['', Validators.required],
-      resources: fb.array([
-      ]),
+      resources: fb.array([]),
     });
 
     this.store.select('userList').takeUntil(this.unsubscribe$).subscribe(
@@ -233,14 +230,6 @@ export class UsersComponent implements OnDestroy {
     );
   }
 
-  selectCode(value: string, type: string): void {
-    if (type === 'ORG_UNIT') {
-      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
-    } else if (type === 'MERCHANT') {
-      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
-    }
-  }
-
   get requestModel(): RequestOptions<ProfilePredicateObject> {
     return {
       pagination: {
@@ -255,10 +244,33 @@ export class UsersComponent implements OnDestroy {
     };
   }
 
+  get isPasswordsEqual(): boolean {
+    const passwordControl = this.newUserForm.get('password');
+    const passwordAgainControl = this.newUserForm.get('passwordAgain');
+    return passwordControl.value === passwordAgainControl.value;
+  }
+
+  get isValidEmail(): boolean {
+    const emailControl = this.newUserForm.get('email');
+    return !(emailControl.value !== '' && emailControl.errors !== null && emailControl.errors.email);
+  }
+
+  get resources(): FormArray {
+    return this.newUserForm.get('resources') as FormArray;
+  };
+
   private get predicateObject(): ProfilePredicateObject {
     return {
       ...this.filterForm.value
     };
+  }
+
+  selectCode(value: string, type: string): void {
+    if (type === 'ORG_UNIT') {
+      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
+    } else if (type === 'MERCHANT') {
+      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
+    }
   }
 
   setPage(pageInfo: { offset: number }): void {
@@ -313,7 +325,8 @@ export class UsersComponent implements OnDestroy {
       return;
     }
 
-    const newUser = {...this.newUserForm.value,
+    const newUser = {
+      ...this.newUserForm.value,
       template: {
         id: this.newUserForm.get('template').value,
         name: this.templates.filter(item => item.id === this.newUserForm.get('template').value)[0].name,
@@ -356,21 +369,6 @@ export class UsersComponent implements OnDestroy {
       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
     }
   }
-
-  get isPasswordsEqual(): boolean {
-    const passwordControl = this.newUserForm.get('password');
-    const passwordAgainControl = this.newUserForm.get('passwordAgain');
-    return passwordControl.value === passwordAgainControl.value;
-  }
-
-  get isValidEmail(): boolean {
-    const emailControl = this.newUserForm.get('email');
-    return !(emailControl.value !== '' && emailControl.errors !== null && emailControl.errors.email);
-  }
-
-  get resources(): FormArray {
-    return this.newUserForm.get('resources') as FormArray;
-  };
 
   addResource(resource: string, id: number): void {
     this.resources.push(

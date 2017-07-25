@@ -12,7 +12,8 @@ export class TemplatesSimpleEffect {
   constructor(private api: ApiService, private actions$: Actions) {
   }
 
-  @Effect() getTemplatesSimple(): Observable<Action> {
+  @Effect()
+  getTemplatesSimple(): Observable<Action> {
     return this.actions$
       .ofType(templatesSimpleActions.TEMPLATES_SIMPLE_GET_REQUEST)
       .switchMap(action => this.api.post(TEMPLATES_SIMPLE_ENDPOINT_LIST, action.payload)

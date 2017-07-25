@@ -159,10 +159,11 @@
     "userCard": {
       "title": "Moje karta",
       "pin": {
-        "oldPin": "Starý PIN",
         "newPin": "Nový PIN",
         "confirmPin": "Znovu nový PIN",
-        "changePin": "Změnit PIN"
+        "changePin": "Změnit PIN",
+        "pinDoNotMatch": "Piny nejsou stejné",
+        "pinContain": "Pin musí obsahovat přesně 4 číslice"
       },
       "cardState": {
         "title": "Stav karty",
@@ -172,7 +173,8 @@
       "warnModal": {
         "title": "Změna stavu karty",
         "activate": "Opravdu chcete aktivovat vaši kartu?",
-        "deactivate": "Opravdu chcete zablokovat vaši kartu?"
+        "deactivate": "Opravdu chcete zablokovat vaši kartu?",
+        "pinChange": "Opravdu chcete změnit pin?"
       },
       "activate": "Aktivovat kartu",
       "deactivate": "Deaktivovat kartu"

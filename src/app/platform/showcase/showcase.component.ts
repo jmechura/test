@@ -55,6 +55,7 @@ export class ShowcaseComponent {
   completeArray: any[] = [];
 
   multiselectForm: FormGroup;
+
   constructor(private fb: FormBuilder) {
     this.multiselectForm = this.fb.group({
       multiselect: [['WOW']]

@@ -174,7 +174,8 @@
       </div>
     </div>
     <div class="buttons">
-      <mss-button class="mss-action-button" *ngIf="!editFormVisible && visibleTab.value !== AcquirerSections.KEYS" (click)="editFormVisible = true"
+      <mss-button class="mss-action-button" *ngIf="!editFormVisible && visibleTab.value !== AcquirerSections.KEYS"
+                  (click)="editFormVisible = true"
                   [label]="'basic.edit' | translate"></mss-button>
     </div>
   </div>
@@ -191,7 +192,8 @@
         <div class="mss-validation-label"></div>
         <mss-checkbox [label]="'acquirers.dictionary.last' | translate" formControlName="last"></mss-checkbox>
         <div class="buttons shifted-down">
-          <mss-button class="mss-action-button right-margin" type="button" (click)="modalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
+          <mss-button class="mss-action-button right-margin" type="button" (click)="modalVisible = false"
+                      [label]="'basic.dismiss' | translate"></mss-button>
           <mss-button class="mss-action-button" type="submit" [disabled]="newKeyForm.invalid"
                       [label]="'acquirers.detail.addKey' | translate"></mss-button>
         </div>

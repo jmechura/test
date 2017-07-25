@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { SelectItem } from 'app/shared/components/bronze/select/select.component';
 import { LanguageService } from '../../../services/language.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -26,6 +26,33 @@ export class MultiselectComponent implements ControlValueAccessor {
    * @type {string}
    */
   @Input() showName: string;
+  @Output() selectedOptionsChange = new EventEmitter<(number | string)[]>();
+  /**
+   * options of possible selection
+   * @type {Array}
+   */
+  optionsValues: MultiSelectItem[] = [];
+  /**
+   * States whether select should be disabled
+   * @type {boolean}
+   */
+  @Input() disabled = false;
+  @Input() clearAble = false;
+  @Input() label: string;
+  @Input() labelPosition: 'left' | 'top' = 'left';
+  @Input() variant: 'default' | 'small' = 'default';
+  show = false;
+  private changeCallback: any;
+  private touchedCallback: any;
+
+  constructor(private language: LanguageService) {
+    this.showName = this.language.translate('components.select.placeholder');
+  }
+
+  get selectedOptions(): (number | string)[] {
+    return this.optionsValues.filter(item => item.selected).map(item => item.value);
+  }
+
   /**
    * selected options
    */
@@ -37,47 +64,15 @@ export class MultiselectComponent implements ControlValueAccessor {
     ];
     this.optionsValues.sort((item1, item2) => (this.sortAsc(item1.value, item2.value)));
   }
-  get selectedOptions(): (number | string)[] {
-    return this.optionsValues.filter(item => item.selected).map(item => item.value);
-  }
-  @Output() selectedOptionsChange = new EventEmitter<(number | string)[]>();
 
-  /**
-   * options of possible selection
-   * @type {Array}
-   */
-  optionsValues: MultiSelectItem[] = [];
   @Input()
   set options(items: SelectItem[]) {
     this.optionsValues = items.map((item) => ({...item, selected: false})).sort((item1, item2) => (this.sortAsc(item1.value, item2.value)));
   }
 
-  /**
-   * States whether select should be disabled
-   * @type {boolean}
-   */
-  @Input() disabled = false;
-
-  @Input() clearAble = false;
-
-  @Input() label: string;
-
-  @Input() labelPosition: 'left' | 'top' = 'left';
-
-  @Input() variant: 'default' | 'small' = 'default';
-
-  show = false;
-
-  private changeCallback: any;
-  private touchedCallback: any;
-
   get selectedOptionLabel(): string {
-   const selectedOptions = this.optionsValues && this.optionsValues.filter(item => item.selected);
-   return selectedOptions.length > 0 ? selectedOptions.map(item => item.label || item.value).join(', ') : this.showName;
-   }
-
-  constructor(private language: LanguageService) {
-    this.showName = this.language.translate('components.select.placeholder');
+    const selectedOptions = this.optionsValues && this.optionsValues.filter(item => item.selected);
+    return selectedOptions.length > 0 ? selectedOptions.map(item => item.label || item.value).join(', ') : this.showName;
   }
 
   selectOption(selectedItem: number | string): void {
@@ -106,13 +101,6 @@ export class MultiselectComponent implements ControlValueAccessor {
     this.show = !this.show;
   }
 
-  private sortAsc(item1: number | string, item2: number | string): number {
-    if (item1 > item2) {
-      return 1;
-    }
-    return -1;
-  }
-
   touched(): void {
     if (this.touchedCallback) {
       this.touchedCallback();
@@ -133,6 +121,13 @@ export class MultiselectComponent implements ControlValueAccessor {
 
   setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
+  }
+
+  private sortAsc(item1: number | string, item2: number | string): number {
+    if (item1 > item2) {
+      return 1;
+    }
+    return -1;
   }
 
 }

@@ -23,28 +23,23 @@ interface InfoModel {
   styleUrls: ['./merchants-detail.component.scss']
 })
 export class MerchantsDetailComponent implements OnDestroy {
-  private unsubscribe$ = new UnsubscribeSubject();
   merchant: MerchantModel;
-
   editing = false;
-
   merchantForm: FormGroup;
-
   detailOptions: SelectItem[] = [
     {value: 'Basic', label: this.langService.translate('merchants.detail.BASIC')},
     {value: 'Contact', label: this.langService.translate('merchants.detail.contact')},
     {value: 'Address', label: this.langService.translate('basic.address')},
   ];
   selectedOption = this.detailOptions[0];
-
   basicInfo: InfoModel[][];
   contactInfo: InfoModel[][];
   addressInfo: InfoModel[][];
-
   stateSelect: SelectItem[] = [
     {value: 'ENABLED'},
     {value: 'DISABLED'}
   ];
+  private unsubscribe$ = new UnsubscribeSubject();
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppStateModel>,

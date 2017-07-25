@@ -85,8 +85,8 @@ export class TerminalComponent implements OnDestroy {
         code: '',
         name: '',
         networkCode: '',
-        merchantCode: {value: '', disabled: true},
-        orgUnitCode: {value: '', disabled: true},
+      merchantCode: {value: '', disabled: true},
+      orgUnitCode: {value: '', disabled: true},
       }
     );
 

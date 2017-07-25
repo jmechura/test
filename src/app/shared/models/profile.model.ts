@@ -1,6 +1,7 @@
 export interface ProfileModel {
   blocked: boolean;
   cardGroupCode: string;
+  cardUuid: string;
   city: string;
   email: string;
   expiredDateForWarning: string; // yyyy-MM-dd'T'HH:mm:ss

@@ -1,41 +1,54 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
-    <span class="mss-title">{{'cards.userCard.title' | translate}}</span>
+    <div class="mss-title">{{'cards.userCard.title' | translate}}</div>
+    <div *ngIf="card" class="card-status-container">
+      <div class="card-status-label">{{'cards.userCard.cardState.title' | translate}}:
+        <span class="card-status-enabled" [ngClass]="{'card-status-disabled': card.card.state !== 'ENABLED'}">
+          {{card.card.state === 'ENABLED' ? ('cards.userCard.cardState.ENABLED' | translate) : ('cards.userCard.cardState.DISABLED' |
+          translate) }}
+        </span>
+      </div>
+      <mss-button class="mss-action-button"
+                  [label]="card.card.state === 'ENABLED' ? ('cards.userCard.deactivate' | translate) : ('cards.userCard.activate' | translate)"
+                  (click)="toggleStatusChange()"></mss-button>
+    </div>
   </div>
-
   <div class="form-wrapper">
-    <div class="mss-form-container">
-      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.oldPin' | translate" [(value)]="pin.actual"></mss-input>
-      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.newPin' | translate" [(value)]="pin.changed"></mss-input>
-      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.confirmPin' | translate"
-                 [(value)]="pin.control"></mss-input>
+    <form class="mss-form-container" [formGroup]="cardForm" (ngSubmit)="toggleCardPin()">
+      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.newPin' | translate" formControlName="newPin"></mss-input>
+      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.confirmPin' | translate" formControlName="confirmPin">
+      </mss-input>
+      <div class="mss-validation-label">
+        <span *ngIf="this.cardForm.get('newPin').touched &&
+      this.cardForm.get('confirmPin').touched &&
+      (this.cardForm.get('newPin').value !== this.cardForm.get('confirmPin').value)">{{'cards.userCard.pin.pinDoNotMatch' | translate}}
+        </span>
+      </div>
       <div class="pin-button-container">
-        <mss-button class="mss-action-button" [label]="'cards.userCard.pin.changePin' | translate"></mss-button>
+        <div class="message">{{'cards.userCard.pin.pinContain' | translate}}</div>
+        <mss-button class="card-view-button" [type]="'submit'" [label]="'cards.userCard.pin.changePin' | translate"
+                    [disabled]="disabledChange"></mss-button>
       </div>
-    </div>
-
-    <div class="mss-form-container">
-      <div class="card-status-container">
-        <div class="card-status-label">{{'cards.userCard.cardState.title' | translate}}:
-          <span class="mss-action-button card-status-enabled" [ngClass]="{'card-status-disabled': !cardActive}">
-            {{cardActive ? ('cards.userCard.cardState.ENABLED' | translate) : ('cards.userCard.cardState.DISABLED' | translate) }}
-          </span>
-        </div>
-        <mss-button class="mss-action-button"
-                    [label]="cardActive ? ('cards.userCard.deactivate' | translate) : ('cards.userCard.activate' | translate)"
-                    (click)="toggleStatusChange()"></mss-button>
-      </div>
-
-      <mss-modal-window [(visible)]="cardStatusChangeVisible">
-        <h3 class="mss-modal-title">{{'cards.userCard.warnModal.title' | translate}}</h3>
-        <div *ngIf="cardActive" class="card-modal-text">{{'cards.userCard.warnModal.deactivate' | translate}}</div>
-        <div *ngIf="!cardActive" class="card-modal-text">{{'cards.userCard.cardState.warnModal.activate' | translate}}</div>
-        <div class="confirmation-buttons">
-          <mss-button class="confirm-button" [label]="'basic.yes' | translate" (click)="toggleCardStatus()"></mss-button>
-          <mss-button [label]="'basic.dismiss' | translate" (click)="toggleStatusChange()"></mss-button>
-        </div>
-      </mss-modal-window>
-    </div>
+    </form>
   </div>
-
 </div>
+
+<mss-modal-window *ngIf="card" [(visible)]="cardStatusChangeVisible">
+  <div class="card-modal-title">{{'cards.userCard.warnModal.title' | translate}}</div>
+  <div *ngIf="card.card.state === 'ENABLED'" class="card-modal-text">{{'cards.userCard.warnModal.deactivate' | translate}}</div>
+  <div *ngIf="card.card.state !== 'ENABLED'" class="card-modal-text">{{'cards.userCard.cardState.warnModal.activate' | translate}}
+  </div>
+  <div class="confirmation-buttons">
+    <mss-button class="confirm-button" [label]="'basic.yes' | translate" (click)="toggleCardStatus()"></mss-button>
+    <mss-button [label]="'basic.dismiss' | translate" (click)="toggleStatusChange()"></mss-button>
+  </div>
+</mss-modal-window>
+
+<mss-modal-window [(visible)]="cardPinChangeVisible">
+  <div class="card-modal-title">{{'cards.userCard.warnModal.title' | translate}}</div>
+  <div class="card-modal-text">{{'cards.userCard.warnModal.pinChange' | translate}}</div>
+  <div class="confirmation-buttons">
+    <mss-button class="confirm-button" [label]="'basic.yes' | translate" (click)="changePin()"></mss-button>
+    <mss-button [label]="'basic.dismiss' | translate" (click)="toggleCardPin()"></mss-button>
+  </div>
+</mss-modal-window>
