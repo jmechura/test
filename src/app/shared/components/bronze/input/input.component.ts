@@ -34,9 +34,10 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   set inputValue(newValue: string | number) {
-    this.valueChange.emit(newValue);
+    this.value = newValue;
+    this.valueChange.emit(this.value);
     if (this.changeCallback) {
-      this.changeCallback(newValue);
+      this.changeCallback(this.value);
     }
   }
 

@@ -41,6 +41,9 @@
     "password": "Heslo",
     "passwordAgain": "Heslo znovu",
     "template": "Šablona",
+    "state": "Stav",
+    "roles": "Role",
+    "passwordExpired": "Heslo expirovano",
     "required": {
       "code": "Kod je povinný údaj.",
       "name": "Jméno je povinný údaj.",
@@ -408,7 +411,11 @@
       "title": "Uživetelé",
       "cardGroupCode": "Card Group Code",
       "expiredDateForWarning": "Expired Date For Warning",
-      "addUser": "Přidat uživetele"
+      "addUser": "Přidat uživetele",
+      "sections": {
+        "BASIC": "Základní",
+        "ADVANCED": "Pokročilé"
+      }
     },
     "detail": {
       "title": "Detail Uživetele",

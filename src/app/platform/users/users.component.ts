@@ -8,7 +8,7 @@ import { StateModel } from '../../shared/models/state.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { AppStateModel } from '../../shared/models/app-state.model';
-import { AccountPredicateObject, ProfileModel } from '../../shared/models/profile.model';
+import { ProfilePredicateObject, ProfileModel } from '../../shared/models/profile.model';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TemplateSimpleModel } from '../../shared/models/template-simple.model';
 import { ApiService } from '../../shared/services/api.service';
@@ -20,24 +20,12 @@ import { CodeModel } from 'app/shared/models/code.model';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer';
+import { UserFilterSections } from '../../shared/enums/users-filter-sections.enum';
+import { LanguageService } from '../../shared/services/language.service';
+import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 
 const USERS_ROUTE = 'platform/users';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
-
-const DEFAULT_FILTER = {
-  cardGroupCode: '',
-  cln: '',
-  email: '',
-  firstName: '',
-  issuerCode: '',
-  langKey: '',
-  lastName: '',
-  login: '',
-  merchantCode: '',
-  networkCode: '',
-  orgUnitCode: '',
-  terminalCode: ''
-};
 
 @Component({
   selector: 'mss-users',
@@ -59,6 +47,10 @@ export class UsersComponent implements OnDestroy {
   users: ProfileModel[] = [];
   newUserModalShowing = false;
   newUserForm: FormGroup;
+  filterForm: FormGroup;
+  filterSections: SelectItem[] = [];
+  visibleSection: SelectItem;
+  reportFilterSection = UserFilterSections;
   templates: TemplateSimpleModel[] = [];
   templatesOptions = [];
   profile: ProfileModel;
@@ -73,7 +65,27 @@ export class UsersComponent implements OnDestroy {
               private router: Router,
               private route: ActivatedRoute,
               private fb: FormBuilder,
-              private api: ApiService) {
+              private api: ApiService,
+              private language: LanguageService) {
+
+    this.filterForm = this.fb.group({
+      email: [''],
+      login: [''],
+      firstName: [''],
+      lastName: [''],
+      state: [''],
+      merchantCode: [{value: '', disabled: true}],
+      networkCode: [{value: '', disabled: true}],
+      orgUnitCode: [{value: '', disabled: true}],
+      terminalCode: [{value: '', disabled: true}],
+    });
+
+    this.filterSections = Object.keys(UserFilterSections).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`users.list.sections.${item}`),
+        value: UserFilterSections[item]
+      }));
+    this.visibleSection = this.filterSections[0];
 
     this.newUserForm = fb.group({
       city: [''],
@@ -156,6 +168,11 @@ export class UsersComponent implements OnDestroy {
         }
         if (data.data != null && !data.loading) {
           this.itemsForSelect['NETWORK'] = data.data.map(item => ({label: item.code, value: item.id}));
+          if (this.itemsForSelect['NETWORK'].length !== 0) {
+            this.filterForm.get('networkCode').enable();
+          } else {
+            this.filterForm.get('networkCode').disable();
+          }
         }
       }
     );
@@ -178,6 +195,12 @@ export class UsersComponent implements OnDestroy {
         }
         if (data.data != null && !data.loading) {
           this.itemsForSelect['MERCHANT'] = data.data.map(item => ({value: item.id, label: item.code}));
+          if (this.itemsForSelect['MERCHANT'].length !== 0 && this.filterForm.get('networkCode').value) {
+            this.filterForm.get('merchantCode').enable();
+          } else {
+            this.filterForm.get('merchantCode').disable();
+            this.filterForm.get('orgUnitCode').disable();
+          }
         }
       }
     );
@@ -192,9 +215,33 @@ export class UsersComponent implements OnDestroy {
         }
       }
     );
+    this.store.select('orgUnitCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting org unit codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.itemsForSelect['ORG_UNIT'] = data.data.map(item => ({value: item.id, label: item.code}));
+          if (this.itemsForSelect['ORG_UNIT'].length !== 0 && this.filterForm.get('merchantCode').value) {
+            this.filterForm.get('orgUnitCode').enable();
+          } else {
+            this.filterForm.get('orgUnitCode').disable();
+          }
+        }
+      }
+    );
   }
 
-  get requestModel(): RequestOptions<AccountPredicateObject> {
+  selectCode(value: string, type: string): void {
+    if (type === 'ORG_UNIT') {
+      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
+    } else if (type === 'MERCHANT') {
+      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
+    }
+  }
+
+  get requestModel(): RequestOptions<ProfilePredicateObject> {
     return {
       pagination: {
         number: this.rowLimit,
@@ -202,9 +249,15 @@ export class UsersComponent implements OnDestroy {
         start: (this.pageNumber - 1) * this.rowLimit,
       },
       search: {
-        predicateObject: Object.assign({}, DEFAULT_FILTER)
+        predicateObject: this.predicateObject
       },
       sort: this.sortOption != null ? this.sortOption : {},
+    };
+  }
+
+  private get predicateObject(): ProfilePredicateObject {
+    return {
+      ...this.filterForm.value
     };
   }
 
@@ -371,5 +424,11 @@ export class UsersComponent implements OnDestroy {
     } else if (this.profile.resourceAcquirer === context) {
       return [{value: this.profile.resourceAcquirerId, label: this.profile.resourceAcquirerId}];
     }
+  }
+
+  clearFilter(): void {
+    this.filterForm.reset();
+    this.filterForm.get('merchantCode').disable();
+    this.filterForm.get('orgUnitCode').disable();
   }
 }

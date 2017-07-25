@@ -1,5 +1,20 @@
 @import 'theme';
 
+$filter-item-width: 500px;
+$calendar-text-color: #747474;
+$date-label-width: 136px;
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+
+  .mss-title {
+    margin: 0;
+  }
+}
+
 .data-table-container {
   margin-top: 12px;
 }
@@ -63,5 +78,49 @@
       width: 160px;
       margin-left: 24px;
     }
+  }
+}
+
+.content {
+  margin: 25px 0 20px 0;
+  display: flex;
+
+  .filter-item {
+    margin-right: 60px;
+    margin-bottom: 15px;
+    width: $filter-item-width;
+
+    .label {
+      width: $date-label-width;
+    }
+  }
+}
+
+.button {
+  height: 43px;
+  width: 200px;
+  min-width: 200px;
+
+  &.shifted {
+    height: 50px;
+    margin-left: 50px;
+  }
+}
+
+.row {
+  display: flex;
+
+  &.wrapped {
+    flex-wrap: wrap;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
 }

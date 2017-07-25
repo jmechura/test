@@ -7,7 +7,7 @@
     <div class="column" [formGroup]="filterForm">
       <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
       <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
-        <div class="row">
+        <div class="row wrapped">
           <mss-input class="filter-item" formControlName="reportName" [label]="'basic.name' | translate"></mss-input>
         </div>
         <div class="row wrapped">
@@ -34,10 +34,12 @@
       </div>
 
       <div class="content" *ngIf="visibleSection.value === reportFilterSection.ISSUER">
-        <mss-select class="filter-item" formControlName="issuerCode" [options]="issuerCodes" *mssRoleIf="'filters.issuerCodeSelect'"
-                    [label]="'dictionary.issuerCode' | translate"></mss-select>
-        <mss-select class="filter-item" formControlName="cardGroupCode" *mssRoleIf="'filters.cardGroupCodeSelect'"
-                    [options]="cardGroupCodes" [label]="'dictionary.cardGroupCode' | translate"></mss-select>
+        <div class="row wrapped">
+          <mss-select class="filter-item" formControlName="issuerCode" [options]="issuerCodes" *mssRoleIf="'filters.issuerCodeSelect'"
+                      [label]="'dictionary.issuerCode' | translate"></mss-select>
+          <mss-select class="filter-item" formControlName="cardGroupCode" *mssRoleIf="'filters.cardGroupCodeSelect'"
+                      [options]="cardGroupCodes" [label]="'dictionary.cardGroupCode' | translate"></mss-select>
+        </div>
       </div>
     </div>
     <mss-button class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>

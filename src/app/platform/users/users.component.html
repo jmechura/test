@@ -3,6 +3,49 @@
     <span class="mss-title">{{'users.list.title' | translate}}</span>
     <mss-button class="mss-action-button" label="{{'users.list.addUser' | translate}}" (click)="toggleNewUserModal($event)"></mss-button>
   </div>
+
+  <!-- START FILTERS -->
+  <div class="row">
+    <div class="column" [formGroup]="filterForm">
+      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+      <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
+        <div class="row wrapped">
+            <mss-input class="filter-item" formControlName="login" [label]="'basic.login' | translate"></mss-input>
+            <mss-input class="filter-item" formControlName="firstName" [label]="'basic.firstName' | translate"></mss-input>
+            <mss-input class="filter-item" formControlName="lastName" [label]="'basic.lastName' | translate"></mss-input>
+          <mss-input class="filter-item" formControlName="email" [label]="'basic.email' | translate"></mss-input>
+          <mss-input class="filter-item" formControlName="state" [label]="'basic.state' | translate"></mss-input>
+        </div>
+      </div>
+
+      <div class="content" *ngIf="visibleSection.value === reportFilterSection.ADVANCED">
+        <div class="row wrapped">
+          <mss-select class="filter-item"
+                      [label]="'dictionary.networkCode' | translate"
+                      [options]="itemsForSelect['NETWORK']"
+                      (selectedOptionChange)="selectCode($event, 'MERCHANT')"
+                      formControlName="networkCode"></mss-select>
+          <mss-select class="filter-item"
+                      [label]="'dictionary.merchantCode' | translate"
+                      [options]="itemsForSelect['MERCHANT']"
+                      (selectedOptionChange)="selectCode($event, 'ORG_UNIT')"
+                      formControlName="merchantCode"></mss-select>
+          <mss-select class="filter-item"
+                      [label]="'dictionary.orgUnitCode' | translate"
+                      [options]="itemsForSelect['ORG_UNIT']"
+                      formControlName="orgUnitCode"></mss-select>
+        </div>
+      </div>
+
+    </div>
+    <mss-button class="button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+
+  <div class="button">
+    <mss-button [label]="'reports.list.search' | translate" (click)="getUsers()"></mss-button>
+  </div>
+  <!-- END FILTERS -->
+
   <div class="data-table-container">
     <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="usersData ? usersData.totalElements : 0 "
                    [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50"
@@ -55,9 +98,11 @@
         <div class="mss-validation-label"><span *ngIf="isPresent('lastName')">{{'basic.required.lastName' | translate}}</span></div>
         <mss-input formControlName="login" label="{{'basic.login' | translate}}*" [warn]="isPresent('login')"></mss-input>
         <div class="mss-validation-label"><span *ngIf="isPresent('login')">{{'basic.required.login' | translate}}</span></div>
-        <mss-input formControlName="password" label="{{'basic.password' | translate}}*" [warn]="isPresent('password')" [type]="'password'"></mss-input>
+        <mss-input formControlName="password" label="{{'basic.password' | translate}}*" [warn]="isPresent('password')"
+                   [type]="'password'"></mss-input>
         <div class="mss-validation-label"><span *ngIf="isPresent('password')">{{'basic.required.password' | translate}}</span></div>
-        <mss-input formControlName="passwordAgain" label="{{'basic.passwordAgain' | translate}}*" [warn]="isPresent('passwordAgain') || !isPasswordsEqual"
+        <mss-input formControlName="passwordAgain" label="{{'basic.passwordAgain' | translate}}*"
+                   [warn]="isPresent('passwordAgain') || !isPasswordsEqual"
                    [type]="'password'"></mss-input>
         <div class="mss-validation-label">
           <span *ngIf="isPresent('passwordAgain')">{{'basic.required.passwordAgain' | translate}}</span>
@@ -99,8 +144,8 @@
       </div>
     </div>
     <div class="new-user-buttons">
-      <mss-button label="Zavřít" class="new-user-button" (click)="toggleNewUserModal()"></mss-button>
-      <mss-button label="Přidat" class="new-user-button" (click)="addUser()"
+      <mss-button label="{{'basic.dismiss' | translate}}" class="new-user-button" (click)="toggleNewUserModal()"></mss-button>
+      <mss-button label="{{'basic.add' | translate}}" class="new-user-button" (click)="addUser()"
                   [disabled]="newUserForm.invalid || !isPasswordsEqual || !isValidEmail"></mss-button>
     </div>
   </form>

@@ -33,7 +33,7 @@ export interface ProfileModel {
   zip: string;
 }
 
-export interface AccountPredicateObject {
+export interface ProfilePredicateObject {
   cardGroupCode: string;
   cln: string;
   email: string;
