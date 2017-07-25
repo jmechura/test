@@ -78,7 +78,7 @@
 
 <!--Add new merchant modal-->
 <mss-modal-window [(visible)]="newMerchantModalShowing" *mssRoleIf="'merchants.create'">
-  <div class="new-merchant-form-title">{{'merchants.addMerchant' | translate}}</div>
+  <h3 class="mss-modal-title">{{'merchants.addMerchant' | translate}}</h3>
   <form [formGroup]="newMerchantForm" class="new-merchant-form">
     <div class="new-merchant-inputs">
       <div class="new-merchant-input-side">

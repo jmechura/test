@@ -88,7 +88,7 @@
 
 
 <mss-modal-window [(visible)]="newCampaignModalShowing">
-  <div class="new-campaign-form-title">{{'campaigns.list.addCampaign' | translate}}</div>
+  <h3 class="mss-modal-title">{{'campaigns.list.addCampaign' | translate}}</h3>
   <form [formGroup]="newCampaignForm" class="new-campaign-form">
     <mss-input formControlName="name" [(value)]="newCampaign.name" [label]="('basic.name' | translate) + '*'"
                [warn]="isPresent('name')"></mss-input>
@@ -114,7 +114,7 @@
 </mss-modal-window>
 
 <mss-modal-window [(visible)]="warnModalVisible">
-  <div class="mss-title">{{'campaigns.list.deleteQuestion' | translate}}</div>
+  <h3 class="mss-modal-title">{{'campaigns.list.deleteQuestion' | translate}}</h3>
   <div class="warn-buttons">
     <mss-button class="button" [label]="'basic.dismiss' | translate" (click)="warnModalVisible = false"></mss-button>
     <mss-button class="button" [label]="'basic.yes' | translate" (click)="deleteCampaign()"></mss-button>

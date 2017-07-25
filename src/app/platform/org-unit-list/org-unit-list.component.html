@@ -86,13 +86,13 @@
 </div>
 
 <mss-modal-window [(visible)]="createModalShown" *mssRoleIf="'orgUnits.create'">
-  <h1 class="create-dialog-title">{{'orgUnits.list.addOrgUnit' | translate}}</h1>
+  <h3 class="mss-modal-title">{{'orgUnits.list.addOrgUnit' | translate}}</h3>
   <mss-org-unit-form (modelSubmit)="createOrgUnit($event)" (dismiss)="hideCreateModal()"></mss-org-unit-form>
 </mss-modal-window>
 
 <mss-modal-window [(visible)]="deleteModalShown">
   <div class="delete-prompt">
-    <h1>{{'orgUnits.list.removeQuestion' | translate}}</h1>
+    <h3 class="mss-modal-title">{{'orgUnits.list.removeQuestion' | translate}}</h3>
     <div class="delete-prompt-footer">
       <mss-button class="delete-prompt-action" [label]="'basic.dismiss' | translate" (click)="hideDeleteModal()"></mss-button>
       <mss-button class="delete-prompt-action" [label]="'basic.delete' | translate" (click)="deleteOrgUnit()"></mss-button>

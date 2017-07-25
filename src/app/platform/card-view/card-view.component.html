@@ -27,7 +27,7 @@
       </div>
 
       <mss-modal-window [(visible)]="cardStatusChangeVisible">
-        <div class="card-modal-title">{{'cards.userCard.warnModal.title' | translate}}</div>
+        <h3 class="mss-modal-title">{{'cards.userCard.warnModal.title' | translate}}</h3>
         <div *ngIf="cardActive" class="card-modal-text">{{'cards.userCard.warnModal.deactivate' | translate}}</div>
         <div *ngIf="!cardActive" class="card-modal-text">{{'cards.userCard.cardState.warnModal.activate' | translate}}</div>
         <div class="confirmation-buttons">

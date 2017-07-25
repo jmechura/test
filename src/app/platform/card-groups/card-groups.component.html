@@ -72,9 +72,9 @@
     </ngx-datatable>
   </div>
   <mss-modal-window [(visible)]="modalVisible">
-    <div class="header">
+    <h3 class="mss-modal-title">
       {{'cardGroups.addCardGroup' | translate}}
-    </div>
+    </h3>
     <div class="content">
       <div class="tabs">
         <mss-tabs [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>

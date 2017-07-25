@@ -61,9 +61,9 @@
 
 <mss-modal-window [(visible)]="newAcquirerModalVisible">
   <div class="mss-view-container">
-    <div class="mss-title">
+    <h3 class="mss-modal-title">
       {{'acquirers.list.addAcquirer' | translate}}
-    </div>
+    </h3>
     <div class="content">
       <div class="tabs">
         <mss-tabs [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>

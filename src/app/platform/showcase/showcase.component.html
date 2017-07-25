@@ -70,13 +70,13 @@
     <button (click)="toggleModalShowing(1)" class="showcase-label">Show Modal without overlay</button>
 
     <mss-modal-window [(visible)]="modalShowing[0]">
-      <h2>Modal window</h2>
+      <h3 class="mss-modal-title">Modal window</h3>
       <div>{{loremIpsum}}</div>
       <button (click)="toggleModalShowing(0)">Close</button>
     </mss-modal-window>
 
     <mss-modal-window [(visible)]="modalShowing[1]" [overlay]="false">
-      <h2>Modal window without overlay</h2>
+      <h3 class="mss-modal-title">Modal window without overlay</h3>
       <div>{{loremIpsum}}</div>
       <button (click)="toggleModalShowing(1)">Close</button>
     </mss-modal-window>

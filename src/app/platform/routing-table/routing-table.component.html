@@ -56,7 +56,7 @@
       <div class="close-wrapper" (click)="switchModal()">
         <div class="close">+</div>
       </div>
-      <div class="mss-title">{{'routingTables.list.addTable' | translate}}</div>
+      <h3 class="mss-modal-title">{{'routingTables.list.addTable' | translate}}</h3>
       <div class="name-wrapper routing-table-modal-input">
         <mss-input formControlName="name" [label]="'routingTables.dictionary.name' | translate" [(value)]="newTable.name"></mss-input>
         <div *ngIf="showMessage()" class="warning-text">{{'routingTables.list.nameExist' | translate}}</div>
@@ -70,7 +70,7 @@
 </mss-modal-window>
 
 <mss-modal-window [(visible)]="warnModalVisible">
-  <div class="mss-title">Opravdu chcete záznam odstranit?</div>
+  <h3 class="mss-modal-title">Opravdu chcete záznam odstranit?</h3>
   <div class="modal-buttons">
     <mss-button class="button" label="Zavřít" (click)="switchWarnModal()"></mss-button>
     <mss-button class="button" label="Ano" (click)="deleteRow()"></mss-button>

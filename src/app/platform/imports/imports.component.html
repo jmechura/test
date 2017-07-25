@@ -58,7 +58,7 @@
 
 <mss-modal-window [(visible)]="newImportModalVisible">
   <div class="mss-view-container">
-    <div class="mss-title">{{'imports.list.addImport' | translate}}</div>
+    <h3 class="mss-modal-title">{{'imports.list.addImport' | translate}}</h3>
     <form [formGroup]="newImportForm" (ngSubmit)="addNewImport()">
       <mss-input [label]="('basic.name' | translate) + '*'" [warn]="isPresent('name')" formControlName="name"></mss-input>
       <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
@@ -77,9 +77,9 @@
 
 <mss-modal-window [(visible)]="deleteModalVisible">
   <div class="mss-view-container">
-    <div class="mss-title">
+    <h3 class="mss-modal-title">
       {{'imports.list.deleteQuestion' | translate}}
-    </div>
+    </h3>
 
     <div class="buttons">
       <mss-button class="button" (click)="deleteModalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>

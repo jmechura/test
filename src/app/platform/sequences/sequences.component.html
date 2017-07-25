@@ -71,7 +71,7 @@
       <div class="close-wrapper" (click)="switchModal()">
         <div class="close">+</div>
       </div>
-      <div class="mss-title">{{'sequences.addSequence' | translate}}</div>
+      <h3 class="mss-modal-title">{{'sequences.addSequence' | translate}}</h3>
       <div class="new-sequence-container">
         <mss-select formControlName="type" class="modal-input" [label]="'sequences.dictionary.type' | translate"
                     [(selectedOption)]="newSequence.pk.type"
@@ -102,7 +102,7 @@
 </mss-modal-window>
 
 <mss-modal-window [(visible)]="warnModalVisible">
-  <div class="mss-title">Opravdu odstranit zaznam?</div>
+  <h3 class="mss-modal-title">Opravdu odstranit zaznam?</h3>
   <div class="warn-buttons">
     <mss-button class="button" (click)="toggleWarnModal()" label="Zavřít"></mss-button>
     <mss-button class="button" (click)="deleteRow()" label="Ano"></mss-button>
