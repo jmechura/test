@@ -1,36 +1,27 @@
 @import 'theme';
 
-$margin-bottom: 15px;
-
-.card-detail-container {
-  padding: 40px 50px;
+.card-detail-content {
+  margin: 25px 0;
 }
 
-.header {
-  color: $header-text-color;
-  font-size: 36px;
-  margin-bottom: $margin-bottom;
-}
-
-.info {
+.category-wrapper {
   display: flex;
-  margin-bottom: $margin-bottom;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
 
-  .list {
+  .column {
     flex-grow: 1;
-    flex-basis: 0;
+    min-width: 300px;
+    margin: 0 12px;
 
-    &:first-child {
-      margin-right: 15px;
-    }
-
-    &:last-child {
-      margin-left: 15px;
+    .card-detail-item {
+      margin: 6px 0;
     }
   }
 }
 
 .item {
-  margin-bottom: $margin-bottom;
   width: calc(50% - 15px);
+  margin: 6px 0;
 }

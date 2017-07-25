@@ -8,7 +8,15 @@ import { cardDetailActions } from '../../shared/reducers/card-detail.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+
+interface InfoModel {
+  label: string;
+  value: any;
+  formName?: string;
+  options?: SelectItem[];
+}
 
 @Component({
   selector: 'mss-card-detail',
@@ -19,21 +27,52 @@ export class CardDetailComponent implements OnDestroy {
 
   private unsubscribe$ = new UnsubscribeSubject();
   cardData: CardDetailModel;
-  viewData: {
-    basic: any[];
-    owner: any[];
-  };
 
   rowLimit = 10;
   accountOptions: SelectItem[] = [];
   selectedAccountName;
   selectedAccount: any;
 
+  cardForm: FormGroup;
+
+  detailOptions: SelectItem[] = [
+    {value: 'Basic', label: this.langService.translate('cards.cardDetail.sections.BASIC')},
+    {value: 'Owner', label: this.langService.translate('cards.cardDetail.sections.OWNER')},
+    {value: 'Account', label: this.langService.translate('cards.cardDetail.sections.ACCOUNT')},
+  ];
+  selectedOption = this.detailOptions[0];
+
+  basicInfo: InfoModel[][];
+  ownerInfo: InfoModel[][];
+
+  stateSelect: SelectItem[] = [
+    {value: 'ENABLED'},
+    {value: 'DISABLED'}
+  ];
+
   @ViewChild('table') table: DatatableComponent;
 
   constructor(private store: Store<AppStateModel>,
-              private language: LanguageService,
-              private route: ActivatedRoute) {
+              private langService: LanguageService,
+              private route: ActivatedRoute,
+              private fb: FormBuilder) {
+
+    this.cardForm = this.fb.group(
+      {
+        uuid: ['', Validators.required],
+        cln: '',
+        pan: '',
+        dic: '',
+        email: '',
+        phone: '',
+        bankAccount: '',
+        street: '',
+        city: '',
+        zip: '',
+        region: '',
+        country: '',
+      }
+    );
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params) => {
@@ -48,8 +87,96 @@ export class CardDetailComponent implements OnDestroy {
         }
         if (data.data != undefined && !data.loading) {
           this.cardData = data.data;
-          this.viewData = this.createViewData(this.cardData);
+          this.cardForm.patchValue(this.cardData);
           this.accountOptions = this.cardData.accounts.map(account => ({value: account.uuid}));
+          this.basicInfo = [
+            [
+              {
+                label: this.langService.translate(`dictionary.uuid`),
+                value: this.cardData.card.cardUuid,
+                formName: 'cardUuid',
+              },
+              {
+                label: this.langService.translate(`dictionary.cln`),
+                value: this.cardData.card.cln,
+                formName: 'cln',
+              },
+              {
+                label: this.langService.translate(`dictionary.pan`),
+                value: this.cardData.card.panSequenceNumber,
+                formName: 'panSequenceNumber',
+              },
+              {
+                label: this.langService.translate(`dictionary.expiration`),
+                value: this.cardData.card.expiration,
+                formName: 'expiration',
+              },
+              {
+                label: this.langService.translate(`cards.cardDetail.expirationDate`),
+                value: this.cardData.card.expiryDate,
+                formName: 'expiryDate',
+              },
+            ],
+            [
+              {
+                label: this.langService.translate('dictionary.serviceCode'),
+                value: this.cardData.card.serviceCode,
+                formName: 'serviceCode',
+              },
+              {
+                label: this.langService.translate('dictionary.typeOfCard'),
+                value: this.cardData.card.type,
+                formName: 'typeOfCard',
+              },
+              {
+                label: this.langService.translate('dictionary.state'),
+                value: this.cardData.card.state,
+                formName: 'state',
+                options: this.stateSelect
+              },
+              {
+                label: this.langService.translate('cards.cardDetail.track2'),
+                value: this.cardData.card.track2,
+                formName: 'track2',
+              },
+            ],
+          ];
+          this.ownerInfo = [
+            [
+              {
+                label: this.langService.translate('basic.firstName'),
+                value: this.cardData.card.firstname,
+                formName: 'firstname',
+              },
+              {
+                label: this.langService.translate('basic.lastName'),
+                value: this.cardData.card.lastname,
+                formName: 'lastname',
+              },
+              {
+                label: this.langService.translate('dictionary.limit'),
+                value: this.cardData.card.limit,
+                formName: 'limit',
+              },
+            ],
+            [
+              {
+                label: this.langService.translate('dictionary.limitType'),
+                value: this.cardData.card.limitType,
+                formName: 'limitType',
+              },
+              {
+                label: this.langService.translate('dictionary.cardGroupCode'),
+                value: this.cardData.card.cardGroupPrimaryCode,
+                formName: 'cardGroupPrimaryCode',
+              },
+              {
+                label: this.langService.translate('dictionary.issuerCode'),
+                value: this.cardData.card.issuerCode,
+                formName: 'issuerCode',
+              },
+            ]
+          ];
         }
       }
     );
@@ -62,87 +189,18 @@ export class CardDetailComponent implements OnDestroy {
       list: [
         {
           value: acc.balance,
-          label: this.language.translate(`cards.cardDetail.account.balance`)
+          label: this.langService.translate(`cards.cardDetail.account.balance`)
         },
         {
           value: acc.type,
-          label: this.language.translate(`dictionary.type`)
+          label: this.langService.translate(`dictionary.type`)
         },
         {
           value: acc.uuid,
-          label: this.language.translate(`dictionary.uuid`)
+          label: this.langService.translate(`dictionary.uuid`)
         }
       ],
       tableData: acc.transfers
-    };
-  }
-
-  createViewData(data: CardDetailModel): any {
-    return {
-      basic: [
-        {
-          label: this.language.translate(`dictionary.uuid`),
-          value: data.card.cardUuid
-        },
-        {
-          label: this.language.translate(`dictionary.cln`),
-          value: data.card.cln
-        },
-        {
-          label: this.language.translate(`dictionary.pan`),
-          value: data.card.panSequenceNumber
-        },
-        {
-          label: this.language.translate(`dictionary.expiration`),
-          value: data.card.expiration
-        },
-        {
-          label: this.language.translate(`cards.cardDetail.expirationDate`),
-          value: data.card.expiryDate
-        },
-        {
-          label: this.language.translate(`dictionary.serviceCode`),
-          value: data.card.serviceCode
-        },
-        {
-          label: this.language.translate(`dictionary.typeOfCard`),
-          value: data.card.type
-        },
-        {
-          label: this.language.translate(`dictionary.state`),
-          value: data.card.state
-        },
-        {
-          label: this.language.translate(`cards.cardDetail.track2`),
-          value: data.card.track2
-        }
-      ],
-      owner: [
-        {
-          label: this.language.translate(`basic.firstName`),
-          value: data.card.firstname
-        },
-        {
-          label: this.language.translate(`basic.lastName`),
-          value: data.card.lastname
-        },
-        {
-          label: this.language.translate(`dictionary.limit`),
-          value: data.card.limit
-        },
-        {
-          label: this.language.translate(`dictionary.limitType`),
-          value: data.card.limitType
-        },
-        {
-          label: this.language.translate(`dictionary.cardGroupCode`),
-          value: data.card.cardGroupPrimaryCode
-        },
-        {
-          label: this.language.translate(`dictionary.issuerCode`),
-          value: data.card.issuerCode
-        }
-      ]
     };
   }
 
@@ -159,5 +217,9 @@ export class CardDetailComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
+  }
+
+  setSelectedOption(newIndex: SelectItem): void {
+    this.selectedOption = newIndex;
   }
 }
