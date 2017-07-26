@@ -109,7 +109,12 @@
           <mss-input class="modal-input" [type]="'number'" [label]="'basic.coefficient' | translate"
                      formControlName="coefficient"></mss-input>
           <mss-input class="modal-input" [label]="'basic.note' | translate" formControlName="note"></mss-input>
-          <mss-button [label]="'terminals.addTerminal' | translate" [disabled]="newFormInvalid"></mss-button>
+          <div class="mss-buttons-row">
+            <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
+                        (click)="switchModal()"></mss-button>
+            <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" type="submit"
+                        [disabled]="newFormInvalid"></mss-button>
+          </div>
         </div>
       </div>
     </div>

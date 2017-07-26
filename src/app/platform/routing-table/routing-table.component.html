@@ -5,10 +5,10 @@
   </div>
   <div *ngIf="rows.length > 0" class="data-table-container">
     <ngx-datatable #table [columns]="columns" [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-                   [rowHeight]="'auto'" [limit]="rowLimit" [rows]="rows">
+                   [rowHeight]="'auto'" [limit]="rowLimit" [rows]="rows" [selectionType]="'single'" (select)="onSelect($event)">
       <ngx-datatable-column [name]="'routingTables.dictionary.name' | translate" prop="name">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell click-able" (click)="selectRow(row)">{{value}}</span>
+          <span class="cell">{{value}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'routingTables.dictionary.description' | translate" prop="description">
@@ -17,17 +17,10 @@
           <input class="table-input" autofocus *ngIf="edit === row.$$index" type="text" [(ngModel)]="editModel"/>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.edit' | translate" [maxWidth]="140">
-        <ng-template ngx-datatable-cell-template let-row="row">
-          <i *ngIf="edit !== row.$$index" (click)="editing(row.$$index)" class="material-icons click-able">edit</i>
-          <i *ngIf="edit === row.$$index" (click)="saveTable(row.$$index)" class="material-icons click-able">done</i>
-          <i *ngIf="edit === row.$$index" (click)="clearEdit()" class="material-icons click-able">not_interested</i>
-        </ng-template>
-      </ngx-datatable-column>
 
       <ngx-datatable-column [name]="'basic.delete' | translate" [maxWidth]="80">
         <ng-template ngx-datatable-cell-template let-row="row">
-          <i (click)="showDeleteModal(row)" class="material-icons click-able">clear</i>
+          <i (click)="showDeleteModal($event, row)" class="material-icons click-able">clear</i>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-footer>
@@ -64,7 +57,12 @@
       <mss-input formControlName="description" class="routing-table-modal-input"
                  [label]="'routingTables.dictionary.description' | translate"
                  [(value)]="newTable.description"></mss-input>
-      <mss-button [disabled]="newTableForm.invalid" [label]="'basic.save' | translate"></mss-button>
+      <div class="mss-buttons-row">
+        <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
+                    (click)="switchModal()"></mss-button>
+        <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" type="submit"
+                    [disabled]="newTableForm.invalid"></mss-button>
+      </div>
     </div>
   </form>
 </mss-modal-window>

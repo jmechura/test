@@ -1,15 +1,22 @@
 @import 'theme';
 
-.routes-container {
-  .button-container {
-    display: flex;
+.routing-table-detail-content {
+  margin: 25px 0;
+}
 
-    .routes-btn {
-      width: 150px;
+.category-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
 
-      &:not(:last-child) {
-        margin-right: 20px;
-      }
+  .column {
+    flex-grow: 1;
+    min-width: 300px;
+    margin: 0 12px;
+
+    .routing-table-detail-item {
+      margin: 6px 0;
     }
   }
 }

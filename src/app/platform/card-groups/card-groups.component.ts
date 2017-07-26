@@ -235,8 +235,8 @@ export class CardGroupsComponent implements OnDestroy {
     this.filterForm.reset();
   }
 
-  addCardGroup(): void {
-    this.modalVisible = true;
+  toggleAddCardGroupModal(): void {
+    this.modalVisible = !this.modalVisible;
   }
 
   isInvalid(value: string): boolean {
@@ -247,7 +247,7 @@ export class CardGroupsComponent implements OnDestroy {
   createNewCardGroup(): void {
     this.api.post('/cardgroups', this.newCardGroupForm.value).subscribe(
       () => {
-        this.modalVisible = false;
+        this.toggleAddCardGroupModal();
         this.getCardGroups();
       },
       (error) => {

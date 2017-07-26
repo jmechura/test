@@ -115,9 +115,10 @@
         <div class="mss-validation-label"></div>
       </div>
     </div>
-    <div class="new-merchant-buttons">
-      <mss-button [label]="'basic.dismiss' | translate" class="new-merchant-button" (click)="toggleNewMerchantModal()"></mss-button>
-      <mss-button [label]="'basic.save' | translate" class="new-merchant-button" (click)="addMerchant()"
+    <div class="mss-buttons-row">
+      <mss-button [label]="'basic.dismiss' | translate" class="mss-action-button right-margin" type="button"
+                  (click)="toggleNewMerchantModal()"></mss-button>
+      <mss-button [label]="'basic.add' | translate" class="mss-action-button" (click)="addMerchant()" type="submit"
                   [disabled]="newMerchantForm.invalid"></mss-button>
     </div>
   </form>

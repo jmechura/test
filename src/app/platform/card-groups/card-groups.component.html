@@ -1,7 +1,7 @@
 <div class="card-groups-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'cardGroups.title' | translate}}</span>
-    <mss-button class="mss-action-button" (click)="addCardGroup()" [label]="'cardGroups.addCardGroup' | translate"
+    <mss-button class="mss-action-button" (click)="toggleAddCardGroupModal()" [label]="'cardGroups.addCardGroup' | translate"
                 *mssRoleIf="'cardGroups.create'">
     </mss-button>
   </div>
@@ -201,8 +201,11 @@
             </div>
           </div>
         </div>
-        <div class="submit-button">
-          <mss-button [label]="'cardGroups.addCardGroup' | translate" type="submit" [disabled]="newCardGroupForm.invalid"></mss-button>
+        <div class="mss-buttons-row">
+          <mss-button [label]="'basic.dismiss' | translate" (click)="toggleAddCardGroupModal()" type="button"
+                      class="mss-action-button right-margin"></mss-button>
+          <mss-button [label]="'basic.add' | translate" type="submit" [disabled]="newCardGroupForm.invalid"
+                      class="mss-action-button"></mss-button>
         </div>
       </form>
     </div>

@@ -273,6 +273,7 @@
     },
     "detail": {
       "title": "Detail routovaci tabulky",
+      "routesTable": "Tabulka routu",
       "addRoute": "Přidat routu",
       "saveRoutes": "Uložit routy"
     },

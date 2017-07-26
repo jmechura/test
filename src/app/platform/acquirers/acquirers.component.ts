@@ -139,11 +139,15 @@ export class AcquirersComponent implements OnDestroy {
     this.deleteModalVisible = true;
   }
 
+  toggleNewAcquirerModal(): void {
+    this.newAcquirerModalVisible = !this.newAcquirerModalVisible;
+  }
+
   createNewAcquirer(): void {
     this.api.post(ACQUIRERS_ENDPOINT, this.newAcquirerForm.value).subscribe(
       () => {
         this.getAcquirers();
-        this.newAcquirerModalVisible = false;
+        this.toggleNewAcquirerModal();
       },
       (error) => {
         console.error('Error occurred while creating new acquirer', error);

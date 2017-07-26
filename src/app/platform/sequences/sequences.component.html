@@ -94,8 +94,12 @@
         </mss-input>
         <mss-input formControlName="template" class="modal-input" [label]="'sequences.dictionary.template' | translate"
                    [(value)]="newSequence.template"></mss-input>
-        <mss-button class="new-sequence-btn" [disabled]="newSequenceForm.invalid"
-                    [label]="'sequences.addSequence' | translate"></mss-button>
+        <div class="mss-buttons-row">
+          <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
+                      (click)="switchModal()"></mss-button>
+          <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" type="submit"
+                      [disabled]="newSequenceForm.invalid"></mss-button>
+        </div>
       </div>
     </div>
   </form>

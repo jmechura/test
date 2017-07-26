@@ -143,9 +143,10 @@
         </div>
       </div>
     </div>
-    <div class="new-user-buttons">
-      <mss-button label="{{'basic.dismiss' | translate}}" class="new-user-button" (click)="toggleNewUserModal()"></mss-button>
-      <mss-button label="{{'basic.add' | translate}}" class="new-user-button" (click)="addUser()"
+    <div class="mss-buttons-row">
+      <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
+                  (click)="toggleNewUserModal()"></mss-button>
+      <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" (click)="addUser()" type="submit"
                   [disabled]="newUserForm.invalid || !isPasswordsEqual || !isValidEmail"></mss-button>
     </div>
   </form>

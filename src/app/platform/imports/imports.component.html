@@ -67,9 +67,10 @@
       <div class="mss-validation-label"><span *ngIf="isPresent('nameRead')">{{'imports.dictionary.nameRead' | translate}}</span></div>
       <mss-checkbox formControlName="runAfterStart" [label]="'imports.dictionary.runAfterStart' | translate"></mss-checkbox>
       <mss-select [label]="'imports.dictionary.type' | translate" formControlName="type" [options]="importTypes"></mss-select>
-      <div class="buttons">
-        <mss-button class="button" (click)="newImportModalVisible = false" type="button" [label]="'basic.dismiss' | translate"></mss-button>
-        <mss-button class="button" [disabled]="newImportForm.invalid" [label]="'imports.list.addImport' | translate"
+      <div class="mss-buttons-row">
+        <mss-button class="mss-action-button right-margin" (click)="newImportModalVisible = false" type="button"
+                    [label]="'basic.dismiss' | translate"></mss-button>
+        <mss-button class="mss-action-button" [disabled]="newImportForm.invalid" [label]="'basic.add' | translate"
                     type="submit"></mss-button>
       </div>
     </form>
@@ -82,9 +83,10 @@
       {{'imports.list.deleteQuestion' | translate}}
     </h3>
 
-    <div class="buttons">
-      <mss-button class="button" (click)="deleteModalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
-      <mss-button class="button" (click)="deleteImport()" [label]="'basic.yes' | translate"></mss-button>
+    <div class="mss-buttons-row">
+      <mss-button class="mss-action-button right-margin" (click)="deleteModalVisible = false"
+                  [label]="'basic.dismiss' | translate"></mss-button>
+      <mss-button class="mss-action-button" (click)="deleteImport()" [label]="'basic.yes' | translate"></mss-button>
     </div>
   </div>
 </mss-modal-window>

@@ -9,15 +9,6 @@
 .new-campaign-form {
   display: flex;
   flex-direction: column;
-
-  .new-campaign-buttons {
-    display: flex;
-    justify-content: space-between;
-
-    .new-campaign-button {
-      width: 45%;
-    }
-  }
 }
 
 .edit-buttons-container {

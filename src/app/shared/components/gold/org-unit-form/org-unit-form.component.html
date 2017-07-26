@@ -40,10 +40,10 @@
       <mss-input formControlName="note" [label]="'basic.note' | translate"></mss-input>
     </div>
   </div>
-  <div class="org-unit-form-footer">
-    <mss-button [label]="variant === 'update' ? ('basic.back' | translate) : ('basic.dismiss' | translate)" class="org-unit-form-action"
-                (click)="emitDismiss()"></mss-button>
-    <mss-button [label]="'basic.save' | translate" class="org-unit-form-action" (click)="emitOrgUnit()"
+  <div class="mss-buttons-row">
+    <mss-button [label]="variant === 'update' ? ('basic.back' | translate) : ('basic.dismiss' | translate)"
+                class="mss-action-button right-margin" (click)="emitDismiss()"></mss-button>
+    <mss-button [label]="'basic.add' | translate" class="mss-action-button" (click)="emitOrgUnit()"
                 [disabled]="formInvalid"></mss-button>
   </div>
 </form>

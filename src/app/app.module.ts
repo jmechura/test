@@ -150,6 +150,8 @@ import { configurationInstanceReducer } from './shared/reducers/configuration-in
 import { ConfigurationInstanceEffect } from './shared/effects/configuration-instance.effect';
 import { templatesSimpleReducer } from './shared/reducers/template-simple.reducer';
 import { TemplatesSimpleEffect } from './shared/effects/template-simple.effect';
+import { routingTableDetailReducer } from './shared/reducers/routing-table-detail.reducer';
+import { RoutingTableDetailEffect } from 'app/shared/effects/routing-table-detail.effect';
 
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
@@ -186,6 +188,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       issuers: issuersReducer,
       issuerDetail: issuerDetailReducer,
       routingTable: routingTableReducer,
+      routingTableDetail: routingTableDetailReducer,
       routes: routesReducer,
       targets: targetReducer,
       rules: ruleReducer,
@@ -248,6 +251,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(TransactionTransferEffect),
     EffectsModule.runAfterBootstrap(TransactionEffect),
     EffectsModule.runAfterBootstrap(RoutingTableEffect),
+    EffectsModule.runAfterBootstrap(RoutingTableDetailEffect),
     EffectsModule.runAfterBootstrap(RoutesEffect),
     EffectsModule.runAfterBootstrap(TargetEffect),
     EffectsModule.runAfterBootstrap(RuleEffect),

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { ActivatedRoute } from '@angular/router';
 import { StateModel } from '../../shared/models/state.model';
-import { fillRoute, TableRoutes } from '../../shared/models/routin.model';
+import { fillRoute, RoutingTable, TableRoutes } from '../../shared/models/routin.model';
 import { routesActions } from '../../shared/reducers/routes.reducer';
 import { ruleActions } from '../../shared/reducers/rule.reducer';
 import { targetActions } from '../../shared/reducers/targer.reducer';
@@ -12,6 +12,13 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
+import { routingTableDetailActions } from '../../shared/reducers/routing-table-detail.reducer';
+
+interface InfoModel {
+  label: string;
+  value: any;
+  formName?: string;
+}
 
 @Component({
   selector: 'mss-routes',
@@ -23,12 +30,17 @@ export class RoutesComponent implements OnDestroy {
   loading = false;
   rows: any[] = [];
   tableName: string;
+  routingTable: RoutingTable = {name: '', description: ''};
+
+  basicInfo: InfoModel[][];
+  editingRouteTable = false;
 
   targets: SelectItem[];
   rules: SelectItem[];
 
   modalShowing = false;
 
+  routingTableForm: FormGroup;
   newRouteForm: FormGroup;
   newRoute: TableRoutes = fillRoute();
 
@@ -41,6 +53,49 @@ export class RoutesComponent implements OnDestroy {
               private fb: FormBuilder,
               private language: LanguageService,
               private route: ActivatedRoute) {
+
+    this.routingTableForm = this.fb.group(
+      {
+        name: ['', Validators.required],
+        description: '',
+      }
+    );
+
+    this.route.params.subscribe(
+      (params: { name: string }) => {
+        this.store.dispatch({type: routingTableDetailActions.ROUTING_TABLE_DETAIL_GET_REQUEST, payload: params.name});
+      }
+    );
+
+    this.store.select('routingTableDetail').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error, loading}: StateModel<RoutingTable>) => {
+        if (error) {
+          console.error('Routing table detail API call has returned error', error);
+          return;
+        }
+        if (data != null && !loading) {
+          this.routingTable = data;
+          this.routingTableForm.patchValue(this.routingTable);
+          this.basicInfo = [
+            [
+              {
+                label: this.language.translate('basic.name'),
+                value: this.routingTable.name,
+                formName: 'name',
+              },
+            ],
+            [
+              {
+                label: this.language.translate('basic.description'),
+                value: this.routingTable.description,
+                formName: 'description',
+              },
+            ],
+          ];
+        }
+      }
+    );
+
     this.store.dispatch({type: ruleActions.RULE_API_GET});
     this.store.dispatch({type: targetActions.TARGET_API_GET});
 
@@ -182,5 +237,20 @@ export class RoutesComponent implements OnDestroy {
     this.rows[this.rows.findIndex(item => item.orderInTable === this.editedRow.orderInTable)] = Object.assign({}, this.editRoute);
     this.editedRow = null;
     this.rows = [...this.rows];
+  }
+
+  startEditRouteTable(): void {
+    this.editingRouteTable = true;
+  }
+
+  submitEditRouteTable(): void {
+    this.editingRouteTable = false;
+    const editedRoutingTable = {...this.routingTable, ...this.routingTableForm.value};
+    this.store.dispatch({type: routingTableDetailActions.ROUTING_TABLE_DETAIL_POST_REQUEST, payload: editedRoutingTable});
+  }
+
+  cancelEditRouteTable(): void {
+    this.editingRouteTable = false;
+    this.routingTableForm.patchValue(this.routingTable);
   }
 }

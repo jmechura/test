@@ -2,7 +2,7 @@
   <div class="mss-header-row">
     <span class="mss-title">{{'acquirers.list.title' | translate}}</span>
     <mss-button class="mss-action-button" [label]="'acquirers.list.addAcquirer' | translate"
-                (click)="newAcquirerModalVisible = true"></mss-button>
+                (click)="toggleNewAcquirerModal()"></mss-button>
   </div>
 
   <div class="data-table-container">
@@ -139,8 +139,11 @@
             </div>
           </div>
         </div>
-        <div class="section submit-button">
-          <mss-button [disabled]="newAcquirerForm.invalid" [label]="'basic.save' | translate"></mss-button>
+        <div class="mss-buttons-row">
+          <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
+                      (click)="toggleNewAcquirerModal()"></mss-button>
+          <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" type="submit"
+                      [disabled]="newAcquirerForm.invalid"></mss-button>
         </div>
       </form>
     </div>

@@ -52,7 +52,7 @@ export const routes: Routes = [
       {path: 'cards', component: CardListComponent},
       {path: 'cards/:uuid', component: CardDetailComponent},
       {path: 'routing-table', component: RoutingTableComponent},
-      {path: 'routing-table/:id', component: RoutesComponent},
+      {path: 'routing-table/:name', component: RoutesComponent},
       {path: 'merchants', component: MerchantsComponent},
       {path: 'merchants/:id', component: MerchantsDetailComponent},
       {path: 'sequences', component: SequencesComponent},

@@ -9,6 +9,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Router } from '@angular/router';
 import { UnsubscribeSubject } from '../../shared/utils';
 
+const ROUTING_TABLE_ROUTE = 'platform/routing-table';
+
 @Component({
   selector: 'mss-routing-table',
   templateUrl: './routing-table.component.html',
@@ -68,22 +70,6 @@ export class RoutingTableComponent implements OnDestroy {
     return this.rows.some(item => item.name === control.value) ? {uniqueName: true} : null;
   }
 
-  editing(index: number): void {
-    this.editModel = this.rows[index].description;
-    this.edit = index;
-  }
-
-  clearEdit(): void {
-    this.edit = null;
-    this.editModel = '';
-  }
-
-  saveTable(index: number): void {
-    this.rows[index].description = this.editModel;
-    this.store.dispatch({type: routingTableActions.ROUTING_TABLE_API_PUT, payload: this.rows[index]});
-    this.clearEdit();
-  }
-
   changeLimit(limit: number): void {
     this.rowLimit = limit;
     setTimeout(
@@ -110,7 +96,8 @@ export class RoutingTableComponent implements OnDestroy {
     this.switchModal();
   }
 
-  showDeleteModal(row: RoutingTable): void {
+  showDeleteModal(event: MouseEvent, row: RoutingTable): void {
+    event.stopPropagation();
     this.deleteRowName = row.name;
     this.switchWarnModal();
   }
@@ -120,8 +107,8 @@ export class RoutingTableComponent implements OnDestroy {
     this.switchWarnModal();
   }
 
-  selectRow(row: RoutingTable): void {
-    this.router.navigate([`platform/routing-table/${row.name}`]);
+  onSelect(select: { selected: RoutingTable[] }): void {
+    this.router.navigate([`${ROUTING_TABLE_ROUTE}/${select.selected[0].name}`]);
   }
 
   ngOnDestroy(): void {

@@ -47,11 +47,5 @@ $form-item-width: 400px;
     &.visible {
       display: flex;
     }
-
-    &.submit-button {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 30px;
-    }
   }
 }

@@ -1,21 +1,3 @@
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-
-  .button {
-    flex-grow: 1;
-
-    &:first-child {
-      margin-right: 20px;
-    }
-
-    &:last-child {
-      margin-left: 20px;
-    }
-  }
-}
-
 .icon {
   cursor: pointer;
 }

@@ -1,6 +1,6 @@
 import { StateModel } from '../models/state.model';
 import { Action } from '@ngrx/store';
-import { TerminalModel } from '../models/terminal.model';
+import { MerchantModel } from '../models/merchant.model';
 
 export const merchantDetailActions = {
   MERCHANT_DETAIL_GET_REQUEST: 'MERCHANT_DETAIL_GET_REQUEST',
@@ -11,10 +11,10 @@ export const merchantDetailActions = {
   MERCHANT_DETAIL_POST_FAIL: 'MERCHANT_DETAIL_POST_FAIL',
 };
 
-const INITIAL_STATE: StateModel<TerminalModel> = {error: null, loading: false};
+const INITIAL_STATE: StateModel<MerchantModel> = {error: null, loading: false};
 
-export function merchantsDetailReducer(state: StateModel<TerminalModel> = INITIAL_STATE,
-                                       action: Action): StateModel<TerminalModel> {
+export function merchantsDetailReducer(state: StateModel<MerchantModel> = INITIAL_STATE,
+                                       action: Action): StateModel<MerchantModel> {
   switch (action.type) {
     case merchantDetailActions.MERCHANT_DETAIL_GET_REQUEST:
       return {data: state.data, error: null, loading: true};

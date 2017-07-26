@@ -64,9 +64,10 @@
       <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
       <mss-checkbox formControlName="runAfterStart" [label]="'reports.dictionary.runAfterStart' | translate"></mss-checkbox>
       <mss-select [label]="'reports.dictionary.type' | translate" formControlName="type" [options]="reportTypes"></mss-select>
-      <div class="buttons">
-        <mss-button class="button" (click)="newReportModalVisible = false" type="button" [label]="'basic.dismiss' | translate"></mss-button>
-        <mss-button class="button" [disabled]="newReportForm.invalid" [label]="'reports.list.addReport' | translate"
+      <div class="mss-buttons-row">
+        <mss-button class="mss-action-button right-margin" (click)="newReportModalVisible = false" type="button"
+                    [label]="'basic.dismiss' | translate"></mss-button>
+        <mss-button class="mss-action-button" [disabled]="newReportForm.invalid" [label]="'basic.add' | translate"
                     type="submit"></mss-button>
       </div>
     </form>
@@ -79,9 +80,9 @@
       {{'reports.list.deleteQuestion' | translate}}
     </h3>
 
-    <div class="buttons">
-      <mss-button class="button" (click)="deleteModalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
-      <mss-button class="button" (click)="deleteReport()" [label]="'basic.yes' | translate"></mss-button>
+    <div class="mss-buttons-row">
+      <mss-button class="mss-action-button right-margin" (click)="deleteModalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
+      <mss-button class="mss-action-button" (click)="deleteReport()" [label]="'basic.yes' | translate"></mss-button>
     </div>
   </div>
 </mss-modal-window>

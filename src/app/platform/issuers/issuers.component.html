@@ -116,9 +116,10 @@
         <div class="mss-validation-label"><span *ngIf="isPresent('zip')">{{'basic.required.zip' | translate}}</span></div>
       </div>
     </div>
-    <div class="new-issuer-buttons">
-      <mss-button [label]="'basic.dismiss' | translate" class="new-issuer-button" (click)="toggleNewIssuerModal()"></mss-button>
-      <mss-button [label]="'basic.yes' | translate" class="new-issuer-button" (click)="addIssuer()"
+    <div class="mss-buttons-row">
+      <mss-button [label]="'basic.dismiss' | translate" type="button" class="mss-action-button right-margin"
+                  (click)="toggleNewIssuerModal()"></mss-button>
+      <mss-button [label]="'basic.add' | translate" type="submit" class="mss-action-button" (click)="addIssuer()"
                   [disabled]="newIssuerForm.invalid"></mss-button>
     </div>
   </form>

@@ -1,8 +1,46 @@
-<div class="routes-container mss-view-container">
-  <div class="mss-title">{{'routingTables.detail.title' | translate}}</div>
-  <div class="button-container">
-    <mss-button class="routes-btn" (click)="switchModal()" [label]="'routingTables.detail.addRoute' | translate"></mss-button>
-    <mss-button class="routes-btn" [label]="'routingTables.detail.saveRoutes' | translate" (click)="saveRoutes()"></mss-button>
+<div class="mss-view-container">
+  <div class="mss-header-row">
+    <div class="mss-title">{{'routingTables.detail.title' | translate}} - {{routingTable.name}}</div>
+  </div>
+
+  <div class="merchant-detail-content" [formGroup]="routingTableForm">
+    <div class="category-wrapper">
+      <div class="column" *ngFor="let infoColumn of basicInfo">
+        <div *ngIf="!editingRouteTable">
+          <div class="mss-input-like-container routing-table-detail-item" *ngFor="let item of infoColumn">
+            <div class="label">{{item['label']}}</div>
+            <div class="value">{{item['value']}}</div>
+          </div>
+        </div>
+
+        <div *ngIf="editingRouteTable">
+          <div class="routing-table-detail-item" *ngFor="let item of infoColumn">
+            <mss-input [label]="item['label']" [formControlName]="item['formName']"></mss-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *mssRoleIf="'users.edit'">
+      <div class="mss-buttons-row">
+        <mss-button [label]="'basic.edit' | translate" *ngIf="!editingRouteTable" (click)="startEditRouteTable()"
+                    class="mss-action-button"></mss-button>
+        <mss-button [label]="'basic.dismiss' | translate" *ngIf="editingRouteTable" (click)="cancelEditRouteTable()"
+                    class="mss-action-button right-margin"></mss-button>
+        <mss-button [label]="'basic.save' | translate" *ngIf="editingRouteTable" (click)="submitEditRouteTable()"
+                    class="mss-action-button"></mss-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mss-header-row">
+    <div class="mss-title">{{'routingTables.detail.routesTable' | translate}}</div>
+    <div class="mss-buttons-row">
+      <mss-button class="mss-action-button right-margin" (click)="switchModal()"
+                  [label]="'routingTables.detail.addRoute' | translate"></mss-button>
+      <mss-button class="mss-action-button" [label]="'routingTables.detail.saveRoutes' | translate" (click)="saveRoutes()"></mss-button>
+    </div>
+
   </div>
   <div *ngIf="rows" class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
