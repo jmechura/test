@@ -109,7 +109,7 @@ export class ReportDetailComponent implements OnDestroy {
                 key: propertyDef.key,
                 type: propertyDef.type,
                 value: [
-                  value,
+                  (propertyDef.type === 'LIST_STRING') ? value.split(',') : value,
                   ...propertyDef.required ? [Validators.required] : []
                 ],
                 required: propertyDef.required,
@@ -152,7 +152,7 @@ export class ReportDetailComponent implements OnDestroy {
         data: this.reportName,
         key: propertyGroup.key
       },
-      value: propertyGroup.value
+      value: (propertyGroup.value instanceof Array) ? propertyGroup.value.join(',') : propertyGroup.value
     }));
     this.api.post(PROPERTY_ENDPOINT, payload).subscribe(
       () => {

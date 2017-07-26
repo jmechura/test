@@ -67,7 +67,13 @@ export class MultiselectComponent implements ControlValueAccessor {
 
   @Input()
   set options(items: SelectItem[]) {
-    this.optionsValues = items.map((item) => ({...item, selected: false})).sort((item1, item2) => (this.sortAsc(item1.value, item2.value)));
+    this.optionsValues = [
+      ...items.filter((item) => (this.selectedOptions.every((element) => element !== item.value)))
+        .map((item) => ({...item, selected: false})),
+      ...items.filter((item) => (this.selectedOptions.some((element) => element === item.value)))
+        .map((item) => ({...item, selected: true}))
+    ];
+    this.optionsValues.sort((item1, item2) => (this.sortAsc(item1.value, item2.value)));
   }
 
   get selectedOptionLabel(): string {
@@ -83,6 +89,7 @@ export class MultiselectComponent implements ControlValueAccessor {
         selected: !this.optionsValues.filter((item) => (item.value === selectedItem))[0].selected
       }
     ];
+    this.optionsValues.sort((item1, item2) => (this.sortAsc(item1.value, item2.value)));
     this.selectedOptionsChange.emit(this.selectedOptions);
     if (this.changeCallback) {
       this.changeCallback(this.selectedOptions);

@@ -85,7 +85,10 @@
                        [label]="property.key + (property.required ? '*' : '')" formControlName="value"></mss-input>
             <mss-toggle *ngIf="property.type === 'BOOLEAN'" [label]="property.key + (property.required ? '*' : '')"
                         formControlName="value"></mss-toggle>
-            <mss-select *ngIf="property.data" [showName]="('components.select.placeholder' | translate) + '  -  ' + property.placeholder"
+            <mss-multiselect *ngIf="property.type === 'LIST_STRING'" [showName]="('components.select.placeholder' | translate) + '  -  ' + property.placeholder"
+                        [label]="property.key + (property.required ? '*' : '')"
+                        formControlName="value" [options]="property.data"></mss-multiselect>
+            <mss-select *ngIf="property.data && property.type !== 'LIST_STRING'" [showName]="('components.select.placeholder' | translate) + '  -  ' + property.placeholder"
                         [label]="property.key + (property.required ? '*' : '')"
                         formControlName="value" [options]="property.data"></mss-select>
           </div>
