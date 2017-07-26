@@ -92,11 +92,11 @@
       <div class="new-terminal-inputs">
         <div class="modal-column">
           <mss-input class="modal-input" [label]="'basic.name' | translate" formControlName="name"></mss-input>
+          <mss-select class="modal-input" [label]="'basic.country' | translate" [options]="countries" formControlName="country"></mss-select>
           <mss-input class="modal-input" [label]="'basic.street' | translate" formControlName="street"></mss-input>
           <mss-input class="modal-input" [label]="'basic.city' | translate" formControlName="city"></mss-input>
           <mss-input class="modal-input" [label]="'basic.zip' | translate" formControlName="zip"></mss-input>
           <mss-input class="modal-input" [label]="'basic.region' | translate" formControlName="region"></mss-input>
-          <mss-input class="modal-input" [label]="'basic.country' | translate" formControlName="country"></mss-input>
         </div>
         <div class="modal-column">
           <mss-input class="modal-input" [label]="'basic.code' | translate" formControlName="code"></mss-input>

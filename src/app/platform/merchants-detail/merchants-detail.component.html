@@ -58,7 +58,9 @@
 
           <div *ngIf="editing">
             <div class="employee-detail-item" *ngFor="let item of infoColumn">
-              <mss-input [label]="item['label']" [formControlName]="item['formName']"></mss-input>
+              <mss-input [label]="item['label']" [formControlName]="item['formName']" *ngIf="item['options'] == null"></mss-input>
+              <mss-select [label]="item['label']" [formControlName]="item['formName']" *ngIf="item['options']"
+                          [options]="countries"></mss-select>
             </div>
           </div>
         </div>

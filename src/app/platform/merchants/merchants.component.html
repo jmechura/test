@@ -99,7 +99,7 @@
         <div class="mss-validation-label"></div>
       </div>
       <div class="new-merchant-input-side">
-        <mss-input formControlName="country" [(value)]="newMerchant.country" [label]="'basic.country' | translate"></mss-input>
+        <mss-select [label]="'basic.country' | translate" [options]="countries" formControlName="country"></mss-select>
         <div class="mss-validation-label"></div>
         <mss-input formControlName="region" [(value)]="newMerchant.region" [label]="'basic.region' | translate"></mss-input>
         <div class="mss-validation-label"></div>

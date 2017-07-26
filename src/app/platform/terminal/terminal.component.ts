@@ -18,6 +18,7 @@ import { RoleService } from '../../shared/services/role.service';
 import { ProfileModel } from '../../shared/models/profile.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
+import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const TERMINALS_ROUTE = 'platform/terminal';
@@ -41,6 +42,7 @@ export class TerminalComponent implements OnDestroy {
   networkCodes: SelectItem[] = [];
   merchantCodes: SelectItem[] = [];
   orgUnitCodes: SelectItem[] = [];
+  countries: SelectItem[] = [];
 
   editModel: TerminalModel;
   editedRow: any;
@@ -89,6 +91,8 @@ export class TerminalComponent implements OnDestroy {
       orgUnitCode: {value: '', disabled: true},
       }
     );
+
+    this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: ListRouteParamsModel) => {
@@ -193,6 +197,18 @@ export class TerminalComponent implements OnDestroy {
           this.orgUnitCodes = data.map(item => ({value: item.id, label: item.code}));
           this.newTerminalForm.get('orgUnitId').enable();
           this.filterForm.get('orgUnitCode').enable();
+        }
+      }
+    );
+
+    this.store.select('countryCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting country codes from api.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.countries = data.data.map(country => ({value: country}));
         }
       }
     );

@@ -16,6 +16,7 @@ import { RoleService } from '../../shared/services/role.service';
 import { ProfileModel } from '../../shared/models/profile.model';
 import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 
 const MERCHANT_ROUTE = 'platform/merchants';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -35,6 +36,7 @@ export class MerchantsComponent implements OnDestroy {
 
   networkCodes: SelectItem[] = [];
   merchantCodes: SelectItem[] = [];
+  countries: SelectItem[] = [];
 
   code: string;
   name: string;
@@ -77,11 +79,25 @@ export class MerchantsComponent implements OnDestroy {
       note: [''],
     });
 
+    this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
+
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: ListRouteParamsModel) => {
         this.pageNumber = Math.max(Number(params.page) || 0, 1);
         this.rowLimit = ITEM_LIMIT_OPTIONS.find(limit => limit === Number(params.limit)) || ITEM_LIMIT_OPTIONS[0];
         this.getMerchantList();
+      }
+    );
+
+    this.store.select('countryCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting country codes from api.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.countries = data.data.map(country => ({value: country}));
+        }
       }
     );
 

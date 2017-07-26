@@ -70,7 +70,7 @@ export class AcquirersComponent implements OnDestroy {
       (data: StateModel<string[]>) => {
         this.loading = data.loading;
         if (data.error) {
-          console.error(`Error occurred while country codes from api.`, data.error);
+          console.error(`Error occurred while getting country codes from api.`, data.error);
           return;
         }
         if (data.data !== undefined && !data.loading) {

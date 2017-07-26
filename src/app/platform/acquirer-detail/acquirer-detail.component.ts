@@ -72,7 +72,7 @@ export class AcquirerDetailComponent implements OnDestroy {
     this.store.select('countryCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<string[]>) => {
         if (data.error) {
-          console.error(`Error occurred while country codes from api.`, data.error);
+          console.error(`Error occurred while getting country codes from api.`, data.error);
           return;
         }
         if (data.data !== undefined && !data.loading) {

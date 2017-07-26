@@ -9,6 +9,7 @@ import { AppStateModel } from '../../shared/models/app-state.model';
 import { LanguageService } from '../../shared/services/language.service';
 import { merchantDetailActions } from '../../shared/reducers/merchant-detail.reducer';
 import { StateModel } from '../../shared/models/state.model';
+import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 
 interface InfoModel {
   label: string;
@@ -39,6 +40,7 @@ export class MerchantsDetailComponent implements OnDestroy {
     {value: 'ENABLED'},
     {value: 'DISABLED'}
   ];
+  countries: SelectItem[] = [];
   private unsubscribe$ = new UnsubscribeSubject();
 
   constructor(private route: ActivatedRoute,
@@ -64,6 +66,8 @@ export class MerchantsDetailComponent implements OnDestroy {
         country: '',
       }
     );
+
+    this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
 
     this.route.params.subscribe(
       (params: { id: string }) => {
@@ -166,9 +170,22 @@ export class MerchantsDetailComponent implements OnDestroy {
                 label: this.langService.translate('basic.country'),
                 value: this.merchant.country,
                 formName: 'country',
+                options: this.countries
               },
             ]
           ];
+        }
+      }
+    );
+
+    this.store.select('countryCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting country codes from api.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.countries = data.data.map(country => ({value: country}));
         }
       }
     );
