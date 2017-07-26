@@ -1,8 +1,6 @@
 <div class="toolbar-container" [ngClass]="position">
   <div *ngIf="position === 'side'" class="information">
     <img src="assets/images/logo.svg" class="logo">
-    <mss-avatar [avatarSize]="90" photo="assets/mock/mock-avatar.jpg"></mss-avatar>
-    <div class="name" *ngIf="userData">{{userData.firstName}} {{userData.lastName}}</div>
   </div>
   <ng-container *ngFor="let item of toolbarItems">
     <div [routerLink]="item.path" class="toolbar-item" routerLinkActive="active-item" *mssRoleIf="item.rule">

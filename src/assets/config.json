@@ -64,6 +64,11 @@
         "ROLE_USER_EDIT"
       ]
     },
+    "card": {
+      "read": [
+        "CARD_ROLE_RESOURCE_READ"
+      ]
+    },
     "cards": {
       "read": [
         "ROLE_ADMIN",

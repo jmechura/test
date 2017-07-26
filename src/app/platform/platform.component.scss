@@ -10,7 +10,7 @@ $current-balance-color: $positive-number-color;
   left: $side-toolbar-width;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 
   padding: 38px 50px;
@@ -19,27 +19,16 @@ $current-balance-color: $positive-number-color;
 
   background-color: $content-background-color;
 
-  .current-balance-container {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    color: $primary-text-color;
+  font-size: 16px;
+  color: $primary-text-color;
 
-    .current-balance-icon {
-      margin-right: 20px;
-    }
-
-    .current-balance {
-      color: $current-balance-color;
-      margin-left: 5px;
-    }
+  .profile-name {
+    margin-right: 24px;
   }
 
   .logout-container {
     display: flex;
     align-items: center;
-    font-size: 16px;
-    color: $primary-text-color;
     cursor: pointer;
     user-select: none;
 

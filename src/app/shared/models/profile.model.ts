@@ -19,13 +19,13 @@ export interface ProfileModel {
   passwordExpired: boolean;
   passwordLength: number;
   phone: string;
-  resource: 'SYSTEM' | null;
-  resourceAcquirer: 'SYSTEM' | null;
+  resource: string;
+  resourceAcquirer: string;
   resourceAcquirerId: string;
   resourceId: string;
   roles: {
     authorities: string[];
-    resource: 'SYSTEM' | null;
+    resource: string;
     resourceId: string
   }[];
   state: 'NEW' | 'ENABLED' | 'DISABLED' | 'DELETED';

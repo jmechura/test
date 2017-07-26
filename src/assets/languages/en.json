@@ -38,6 +38,7 @@
     "action": "Akce",
     "search": "Vyhledat",
     "login": "Login",
+    "logout": "Odhlásit se",
     "password": "Heslo",
     "passwordAgain": "Heslo znovu",
     "template": "Šablona",

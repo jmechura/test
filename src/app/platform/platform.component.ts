@@ -14,7 +14,6 @@ import { UnsubscribeSubject, MissingTokenResponse } from '../shared/utils';
   styleUrls: ['./platform.component.scss']
 })
 export class PlatformComponent implements OnDestroy {
-  currentBalance = 0;
   toolbarPosition: ToolbarPosition = 'side';
   profile: ProfileModel;
   private unsubscribe$ = new UnsubscribeSubject();
