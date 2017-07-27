@@ -110,7 +110,7 @@
   </div>
 
   <div class="mss-action-button">
-    <mss-button [label]="'transactions.list.search' | translate" (click)="getTransactions()"></mss-button>
+    <mss-button [label]="'basic.search' | translate" (click)="getTransactions()"></mss-button>
   </div>
   <div class="data-table-container">
     <ngx-datatable #table (activate)="goToDetail('transaction', $event)" [externalPaging]="true"

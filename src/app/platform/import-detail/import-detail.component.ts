@@ -134,6 +134,7 @@ export class ImportDetailComponent implements OnDestroy {
   }
 
   editImport(): void {
+    this.editingImport = false;
     this.store.dispatch({
       type: importDetailActions.IMPORT_DETAIL_PUT_REQUEST,
       payload: Object.assign({}, this.importDetail, this.importEditForm.value)
@@ -195,10 +196,17 @@ export class ImportDetailComponent implements OnDestroy {
     );
   }
 
+  startEditing(): void {
+    this.editingImport = true;
+  }
+
+  cancelEditing(): void {
+    this.editingImport = false;
+    this.importEditForm.patchValue(this.importDetail);
+  }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
-
 }

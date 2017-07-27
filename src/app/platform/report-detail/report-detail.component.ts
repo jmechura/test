@@ -188,10 +188,20 @@ export class ReportDetailComponent implements OnDestroy {
   }
 
   editReport(): void {
+    this.editingReport = false;
     this.store.dispatch({
       type: reportDetailActions.REPORT_DETAIL_PUT_REQUEST,
       payload: Object.assign({}, this.reportDetail, this.reportEditForm.value)
     });
+  }
+
+  startEditing(): void {
+    this.editingReport = true;
+  }
+
+  cancelEditing(): void {
+    this.editingReport = false;
+    this.reportEditForm.patchValue(this.reportDetail);
   }
 
   ngOnDestroy(): void {

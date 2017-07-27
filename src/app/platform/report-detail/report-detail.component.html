@@ -5,52 +5,46 @@
       <mss-button class="mss-action-button right-margin" *ngIf="reportDetail"
                   [label]="reportDetail.running ?  ('basic.deactivate' | translate) : ('basic.activate' | translate)"
                   (click)="toggleReport()"></mss-button>
-      <mss-button class="mss-action-button right-margin" (click)="reportModalVisible = true"
+      <mss-button class="mss-action-button" (click)="reportModalVisible = true"
                   [label]="'basic.delete' | translate"></mss-button>
-      <mss-button class="mss-action-button" [label]="editingReport ? ('basic.preview' | translate) : ('basic.edit' | translate)"
-                  (click)="editingReport = !editingReport"></mss-button>
     </div>
   </div>
 
-  <!-- preview -->
-  <div class="content" *ngIf="reportDetail && !editingReport">
-    <div class="column">
-      <div class="mss-input-like-container item">
-        <div class="label">{{'basic.name' | translate}}</div>
-        <div class="value">{{reportDetail.name}}</div>
-      </div>
-      <div class="mss-input-like-container item">
-        <div class="label">{{'reports.dictionary.type' | translate}}</div>
-        <div class="value">{{'enums.reportTypes.' + reportDetail.type | translate}}</div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="mss-input-like-container item">
-        <div class="label">{{'reports.dictionary.runAfterStart' | translate}}</div>
-        <div class="value">{{reportDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
-      </div>
-      <div class="mss-input-like-container item">
-        <div class="label">{{'reports.dictionary.running' | translate}}</div>
-        <div class="value">{{reportDetail.running ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- edit -->
-  <form [formGroup]="reportEditForm" (ngSubmit)="editReport()" *ngIf="reportDetail && editingReport">
+  <form [formGroup]="reportEditForm" (ngSubmit)="editReport()" *ngIf="reportDetail">
     <div class="content">
       <div class="column">
-        <mss-input class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
-        <mss-select class="item" [options]="reportTypes" [label]="'reports.dictionary.type' | translate"
+        <mss-input *ngIf="editingReport" class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
+        <div *ngIf="!editingReport" class="mss-input-like-container item">
+          <div class="label">{{'basic.name' | translate}}</div>
+          <div class="value">{{reportDetail.name}}</div>
+        </div>
+        <mss-select *ngIf="editingReport" class="item" [options]="reportTypes" [label]="'reports.dictionary.type' | translate"
                     formControlName="type"></mss-select>
+
+        <div *ngIf="!editingReport" class="mss-input-like-container item">
+          <div class="label">{{'reports.dictionary.type' | translate}}</div>
+          <div class="value">{{'enums.reportTypes.' + reportDetail.type | translate}}</div>
+        </div>
       </div>
       <div class="column">
-        <mss-toggle [label]="'reports.dictionary.runAfterStart' | translate" formControlName="runAfterStart"></mss-toggle>
+        <mss-toggle *ngIf="editingReport" [label]="'reports.dictionary.runAfterStart' | translate" formControlName="runAfterStart"></mss-toggle>
+        <div *ngIf="!editingReport" class="mss-input-like-container item">
+          <div class="label">{{'reports.dictionary.runAfterStart' | translate}}</div>
+          <div class="value">{{reportDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
+        </div>
+        <div *ngIf="!editingReport" class="mss-input-like-container item">
+          <div class="label">{{'reports.dictionary.running' | translate}}</div>
+          <div class="value">{{reportDetail.running ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
+        </div>
       </div>
     </div>
-    <div class="button-container">
-      <mss-button type="submit" class="mss-action-button" [label]="'basic.save' | translate"
-                  [disabled]="reportEditForm.invalid"></mss-button>
+    <div class="mss-buttons-row">
+      <mss-button [label]="'basic.edit' | translate" *ngIf="!editingReport" type="button" (click)="startEditing()"
+                  class="mss-action-button"></mss-button>
+      <mss-button [label]="'basic.dismiss' | translate" *ngIf="editingReport" type="button" (click)="cancelEditing()"
+                  class="mss-action-button right-margin"></mss-button>
+      <mss-button [label]="'basic.save' | translate" *ngIf="editingReport" type="submit" [disabled]="reportEditForm.invalid"
+                  class="mss-action-button"></mss-button>
     </div>
   </form>
 

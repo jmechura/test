@@ -133,7 +133,6 @@
   "transactions": {
     "list": {
       "title": "Přehled transakcí",
-      "search": "Vyhledat transakce",
       "filterSections": {
         "DATE": "Datum",
         "LOCATION": "Lokace",
@@ -189,7 +188,6 @@
       "cardState": "Stav karty",
       "name": "Jméno",
       "lastName": "Příjmení",
-      "search": "Vyhledat karty",
       "request": "Žádost",
       "sendRequest": "Poslat žádost",
       "requestSent": "Žádost odeslána"
@@ -216,7 +214,6 @@
     "cardRequests": {
       "title": "Žádosti o kartu",
       "cardState": "Stav karty",
-      "search": "Vyhledat žádosti",
       "employerName": "Zaměstnavatel",
       "numberOfCards": "Počet karet",
       "accept": "Schválit",
@@ -249,7 +246,6 @@
   "cardGroups": {
     "title": "Zaměstnavatelé",
     "addCardGroup": "Přidat zaměstnavatele",
-    "search": "Vyhledat",
     "sections": {
       "BASIC": "Základní",
       "LIMITS": "Limity",
@@ -306,7 +302,6 @@
       "title": "Provozovny",
       "addOrgUnit": "Přidat provozovnu",
       "removeQuestion": "Opravdu odstranit?",
-      "search": "Vyhledat provozovny",
       "sections": {
         "BASIC": "Základní",
         "NETWORK": "Acquirer"
@@ -448,7 +443,6 @@
       "title": "Reporty",
       "addReport": "Přidat nový report",
       "deleteQuestion": "Opravdu chcete report smazat?",
-      "search": "Vyhledat reporty",
       "sections": {
         "BASIC": "Základní",
         "ACQUIRER": "Acquirer",

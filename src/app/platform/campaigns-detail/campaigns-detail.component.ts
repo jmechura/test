@@ -134,6 +134,7 @@ export class CampaignsDetailComponent implements OnDestroy {
   }
 
   editCampaign(): void {
+    this.editingCampaign = false;
     this.store.dispatch({
       type: campaignDetailActions.CAMPAIGN_DETAIL_PUT_REQUEST,
       payload: Object.assign({}, this.campaignDetail, this.campaingForm.value)
@@ -195,6 +196,15 @@ export class CampaignsDetailComponent implements OnDestroy {
         console.error('Error occurred while toggling campaign.', error);
       }
     );
+  }
+
+  startEditing(): void {
+    this.editingCampaign = true;
+  }
+
+  cancelEditing(): void {
+    this.editingCampaign = false;
+    this.campaingForm.patchValue(this.campaignDetail);
   }
 
   ngOnDestroy(): void {

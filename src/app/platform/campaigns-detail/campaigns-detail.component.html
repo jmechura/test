@@ -5,50 +5,49 @@
       <mss-button class="mss-action-button right-margin" *ngIf="campaignDetail"
                   [label]="campaignDetail.running ?  ('basic.deactivate' | translate) : ('basic.activate' | translate)"
                   (click)="toggleCampaign()"></mss-button>
-      <mss-button class="mss-action-button right-margin" (click)="modalVisible = true"
+      <mss-button class="mss-action-button" (click)="modalVisible = true"
                   [label]="'campaigns.detail.deleteCampaign' | translate"></mss-button>
-      <mss-button class="mss-action-button" [label]="editingCampaign ? ('basic.preview' | translate) : ('basic.edit' | translate)"
-                  (click)="editingCampaign = !editingCampaign"></mss-button>
     </div>
   </div>
 
-  <div class="content" *ngIf="campaignDetail && !editingCampaign">
-    <div class="column">
-      <div class="mss-input-like-container item">
-        <div class="label">{{'basic.name' | translate}}</div>
-        <div class="value">{{campaignDetail.name}}</div>
-      </div>
-      <div class="mss-input-like-container item">
-        <div class="label">{{'campaigns.dictionary.campaignName' | translate}}</div>
-        <div class="value">{{campaignDetail.campaignName}}</div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="mss-input-like-container item">
-        <div class="label">{{'campaigns.dictionary.orderCampaign' | translate}}</div>
-        <div class="value">{{campaignDetail.orderCampaign}}</div>
-      </div>
-      <div class="mss-input-like-container item">
-        <div class="label">{{'campaigns.dictionary.runAfterStart' | translate}}</div>
-        <div class="value">{{campaignDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
-      </div>
-    </div>
-  </div>
-  <form [formGroup]="campaingForm" (ngSubmit)="editCampaign()" *ngIf="campaignDetail && editingCampaign">
+  <form [formGroup]="campaingForm" (ngSubmit)="editCampaign()" *ngIf="campaignDetail">
     <div class="content">
       <div class="column">
-        <mss-input class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
-        <mss-select class="item" [options]="campaignFactories" [label]="'campaigns.dictionary.campaignName' | translate"
+        <mss-input *ngIf="editingCampaign" class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
+        <div *ngIf="!editingCampaign" class="mss-input-like-container item">
+          <div class="label">{{'basic.name' | translate}}</div>
+          <div class="value">{{campaignDetail.name}}</div>
+        </div>
+        <mss-select *ngIf="editingCampaign" class="item" [options]="campaignFactories"
+                    [label]="'campaigns.dictionary.campaignName' | translate"
                     formControlName="campaignName"></mss-select>
+        <div *ngIf="!editingCampaign" class="mss-input-like-container item">
+          <div class="label">{{'campaigns.dictionary.campaignName' | translate}}</div>
+          <div class="value">{{campaignDetail.campaignName}}</div>
+        </div>
       </div>
       <div class="column">
-        <mss-input class="item" type="number" formControlName="orderCampaign"
+        <mss-input *ngIf="editingCampaign" class="item" type="number" formControlName="orderCampaign"
                    [label]="'campaigns.dictionary.orderCampaign' | translate"></mss-input>
-        <mss-toggle [label]="'campaigns.dictionary.runAfterStart' | translate" formControlName="runAfterStart"></mss-toggle>
+        <div *ngIf="!editingCampaign" class="mss-input-like-container item">
+          <div class="label">{{'campaigns.dictionary.orderCampaign' | translate}}</div>
+          <div class="value">{{campaignDetail.orderCampaign}}</div>
+        </div>
+        <mss-toggle *ngIf="editingCampaign" [label]="'campaigns.dictionary.runAfterStart' | translate"
+                    formControlName="runAfterStart"></mss-toggle>
+        <div *ngIf="!editingCampaign" class="mss-input-like-container item">
+          <div class="label">{{'campaigns.dictionary.runAfterStart' | translate}}</div>
+          <div class="value">{{campaignDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
+        </div>
       </div>
     </div>
-    <div class="button-container">
-      <mss-button type="submit" class="mss-action-button" [label]="'basic.save' | translate" [disabled]="campaingForm.invalid"></mss-button>
+    <div class="mss-buttons-row">
+      <mss-button [label]="'basic.edit' | translate" *ngIf="!editingCampaign" type="button" (click)="startEditing()"
+                  class="mss-action-button"></mss-button>
+      <mss-button [label]="'basic.dismiss' | translate" *ngIf="editingCampaign" type="button" (click)="cancelEditing()"
+                  class="mss-action-button right-margin"></mss-button>
+      <mss-button [label]="'basic.save' | translate" *ngIf="editingCampaign" type="submit" [disabled]="campaingForm.invalid"
+                  class="mss-action-button"></mss-button>
     </div>
   </form>
 

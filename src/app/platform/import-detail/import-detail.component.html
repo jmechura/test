@@ -5,54 +5,47 @@
       <mss-button class="mss-action-button right-margin" *ngIf="importDetail"
                   [label]="importDetail.running ?  ('basic.deactivate' | translate) : ('basic.activate' | translate)"
                   (click)="toggleImport()"></mss-button>
-      <mss-button class="mss-action-button right-margin" (click)="modalVisible = true"
+      <mss-button class="mss-action-button" (click)="modalVisible = true"
                   [label]="'basic.delete' | translate"></mss-button>
-      <mss-button class="mss-action-button" [label]="editingImport ? ('basic.preview' | translate) : ('basic.edit' | translate)"
-                  (click)="editingImport = !editingImport"></mss-button>
     </div>
   </div>
 
-  <!-- preview -->
-  <div class="content" *ngIf="importDetail && !editingImport">
-    <div class="column">
-      <div class="mss-input-like-container item">
-        <div class="label">{{'basic.name' | translate}}</div>
-        <div class="value">{{importDetail.name}}</div>
-      </div>
-      <div class="mss-input-like-container item">
-        <div class="label">{{'imports.dictionary.nameRead' | translate}}</div>
-        <div class="value">{{importDetail.nameRead}}</div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="mss-input-like-container item">
-        <div class="label">{{'imports.dictionary.type' | translate}}</div>
-        <div class="value">{{'enums.importTypes.' + importDetail.type | translate}}</div>
-      </div>
-      <div class="mss-input-like-container item">
-        <div class="label">{{'imports.dictionary.runAfterStart' | translate}}</div>
-        <div class="value">{{importDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- edit -->
-  <form [formGroup]="importEditForm" (ngSubmit)="editImport()" *ngIf="importDetail && editingImport">
+  <form [formGroup]="importEditForm" (ngSubmit)="editImport()" *ngIf="importDetail">
     <div class="content">
       <div class="column">
-        <mss-input class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
-        <mss-input class="item" formControlName="nameRead"
+        <mss-input *ngIf="editingImport" class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
+        <div *ngIf="!editingImport" class="mss-input-like-container item">
+          <div class="label">{{'basic.name' | translate}}</div>
+          <div class="value">{{importDetail.name}}</div>
+        </div>
+        <mss-input *ngIf="editingImport" class="item" formControlName="nameRead"
                    [label]="'imports.dictionary.nameRead' | translate"></mss-input>
+        <div *ngIf="!editingImport" class="mss-input-like-container item">
+          <div class="label">{{'imports.dictionary.nameRead' | translate}}</div>
+          <div class="value">{{importDetail.nameRead}}</div>
+        </div>
       </div>
       <div class="column">
-        <mss-select class="item" [options]="importTypes" [label]="'imports.dictionary.type' | translate"
+        <mss-select *ngIf="editingImport" class="item" [options]="importTypes" [label]="'imports.dictionary.type' | translate"
                     formControlName="type"></mss-select>
-        <mss-toggle [label]="'imports.dictionary.runAfterStart' | translate" formControlName="runAfterStart"></mss-toggle>
+        <div *ngIf="!editingImport" class="mss-input-like-container item">
+          <div class="label">{{'imports.dictionary.type' | translate}}</div>
+          <div class="value">{{'enums.importTypes.' + importDetail.type | translate}}</div>
+        </div>
+        <mss-toggle *ngIf="editingImport" [label]="'imports.dictionary.runAfterStart' | translate" formControlName="runAfterStart"></mss-toggle>
+        <div *ngIf="!editingImport" class="mss-input-like-container item">
+          <div class="label">{{'imports.dictionary.runAfterStart' | translate}}</div>
+          <div class="value">{{importDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
+        </div>
       </div>
     </div>
-    <div class="button-container">
-      <mss-button type="submit" class="mss-action-button" [label]="'basic.save' | translate"
-                  [disabled]="importEditForm.invalid"></mss-button>
+    <div class="mss-buttons-row">
+      <mss-button [label]="'basic.edit' | translate" *ngIf="!editingImport" type="button" (click)="startEditing()"
+                  class="mss-action-button"></mss-button>
+      <mss-button [label]="'basic.dismiss' | translate" *ngIf="editingImport" type="button" (click)="cancelEditing()"
+                  class="mss-action-button right-margin"></mss-button>
+      <mss-button [label]="'basic.save' | translate" *ngIf="editingImport" type="submit" [disabled]="importEditForm.invalid"
+                  class="mss-action-button"></mss-button>
     </div>
   </form>
 

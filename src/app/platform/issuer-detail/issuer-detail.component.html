@@ -120,10 +120,10 @@
             </div>
           </div>
         </div>
-        <div class="edit-issuer-buttons">
+        <div class="mss-buttons-row">
           <mss-button *ngIf="!isEditing" class="mss-action-button" [label]="'basic.edit' | translate"
                       (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="mss-action-button"
+          <mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
                       (click)="toggleUpdateIssuer()"></mss-button>
           <mss-button *ngIf="isEditing" [label]="'basic.save' | translate" class="mss-action-button" (click)="updateIssuer()"
                       [disabled]="editIssuerForm.invalid"></mss-button>

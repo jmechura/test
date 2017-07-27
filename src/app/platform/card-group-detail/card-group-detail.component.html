@@ -5,7 +5,13 @@
 
   <div class="content">
     <div class="tabs-container" *ngIf="cardGroupDetail">
-      <mss-tabs class="tabs" [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
+      <div class="tabs-row">
+        <mss-tabs class="tabs column" [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
+        <mss-button class="mss-action-button shifted activate-button" *mssRoleIf="'cardGroups.edit'"
+                    [label]="cardGroupDetail?.state === 'ENABLED' ?
+                  ('cardGroupDetail.deactivateEmployer' | translate) : ('cardGroupDetail.activateEmployer' | translate)"
+                    (click)="modalVisible = true"></mss-button>
+      </div>
       <!--FORM FOR EDIT STATE -->
       <form [formGroup]="editForm" novalidate (ngSubmit)="editCardGroup()">
         <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.BASIC}">
@@ -137,29 +143,25 @@
           </div>
           <div class="column"></div>
         </div>
-        <div class="button">
-          <mss-button [disabled]="editForm.invalid" *ngIf="edit" [label]="'basic.save' | translate"></mss-button>
+        <div *mssRoleIf="'users.edit'">
+          <div class="mss-buttons-row">
+            <mss-button [label]="'basic.edit' | translate" *ngIf="!edit" type="button" (click)="startEditing()"
+                        class="mss-action-button"></mss-button>
+            <mss-button [label]="'basic.dismiss' | translate" *ngIf="edit" type="button" (click)="cancelEditing()"
+                        class="mss-action-button right-margin"></mss-button>
+            <mss-button [label]="'basic.save' | translate" *ngIf="edit" type="submit" [disabled]="editForm.invalid"
+                        class="mss-action-button"></mss-button>
+          </div>
         </div>
       </form>
-    </div>
-    <div class="buttons">
-      <mss-button class="button" *mssRoleIf="'cardGroups.edit'"
-                  [label]="cardGroupDetail?.state === 'ENABLED' ?
-                  ('cardGroupDetail.deactivateEmployer' | translate) : ('cardGroupDetail.activateEmployer' | translate)"
-                  (click)="modalVisible = true"></mss-button>
-      <mss-button
-        class="button padded"
-        [label]="edit ? ('basic.preview' | translate) : ('basic.edit' | translate)"
-        (click)="edit = !edit" *mssRoleIf="'cardGroups.edit'">
-      </mss-button>
     </div>
   </div>
 </div>
 
 <mss-modal-window [(visible)]="modalVisible">
   <h3 class="mss-modal-title">{{ 'cardGroupDetail.titleActivate' | translate }}</h3>
-  <div class="modal-buttons">
-    <mss-button class="button" (click)="modalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
-    <mss-button class="button" (click)="toggleCardGroup()" [label]="'basic.yes' | translate"></mss-button>
+  <div class="mss-buttons-row">
+    <mss-button class="mss-action-button right-margin" (click)="modalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
+    <mss-button class="mss-action-button" (click)="toggleCardGroup()" [label]="'basic.yes' | translate"></mss-button>
   </div>
 </mss-modal-window>

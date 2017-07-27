@@ -125,6 +125,7 @@ export class CardGroupDetailComponent implements OnDestroy {
   }
 
   editCardGroup(): void {
+    this.edit = false;
     this.store.dispatch(
       {
         type: cardGroupDetailActions.CARD_GROUP_DETAIL_PUT_REQUEST,
@@ -137,4 +138,12 @@ export class CardGroupDetailComponent implements OnDestroy {
     this.unsubscribe$.fire();
   }
 
+  startEditing(): void {
+    this.edit = true;
+  }
+
+  cancelEditing(): void {
+    this.edit = false;
+    this.editForm.patchValue(this.cardGroupDetail);
+  }
 }
