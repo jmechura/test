@@ -97,7 +97,21 @@ export class AuthGuard implements CanActivateChild {
               const rule = routeToRule[secondaryRoute];
               if (rule != undefined) {
                 this.roleService.isVisible(rule).subscribe(
-                  result => resolve(result)
+                  result => {
+                    // TODO: find better solution
+                    if (!result && secondaryRoute === 'dashboard') {
+                      const resource = data.roles.find(role => role.resource === 'CARD_GROUP');
+                      if (resource != null) {
+                        this.router.navigateByUrl(`/${PLATFORM_ROUTE}/users`);
+                      } else {
+                        this.router.navigateByUrl(`/${PLATFORM_ROUTE}/settings`);
+                      }
+                      resolve(true);
+                      return;
+                    } else {
+                      resolve(result);
+                    }
+                  }
                 );
               } else {
                 resolve(true);
