@@ -18,11 +18,12 @@ import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { CodeModel } from '../../shared/models/code.model';
-import { TransactionFilterSection } from '../../shared/enums/transaction-filter-section.enum';
 import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { ProfileModel } from '../../shared/models/profile.model';
+
+const TRANSACTIONS_FILTERS = ['DATE', 'LOCATION', 'PAYMENT', 'TRANSACTION'];
 
 const DEFAULT_FILTER: TransactionSearch = {
   uuid: '',
@@ -107,11 +108,7 @@ export class DashboardComponent implements OnDestroy {
    * @type {Subject<void>}
    */
   private unsubscribe$ = new UnsubscribeSubject();
-  /**
-   * Filter transaction options
-   */
-  filterOptions: SelectItem[] = [];
-  TransactionFilterSection = TransactionFilterSection;
+
   /**
    * Selected tab
    * @type {string}
@@ -147,10 +144,16 @@ export class DashboardComponent implements OnDestroy {
    */
   @ViewChild('table') table: DatatableComponent;
 
+  showLocationFilterTab = false;
+
+  readonly transactionFilters = TRANSACTIONS_FILTERS;
+
   constructor(private store: Store<AppStateModel>,
               private router: Router,
               private language: LanguageService,
               private roles: RoleService) {
+
+    this.visibleFilter = this.filterOptions[0];
 
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<ProfileModel>) => {
@@ -167,11 +170,13 @@ export class DashboardComponent implements OnDestroy {
           this.roles.isVisible('filters.issuerCodeSelect').subscribe(
             result => {
               if (result) {
+                this.showLocationFilterTab = true;
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
                 this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
+                      this.showLocationFilterTab = true;
                       this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: user.resourceId});
                     }
                   }
@@ -183,17 +188,20 @@ export class DashboardComponent implements OnDestroy {
           this.roles.isVisible('filters.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
+                this.showLocationFilterTab = true;
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
                 this.roles.isVisible('filters.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
+                      this.showLocationFilterTab = true;
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
                     } else {
 
                       this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
                         orgUnitResult => {
                           if (orgUnitResult) {
+                            this.showLocationFilterTab = true;
                             this.store.dispatch({
                               type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST,
                               payload: user.resourceAcquirerId
@@ -332,15 +340,24 @@ export class DashboardComponent implements OnDestroy {
       }
     );
 
-    this.filterOptions = Object.keys(TransactionFilterSection).filter(key => isNaN(Number(key)))
-      .map(item => ({
-        label: this.language.translate(`transactions.list.filterSections.${item}`),
-        value: TransactionFilterSection[item]
-      }));
-    this.visibleFilter = this.filterOptions[0];
-
     this.getTransactions();
   }
+
+  get filterOptions(): SelectItem[] {
+    if (this.showLocationFilterTab) {
+      return TRANSACTIONS_FILTERS.map(item => ({
+        label: this.language.translate(`transactions.list.filterSections.${item}`),
+        value: item
+      }));
+    }
+    return TRANSACTIONS_FILTERS
+      .filter(item => item !== 'LOCATION')
+      .map(item => ({
+        label: this.language.translate(`transactions.list.filterSections.${item}`),
+        value: item
+      }));
+  }
+
 
   /**
    * Redirects to the detail of selected item

@@ -21,17 +21,13 @@
         "ROLE_ADMIN"
       ],
       "merchantCodeSelect": [
-        "ROLE_ADMIN",
-        "NETWORK_ROLE_RESOURCE_READ"
+        "ROLE_ADMIN"
       ],
       "orgUnitCodeSelect": [
-        "ROLE_ADMIN",
-        "NETWORK_ROLE_RESOURCE_READ",
-        "MERCHANT_ROLE_RESOURCE_READ"
+        "ROLE_ADMIN"
       ],
       "cardGroupCodeSelect": [
-        "ROLE_ADMIN",
-        "ISSUER_ROLE_RESOURCE_READ"
+        "ROLE_ADMIN"
       ]
     },
     "admin": {
@@ -44,17 +40,97 @@
         "ROLE_ADMIN",
         "ROLE_TRX_READ"
       ],
-      "dstStanColumn": [
+      "responseCode": [
         "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ"
+      ],
+      "transactionType": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ",
         "CARD_ROLE_RESOURCE_READ"
       ],
-      "rrnColumn": [
+      "transactionState": [
         "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ",
         "CARD_ROLE_RESOURCE_READ"
       ],
-      "variableSymbolColumn": [
+      "approvalCode": [
         "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ"
+      ],
+      "dstStan": [
+        "ROLE_ADMIN"
+      ],
+      "uuid": [
+        "ROLE_ADMIN"
+      ],
+      "rrn": [
+        "ROLE_ADMIN"
+      ],
+      "cln": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ"
+      ],
+      "terminalCode": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ"
+      ],
+      "amount": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ",
         "CARD_ROLE_RESOURCE_READ"
+      ],
+      "variableSymbol": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ"
+      ],
+      "specificSymbol": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ"
+      ],
+      "termDtm": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ",
+        "ORG_UNIT_ROLE_RESOURCE_READ",
+        "CARD_ROLE_RESOURCE_READ"
+      ],
+      "terminalName": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "CARD_ROLE_RESOURCE_READ"
+      ],
+      "cardGroupName": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ",
+        "NETWORK_ROLE_RESOURCE_READ"
       ]
     },
     "users": {

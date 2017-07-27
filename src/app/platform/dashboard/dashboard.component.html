@@ -7,7 +7,8 @@
     <div class="column">
       <mss-tabs class="tabs" [items]="filterOptions" (itemChanged)="visibleFilter = $event"></mss-tabs>
 
-      <div class="content" *ngIf="visibleFilter.value ===  TransactionFilterSection.DATE">
+      <!--DATE TAB-->
+      <div class="content" *ngIf="visibleFilter.value === transactionFilters[0]">
         <div class="row wrapped">
           <div class="calendar-select filter-item">
             <span class="label">{{'dictionary.from' | translate}}</span>
@@ -18,35 +19,51 @@
             <mss-date-time-picker-input [pickedDate]="toDate" (pickedDateChange)="changeToDate($event)"></mss-date-time-picker-input>
           </div>
         </div>
-
       </div>
-      <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.TRANSACTION">
+
+      <!--TRANSACTION TAB-->
+      <div class="content column" *ngIf="visibleFilter.value === transactionFilters[3]">
         <div class="row wrapped">
-          <mss-input [label]="'dictionary.responseCode' | translate" class="filter-item"
-                     [(value)]="pagination.search.predicateObject.responseCode"></mss-input>
+          <mss-input [label]="'dictionary.responseCode' | translate"
+                     class="filter-item"
+                     *mssRoleIf="'transactions.responseCode'"
+                     [(value)]="pagination.search.predicateObject.responseCode">
+          </mss-input>
           <mss-select [disabled]="types.length === 0"
                       class="filter-item"
+                      *mssRoleIf="'transactions.transactionType'"
                       [label]="'dictionary.transactionType' | translate"
                       [options]="types"
                       [(selectedOption)]="pagination.search.predicateObject.transactionType"></mss-select>
           <mss-select [disabled]="states.length === 0"
+                      *mssRoleIf="'transactions.transactionState'"
                       class="filter-item"
                       [options]="states"
                       [label]="'dictionary.transactionState' | translate"
                       [(selectedOption)]="pagination.search.predicateObject.state"></mss-select>
         </div>
         <div class="row wrapped">
-          <mss-input [label]="'dictionary.approvalCode' | translate" class="filter-item"
-                     [(value)]="pagination.search.predicateObject.approvalCode"></mss-input>
-          <mss-input [label]="'dictionary.uuid' | translate" class="filter-item"
-                     [(value)]="pagination.search.predicateObject.uuid"></mss-input>
-          <mss-input [label]="'dictionary.rrn' | translate" class="filter-item"
-                     [(value)]="pagination.search.predicateObject.rrn"></mss-input>
+          <mss-input [label]="'dictionary.approvalCode' | translate"
+                     class="filter-item"
+                     *mssRoleIf="'transactions.approvalCode'"
+                     [(value)]="pagination.search.predicateObject.approvalCode">
+          </mss-input>
+          <mss-input [label]="'dictionary.uuid' | translate"
+                     class="filter-item"
+                     *mssRoleIf="'transactions.uuid'"
+                     [(value)]="pagination.search.predicateObject.uuid">
+          </mss-input>
+          <mss-input [label]="'dictionary.rrn' | translate"
+                     class="filter-item"
+                     *mssRoleIf="'transactions.rrn'"
+                     [(value)]="pagination.search.predicateObject.rrn">
+          </mss-input>
         </div>
 
       </div>
 
-      <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.LOCATION">
+      <!--LOCATION TAB-->
+      <div class="content column" *ngIf="visibleFilter.value === transactionFilters[1]">
         <div class="row wrapped">
           <mss-select [disabled]="issuerCodes.length === 0"
                       *mssRoleIf="'filters.issuerCodeSelect'"
@@ -89,20 +106,39 @@
         </div>
       </div>
 
-      <div class="content column" *ngIf="visibleFilter.value === TransactionFilterSection.PAYMENT">
+      <!--PAYMENT TAB-->
+      <div class="content column" *ngIf="visibleFilter.value === transactionFilters[2]">
         <div class="row wrapped">
-          <mss-input [label]="'dictionary.cln' | translate" class="filter-item"
-                     [(value)]="pagination.search.predicateObject.cln"></mss-input>
-          <mss-input [label]="'dictionary.terminalCode' | translate" class="filter-item"
-                     [(value)]="pagination.search.predicateObject.terminalCode"></mss-input>
-          <mss-input [label]="'dictionary.amount' | translate" class="filter-item" [type]="'number'"
-                     [(value)]="pagination.search.predicateObject.amount"></mss-input>
-          <mss-input [label]="'dictionary.dstStan' | translate" class="filter-item" [type]="'number'"
-                     [(value)]="pagination.search.predicateObject.dstStan"></mss-input>
-          <mss-input [label]="'dictionary.specificSymbol' | translate" class="filter-item" [placeholder]="'Specific Symbol'"
-                     [(value)]="pagination.search.predicateObject.specificSymbol"></mss-input>
-          <mss-input [label]="'dictionary.variableSymbol' | translate" class="filter-item" [placeholder]="'Variable Symbol'"
-                     [(value)]="pagination.search.predicateObject.vs"></mss-input>
+          <mss-input [label]="'dictionary.cln' | translate"
+                     class="filter-item"
+                     *mssRoleIf="'transactions.cln'"
+                     [(value)]="pagination.search.predicateObject.cln">
+          </mss-input>
+          <mss-input [label]="'dictionary.terminalCode' | translate"
+                     class="filter-item"
+                     *mssRoleIf="'transactions.terminalCode'"
+                     [(value)]="pagination.search.predicateObject.terminalCode">
+          </mss-input>
+          <mss-input [label]="'dictionary.amount' | translate"
+                     class="filter-item" [type]="'number'"
+                     *mssRoleIf="'transactions.amount'"
+                     [(value)]="pagination.search.predicateObject.amount">
+          </mss-input>
+          <mss-input [label]="'dictionary.dstStan' | translate"
+                     class="filter-item" [type]="'number'"
+                     *mssRoleIf="'transactions.dstStan'"
+                     [(value)]="pagination.search.predicateObject.dstStan">
+          </mss-input>
+          <mss-input [label]="'dictionary.specificSymbol' | translate"
+                     class="filter-item" [placeholder]="'Specific Symbol'"
+                     *mssRoleIf="'transactions.specificSymbol'"
+                     [(value)]="pagination.search.predicateObject.specificSymbol">
+          </mss-input>
+          <mss-input [label]="'dictionary.variableSymbol' | translate"
+                     class="filter-item" [placeholder]="'Variable Symbol'"
+                     *mssRoleIf="'transactions.variableSymbol'"
+                     [(value)]="pagination.search.predicateObject.vs">
+          </mss-input>
         </div>
       </div>
     </div>
@@ -113,48 +149,72 @@
     <mss-button [label]="'basic.search' | translate" (click)="getTransactions()"></mss-button>
   </div>
   <div class="data-table-container">
-    <ngx-datatable #table (activate)="goToDetail('transaction', $event)" [externalPaging]="true"
-                   [count]="tableData ? tableData.totalElements : 0 " [loadingIndicator]="loading"
-                   (page)="setPage($event)"
-                   [externalSorting]="true"
-                   (sort)="getSortedTransactions($event)"
-                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [limit]="pagination.pagination.number"
-                   [rows]="rows">
-      <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell clickable" [title]="value" (click)="goToDetail('uuid', value)"> {{value}}</span>
+    <ngx-datatable #table [rows]="rows" [loadingIndicator]="loading"
+                   [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50" [rowHeight]="48"
+                   [count]="tableData ? tableData.totalElements : 0 " [limit]="pagination.pagination.number"
+                   [externalPaging]="true" (page)="setPage($event)"
+                   [externalSorting]="true" (sort)="getSortedTransactions($event)"
+                   (activate)="goToDetail('transaction', $event)">
+      <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false"
+                            *mssRoleIf="'transactions.uuid'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.terminalDate' | translate" prop="termDttm" [sortable]="true"
+                            *mssRoleIf="'transactions.termDtm'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.terminalCode' | translate" prop="terminalCode" [sortable]="false"
+                            *mssRoleIf="'transactions.terminalCode'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.terminalName' | translate" prop="terminalName" [sortable]="false"
+                            *mssRoleIf="'transactions.terminalName'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'transactions.list.cardGroupName' | translate" prop="cardGroupName" [sortable]="false"
+                            *mssRoleIf="'transactions.cardGroupName'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode" [sortable]="false"
+                            *mssRoleIf="'filters.orgUnitCodeSelect'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode" [sortable]="false"
+                            *mssRoleIf="'filters.merchantCodeSelect'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode" [sortable]="false"
+                            *mssRoleIf="'filters.cardGroupCodeSelect'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cln' | translate" prop="cln" [sortable]="false"
+                            *mssRoleIf="'transactions.cln'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount" [sortable]="false"
+                            *mssRoleIf="'transactions.amount'">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <div>{{value | currency:row['currency']['code']:true:'1.' + row['currency']['digits']}}</div>
         </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.terminalDate' | translate" prop="termDttm" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.terminalCode' | translate" prop="terminalCode" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span class="cell clickable" title="Click to move to the detail." (click)="goToDetail('terminal', value)"> {{value}}</span>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode"
-                            [sortable]="false" *mssRoleIf="'filters.orgUnitCodeSelect'">
-      </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode"
-                            [sortable]="false" *mssRoleIf="'filters.merchantCodeSelect'">
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.transactionType' | translate" prop="transactionType"
-                            [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode"
-                            [sortable]="false" *mssRoleIf="'filters.cardGroupCodeSelect'">
+                            [sortable]="false" *mssRoleIf="'transactions.transactionType'">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.approvalCode' | translate" prop="approvalCode" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.responseCode' | translate" prop="responseCode" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.cln' | translate" prop="cln" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.transactionState' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
-
-      <ngx-datatable-column [name]="'dictionary.dstStan' | translate" prop="dstStan" [sortable]="false"
-                            *mssRoleIf="'transactions.dstStanColumn'"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.rrn' | translate" prop="rrn" [sortable]="false"
-                            *mssRoleIf="'transactions.rrnColumn'"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.responseCode' | translate" prop="responseCode" [sortable]="false"
+                            *mssRoleIf="'transactions.responseCode'">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <div [ngClass]="{'status-declined': row['state'] === 'DECLINED', 'status-accepted': row['state'] === 'ACCEPTED'}">
+            {{value}}
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.variableSymbol' | translate" prop="vs" [sortable]="false"
-                            *mssRoleIf="'transactions.variableSymbolColumn'"></ngx-datatable-column>
+                            *mssRoleIf="'transactions.variableSymbol'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.specificSymbol' | translate" prop="specificSymbol" [sortable]="false"
+                            *mssRoleIf="'transactions.specificSymbol'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.approvalCode' | translate" prop="approvalCode" [sortable]="false"
+                            *mssRoleIf="'transactions.approvalCode'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.dstStan' | translate" prop="dstStan" [sortable]="false"
+                            *mssRoleIf="'transactions.dstStan'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.rrn' | translate" prop="rrn" [sortable]="false"
+                            *mssRoleIf="'transactions.rrn'">
+      </ngx-datatable-column>
+
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template

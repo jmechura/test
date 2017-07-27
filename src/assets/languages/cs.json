@@ -133,6 +133,8 @@
   "transactions": {
     "list": {
       "title": "Přehled transakcí",
+      "terminalName": "Terminal Name",
+      "cardGroupName": "CardGroup Name",
       "filterSections": {
         "DATE": "Datum",
         "LOCATION": "Lokace",

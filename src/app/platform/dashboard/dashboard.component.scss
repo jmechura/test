@@ -52,3 +52,11 @@ $filter-item-width: 500px;
   color: $calendar-text-color;
 }
 
+.status-declined {
+  color: $negative-number-color;
+}
+
+.status-accepted {
+  color: $positive-number-color;
+}
+

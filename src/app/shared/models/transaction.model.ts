@@ -2,7 +2,14 @@ export interface Transaction {
   amount: number;
   approvalCode: string;
   cardGroupCode: string;
+  cardGroupName: string;
+  cardType: string;
   cln: string;
+  currency: {
+    code: string;
+    number: number;
+    digits: number;
+  };
   dstStan: number;
   issuerCode: string;
   merchantCode: string;
@@ -12,7 +19,10 @@ export interface Transaction {
   rrn: string;
   specificSymbol: string;
   state: string;
+  termCity: string;
   termDttm: string;
+  termName: string;
+  termStreet: string;
   terminalCode: string;
   transactionType: string;
   uuid: string;
