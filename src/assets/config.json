@@ -1,5 +1,12 @@
 {
   "apiUrl": "http://172.29.33.5:8907/rest",
+  "userStates": [
+    "NEW",
+    "ENABLED",
+    "DISABLED",
+    "DISCARDED",
+    "DELETED"
+  ],
   "roles": {
     "showcase": {
       "test": [

@@ -14,7 +14,11 @@
           <mss-input class="filter-item" formControlName="firstName" [label]="'basic.firstName' | translate"></mss-input>
           <mss-input class="filter-item" formControlName="lastName" [label]="'basic.lastName' | translate"></mss-input>
           <mss-input class="filter-item" formControlName="email" [label]="'basic.email' | translate"></mss-input>
-          <mss-input class="filter-item" formControlName="state" [label]="'basic.state' | translate"></mss-input>
+          <mss-select
+            class="filter-item"
+            formControlName="state"
+            [label]="'basic.state' | translate"
+            [options]="userStates"></mss-select>
         </div>
       </div>
 

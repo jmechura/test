@@ -23,6 +23,7 @@ import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer
 import { UserFilterSections } from '../../shared/enums/users-filter-sections.enum';
 import { LanguageService } from '../../shared/services/language.service';
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
+import { AppConfigService } from '../../shared/services/app-config.service';
 
 const USERS_ROUTE = 'platform/users';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -56,6 +57,7 @@ export class UsersComponent implements OnDestroy {
   profile: ProfileModel;
   itemsForSelect: { [key: string]: SelectItem[]; } = {};
   usersData: Pagination<ProfileModel>;
+  userStates: SelectItem[];
   @ViewChild('table') table: DatatableComponent;
   private unsubscribe$ = new Subject<void>();
 
@@ -64,7 +66,8 @@ export class UsersComponent implements OnDestroy {
               private route: ActivatedRoute,
               private fb: FormBuilder,
               private api: ApiService,
-              private language: LanguageService) {
+              private language: LanguageService,
+              private appConfig: AppConfigService) {
 
     this.filterForm = this.fb.group({
       email: [''],
@@ -77,6 +80,14 @@ export class UsersComponent implements OnDestroy {
       orgUnitCode: [{value: '', disabled: true}],
       terminalCode: [{value: '', disabled: true}],
     });
+
+    this.appConfig.get('userStates').takeUntil(this.unsubscribe$).subscribe(
+      data => {
+        if (data !== undefined) {
+          this.userStates = data.map(state => ({value: state}));
+        }
+      }
+    );
 
     this.filterSections = Object.keys(UserFilterSections).filter(key => isNaN(Number(key)))
       .map(item => ({
