@@ -11,7 +11,7 @@ const PLATFORM_ROUTE = 'platform';
 
 export const routeToRule: { [childRoute: string]: string } = {
   'dashboard': 'transactions.read',
-  'employees': 'users.read',
+  'users': 'users.read',
   'cards': 'cards.read',
   'card-request': 'cardRequests.read',
   'card-groups': 'cardGroups.read',

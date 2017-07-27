@@ -74,7 +74,7 @@ export class UsersComponent implements OnDestroy {
       login: [''],
       firstName: [''],
       lastName: [''],
-      state: [''],
+      state: [null],
       merchantCode: [{value: '', disabled: true}],
       networkCode: [{value: '', disabled: true}],
       orgUnitCode: [{value: '', disabled: true}],
@@ -437,7 +437,5 @@ export class UsersComponent implements OnDestroy {
 
   clearFilter(): void {
     this.filterForm.reset();
-    this.filterForm.get('merchantCode').disable();
-    this.filterForm.get('orgUnitCode').disable();
   }
 }
