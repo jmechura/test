@@ -28,49 +28,37 @@
       </div>
     </div>
 
-    <div *ngIf="selectedOption === detailOptions[2]">
-      <div class="category-wrapper">
-        <div class="item">
-          <mss-select [label]="'cards.cardDetail.sections.ACCOUNT' | translate"
-                      [options]="accountOptions"
-                      [disabled]="accountOptions.length === 0"
-                      [selectedOption]="selectedAccountName"
-                      (selectedOptionChange)="setAccount($event)"></mss-select>
-        </div>
-        <div class="item">
-          <mss-list class="list" [data]="selectedAccount.list" *ngIf="selectedAccount">{{'cards.cardDetail.accountInfo' | translate}}
-          </mss-list>
-        </div>
-        <div class="data-table-container" *ngIf="selectedAccount">
-          <ngx-datatable #table
-                         [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48"
-                         [rows]="selectedAccount.tableData" [limit]="rowLimit">
-            <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'dictionary.trxUuid' | translate" prop="trxUuid"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'dictionary.type' | translate" prop="amount"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state"></ngx-datatable-column>
-            <ngx-datatable-footer>
-              <ng-template
-                ngx-datatable-footer-template
-                let-rowCount="rowCount"
-                let-pageSize="pageSize"
-                let-curPage="curPage">
-                <mss-table-footer
-                  [page]="curPage"
-                  [rowsShown]="pageSize"
-                  [rowCount]="rowCount"
-                  (rowsShownChange)="changeLimit($event)"
-                  (changePage)="table.onFooterPage($event)"
-                  class="d-table-footer">
-                </mss-table-footer>
-              </ng-template>
-            </ngx-datatable-footer>
-          </ngx-datatable>
-        </div>
-      </div>
+    <div class="data-table-container row-break" *ngIf="selectedOption === detailOptions[2] && selectedAccountData.content">
+      <mss-tabs [items]="accountOptions" (itemChanged)="setSelectedAccountOption($event)" *ngIf="accountOptions.length > 0"></mss-tabs>
+      <ngx-datatable #table [loadingIndicator]="loading" [rows]="selectedAccountData.content"
+                     [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
+                     [limit]="requestModel.pagination.number" [count]="selectedAccountData ? selectedAccountData.totalElements : 0"
+                     [externalSorting]="true" [externalPaging]="true"
+                     (sort)="getSortedTransfers($event)" (page)="setPage($event)">
+        <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.trxUuid' | translate" prop="trxUuid"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm" [sortable]="false"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.type' | translate" prop="amount"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state"></ngx-datatable-column>
+        <ngx-datatable-footer>
+          <ng-template
+            ngx-datatable-footer-template
+            let-rowCount="rowCount"
+            let-pageSize="pageSize"
+            let-curPage="curPage">
+            <mss-table-footer
+              [page]="curPage"
+              [rowsShown]="pageSize"
+              [rowCount]="rowCount"
+              (rowsShownChange)="changeLimit($event)"
+              (changePage)="table.onFooterPage($event)"
+              class="d-table-footer">
+            </mss-table-footer>
+          </ng-template>
+        </ngx-datatable-footer>
+      </ngx-datatable>
     </div>
   </div>
 </div>

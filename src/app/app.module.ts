@@ -150,6 +150,8 @@ import { configurationInstanceReducer } from './shared/reducers/configuration-in
 import { ConfigurationInstanceEffect } from './shared/effects/configuration-instance.effect';
 import { templatesSimpleReducer } from './shared/reducers/template-simple.reducer';
 import { TemplatesSimpleEffect } from './shared/effects/template-simple.effect';
+import { transfersReducer } from './shared/reducers/transfers.reducer';
+import { TransferEffect } from './shared/effects/transfers.effect';
 import { routingTableDetailReducer } from './shared/reducers/routing-table-detail.reducer';
 import { RoutingTableDetailEffect } from 'app/shared/effects/routing-table-detail.effect';
 
@@ -174,6 +176,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     GoldComponentsModule,
     StoreModule.provideStore({
       card: cardReducer,
+      transfers: transfersReducer,
       profile: profileReducer,
       templates: templatesReducer,
       transactionCodes: transactionCodeReducer,
@@ -242,6 +245,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       templatesSimple: templatesSimpleReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
+    EffectsModule.runAfterBootstrap(TransferEffect),
     EffectsModule.runAfterBootstrap(ProfileEffect),
     EffectsModule.runAfterBootstrap(TransactionCodeEffect),
     EffectsModule.runAfterBootstrap(TransactionStateEffect),

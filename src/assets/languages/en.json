@@ -65,6 +65,10 @@
     }
   },
   "dictionary": {
+    "trxUuid": "trxUuid",
+    "trxDttm": "trxDttm",
+    "dttm": "dttm",
+    "type": "Typ",
     "from": "Od",
     "to": "Do",
     "issuerCode": "Issuer code",

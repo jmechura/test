@@ -25,3 +25,7 @@
   width: calc(50% - 15px);
   margin: 6px 0;
 }
+
+.row-break {
+  @include mss-datatable-row-break(14, false);
+}

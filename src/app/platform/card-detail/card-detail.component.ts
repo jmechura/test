@@ -10,6 +10,9 @@ import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { Transfer } from '../../shared/models/transfer.model';
+import { transfersActions } from '../../shared/reducers/transfers.reducer';
+import { Pagination } from '../../shared/models/pagination.model';
 
 interface InfoModel {
   label: string;
@@ -17,6 +20,8 @@ interface InfoModel {
   formName?: string;
   options?: SelectItem[];
 }
+
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 
 @Component({
   selector: 'mss-card-detail',
@@ -28,10 +33,8 @@ export class CardDetailComponent implements OnDestroy {
   private unsubscribe$ = new UnsubscribeSubject();
   cardData: CardDetailModel;
 
-  rowLimit = 10;
   accountOptions: SelectItem[] = [];
-  selectedAccountName;
-  selectedAccount: any;
+  selectedAccountData: Pagination<Transfer>;
 
   cardForm: FormGroup;
 
@@ -41,9 +44,21 @@ export class CardDetailComponent implements OnDestroy {
     {value: 'Account', label: this.langService.translate('cards.cardDetail.sections.ACCOUNT')},
   ];
   selectedOption = this.detailOptions[0];
+  selectedAccountOption: SelectItem = null;
 
   basicInfo: InfoModel[][];
   ownerInfo: InfoModel[][];
+
+  sortOption: {
+    predicate: string;
+    reverse: boolean;
+  };
+
+  loading = true;
+
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
+  pageNumber = 0;
+  totalItems = 0;
 
   stateSelect: SelectItem[] = [
     {value: 'ENABLED'},
@@ -89,6 +104,14 @@ export class CardDetailComponent implements OnDestroy {
           this.cardData = data.data;
           this.cardForm.patchValue(this.cardData);
           this.accountOptions = this.cardData.accounts.map(account => ({value: account.uuid}));
+          this.selectedAccountOption = this.accountOptions[0];
+          this.store.dispatch({
+            type: transfersActions.TRANSFERS_GET_REQUEST, payload: {
+              predicatedObject: this.requestModel,
+              uuid: this.cardData.accounts[0].uuid,
+              type: 'CARD'
+            }
+          });
           this.basicInfo = [
             [
               {
@@ -180,38 +203,18 @@ export class CardDetailComponent implements OnDestroy {
         }
       }
     );
-  }
 
-  setAccount(value: string): void {
-    this.selectedAccountName = value;
-    const acc = this.cardData.accounts.find(account => account.type === value);
-    this.selectedAccount = {
-      list: [
-        {
-          value: acc.balance,
-          label: this.langService.translate(`cards.cardDetail.account.balance`)
-        },
-        {
-          value: acc.type,
-          label: this.langService.translate(`dictionary.type`)
-        },
-        {
-          value: acc.uuid,
-          label: this.langService.translate(`dictionary.uuid`)
+    this.store.select('transfers').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<Pagination<Transfer>>) => {
+        this.loading = data.loading;
+        if (data.error) {
+          console.error('Error occurred while retrieving card detail.', data.error);
+          return;
         }
-      ],
-      tableData: acc.transfers
-    };
-  }
-
-  changeLimit(limit: number): void {
-    this.rowLimit = limit;
-
-    setTimeout(
-      () => {
-        this.table.recalculate();
-      },
-      0
+        if (data.data != undefined && !data.loading) {
+          this.selectedAccountData = data.data;
+        }
+      }
     );
   }
 
@@ -221,5 +224,53 @@ export class CardDetailComponent implements OnDestroy {
 
   setSelectedOption(newIndex: SelectItem): void {
     this.selectedOption = newIndex;
+  }
+
+  setSelectedAccountOption(item: SelectItem): void {
+    this.selectedAccountOption = item;
+    this.pageNumber = 0;
+    this.getTransfers();
+  }
+
+  get requestModel(): any {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: (this.pageNumber) * this.rowLimit,
+      },
+      search: {},
+      sort: this.sortOption != null ? this.sortOption : {},
+    };
+  }
+
+  getTransfers(): void {
+    const uuid = this.selectedAccountOption.value;
+    const account = this.cardData.accounts.find((element) => element.uuid === uuid);
+    this.store.dispatch({
+      type: transfersActions.TRANSFERS_GET_REQUEST, payload: {
+        predicatedObject: this.requestModel,
+        uuid: account.uuid,
+        type: 'CARD'
+      }
+    });
+  }
+
+  getSortedTransfers(sortInfo: any): void {
+    this.sortOption = {
+      predicate: sortInfo.sorts[0].prop,
+      reverse: sortInfo.sorts[0].dir === 'asc'
+    };
+    this.getTransfers();
+  }
+
+  setPage(pageInfo: { offset: number }): void {
+    this.pageNumber = pageInfo.offset;
+    this.getTransfers();
+  }
+
+  changeLimit(limit: number): void {
+    this.rowLimit = limit;
+    this.getTransfers();
   }
 }
