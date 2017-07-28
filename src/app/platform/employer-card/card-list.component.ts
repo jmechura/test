@@ -17,6 +17,7 @@ import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
+import { CardFilterSections } from '../../shared/enums/card-sections.enum';
 
 const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
   cardGroupCode: '',
@@ -55,6 +56,10 @@ export class CardListComponent implements OnDestroy {
   cardGroupCodes: SelectItem[] = [];
   issuer = false;
   private unsubscribe$ = new UnsubscribeSubject();
+  filterSections: SelectItem[] = [];
+  visibleSection: SelectItem;
+  cardFilterSection = CardFilterSections;
+  issuerTab = false;
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -64,6 +69,13 @@ export class CardListComponent implements OnDestroy {
               private router: Router,
               private roles: RoleService) {
     this.store.dispatch({type: cardStateActions.CARD_STATE_GET_REQUEST});
+
+    this.filterSections = Object.keys(CardFilterSections).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`cards.cardList.sections.${item}`),
+        value: CardFilterSections[item]
+      }));
+    this.visibleSection = this.filterSections[0];
 
     this.store.select('cardStates').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<string[]>) => {
@@ -120,11 +132,13 @@ export class CardListComponent implements OnDestroy {
           this.roles.isVisible('filters.issuerCodeSelect').subscribe(
             issuerResult => {
               if (issuerResult) {
+                this.issuerTab = true;
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
                 this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
                   cardGroupCodeResult => {
                     if (cardGroupCodeResult) {
+                      this.issuerTab = true;
                       this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: data.resourceId});
                     }
                   }
@@ -230,6 +244,7 @@ export class CardListComponent implements OnDestroy {
   }
 
   getSortedCards(sortInfo: any): void {
+    sortInfo.sorts[0].prop = (sortInfo.sorts[0].prop === 'cardGroupPrimaryCode') ? 'cardGroupCode' : sortInfo.sorts[0].prop;
     this.requestModel.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
     this.getCards();
   }

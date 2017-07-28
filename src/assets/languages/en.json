@@ -111,7 +111,9 @@
     "tax": "Hodnota daně",
     "externalCode": "Externí kód",
     "bankAccount": "Bankovní účet",
-    "processRequest": "Process request"
+    "processRequest": "Process request",
+    "cardGroupName": "Card group name",
+    "cardGroupPrimaryCode": "Card group code"
   },
   "components": {
     "pager": {
@@ -133,6 +135,8 @@
   "transactions": {
     "list": {
       "title": "Přehled transakcí",
+      "terminalName": "Terminal Name",
+      "cardGroupName": "CardGroup Name",
       "filterSections": {
         "DATE": "Datum",
         "LOCATION": "Lokace",
@@ -190,7 +194,11 @@
       "lastName": "Příjmení",
       "request": "Žádost",
       "sendRequest": "Poslat žádost",
-      "requestSent": "Žádost odeslána"
+      "requestSent": "Žádost odeslána",
+      "sections": {
+        "BASIC": "Zakladni",
+        "ISSUER": "Issuer"
+      }
     },
     "cardDetail": {
       "title": "Detail karty",

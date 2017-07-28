@@ -162,6 +162,9 @@
         "ROLE_ADMIN",
         "ROLE_CARD_STATE"
       ],
+      "servisCodeSelect": [
+        "ROLE_ADMIN"
+      ],
       "simpleEdit": [
         "ROLE_ADMIN",
         "ROLE_CARD_STATE_SIMPLE"
