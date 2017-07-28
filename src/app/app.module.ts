@@ -154,6 +154,10 @@ import { transfersReducer } from './shared/reducers/transfers.reducer';
 import { TransferEffect } from './shared/effects/transfers.effect';
 import { routingTableDetailReducer } from './shared/reducers/routing-table-detail.reducer';
 import { RoutingTableDetailEffect } from 'app/shared/effects/routing-table-detail.effect';
+import { addressDetailReducer } from './shared/reducers/address-detail.reducer';
+import { AddressDetailEffect } from './shared/effects/address-detail.effect';
+import { AddressTypeEffect } from './shared/effects/address-type.effect';
+import { addressTypeReducer } from './shared/reducers/address-type.reducer';
 import { importCodeReducer } from './shared/reducers/import-code.reducer';
 import { ImportCodeEffect } from './shared/effects/import-code.effect';
 
@@ -177,6 +181,8 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     GoldComponentsModule,
     StoreModule.provideStore({
       card: cardReducer,
+      addressType: addressTypeReducer,
+      addressDetail: addressDetailReducer,
       transfers: transfersReducer,
       profile: profileReducer,
       templates: templatesReducer,
@@ -247,6 +253,8 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       templatesSimple: templatesSimpleReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
+    EffectsModule.runAfterBootstrap(AddressDetailEffect),
+    EffectsModule.runAfterBootstrap(AddressTypeEffect),
     EffectsModule.runAfterBootstrap(TransferEffect),
     EffectsModule.runAfterBootstrap(ProfileEffect),
     EffectsModule.runAfterBootstrap(TransactionCodeEffect),

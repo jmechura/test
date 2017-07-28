@@ -12,6 +12,16 @@ import { CardGroupSections } from '../../shared/enums/card-group-sections.enum';
 import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
+import { AppConfigService } from '../../shared/services/app-config.service';
+import { AddressModel } from '../../shared/models/address.model';
+import { addressTypeActions } from '../../shared/reducers/address-type.reducer';
+import { addressDetailActions } from '../../shared/reducers/address-detail.reducer';
+import { ApiService } from '../../shared/services/api.service';
+
+interface TabOptions {
+  label: string;
+  value: CardGroupSections;
+}
 
 @Component({
   selector: 'mss-card-group-detail',
@@ -22,23 +32,39 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   private unsubscribe$ = new UnsubscribeSubject();
   cardGroupDetail: CardGroupModel;
-  tabsOptions: SelectItem[] = [];
+  tabsOptions: TabOptions[] = [];
   CardGroupSections = CardGroupSections;
   visibleTab: SelectItem;
   stateOptions: SelectItem[] = [{value: 'ENABLED'}, {value: 'DISABLED'}];
   limitOptions: SelectItem[] = [{value: 'ENABLED'}];
   taxTypes: SelectItem[] = [];
   editForm: FormGroup;
+  addressForm: FormGroup;
   edit = false;
   modalVisible = false;
+  createDefaultDeliveryAddress = false;
+  deliveryAddress: AddressModel;
+  addressTypes: SelectItem[] = [];
+  selectedAddressType: string;
+  creatingAddress = true;
+  editAddress = false;
+
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
               private store: Store<AppStateModel>,
-              private langService: LanguageService) {
+              private langService: LanguageService,
+              private configService: AppConfigService,
+              private api: ApiService) {
     this.route.params.subscribe(
       (params: { id: string }) => {
         this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
+      }
+    );
+
+    this.configService.get('createDefaultDeliveryAddress').subscribe(
+      address => {
+        this.createDefaultDeliveryAddress = address;
       }
     );
 
@@ -68,6 +94,34 @@ export class CardGroupDetailComponent implements OnDestroy {
         }
       }
     );
+    this.store.select('addressDetail').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<AddressModel>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving tax types from API.', data.error);
+          return;
+        }
+        this.creatingAddress = true;
+        if (data.data !== undefined && !data.loading) {
+          this.deliveryAddress = data.data;
+          this.addressForm.patchValue(this.deliveryAddress);
+          if (data.data !== '') {
+            this.creatingAddress = false;
+          }
+        }
+      }
+    );
+    this.store.select('addressType').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving tax types from API.', data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.addressTypes = data.data.map(item => ({value: item}));
+        }
+      }
+    );
+    this.store.dispatch({type: addressTypeActions.ADDRESS_TYPE_GET_REQUEST});
 
     this.editForm = fb.group(
       {
@@ -90,6 +144,24 @@ export class CardGroupDetailComponent implements OnDestroy {
       }
     );
 
+    this.addressForm = fb.group({
+        addressName: ['', Validators.required],
+        city: ['', Validators.required],
+        contact: [''],
+        contact2: [''],
+        country: ['', Validators.required],
+        dic: [''],
+        email: ['', optionalEmailValidator],
+        ico: [''],
+        phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
+        resource: [''],
+        resourceId: [''],
+        street: ['', Validators.required],
+        type: [''],
+        zip: ['', Validators.required],
+      }
+    );
+
     this.tabsOptions = [
       {
         label: this.langService.translate('cardGroups.sections.BASIC'),
@@ -106,6 +178,10 @@ export class CardGroupDetailComponent implements OnDestroy {
       {
         label: this.langService.translate('cardGroups.sections.ADDRESS'),
         value: CardGroupSections.ADDRESS
+      },
+      {
+        label: this.langService.translate('cardGroups.sections.DELIVERYADRESS'),
+        value: CardGroupSections.DELIVERYADRESS
       }
     ];
     this.visibleTab = this.tabsOptions[0];
@@ -145,5 +221,70 @@ export class CardGroupDetailComponent implements OnDestroy {
   cancelEditing(): void {
     this.edit = false;
     this.editForm.patchValue(this.cardGroupDetail);
+  }
+
+  get cardGroupTabsOptions(): TabOptions[] {
+    return !this.createDefaultDeliveryAddress ?
+      this.tabsOptions.filter((item) => item.value !== CardGroupSections.DELIVERYADRESS) : this.tabsOptions;
+  }
+
+  changeAddressType(value: string): void {
+    this.selectedAddressType = value;
+    this.store.dispatch({type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
+      resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: value
+    }});
+  }
+
+  startAddressEditing(): void {
+    this.editAddress = true;
+  }
+
+  cancelAddressEditing(): void {
+    this.editAddress = false;
+    this.addressForm.patchValue(this.deliveryAddress);
+  }
+
+  submitAddress(): void {
+    this.editAddress = false;
+    if (this.creatingAddress) {
+      this.api.post('/adresses', {
+        ...this.addressForm.value,
+        resource: 'CARD_GROUP',
+        resourceId: this.cardGroupDetail.id,
+        type: this.selectedAddressType,
+      }).subscribe(
+        () => {
+          this.addressForm.reset();
+          this.store.dispatch({type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
+            resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: this.selectedAddressType
+          }});
+        },
+        error => {
+          console.error('Create address fail', error);
+        }
+      );
+    } else {
+      this.api.post('/adresses', {
+        ...this.addressForm.value,
+        resource: 'CARD_GROUP',
+        resourceId: this.cardGroupDetail.id,
+        type: this.selectedAddressType,
+      }).subscribe(
+        () => {
+          this.addressForm.reset();
+          this.store.dispatch({type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
+            resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: this.selectedAddressType
+          }});
+        },
+        error => {
+          console.error('Create address fail', error);
+        }
+      );
+    }
+  }
+
+  isInvalid(value: string): boolean {
+    const item = this.addressForm.get(value);
+    return item.touched && item.invalid;
   }
 }

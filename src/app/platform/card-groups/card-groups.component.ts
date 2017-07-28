@@ -19,6 +19,13 @@ import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
 import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
+import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
+import { AppConfigService } from '../../shared/services/app-config.service';
+
+interface TabOptions {
+  label: string;
+  value: CardGroupSections;
+}
 
 @Component({
   selector: 'mss-card-groups',
@@ -37,6 +44,10 @@ export class CardGroupsComponent implements OnDestroy {
     },
     sort: {}
   };
+  cardFilterSection = ['BASIC', 'ISSUER'];
+  filterSections: SelectItem[] = [];
+  visibleSection: SelectItem;
+  issuerTab = false;
 
   issuerCodes: SelectItem[] = [];
   cardGroupCodes: SelectItem[] = [];
@@ -46,7 +57,7 @@ export class CardGroupsComponent implements OnDestroy {
   filterForm: FormGroup;
   newCardGroupForm: FormGroup;
   modalVisible = false;
-  tabsOptions = [
+  tabsOptions: TabOptions[] = [
     {
       label: 'základní',
       value: CardGroupSections.BASIC
@@ -68,6 +79,8 @@ export class CardGroupsComponent implements OnDestroy {
   visibleTab = this.tabsOptions[0];
   states: SelectItem[] = [{value: 'ENABLED'}];
   taxTypes: SelectItem[] = [];
+  limitsAlloweed = false;
+  countries: SelectItem[] = [];
   private unsubscribe$ = new UnsubscribeSubject();
 
   constructor(private store: Store<AppStateModel>,
@@ -75,13 +88,39 @@ export class CardGroupsComponent implements OnDestroy {
               private api: ApiService,
               private language: LanguageService,
               private router: Router,
-              private roles: RoleService) {
+              private roles: RoleService,
+              private configService: AppConfigService) {
+
+
+    this.filterSections = this.cardFilterSection.filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`cardGroups.sections.${item}`),
+        value: item
+      }));
+    this.visibleSection = this.filterSections[0];
     this.filterForm = fb.group(
       {
         issuerCode: '',
         cardGroupCode: {value: '', disabled: true},
         name: '',
         id: '',
+        ico: '',
+        dic: '',
+        city: ''
+      }
+    );
+
+    this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
+    this.store.select('countryCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        this.loading = data.loading;
+        if (data.error) {
+          console.error(`Error occurred while getting country codes from api.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.countries = data.data.map(country => ({value: country}));
+        }
       }
     );
 
@@ -114,15 +153,24 @@ export class CardGroupsComponent implements OnDestroy {
           this.roles.isVisible('filters.issuerCodeSelect').subscribe(
             issuerResult => {
               if (issuerResult) {
+                this.issuerTab = true;
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
                 this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
+                      this.issuerTab = true;
                       this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: data.resourceId});
                     }
                   }
                 );
+              }
+            }
+          );
+          this.roles.isVisible('cardGroups.limits').subscribe(
+            limitsResult => {
+              if (limitsResult) {
+                this.limitsAlloweed = true;
               }
             }
           );
@@ -149,7 +197,7 @@ export class CardGroupsComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.cardGroupCodes = data.data.map(code => ({value: code.code}));
+          this.cardGroupCodes = data.data.map(code => ({value: code.name}));
           this.filterForm.get('cardGroupCode').enable();
         }
       }
@@ -176,21 +224,19 @@ export class CardGroupsComponent implements OnDestroy {
         limitType: [''],
         limit: [0],
         state: ['ENABLED'],
-        ico: [''],
-        dic: [''],
+        ico: ['', Validators.required],
+        dic: ['', Validators.required],
         email: ['', optionalEmailValidator],
         phone: [''],
         contact: [''],
         contact2: [''],
         bankAccount: [''],
-        createSpecSymbol: [false],
-        specificSymbol: [''],
         taxType: ['UNKNOWN'],
         taxValue: [0],
-        createDefaultDeliveryAddress: [false],
-        street: [''],
-        city: [''],
-        zip: ['']
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        zip: ['', Validators.required],
+        country: ['', Validators.required]
       }
     );
 
@@ -202,6 +248,10 @@ export class CardGroupsComponent implements OnDestroy {
     this.visibleTab = this.tabsOptions[0];
 
     this.getCardGroups();
+  }
+
+  get addCardGroupTabsOptions(): TabOptions[] {
+    return !this.limitsAlloweed ? this.tabsOptions.filter((item) => item.value !== CardGroupSections.LIMITS) : this.tabsOptions;
   }
 
 
@@ -245,13 +295,17 @@ export class CardGroupsComponent implements OnDestroy {
   }
 
   createNewCardGroup(): void {
-    this.api.post('/cardgroups', this.newCardGroupForm.value).subscribe(
-      () => {
-        this.toggleAddCardGroupModal();
-        this.getCardGroups();
-      },
-      (error) => {
-        console.error('data', error);
+    this.configService.get('createSpecSymbol').subscribe(
+      symbol => {
+        this.api.post('/cardgroups', {...this.newCardGroupForm.value, createSpecSymbol: symbol}).subscribe(
+          () => {
+            this.toggleAddCardGroupModal();
+            this.getCardGroups();
+          },
+          (error) => {
+            console.error('data', error);
+          }
+        );
       }
     );
   }

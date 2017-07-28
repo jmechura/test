@@ -2,5 +2,6 @@ export enum CardGroupSections {
   BASIC,
   LIMITS,
   CONTACTS,
-  ADDRESS
+  ADDRESS,
+  DELIVERYADRESS
 }

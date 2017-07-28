@@ -44,6 +44,7 @@
     "template": "Šablona",
     "state": "Stav",
     "roles": "Role",
+    "addressName": "Jmeno adresy",
     "passwordExpired": "Heslo expirovano",
     "required": {
       "code": "Kod je povinný údaj.",
@@ -63,7 +64,8 @@
       "passwordAgain": "Heslo znovu je povinný údaj.",
       "template": "Šablona je povinný údaj.",
       "login": "Login je povinný údaj.",
-      "passwordsNotEqual": "Hesla se nezhodují"
+      "passwordsNotEqual": "Hesla se nezhodují",
+      "addressName": "Jméno adresy je povinný údaj."
     }
   },
   "dictionary": {
@@ -255,12 +257,15 @@
   },
   "cardGroups": {
     "title": "Zaměstnavatelé",
+    "name": "Název",
     "addCardGroup": "Přidat zaměstnavatele",
     "sections": {
       "BASIC": "Základní",
       "LIMITS": "Limity",
       "CONTACTS": "Kontakt",
-      "ADDRESS": "Adresa"
+      "ADDRESS": "Adresa",
+      "DELIVERYADRESS": "Doručovací adresa",
+      "ISSUER": "Issuer"
     },
     "createSpecificSymbol": "Vytvořit specifický symbol",
     "useDeliveryAddress": "Použit doručovací adresu"

@@ -1,6 +1,8 @@
 {
   "apiUrl": "http://172.29.33.5:8907/rest",
   "dateFormat": "DD.MM.YYYY HH:mm:ss",
+  "createSpecSymbol": true,
+  "createDefaultDeliveryAddress": true,
   "userStates": [
     "NEW",
     "ENABLED",
@@ -205,6 +207,9 @@
       "edit": [
         "ROLE_ADMIN",
         "ISSUER_ROLE_RESOURCE_EDIT"
+      ],
+      "limits": [
+        "ROLE_ADMIN"
       ]
     },
     "merchants": {

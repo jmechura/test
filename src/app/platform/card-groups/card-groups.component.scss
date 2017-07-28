@@ -6,19 +6,44 @@ $form-item-width: 400px;
   padding: 40px 50px;
 }
 
-.filter {
-  .select-row {
-    display: flex;
-    justify-content: space-between;
+.row {
+  display: flex;
+
+  &.wrapped {
+    flex-wrap: wrap;
   }
 
-  .filter-item {
+  &:not(:last-child) {
     margin-bottom: 10px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .tab-content {
+    display: flex;
+    flex-direction: column;
     width: 500px;
   }
 }
 
+.form-item {
+  margin-right: 60px;
+  margin-bottom: 15px;
+}
+
+.right-padding-tabs {
+  padding-right: 50px;
+}
+
 .content {
+  padding: 40px 0 20px 0;
+}
+
+.add-card-group-modal-content {
   .tabs {
     margin-bottom: 30px;
   }
