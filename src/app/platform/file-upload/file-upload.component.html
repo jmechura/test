@@ -9,5 +9,6 @@
     <mss-upload-input [label]="'upload.uploadFile' | translate" (file)="fileChange($event)"
                       [type]="'input'" *ngIf="enableUpload" class="file-upload">
     </mss-upload-input>
+    <mss-button [label]="'upload.confirm' | translate" *ngIf="enableConfirm" (click)="uploadFile()" class="mss-action-button"></mss-button>
   </div>
 </div>

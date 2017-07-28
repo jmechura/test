@@ -405,7 +405,8 @@
   "upload": {
     "title": "Upload File",
     "importCodeSelect": "Import Codes",
-    "uploadFile": "Upload File"
+    "uploadFile": "Choose file",
+    "confirm": "Upload selected file"
   },
   "imports": {
     "list": {

@@ -23,6 +23,7 @@ export class FileUploadComponent implements OnDestroy {
   selectedFile: File;
 
   enableUpload = false;
+  enableConfirm = false;
 
   constructor(private store: Store<AppStateModel>, private fileUpload: FileUploadService) {
     this.store.dispatch({type: importCodeActions.IMPORT_CODE_GET_REQUEST});
@@ -48,6 +49,10 @@ export class FileUploadComponent implements OnDestroy {
 
   fileChange(file: File): void {
     this.selectedFile = file;
+    this.enableConfirm = file != null;
+  }
+
+  uploadFile(): void {
     this.fileUpload.uploadFile(this.selectedFile, this.selectedCode).subscribe(
       (response) => {
         console.info('Upload File response', response);
