@@ -154,7 +154,8 @@ import { transfersReducer } from './shared/reducers/transfers.reducer';
 import { TransferEffect } from './shared/effects/transfers.effect';
 import { routingTableDetailReducer } from './shared/reducers/routing-table-detail.reducer';
 import { RoutingTableDetailEffect } from 'app/shared/effects/routing-table-detail.effect';
-
+import { importCodeReducer } from './shared/reducers/import-code.reducer';
+import { ImportCodeEffect } from './shared/effects/import-code.effect';
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/languages/', '.json');
@@ -224,6 +225,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       imports: importsReducer,
       importTypes: importTypeReducer,
       importDetail: importDetailReducer,
+      importCodes: importCodeReducer,
       importPropertyDefs: importPropertyDefReducer,
       importProperties: importPropertyReducer,
       userList: userListReducer,
@@ -293,6 +295,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(ImportsEffect),
     EffectsModule.runAfterBootstrap(ImportTypeEffect),
     EffectsModule.runAfterBootstrap(ImportDetailEffect),
+    EffectsModule.runAfterBootstrap(ImportCodeEffect),
     EffectsModule.runAfterBootstrap(ImportPropertyDefEffect),
     EffectsModule.runAfterBootstrap(ImportPropertyEffect),
     EffectsModule.runAfterBootstrap(UserListEffect),

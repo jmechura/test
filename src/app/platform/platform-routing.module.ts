@@ -37,6 +37,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { TerminalDetailComponent } from './terminal-detail/terminal-detail.component';
 import { MerchantsDetailComponent } from './merchants-detail/merchants-detail.component';
 import { TemplateCreateComponent } from './template-create/template-create.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 export const routes: Routes = [
   {
@@ -79,6 +80,7 @@ export const routes: Routes = [
       {path: 'reports', component: ReportsComponent},
       {path: 'acquirers', component: AcquirersComponent},
       {path: 'acquirers/:code', component: AcquirerDetailComponent},
+      {path: 'file-upload', component: FileUploadComponent},
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
     ]
   }

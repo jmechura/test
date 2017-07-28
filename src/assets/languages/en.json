@@ -303,6 +303,7 @@
     "addMerchant": "Přidat obchodníka",
     "detail": {
       "BASIC": "Základní informace",
+      "NETWORK": "NETWORK",
       "title": "Detail obchodníka",
       "contact": "Kontakt"
     }
@@ -401,6 +402,11 @@
       "resourceId": "ID Zdroja"
     }
   },
+  "upload": {
+    "title": "Upload File",
+    "importCodeSelect": "Import Codes",
+    "uploadFile": "Upload File"
+  },
   "imports": {
     "list": {
       "title": "Importy",
@@ -455,7 +461,6 @@
       "deleteQuestion": "Opravdu chcete report smazat?",
       "sections": {
         "BASIC": "Základní",
-        "NETWORK": "NETWORK",
         "ACQUIRER": "Acquirer",
         "ISSUER": "Issuer"
       }
@@ -822,6 +827,7 @@
     "acquirers": "Obchodní sítě",
     "imports": "Importy",
     "admin-reports": "Admin reporty",
-    "reports": "Reporty"
+    "reports": "Reporty",
+    "file-upload": "File Upload"
   }
 }

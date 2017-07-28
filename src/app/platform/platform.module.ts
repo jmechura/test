@@ -45,6 +45,7 @@ import { DirectivesModule } from '../shared/directives/directives.module';
 import { ReportsComponent } from './reports/reports.component';
 import { MerchantsDetailComponent } from './merchants-detail/merchants-detail.component';
 import { TemplateCreateComponent } from './template-create/template-create.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 @NgModule({
   imports: [
@@ -99,6 +100,7 @@ import { TemplateCreateComponent } from './template-create/template-create.compo
     ReportsComponent,
     MerchantsDetailComponent,
     TemplateCreateComponent,
+    FileUploadComponent,
   ]
 })
 export class PlatformModule {}

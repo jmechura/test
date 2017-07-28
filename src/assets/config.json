@@ -270,6 +270,12 @@
         "ROLE_ADMIN",
         "ISSUER_ROLE_RESOURCE_READ"
       ]
+    },
+    "fileUpload": {
+      "read": [
+        "ROLE_ADMIN",
+        "ROLE_IMPORT"
+      ]
     }
   }
 }

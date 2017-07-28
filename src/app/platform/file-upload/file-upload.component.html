@@ -1,0 +1,13 @@
+<div class="mss-view-container">
+  <div class="mss-header-row">
+    <div class="mss-title">{{'upload.title' | translate}}</div>
+  </div>
+
+  <div class="upload-form-container">
+    <mss-select [label]="'upload.importCodeSelect' | translate" [options]="importCodes" [selectedOption]="selectedCode"
+                (selectedOptionChange)="selectCode($event)" class="upload-select"></mss-select>
+    <mss-upload-input [label]="'upload.uploadFile' | translate" (file)="fileChange($event)"
+                      [type]="'input'" *ngIf="enableUpload" class="file-upload">
+    </mss-upload-input>
+  </div>
+</div>

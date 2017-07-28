@@ -402,6 +402,11 @@
       "resourceId": "ID Zdroja"
     }
   },
+  "upload": {
+    "title": "Upload File",
+    "importCodeSelect": "Import Codes",
+    "uploadFile": "Upload File"
+  },
   "imports": {
     "list": {
       "title": "Importy",
@@ -822,6 +827,7 @@
     "acquirers": "Obchodní sítě",
     "imports": "Importy",
     "admin-reports": "Admin reporty",
-    "reports": "Reporty"
+    "reports": "Reporty",
+    "file-upload": "File Upload"
   }
 }

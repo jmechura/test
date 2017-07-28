@@ -6,7 +6,7 @@ import { parseResponse, MissingTokenResponse } from '../utils';
 import { AppConfigService } from './app-config.service';
 
 const LOGIN_ENDPOINT = '/login';
-const TOKEN_STORAGE_KEY = 'mss_token';
+export const TOKEN_STORAGE_KEY = 'mss_token';
 
 @Injectable()
 export class ApiService {
