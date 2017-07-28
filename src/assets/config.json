@@ -1,5 +1,6 @@
 {
   "apiUrl": "http://172.29.33.5:8907/rest",
+  "dateFormat": "DD.MM.YYYY HH:mm:ss",
   "userStates": [
     "NEW",
     "ENABLED",

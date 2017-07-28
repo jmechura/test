@@ -160,6 +160,9 @@
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.terminalDate' | translate" prop="termDttm" [sortable]="true"
                             *mssRoleIf="'transactions.termDtm'">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <div>{{getFormatedDate(value)}}</div>
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.terminalCode' | translate" prop="terminalCode" [sortable]="false"
                             *mssRoleIf="'transactions.terminalCode'">

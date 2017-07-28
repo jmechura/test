@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -326,6 +326,10 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     LanguageService,
     AppConfigService,
     RoleService,
+    {
+      provide: LOCALE_ID,
+      useValue: 'de-DE'
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -22,6 +22,8 @@ import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { ProfileModel } from '../../shared/models/profile.model';
+import * as moment from 'moment';
+import { AppConfigService } from '../../shared/services/app-config.service';
 
 const TRANSACTIONS_FILTERS = ['DATE', 'LOCATION', 'PAYMENT', 'TRANSACTION'];
 
@@ -146,14 +148,21 @@ export class DashboardComponent implements OnDestroy {
 
   showLocationFilterTab = false;
 
+  dateFormat = 'DD. MM. YYYY';
+
   readonly transactionFilters = TRANSACTIONS_FILTERS;
 
   constructor(private store: Store<AppStateModel>,
               private router: Router,
               private language: LanguageService,
-              private roles: RoleService) {
+              private roles: RoleService,
+              private configService: AppConfigService) {
 
     this.visibleFilter = this.filterOptions[0];
+
+    this.configService.get('dateFormat').subscribe(
+      format => this.dateFormat = format
+    );
 
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<ProfileModel>) => {
@@ -484,6 +493,9 @@ export class DashboardComponent implements OnDestroy {
     this.getTransactions();
   }
 
+  getFormatedDate(date: Date | string): string {
+    return moment(date).format(this.dateFormat);
+  }
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
