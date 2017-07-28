@@ -17,6 +17,8 @@ import { ProfileModel } from '../../shared/models/profile.model';
 import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
+import { LanguageService } from '../../shared/services/language.service';
+import { MerchantsFilterSections } from '../../shared/enums/merchants-filter-sections.enum';
 
 const MERCHANT_ROUTE = 'platform/merchants';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -38,9 +40,18 @@ export class MerchantsComponent implements OnDestroy {
   merchantCodes: SelectItem[] = [];
   countries: SelectItem[] = [];
 
-  code: string;
+  stateOptions: SelectItem[] = [
+    {value: 'ENABLED'},
+    {value: 'DISABLED'}
+  ];
+
   name: string;
+  ico: string;
+  dic: string;
+  city: string;
+  zip: string;
   networkCode: string;
+  merchantCode: string;
 
   loading = true;
 
@@ -53,12 +64,17 @@ export class MerchantsComponent implements OnDestroy {
     reverse: boolean;
   };
 
+  merchantsFilterSections = MerchantsFilterSections;
+  filterSections: SelectItem[] = [];
+  visibleSection: SelectItem;
+
   tableData: Pagination<MerchantModel>;
   rows: MerchantModel[] = [];
 
   constructor(private fb: FormBuilder,
               private store: Store<AppStateModel>,
               private api: ApiService,
+              private language: LanguageService,
               private router: Router,
               private route: ActivatedRoute,
               private roles: RoleService) {
@@ -66,17 +82,19 @@ export class MerchantsComponent implements OnDestroy {
     this.newMerchantForm = fb.group({
       name: ['', Validators.required],
       code: ['', Validators.required],
-      country: [''],
+      country: ['', Validators.required],
       region: [''],
-      city: [''],
-      zip: [''],
-      street: [''],
+      city: ['', Validators.required],
+      zip: ['', Validators.required],
+      street: ['', Validators.required],
       email: ['', control => control.value === '' ? null : Validators.email(control)],
       phone: [''],
       bankAccount: [''],
-      ico: [''],
-      dic: [''],
+      ico: ['', Validators.required],
+      dic: ['', Validators.required],
       note: [''],
+      networkCode: [{value: '', disabled: true}, Validators.required],
+      state: [''],
     });
 
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
@@ -140,6 +158,7 @@ export class MerchantsComponent implements OnDestroy {
         }
         if (data.data != null && !data.loading) {
           this.networkCodes = data.data.map(item => ({label: item.code, value: item.id}));
+          this.newMerchantForm.get('networkCode').enable();
         }
       }
     );
@@ -169,6 +188,13 @@ export class MerchantsComponent implements OnDestroy {
         }
       }
     );
+
+    this.filterSections = Object.keys(MerchantsFilterSections).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`merchants.detail.${item}`),
+        value: MerchantsFilterSections[item]
+      }));
+    this.visibleSection = this.filterSections[0];
   }
 
   get requestModel(): RequestOptions<MerchantPredicateObject> {
@@ -180,10 +206,13 @@ export class MerchantsComponent implements OnDestroy {
       },
       search: {
         predicateObject: {
-          code: this.code || '',
           name: this.name || '',
+          ico: this.ico || '',
+          dic: this.dic || '',
+          city: this.city || '',
+          zip: this.zip || '',
           networkCode: this.networkCode || '',
-          networkName: '',
+          merchantCode: this.merchantCode || '',
         }
       },
       sort: this.sortOption != null ? this.sortOption : {},
@@ -246,6 +275,16 @@ export class MerchantsComponent implements OnDestroy {
     return item.touched && item.errors != null && item.errors.required;
   }
 
+  isPresentCountry(): boolean {
+    const item = this.newMerchantForm.get('country');
+    return (item.value === null || item.value === '') && item.touched;
+  }
+
+  isPresentNetworkCode(): boolean {
+    const item = this.newMerchantForm.get('networkCode');
+    return (item.value === null || item.value === '') && item.touched;
+  }
+
   isValidEmail(value: string): boolean {
     const item = this.newMerchantForm.get(value);
     return item.touched && item.value !== '' && item.errors != null;
@@ -279,9 +318,13 @@ export class MerchantsComponent implements OnDestroy {
   }
 
   clearFilter(): void {
-    this.code = '';
     this.name = '';
+    this.ico = '';
+    this.dic = '';
+    this.city = '';
+    this.zip = '';
     this.networkCode = '';
+    this.merchantCode = '';
   }
 
   onSelect(select: { selected: MerchantModel[] }): void {

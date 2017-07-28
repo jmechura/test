@@ -219,6 +219,9 @@
       "edit": [
         "ROLE_ADMIN",
         "NETWORK_ROLE_RESOURCE_EDIT"
+      ],
+      "id": [
+        "ROLE_ADMIN"
       ]
     },
     "orgUnits": {

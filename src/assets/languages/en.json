@@ -54,6 +54,8 @@
       "city": "Mesto je povinny udaj.",
       "street": "Ulice je povinny udaj.",
       "zip": "PSC je povinny udaj.",
+      "country": "Země je povinny udaj.",
+      "networkCode": "Network code je povinny udaj.",
       "phone": "Telefon musi byt v tvaru +42XXXXXXXXXX",
       "firstName": "Jméno je povinný údaj.",
       "lastName": "Příjmení je povinný údaj.",
@@ -453,6 +455,7 @@
       "deleteQuestion": "Opravdu chcete report smazat?",
       "sections": {
         "BASIC": "Základní",
+        "NETWORK": "NETWORK",
         "ACQUIRER": "Acquirer",
         "ISSUER": "Issuer"
       }

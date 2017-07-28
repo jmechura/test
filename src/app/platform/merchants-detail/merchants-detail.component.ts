@@ -10,13 +10,10 @@ import { LanguageService } from '../../shared/services/language.service';
 import { merchantDetailActions } from '../../shared/reducers/merchant-detail.reducer';
 import { StateModel } from '../../shared/models/state.model';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
-
-interface InfoModel {
-  label: string;
-  value: any;
-  formName?: string;
-  options?: SelectItem[];
-}
+import { CodeModel } from '../../shared/models/code.model';
+import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
+import { RoleService } from '../../shared/services/role.service';
+import { MerchantDetailSections } from 'app/shared/enums/merchant-detail-sections.enum';
 
 @Component({
   selector: 'mss-merchants-detail',
@@ -27,26 +24,22 @@ export class MerchantsDetailComponent implements OnDestroy {
   merchant: MerchantModel;
   editing = false;
   merchantForm: FormGroup;
-  detailOptions: SelectItem[] = [
-    {value: 'Basic', label: this.langService.translate('merchants.detail.BASIC')},
-    {value: 'Contact', label: this.langService.translate('merchants.detail.contact')},
-    {value: 'Address', label: this.langService.translate('basic.address')},
-  ];
-  selectedOption = this.detailOptions[0];
-  basicInfo: InfoModel[][];
-  contactInfo: InfoModel[][];
-  addressInfo: InfoModel[][];
-  stateSelect: SelectItem[] = [
+  stateOptions: SelectItem[] = [
     {value: 'ENABLED'},
     {value: 'DISABLED'}
   ];
+  networkCodes: SelectItem[] = [];
   countries: SelectItem[] = [];
+  MerchantDetailSections = MerchantDetailSections;
+  tabsOptions: SelectItem[] = [];
+  visibleTab: SelectItem;
   private unsubscribe$ = new UnsubscribeSubject();
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppStateModel>,
               private langService: LanguageService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private roles: RoleService) {
 
     this.merchantForm = this.fb.group(
       {
@@ -54,18 +47,36 @@ export class MerchantsDetailComponent implements OnDestroy {
         code: ['', Validators.required],
         id: ['', Validators.required],
         state: '',
-        ico: '',
-        dic: '',
-        email: '',
+        ico: ['', Validators.required],
+        dic: ['', Validators.required],
+        email: ['', control => control.value === '' ? null : Validators.email(control)],
         phone: '',
         bankAccount: '',
-        street: '',
-        city: '',
-        zip: '',
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        zip: ['', Validators.required],
         region: '',
-        country: '',
+        country: ['', Validators.required],
+        note: '',
+        networkCode: [{value: '', disabled: true}, Validators.required],
       }
     );
+
+    this.tabsOptions = [
+      {
+        label: this.langService.translate('merchants.detail.BASIC'),
+        value: this.MerchantDetailSections.BASIC
+      },
+      {
+        label: this.langService.translate('merchants.detail.contact'),
+        value: this.MerchantDetailSections.CONTACT
+      },
+      {
+        label: this.langService.translate('basic.address'),
+        value: this.MerchantDetailSections.ADDRESS
+      },
+    ];
+    this.visibleTab = this.tabsOptions[0];
 
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
 
@@ -84,96 +95,14 @@ export class MerchantsDetailComponent implements OnDestroy {
         if (data != null && !loading) {
           this.merchant = data;
           this.merchantForm.patchValue(this.merchant);
-          this.basicInfo = [
-            [
-              {
-                label: this.langService.translate('basic.name'),
-                value: this.merchant.name,
-                formName: 'name',
-              },
-              {
-                label: this.langService.translate('basic.code'),
-                value: this.merchant.code,
-                formName: 'code',
-              },
-              {
-                label: this.langService.translate('basic.id'),
-                value: this.merchant.id,
-                formName: 'id',
-              },
-            ],
-            [
-              {
-                label: this.langService.translate('dictionary.state'),
-                value: this.merchant.state,
-                formName: 'state',
-                options: this.stateSelect
-              },
-            ],
-          ];
-          this.contactInfo = [
-            [
-              {
-                label: this.langService.translate('basic.ico'),
-                value: this.merchant.ico,
-                formName: 'ico',
-              },
-              {
-                label: this.langService.translate('basic.dic'),
-                value: this.merchant.dic,
-                formName: 'dic',
-              },
-              {
-                label: this.langService.translate('basic.email'),
-                value: this.merchant.email,
-                formName: 'email',
-              },
-            ],
-            [
-              {
-                label: this.langService.translate('basic.phone'),
-                value: this.merchant.phone,
-                formName: 'phone',
-              },
-              {
-                label: this.langService.translate('dictionary.bankAccount'),
-                value: this.merchant.bankAccount,
-                formName: 'bankAccount',
-              },
-            ]
-          ];
-          this.addressInfo = [
-            [
-              {
-                label: this.langService.translate('basic.street'),
-                value: this.merchant.street,
-                formName: 'street',
-              },
-              {
-                label: this.langService.translate('basic.city'),
-                value: this.merchant.city,
-                formName: 'city',
-              },
-              {
-                label: this.langService.translate('basic.zip'),
-                value: this.merchant.zip,
-                formName: 'zip',
-              },
-            ],
-            [
-              {
-                label: this.langService.translate('basic.region'),
-                value: this.merchant.region,
-                formName: 'region',
-              },
-              {
-                label: this.langService.translate('basic.country'),
-                value: this.merchant.country,
-                formName: 'country',
-                options: this.countries
-              },
-            ]
-          ];
+        }
+      }
+    );
+
+    this.roles.isVisible('filters.networkCodeSelect').subscribe(
+      networkResult => {
+        if (networkResult) {
+          this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
         }
       }
     );
@@ -189,14 +118,46 @@ export class MerchantsDetailComponent implements OnDestroy {
         }
       }
     );
+
+    this.store.select('networkCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting network codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.networkCodes = data.data.map(item => ({label: item.code, value: item.id}));
+          this.merchantForm.get('networkCode').enable();
+        }
+      }
+    );
+  }
+
+  isPresent(value: string): boolean {
+    const item = this.merchantForm.get(value);
+    if (value === 'email') {
+      return item.touched && item.value !== '' && item.errors != null;
+    }
+    return item.touched && item.errors != null && item.errors.required;
+  }
+
+  isPresentNetworkCode(): boolean {
+    const item = this.merchantForm.get('networkCode');
+    return (item.value === null || item.value === '') && item.touched;
+  }
+
+  isPresentCountry(): boolean {
+    const item = this.merchantForm.get('country');
+    return (item.value === null || item.value === '') && item.touched;
+  }
+
+  isValidEmail(value: string): boolean {
+    const item = this.merchantForm.get(value);
+    return item.touched && item.value !== '' && item.errors != null;
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
-  }
-
-  setSelectedOption(newIndex: SelectItem): void {
-    this.selectedOption = newIndex;
   }
 
   startEditing(): void {

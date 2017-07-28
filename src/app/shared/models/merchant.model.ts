@@ -18,10 +18,13 @@ export interface MerchantModel {
 }
 
 export interface MerchantPredicateObject {
-  code?: string;
   name?: string;
+  ico?: string;
+  dic?: string;
+  city?: string;
+  zip?: string;
   networkCode?: string;
-  networkName?: string;
+  merchantCode?: string;
 }
 
 export function fillMerchant(): MerchantModel {

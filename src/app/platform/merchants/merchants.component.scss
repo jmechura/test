@@ -1,19 +1,36 @@
 @import 'theme';
 
-.filter-container {
+$filter-item-width: 500px;
+
+.row {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 25px;
 
-  .filters {
+  &.wrapped {
+    flex-wrap: wrap;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .column {
     display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}
 
-    .filter-item {
-      margin-right: 30px;
+.content {
+  margin: 25px 0 20px 0;
+  display: flex;
 
-      .label {
-        margin-bottom: 10px;
-      }
+  .filter-item {
+    margin-right: 60px;
+    margin-bottom: 15px;
+    width: $filter-item-width;
+
+    .label {
+      margin-right: 12px;
     }
   }
 }
@@ -56,8 +73,4 @@
 
 .table-icon {
   cursor: pointer;
-}
-
-.row-break {
-  @include mss-datatable-row-break(6, false);
 }

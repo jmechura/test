@@ -9,26 +9,37 @@
   </div>
 
   <!--filters-->
-  <div class="filter-container">
-    <div class="filters">
-      <mss-select [disabled]="networkCodes.length === 0"
-                  *mssRoleIf="'filters.networkCodeSelect'"
-                  class="filter-item"
-                  [label]="'dictionary.networkCode' | translate"
-                  labelPosition="top"
-                  [options]="networkCodes"
-                  [selectedOption]="networkCode"
-                  (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
-      <mss-select [disabled]="merchantCodes.length === 0"
-                  *mssRoleIf="'filters.merchantCodeSelect'"
-                  class="filter-item"
-                  [options]="merchantCodes"
-                  [label]="'dictionary.merchantCode' | translate"
-                  labelPosition="top"
-                  [(selectedOption)]="code"></mss-select>
-      <mss-input [(value)]="name" [label]="'basic.name' | translate" labelPosition="top"></mss-input>
+  <div class="row">
+    <div class="column">
+      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+      <div class="content" *ngIf="visibleSection.value === merchantsFilterSections.BASIC">
+        <div class="row wrapped">
+          <mss-input [(value)]="name" [label]="'basic.name' | translate" class="filter-item"></mss-input>
+          <mss-input [(value)]="ico" [label]="'basic.ico' | translate" class="filter-item"></mss-input>
+          <mss-input [(value)]="dic" [label]="'basic.dic' | translate" class="filter-item"></mss-input>
+          <mss-input [(value)]="city" [label]="'basic.city' | translate" class="filter-item"></mss-input>
+          <mss-input [(value)]="zip" [label]="'basic.zip' | translate" class="filter-item"></mss-input>
+        </div>
+      </div>
+      <div class="content" *ngIf="visibleSection.value === merchantsFilterSections.NETWORK">
+        <div class="row wrapped">
+          <mss-select [disabled]="networkCodes.length === 0"
+                      *mssRoleIf="'filters.networkCodeSelect'"
+                      class="filter-item"
+                      [label]="'dictionary.networkCode' | translate"
+                      [options]="networkCodes"
+                      [selectedOption]="networkCode"
+                      (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
+          <mss-select [disabled]="merchantCodes.length === 0"
+                      *mssRoleIf="'filters.merchantCodeSelect'"
+                      class="filter-item"
+                      [options]="merchantCodes"
+                      [label]="'dictionary.merchantCode' | translate"
+                      [(selectedOption)]="merchantCode"></mss-select>
+        </div>
+      </div>
     </div>
-    <mss-button class="mss-action-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
   <div class="mss-action-button">
@@ -36,25 +47,32 @@
   </div>
 
   <!--merchants data table-->
-  <div class="data-table-container row-break">
-    <ngx-datatable #table [loadingIndicator]="loading" [rows]="rows"
+  <div class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading" [rows]="rows" [columnMode]="'force'"
                    [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    [limit]="requestModel.pagination.number" [count]="tableData ? tableData.totalElements : 0"
                    [externalSorting]="true" [externalPaging]="true" [selectionType]="'single'" (select)="onSelect($event)"
                    (sort)="getSortedMerchants($event)" (page)="setPage($event)">
-      <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true">
+      <ngx-datatable-column prop="code" [name]="'basic.code' | translate" [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column prop="bankAccount" [name]="'dictionary.bankAccount' | translate" [sortable]="true">
+      <ngx-datatable-column prop="name" [name]="'basic.name' | translate" [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column prop="ico" [name]="'basic.ico' | translate" [sortable]="true">
+      <ngx-datatable-column prop="ico" [name]="'basic.ico' | translate" [sortable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="dic" [name]="'basic.dic' | translate" [sortable]="false">
       </ngx-datatable-column>
       <ngx-datatable-column prop="city" [name]="'basic.city' | translate" [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column prop="email" [name]="'basic.email' | translate" [sortable]="true">
+      <ngx-datatable-column prop="zip" [name]="'basic.zip' | translate" [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column prop="state" [name]="'dictionary.state' | translate" [sortable]="true">
+      <ngx-datatable-column prop="state" [name]="'dictionary.state' | translate" [sortable]="false">
       </ngx-datatable-column>
       <ngx-datatable-footer>
+      <!--
+      <ngx-datatable-column prop="email" [name]="'basic.email' | translate" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="bankAccount" [name]="'dictionary.bankAccount' | translate" [sortable]="true">
+      </ngx-datatable-column>-->
         <ng-template
           ngx-datatable-footer-template
           let-rowCount="rowCount"
@@ -85,30 +103,39 @@
         <mss-input formControlName="name" [(value)]="newMerchant.name" [label]="('basic.name' | translate) + '*'"
                    [warn]="isPresent('name')"></mss-input>
         <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
-        <mss-input formControlName="code" [(value)]="newMerchant.code" [label]="('basic.name' | translate) + '*'"
+        <mss-input formControlName="code" [(value)]="newMerchant.code" [label]="('basic.code' | translate) + '*'"
                    [warn]="isPresent('code')"></mss-input>
         <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
         <mss-input formControlName="bankAccount" [(value)]="newMerchant.bankAccount"
                    [label]="'dictionary.bankAccount' | translate"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="ico" [(value)]="newMerchant.ico" [label]="'basic.ico' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="dic" [(value)]="newMerchant.dic" [label]="'basic.dic' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
+        <mss-input formControlName="ico" [(value)]="newMerchant.ico" [label]="('basic.ico' | translate) + '*'"
+                   [warn]="isPresent('ico')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('ico')">{{'basic.required.ico' | translate}}</span></div>
+        <mss-input formControlName="dic" [(value)]="newMerchant.dic" [label]="('basic.dic' | translate) + '*'"
+                   [warn]="isPresent('dic')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('dic')">{{'basic.required.dic' | translate}}</span></div>
         <mss-input formControlName="note" [(value)]="newMerchant.note" [label]="'basic.note' | translate"></mss-input>
         <div class="mss-validation-label"></div>
+        <mss-select *mssRoleIf="'filters.networkCodeSelect'" [label]="('dictionary.networkCode' | translate) + '*'"
+                    [options]="networkCodes" formControlName="networkCode"></mss-select>
+        <div class="mss-validation-label"><span *ngIf="isPresentNetworkCode()">{{'basic.required.networkCode' | translate}}</span></div>
+        <mss-select [label]="'dictionary.state' | translate" [options]="stateOptions" formControlName="state"></mss-select>
       </div>
       <div class="new-merchant-input-side">
-        <mss-select [label]="'basic.country' | translate" [options]="countries" formControlName="country"></mss-select>
-        <div class="mss-validation-label"></div>
+        <mss-select [label]="('basic.country' | translate) + '*'" [options]="countries" formControlName="country"></mss-select>
+        <div class="mss-validation-label"><span *ngIf="isPresentCountry()">{{'basic.required.country' | translate}}</span></div>
         <mss-input formControlName="region" [(value)]="newMerchant.region" [label]="'basic.region' | translate"></mss-input>
         <div class="mss-validation-label"></div>
-        <mss-input formControlName="city" [(value)]="newMerchant.city" [label]="'basic.city' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="zip" [(value)]="newMerchant.zip" [label]="'basic.zip' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="street" [(value)]="newMerchant.street" [label]="'basic.address' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
+        <mss-input formControlName="city" [(value)]="newMerchant.city" [label]="('basic.city' | translate) + '*'"
+                   [warn]="isPresent('city')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('city')">{{'basic.required.city' | translate}}</span></div>
+        <mss-input formControlName="zip" [(value)]="newMerchant.zip" [label]="('basic.zip' | translate) + '*'"
+                   [warn]="isPresent('zip')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('zip')">{{'basic.required.zip' | translate}}</span></div>
+        <mss-input formControlName="street" [(value)]="newMerchant.street" [label]="('basic.street' | translate) + '*'"
+                   [warn]="isPresent('street')"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresent('street')">{{'basic.required.street' | translate}}</span></div>
         <mss-input formControlName="email" [(value)]="newMerchant.email" [label]="'basic.email' | translate"></mss-input>
         <div class="mss-validation-label"><span *ngIf="isValidEmail('email')">{{'basic.required.badEmail' | translate}}</span></div>
         <mss-input formControlName="phone" [(value)]="newMerchant.phone" [label]="'basic.phone' | translate"></mss-input>

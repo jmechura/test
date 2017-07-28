@@ -1,4 +1,4 @@
-<div *ngIf="show" class="select-overlay" (click)="switchDropdown()"></div>
+<div *ngIf="show" class="select-overlay" (click)="switchDropdown(); touched()"></div>
 <div class="select-container" [ngClass]="{'left': labelPosition === 'left', 'top': labelPosition === 'top'}">
   <div class="select-label" [ngClass]="{'left': labelPosition === 'left', 'top': labelPosition === 'top'}" *ngIf="label">{{label}}</div>
   <div class="select-inner-container">
