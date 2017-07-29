@@ -17,6 +17,7 @@ import { AddressModel } from '../../shared/models/address.model';
 import { addressTypeActions } from '../../shared/reducers/address-type.reducer';
 import { addressDetailActions } from '../../shared/reducers/address-detail.reducer';
 import { ApiService } from '../../shared/services/api.service';
+import { RoleService } from 'app/shared/services/role.service';
 
 interface TabOptions {
   label: string;
@@ -48,17 +49,26 @@ export class CardGroupDetailComponent implements OnDestroy {
   selectedAddressType: string;
   creatingAddress = true;
   editAddress = false;
-
+  limitsAllowed = false;
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
               private store: Store<AppStateModel>,
               private langService: LanguageService,
               private configService: AppConfigService,
+              private roles: RoleService,
               private api: ApiService) {
     this.route.params.subscribe(
       (params: { id: string }) => {
         this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
+      }
+    );
+
+    this.roles.isVisible('cardGroups.limits').subscribe(
+      limitsResult => {
+        if (limitsResult) {
+          this.limitsAllowed = true;
+        }
       }
     );
 
@@ -224,8 +234,10 @@ export class CardGroupDetailComponent implements OnDestroy {
   }
 
   get cardGroupTabsOptions(): TabOptions[] {
+    const tabs = (!this.limitsAllowed ?
+      this.tabsOptions.filter((item) => (item.value !== CardGroupSections.LIMITS)) : this.tabsOptions);
     return !this.createDefaultDeliveryAddress ?
-      this.tabsOptions.filter((item) => item.value !== CardGroupSections.DELIVERYADRESS) : this.tabsOptions;
+      tabs.filter((item) => item.value !== CardGroupSections.DELIVERYADRESS) : tabs;
   }
 
   changeAddressType(value: string): void {

@@ -65,13 +65,15 @@
       "template": "Šablona je povinný údaj.",
       "login": "Login je povinný údaj.",
       "passwordsNotEqual": "Hesla se nezhodují",
-      "addressName": "Jméno adresy je povinný údaj."
+      "addressName": "Jméno adresy je povinný údaj.",
+      "issuerCode": "Issuer code je povinný údaj."
     }
   },
   "dictionary": {
     "trxUuid": "trxUuid",
     "trxDttm": "trxDttm",
     "dttm": "dttm",
+    "panSequenceNumber": "Pan Sequence Number",
     "type": "Typ",
     "from": "Od",
     "to": "Do",

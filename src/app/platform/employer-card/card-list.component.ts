@@ -18,6 +18,7 @@ import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 import { CardFilterSections } from '../../shared/enums/card-sections.enum';
+import * as moment from 'moment';
 
 const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
   cardGroupCode: '',
@@ -60,6 +61,7 @@ export class CardListComponent implements OnDestroy {
   visibleSection: SelectItem;
   cardFilterSection = CardFilterSections;
   issuerTab = false;
+  dateFormat = 'DD. MM. YYYY';
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -157,7 +159,7 @@ export class CardListComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.cardGroupCodes = data.data.map(item => ({value: item.code}));
+          this.cardGroupCodes = data.data.map(item => ({value: item.name}));
         }
       }
     );
@@ -258,5 +260,9 @@ export class CardListComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
+  }
+
+  getFormatedDate(date: number): string {
+    return moment(Number(date)).format(this.dateFormat);
   }
 }

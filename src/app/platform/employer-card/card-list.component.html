@@ -61,13 +61,13 @@
                    [limit]="requestModel.pagination.number" [rows]="rows" (page)="setPage($event)">
       <ngx-datatable-column [name]="'dictionary.cln'| translate" prop="cln" [sortable]="true"></ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.cardGroupName'| translate" prop="cardGroupName" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column *mssRoleIf="'cards.expiryDateColumn'" [name]="'dictionary.expiryDate'| translate" prop="expiryDate"
+      <ngx-datatable-column [name]="'dictionary.expiryDate'| translate" prop="expiryDate"
                             [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span>{{value | date:'yMd'}}</span>
+          <span>{{getFormatedDate(value)}}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.pan' | translate" prop="panSequenceNumber" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.panSequenceNumber' | translate" prop="panSequenceNumber" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.login' | translate" prop="login" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.firstName' | translate" prop="firstName" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.lastName' | translate" prop="lastName" [sortable]="false"></ngx-datatable-column>

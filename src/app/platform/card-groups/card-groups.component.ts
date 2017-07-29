@@ -79,8 +79,9 @@ export class CardGroupsComponent implements OnDestroy {
   visibleTab = this.tabsOptions[0];
   states: SelectItem[] = [{value: 'ENABLED'}];
   taxTypes: SelectItem[] = [];
-  limitsAlloweed = false;
+  limitsAllowed = false;
   countries: SelectItem[] = [];
+  user: ProfileModel;
   private unsubscribe$ = new UnsubscribeSubject();
 
   constructor(private store: Store<AppStateModel>,
@@ -100,13 +101,38 @@ export class CardGroupsComponent implements OnDestroy {
     this.visibleSection = this.filterSections[0];
     this.filterForm = fb.group(
       {
-        issuerCode: '',
+        issuerCode: {value: '', disabled: true},
         cardGroupCode: {value: '', disabled: true},
         name: '',
         id: '',
         ico: '',
         dic: '',
         city: ''
+      }
+    );
+
+    this.newCardGroupForm = fb.group(
+      {
+        name: ['', Validators.required],
+        code: ['', Validators.required],
+        externalCode: [''],
+        issuerCode: [{value: '', disabled: true}, Validators.required],
+        limitType: [''],
+        limit: [0],
+        state: ['ENABLED'],
+        ico: ['', Validators.required],
+        dic: ['', Validators.required],
+        email: ['', optionalEmailValidator],
+        phone: [''],
+        contact: [''],
+        contact2: [''],
+        bankAccount: [''],
+        taxType: ['UNKNOWN'],
+        taxValue: [0],
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        zip: ['', Validators.required],
+        country: ['', Validators.required]
       }
     );
 
@@ -150,6 +176,7 @@ export class CardGroupsComponent implements OnDestroy {
         }
 
         if (data != null) {
+          this.user = data;
           this.roles.isVisible('filters.issuerCodeSelect').subscribe(
             issuerResult => {
               if (issuerResult) {
@@ -160,7 +187,7 @@ export class CardGroupsComponent implements OnDestroy {
                   cardGroupResult => {
                     if (cardGroupResult) {
                       this.issuerTab = true;
-                      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: data.resourceId});
+                      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: this.user.resourceId});
                     }
                   }
                 );
@@ -170,7 +197,7 @@ export class CardGroupsComponent implements OnDestroy {
           this.roles.isVisible('cardGroups.limits').subscribe(
             limitsResult => {
               if (limitsResult) {
-                this.limitsAlloweed = true;
+                this.limitsAllowed = true;
               }
             }
           );
@@ -186,6 +213,8 @@ export class CardGroupsComponent implements OnDestroy {
         }
         if (data.data !== undefined && !data.loading) {
           this.issuerCodes = data.data.map(code => ({value: code.id, label: code.code}));
+          this.filterForm.get('issuerCode').enable();
+          this.newCardGroupForm.get('issuerCode').enable();
         }
       }
     );
@@ -215,31 +244,6 @@ export class CardGroupsComponent implements OnDestroy {
       }
     );
 
-    this.newCardGroupForm = fb.group(
-      {
-        name: ['', Validators.required],
-        code: ['', Validators.required],
-        externalCode: [''],
-        issuerCode: ['', Validators.required],
-        limitType: [''],
-        limit: [0],
-        state: ['ENABLED'],
-        ico: ['', Validators.required],
-        dic: ['', Validators.required],
-        email: ['', optionalEmailValidator],
-        phone: [''],
-        contact: [''],
-        contact2: [''],
-        bankAccount: [''],
-        taxType: ['UNKNOWN'],
-        taxValue: [0],
-        street: ['', Validators.required],
-        city: ['', Validators.required],
-        zip: ['', Validators.required],
-        country: ['', Validators.required]
-      }
-    );
-
     this.tabsOptions = Object.keys(CardGroupSections).filter(key => isNaN(Number(key)))
       .map(item => ({
         label: this.language.translate(`cardGroups.sections.${item}`),
@@ -251,7 +255,9 @@ export class CardGroupsComponent implements OnDestroy {
   }
 
   get addCardGroupTabsOptions(): TabOptions[] {
-    return !this.limitsAlloweed ? this.tabsOptions.filter((item) => item.value !== CardGroupSections.LIMITS) : this.tabsOptions;
+    return (!this.limitsAllowed ?
+      this.tabsOptions.filter((item) => (item.value !== CardGroupSections.LIMITS)) : this.tabsOptions)
+      .filter((item) => item.value !== CardGroupSections.DELIVERYADRESS);
   }
 
 
@@ -295,9 +301,14 @@ export class CardGroupsComponent implements OnDestroy {
   }
 
   createNewCardGroup(): void {
+
     this.configService.get('createSpecSymbol').subscribe(
       symbol => {
-        this.api.post('/cardgroups', {...this.newCardGroupForm.value, createSpecSymbol: symbol}).subscribe(
+        let payload = {...this.newCardGroupForm.value, createSpecSymbol: symbol};
+        if (this.newCardGroupForm.get('issuerCode').disabled) {
+          payload = {...payload, issuerCode: this.user.resourceId};
+        }
+        this.api.post('/cardgroups', payload).subscribe(
           () => {
             this.toggleAddCardGroupModal();
             this.getCardGroups();
