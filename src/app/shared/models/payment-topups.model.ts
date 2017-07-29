@@ -4,9 +4,13 @@ export interface PaymentTopupsModel {
   cardGroupCode: string;
   changed: string;
   created: string;
-  currency: string;
+  currency: {
+    code: string;
+    digits: number;
+    number: number;
+  };
   issuerCode: string;
-  settlementDate: string;
+  settlemntDate: string;
   specificSymbol: string;
   state: string;
   uuid: string;

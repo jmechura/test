@@ -173,7 +173,11 @@
   "paymentTopups": {
     "title": "Přehled plateb na učet",
     "createdAt": "Created at",
-    "settlementDate": "Settlement date"
+    "changedAt": "Changed at",
+    "settlementDate": "Settlement date",
+    "detail": {
+      "title": "Detail platby"
+    }
   },
   "cards": {
     "userCard": {

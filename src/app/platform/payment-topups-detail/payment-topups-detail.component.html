@@ -1,5 +1,61 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
-    <div class="mss-title">Payment Topup detail</div>
+    <div class="mss-title" *ngIf="paymentTopup != null">{{'paymentTopups.detail.title' | translate}} - {{paymentTopup.uuid}}</div>
   </div>
+
+  <div class="payment-topups-detail-content" *ngIf="!isEditing && paymentTopup">
+    <div class="content-column">
+      <div class="mss-input-like-container">
+        <div class="label">{{'dictionary.uuid' | translate}}</div>
+        <div class="value">{{paymentTopup.uuid}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{'dictionary.amount' | translate}}</div>
+        <div class="value">{{paymentTopup.amount}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{'paymentTopups.createdAt' | translate}}</div>
+        <div class="value">{{getFormatedDate(paymentTopup.created)}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{'paymentTopups.changedAt' | translate}}</div>
+        <div class="value">{{getFormatedDate(paymentTopup.changed)}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{'paymentTopups.settlementDate' | translate}}</div>
+        <div class="value">{{getFormatedDate(paymentTopup.settlemntDate)}}</div>
+      </div>
+    </div>
+    <div class="content-column">
+      <div class="mss-input-like-container">
+        <div class="label">{{'dictionary.variableSymbol' | translate}}</div>
+        <div class="value">{{paymentTopup.variableSymbol}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{'dictionary.specificSymbol' | translate}}</div>
+        <div class="value">{{paymentTopup.specificSymbol}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{'basic.state' | translate}}</div>
+        <div class="value">{{paymentTopup.state}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{'dictionary.issuerCode' | translate}}</div>
+        <div class="value">{{paymentTopup.issuerCode}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{'dictionary.cardGroupCode' | translate}}</div>
+        <div class="value">{{paymentTopup.cardGroupCode}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="mss-buttons-row">-->
+    <!--<mss-button *ngIf="!isEditing" class="mss-action-button" [label]="'basic.edit' | translate"-->
+                <!--(click)="toggleUpdateIssuer()"></mss-button>-->
+    <!--<mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"-->
+                <!--(click)="toggleUpdateIssuer()"></mss-button>-->
+    <!--<mss-button *ngIf="isEditing" [label]="'basic.save' | translate" class="mss-action-button" (click)="updateIssuer()"-->
+                <!--[disabled]="editIssuerForm.invalid"></mss-button>-->
+  <!--</div>-->
 </div>
