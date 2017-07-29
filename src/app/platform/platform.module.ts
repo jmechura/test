@@ -45,7 +45,9 @@ import { DirectivesModule } from '../shared/directives/directives.module';
 import { ReportsComponent } from './reports/reports.component';
 import { MerchantsDetailComponent } from './merchants-detail/merchants-detail.component';
 import { TemplateCreateComponent } from './template-create/template-create.component';
+import { PaymentTopupsComponent } from './payment-topups/payment-topups.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
 
 @NgModule({
   imports: [
@@ -100,7 +102,9 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     ReportsComponent,
     MerchantsDetailComponent,
     TemplateCreateComponent,
+    PaymentTopupsComponent,
     FileUploadComponent,
+    PaymentTopupsDetailComponent,
   ]
 })
 export class PlatformModule {}

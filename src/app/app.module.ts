@@ -154,6 +154,8 @@ import { transfersReducer } from './shared/reducers/transfers.reducer';
 import { TransferEffect } from './shared/effects/transfers.effect';
 import { routingTableDetailReducer } from './shared/reducers/routing-table-detail.reducer';
 import { RoutingTableDetailEffect } from 'app/shared/effects/routing-table-detail.effect';
+import { paymentTopupsReducer } from './shared/reducers/payment-topups.reducer';
+import { PaymentTopupsEffect } from './shared/effects/payment-topups.effect';
 import { addressDetailReducer } from './shared/reducers/address-detail.reducer';
 import { AddressDetailEffect } from './shared/effects/address-detail.effect';
 import { AddressTypeEffect } from './shared/effects/address-type.effect';
@@ -251,6 +253,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       configurations: configurationReducer,
       configurationInstances: configurationInstanceReducer,
       templatesSimple: templatesSimpleReducer,
+      paymentTopups: paymentTopupsReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
     EffectsModule.runAfterBootstrap(AddressDetailEffect),
@@ -323,6 +326,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(ConfigurationEffect),
     EffectsModule.runAfterBootstrap(ConfigurationInstanceEffect),
     EffectsModule.runAfterBootstrap(TemplatesSimpleEffect),
+    EffectsModule.runAfterBootstrap(PaymentTopupsEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({
       loader: {

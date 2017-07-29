@@ -28,7 +28,9 @@ export const routeToRule: { [childRoute: string]: string } = {
   'acquirers': 'admin.view',
   'showcase': 'admin.view',
   'reports': 'reports.read',
-  'file-upload': 'fileUpload.read'
+  'file-upload': 'fileUpload.read',
+  'payment-topups': 'paymentTopups.read',
+  'card': 'card.read'
 };
 
 @Injectable()

@@ -281,6 +281,12 @@
         "ROLE_ADMIN",
         "ROLE_IMPORT"
       ]
+    },
+    "paymentTopups": {
+      "read": [
+        "ROLE_ADMIN",
+        "ROLE_PAYMENT_TOP_UP_READ"
+      ]
     }
   }
 }

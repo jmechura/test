@@ -72,6 +72,7 @@
   "dictionary": {
     "trxUuid": "trxUuid",
     "trxDttm": "trxDttm",
+    "accountNumber": "Číslo účtu",
     "dttm": "dttm",
     "panSequenceNumber": "Pan Sequence Number",
     "type": "Typ",
@@ -168,6 +169,11 @@
         "state": "State"
       }
     }
+  },
+  "paymentTopups": {
+    "title": "Přehled plateb na učet",
+    "createdAt": "Created at",
+    "settlementDate": "Settlement date"
   },
   "cards": {
     "userCard": {
@@ -836,6 +842,7 @@
     "imports": "Importy",
     "admin-reports": "Admin reporty",
     "reports": "Reporty",
+    "payment-topups": "Přehled plateb",
     "file-upload": "File Upload"
   }
 }
