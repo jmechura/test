@@ -10,6 +10,9 @@
                    [externalPaging]="true" (page)="setPage($event)"
                    [selectionType]="'single'" (select)="onSelect($event)">
       <ngx-datatable-column prop="uuid" [name]="'dictionary.uuid' | translate" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <span [title]="value" class="mss-limited-text">{{value}}</span>
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column prop="created" [name]="'paymentTopups.createdAt' | translate" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row" let-value="value">

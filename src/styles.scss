@@ -69,6 +69,14 @@ input {
   }
 }
 
+.mss-limited-text {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
 .mss-header-row {
   display: flex;
   justify-content: space-between;

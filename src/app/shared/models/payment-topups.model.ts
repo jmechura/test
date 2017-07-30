@@ -1,14 +1,12 @@
+import { CurrencyModel } from './currency.model';
+
 export interface PaymentTopupsModel {
   accountNumber: string;
   amount: number;
   cardGroupCode: string;
   changed: string;
   created: string;
-  currency: {
-    code: string;
-    digits: number;
-    number: number;
-  };
+  currency: CurrencyModel;
   issuerCode: string;
   settlemntDate: string;
   specificSymbol: string;

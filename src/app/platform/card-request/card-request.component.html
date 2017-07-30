@@ -52,6 +52,9 @@
                    [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [limit]="searchModel.pagination.number"
                    [rows]="rows">
       <ngx-datatable-column [name]="'basic.id' | translate" prop="uuid" [sortable]="true">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <span [title]="value" class="mss-limited-text">{{value}}</span>
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode" [sortable]="true">
       </ngx-datatable-column>

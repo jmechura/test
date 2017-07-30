@@ -26,6 +26,7 @@ const TOOLBAR_ITEMS: ToolbarItem[] = [
   {path: 'sequences', icon: 'timeline'},
   {path: 'terminal', icon: 'local_atm'},
   {path: 'campaigns', icon: 'dns'},
+  {path: 'topups-schedule', icon: 'dns'},
   {path: 'templates', icon: 'insert_drive_file'},
   {path: 'imports', icon: 'import_export'},
   {path: 'admin-reports', icon: 'insert_drive_file'},

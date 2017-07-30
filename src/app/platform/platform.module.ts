@@ -45,6 +45,7 @@ import { DirectivesModule } from '../shared/directives/directives.module';
 import { ReportsComponent } from './reports/reports.component';
 import { MerchantsDetailComponent } from './merchants-detail/merchants-detail.component';
 import { TemplateCreateComponent } from './template-create/template-create.component';
+import { TopupsScheduleComponent } from './topups-schedule/topups-schedule.component';
 import { PaymentTopupsComponent } from './payment-topups/payment-topups.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
@@ -102,6 +103,7 @@ import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-to
     ReportsComponent,
     MerchantsDetailComponent,
     TemplateCreateComponent,
+    TopupsScheduleComponent,
     PaymentTopupsComponent,
     FileUploadComponent,
     PaymentTopupsDetailComponent,

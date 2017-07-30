@@ -71,6 +71,8 @@ export class MerchantsComponent implements OnDestroy {
   tableData: Pagination<MerchantModel>;
   rows: MerchantModel[] = [];
 
+  showNetworkTab = false;
+
   constructor(private fb: FormBuilder,
               private store: Store<AppStateModel>,
               private api: ApiService,
@@ -134,11 +136,13 @@ export class MerchantsComponent implements OnDestroy {
           this.roles.isVisible('filters.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
+                this.showNetworkTab = true;
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
                 this.roles.isVisible('filters.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
+                      this.showNetworkTab = true;
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
                     }
                   }
@@ -249,18 +253,6 @@ export class MerchantsComponent implements OnDestroy {
     );
     this.toggleNewMerchantModal();
   }
-
-  // submitEdit(): void {
-  //   this.editedRow = -1;
-  //   this.api.put('/merchants', this.editedMerchant).subscribe(
-  //     () => {
-  //       this.getMerchantList();
-  //     },
-  //     error => {
-  //       console.error('Update merchant fail', error);
-  //     }
-  //   );
-  // }
 
   changeLimit(limit: { offset: number }): void {
     const routeParams: ListRouteParamsModel = {

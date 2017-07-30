@@ -64,6 +64,8 @@ export class RoutesComponent implements OnDestroy {
     this.route.params.subscribe(
       (params: { name: string }) => {
         this.store.dispatch({type: routingTableDetailActions.ROUTING_TABLE_DETAIL_GET_REQUEST, payload: params.name});
+        this.store.dispatch({type: routesActions.ROUTES_API_GET, payload: params.name});
+        this.tableName = params.name;
       }
     );
 
@@ -106,13 +108,6 @@ export class RoutesComponent implements OnDestroy {
       targetParam: '',
       description: ''
     });
-
-    this.route.params.takeUntil(this.unsubscribe$).subscribe(
-      params => {
-        this.tableName = params['id'];
-        this.store.dispatch({type: routesActions.ROUTES_API_GET, payload: params['id']});
-      }
-    );
 
     this.store.select('routes').takeUntil(this.unsubscribe$).subscribe(
       ({data, error, loading}: StateModel<TableRoutes[]>) => {

@@ -1,0 +1,52 @@
+<div class="mss-view-container">
+  <!-- HEADER -->
+  <div class="mss-header-row">
+    <span class="mss-title">{{'topupsSchedule.list.title' | translate}}</span>
+  </div>
+
+  <!-- DATA TABLE-->
+  <div class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading" [rows]="rows" [columnMode]="'force'"
+                   [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
+                   [limit]="requestModel.pagination.number" [count]="tableData ? tableData.totalElements : 0"
+                   [externalSorting]="true" [externalPaging]="true"
+                   (sort)="getSortedTopupsScheduleList($event)" (page)="setPage($event)">
+      <ngx-datatable-column prop="filename" [name]="'topupsSchedule.dictionary.filename' | translate"
+                            [sortable]="true" [width]="100">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <span [title]="value" class="mss-limited-text">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="cardGroupName" [name]="'topupsSchedule.dictionary.cardGroupName' | translate"
+                            [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="specificSymbol" [name]="'dictionary.specificSymbol' | translate" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="variableSymbol" [name]="'dictionary.variableSymbol' | translate" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="amountAll" [name]="'dictionary.amount' | translate" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <div>{{value | currency:row['currency']['code']:true:'1.' + row['currency']['digits']}}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="state" [name]="'basic.state' | translate" [sortable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-curPage="curPage">
+          <mss-table-footer
+            [page]="curPage"
+            [rowsShown]="pageSize"
+            [rowCount]="rowCount"
+            (rowsShownChange)="changeLimit($event)"
+            (changePage)="table.onFooterPage($event)"
+            class="d-table-footer">
+          </mss-table-footer>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+  </div>
+</div>

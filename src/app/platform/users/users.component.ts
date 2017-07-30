@@ -15,7 +15,6 @@ import { ApiService } from '../../shared/services/api.service';
 import { profileActions } from '../../shared/reducers/profile.reducer';
 import { networkCodeActions } from 'app/shared/reducers/network-code.reducer';
 import { templatesSimpleActions } from '../../shared/reducers/template-simple.reducer';
-import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 import { CodeModel } from 'app/shared/models/code.model';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
@@ -24,6 +23,8 @@ import { UserFilterSections } from '../../shared/enums/users-filter-sections.enu
 import { LanguageService } from '../../shared/services/language.service';
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 import { AppConfigService } from '../../shared/services/app-config.service';
+import { RoleService } from '../../shared/services/role.service';
+import { MissingTokenResponse } from 'app/shared/utils';
 
 const USERS_ROUTE = 'platform/users';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -60,6 +61,7 @@ export class UsersComponent implements OnDestroy {
   userStates: SelectItem[];
   @ViewChild('table') table: DatatableComponent;
   private unsubscribe$ = new Subject<void>();
+  showAdvancedFilter = false;
 
   constructor(private store: Store<AppStateModel>,
               private router: Router,
@@ -67,7 +69,8 @@ export class UsersComponent implements OnDestroy {
               private fb: FormBuilder,
               private api: ApiService,
               private language: LanguageService,
-              private appConfig: AppConfigService) {
+              private appConfig: AppConfigService,
+              private roles: RoleService) {
 
     this.filterForm = this.fb.group({
       email: [''],
@@ -145,19 +148,53 @@ export class UsersComponent implements OnDestroy {
       ({data, error, loading}: StateModel<ProfileModel>) => {
         this.loading = loading;
         if (error) {
+          if (error instanceof MissingTokenResponse) {
+            return;
+          }
           console.error('Account API call has returned error', error);
           return;
         }
-        if (data != null) {
+        if (data != null && !loading) {
           this.profile = data;
+          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+            networkResult => {
+              if (networkResult) {
+                this.showAdvancedFilter = true;
+                this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
+              } else {
+                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                  merchResult => {
+                    if (merchResult) {
+                      this.showAdvancedFilter = true;
+                      this.store.dispatch({
+                        type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST,
+                        payload: this.profile.resourceAcquirerId
+                      });
+                    } else {
+
+                      this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
+                        orgUnitResult => {
+                          if (orgUnitResult) {
+                            this.showAdvancedFilter = true;
+                            this.store.dispatch({
+                              type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST,
+                              payload: this.profile.resourceAcquirerId
+                            });
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+            }
+          );
         }
       }
     );
 
     this.store.dispatch({type: profileActions.PROFILE_GET_REQUEST});
     this.store.dispatch({type: templatesSimpleActions.TEMPLATES_SIMPLE_GET_REQUEST});
-    this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
-    this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: ListRouteParamsModel) => {
@@ -184,17 +221,7 @@ export class UsersComponent implements OnDestroy {
         }
       }
     );
-    this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<CodeModel[]>) => {
-        if (data.error) {
-          console.error('Error while getting issuer codes', data.error);
-          return;
-        }
-        if (data.data != null && !data.loading) {
-          this.itemsForSelect['ISSUER'] = data.data.map(item => ({value: item.id, label: item.code}));
-        }
-      }
-    );
+
     this.store.select('merchantCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
         if (data.error) {

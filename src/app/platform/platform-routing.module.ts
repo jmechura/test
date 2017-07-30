@@ -37,6 +37,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { TerminalDetailComponent } from './terminal-detail/terminal-detail.component';
 import { MerchantsDetailComponent } from './merchants-detail/merchants-detail.component';
 import { TemplateCreateComponent } from './template-create/template-create.component';
+import { TopupsScheduleComponent } from './topups-schedule/topups-schedule.component';
 import { PaymentTopupsComponent } from './payment-topups/payment-topups.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
@@ -82,6 +83,7 @@ export const routes: Routes = [
       {path: 'reports', component: ReportsComponent},
       {path: 'acquirers', component: AcquirersComponent},
       {path: 'acquirers/:code', component: AcquirerDetailComponent},
+      {path: 'topups-schedule', component: TopupsScheduleComponent},
       {path: 'payment-topups', component: PaymentTopupsComponent},
       {path: 'payment-topups/:id', component: PaymentTopupsDetailComponent},
       {path: 'file-upload', component: FileUploadComponent},

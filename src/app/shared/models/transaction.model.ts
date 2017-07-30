@@ -1,3 +1,5 @@
+import { CurrencyModel } from './currency.model';
+
 export interface Transaction {
   amount: number;
   approvalCode: string;
@@ -5,11 +7,7 @@ export interface Transaction {
   cardGroupName: string;
   cardType: string;
   cln: string;
-  currency: {
-    code: string;
-    number: number;
-    digits: number;
-  };
+  currency: CurrencyModel;
   dstStan: number;
   issuerCode: string;
   merchantCode: string;

@@ -287,6 +287,12 @@
         "ROLE_ADMIN",
         "ROLE_PAYMENT_TOP_UP_READ"
       ]
+    },
+    "topupsSchedule": {
+      "read": [
+        "ROLE_ADMIN",
+        "ROLE_TOPUP_SCHEDULE_READ"
+      ]
     }
   }
 }

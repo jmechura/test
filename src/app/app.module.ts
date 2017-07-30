@@ -164,6 +164,8 @@ import { importCodeReducer } from './shared/reducers/import-code.reducer';
 import { ImportCodeEffect } from './shared/effects/import-code.effect';
 import { paymentTopupsDetailReducer } from './shared/reducers/payment-topups-detail.reducer';
 import { PaymentTopupsDetailEffect } from './shared/effects/payment-topups-detail.effec';
+import { TopupsScheduleEffect } from './shared/effects/topups-schedule.effect';
+import { topupsScheduleReducer } from './shared/reducers/topups-schedule.reducer';
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/languages/', '.json');
@@ -257,6 +259,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       templatesSimple: templatesSimpleReducer,
       paymentTopups: paymentTopupsReducer,
       paymentTopupsDetail: paymentTopupsDetailReducer,
+      topupsSchedule: topupsScheduleReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
     EffectsModule.runAfterBootstrap(AddressDetailEffect),
@@ -331,6 +334,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(TemplatesSimpleEffect),
     EffectsModule.runAfterBootstrap(PaymentTopupsEffect),
     EffectsModule.runAfterBootstrap(PaymentTopupsDetailEffect),
+    EffectsModule.runAfterBootstrap(TopupsScheduleEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({
       loader: {

@@ -7,7 +7,7 @@
   <!-- START FILTERS -->
   <div class="row">
     <div class="column" [formGroup]="filterForm">
-      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event" *ngIf="showAdvancedFilter"></mss-tabs>
       <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
         <div class="row wrapped">
           <mss-input class="filter-item" formControlName="login" [label]="'basic.login' | translate"></mss-input>
@@ -28,15 +28,18 @@
                       [label]="'dictionary.networkCode' | translate"
                       [options]="itemsForSelect['NETWORK']"
                       (selectedOptionChange)="selectCode($event, 'MERCHANT')"
+                      *mssRoleIf="'filters.networkCodeSelect'"
                       formControlName="networkCode"></mss-select>
           <mss-select class="filter-item"
                       [label]="'dictionary.merchantCode' | translate"
                       [options]="itemsForSelect['MERCHANT']"
                       (selectedOptionChange)="selectCode($event, 'ORG_UNIT')"
+                      *mssRoleIf="'filters.merchantCodeSelect'"
                       formControlName="merchantCode"></mss-select>
           <mss-select class="filter-item"
                       [label]="'dictionary.orgUnitCode' | translate"
                       [options]="itemsForSelect['ORG_UNIT']"
+                      *mssRoleIf="'filters.orgUnitCodeSelect'"
                       formControlName="orgUnitCode"></mss-select>
         </div>
       </div>

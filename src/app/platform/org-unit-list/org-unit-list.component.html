@@ -7,7 +7,7 @@
 
   <div class="row">
     <div class="column" [formGroup]="filterForm" *ngIf="visibleFilter">
-      <mss-tabs class="tabs" [items]="filterOptions" (itemChanged)="visibleFilter = $event"></mss-tabs>
+      <mss-tabs class="tabs" [items]="filterOptions" (itemChanged)="visibleFilter = $event" *ngIf="showNetworkTab"></mss-tabs>
 
       <div class="content column" *ngIf="visibleFilter.value ===  OrgUnitFilterSections.BASIC">
         <div class="row wrapped">

@@ -386,6 +386,15 @@
       "runAfterStart": "Spustit po startu"
     }
   },
+  "topupsSchedule": {
+    "list": {
+      "title": "Přehled výplatních rozpisů"
+    },
+    "dictionary": {
+      "filename": "Název suboru",
+      "cardGroupName": "Zaměstnavatel"
+    }
+  },
   "templates": {
     "list": {
       "title": "Šablony",
@@ -840,6 +849,7 @@
     "sequences": "Sequence",
     "terminal": "Terminal",
     "campaigns": "Kampaně",
+    "topups-schedule": "Přehled výplatních rozpisů",
     "showcase": "Showcase",
     "templates": "Šablony",
     "acquirers": "Obchodní sítě",

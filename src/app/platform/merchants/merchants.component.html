@@ -11,7 +11,7 @@
   <!--filters-->
   <div class="row">
     <div class="column">
-      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event" *ngIf="showNetworkTab"></mss-tabs>
       <div class="content" *ngIf="visibleSection.value === merchantsFilterSections.BASIC">
         <div class="row wrapped">
           <mss-input [(value)]="name" [label]="'basic.name' | translate" class="filter-item"></mss-input>

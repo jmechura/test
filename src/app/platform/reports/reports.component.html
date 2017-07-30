@@ -56,11 +56,18 @@
                    [externalSorting]="true" (sort)="getSortedReports($event)"
                    [selectionType]="'single'"
                    [count]="totalItems " (page)="setPage($event)">
-      <ngx-datatable-column [name]="'basic.id' | translate" prop="id"
+      <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [width]="50"
                             *mssRoleIf="'reports.issuerPortal'" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <span [title]="value" class="mss-limited-text">{{value}}</span>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [name]="'reports.dictionary.reportDataName' | translate" prop="reportDataName"
                             *mssRoleIf="'reports.issuerPortal'" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <span [title]="value" class="mss-limited-text">{{value}}</span>
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode"
                             *mssRoleIf="'reports.issuerPortal'" [sortable]="false"></ngx-datatable-column>

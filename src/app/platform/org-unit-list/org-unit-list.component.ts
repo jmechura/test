@@ -51,6 +51,8 @@ export class OrgUnitListComponent implements OnDestroy {
 
   filterForm: FormGroup;
 
+  showNetworkTab = false;
+
   constructor(private store: Store<AppStateModel>,
               private api: ApiService,
               private language: LanguageService,
@@ -117,11 +119,13 @@ export class OrgUnitListComponent implements OnDestroy {
           this.roles.isVisible('filters.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
+                this.showNetworkTab = true;
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
                 this.roles.isVisible('filters.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
+                      this.showNetworkTab = true;
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
                     } else {
                       this.filterOptions = [
