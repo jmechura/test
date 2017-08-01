@@ -193,6 +193,9 @@
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.transactionType' | translate" prop="transactionType"
                             [sortable]="false" *mssRoleIf="'transactions.transactionType'">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <i class="material-icons" [title]="value">{{getTransactionTypeIcon(value)}}</i>
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.responseCode' | translate" prop="responseCode" [sortable]="false"
                             *mssRoleIf="'transactions.responseCode'">

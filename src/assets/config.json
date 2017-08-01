@@ -10,6 +10,19 @@
     "DISCARDED",
     "DELETED"
   ],
+  "transactionTypeIcons": {
+    "COLLECT": "plus_one",
+    "BALANCE_INQUIRY": "account_balance",
+    "PURCHASE_ONLINE": "tab",
+    "PURCHASE_OFFLINE": "tab_unselected",
+    "REFUND": "replay",
+    "REVERSAL_TECH": "delete",
+    "REVERSAL_CURSTOMER": "delete",
+    "TOPUP": "vertical_align_top",
+    "TOPUP_CARD_GROUP": "publish",
+    "DISCHARGE": "vertical_align_bottom",
+    "DEFAULT_ICON": "bubble_chart"
+  },
   "roles": {
     "showcase": {
       "test": [

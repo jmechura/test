@@ -150,6 +150,8 @@ export class DashboardComponent implements OnDestroy {
 
   dateFormat = 'DD. MM. YYYY';
 
+  transactionTypeIcons: { [ key: string]: string };
+
   readonly transactionFilters = TRANSACTIONS_FILTERS;
 
   constructor(private store: Store<AppStateModel>,
@@ -162,6 +164,10 @@ export class DashboardComponent implements OnDestroy {
 
     this.configService.get('dateFormat').subscribe(
       format => this.dateFormat = format
+    );
+
+    this.configService.get('transactionTypeIcons').subscribe(
+      icons => this.transactionTypeIcons = icons
     );
 
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
@@ -495,6 +501,19 @@ export class DashboardComponent implements OnDestroy {
 
   getFormatedDate(date: Date | string): string {
     return moment(date).format(this.dateFormat);
+  }
+
+  /**
+   * Select icon from config, use default icon if undefined
+   * @param {string} type
+   * @returns {string}
+   */
+  getTransactionTypeIcon(type: string): string {
+    let icon = this.transactionTypeIcons[type];
+    if (icon == undefined) {
+      icon = this.transactionTypeIcons['DEFAULT_ICON'];
+    }
+    return icon;
   }
 
   ngOnDestroy(): void {
