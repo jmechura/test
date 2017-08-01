@@ -25,10 +25,7 @@ export class SettingsComponent implements OnDestroy {
   oldPassword: string;
   newPassword: string;
   newPasswordConfirmation: string;
-  newQuestion: string;
-  newAnswer: string;
 
-  questionSwitch = false;
   languages: SelectItem[] = [];
   selectedLanguage: string;
 
@@ -98,17 +95,6 @@ export class SettingsComponent implements OnDestroy {
         console.error('Change password API call has returned error', error);
       }
     );
-  }
-
-
-  changeState(): void {
-    if (this.questionSwitch) {
-      this.passwordForm.controls['newQuestion'].enable();
-      this.passwordForm.controls['newAnswer'].enable();
-    } else {
-      this.passwordForm.controls['newQuestion'].disable();
-      this.passwordForm.controls['newAnswer'].disable();
-    }
   }
 
   selectLanguage(lang: string): void {

@@ -1,8 +1,7 @@
-<div class="settings-container">
+<div class="mss-view-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'settings.title' | translate}}</span>
   </div>
-
   <div class="form-wrapper">
     <div class="form-container">
       <form [formGroup]="infoForm" class="form" *ngIf="profile">
@@ -16,8 +15,10 @@
         </mss-input>
         <mss-input formControlName="phone" class="input" [(value)]="editableProfile.phone" [label]="'basic.phone' | translate">
         </mss-input>
+        <div class="button-container">
+          <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updateUser()"></mss-button>
+        </div>
       </form>
-      <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updateUser()"></mss-button>
     </div>
     <div class="form-container">
       <form [formGroup]="passwordForm" class="form">
@@ -32,17 +33,11 @@
         <mss-input formControlName="newPasswordConfirmation" class="input" type="password" [(value)]="newPasswordConfirmation"
                    [label]="'settings.confirmPassword' | translate" [placeholder]="' '">
         </mss-input>
-        <mss-toggle (click)="changeState()" [label]="'settings.changeQuestion' | translate"
-                    [(toggled)]="questionSwitch" class="toggle-container">
-        </mss-toggle>
-        <mss-input formControlName="newQuestion" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newQuestion"
-                   [label]="'settings.newQuestion' | translate" [placeholder]="' '">
-        </mss-input>
-        <mss-input formControlName="newAnswer" [ngClass]="{'disabled': !questionSwitch}" class="input" [(value)]="newAnswer"
-                   [label]="'settings.newAnswer' | translate" [placeholder]="' '">
-        </mss-input>
+        <div class="button-container">
+          <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
+
+        </div>
       </form>
-      <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
     </div>
     <mss-select [options]="languages" [selectedOption]="selectedLanguage" [label]="'Jazyk'" [labelPosition]="'top'"
                 (selectedOptionChange)="selectLanguage($event)"></mss-select>

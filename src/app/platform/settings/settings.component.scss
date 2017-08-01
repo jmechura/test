@@ -3,12 +3,6 @@
 $header-text-color: #4a4a4a;
 $text-color: #747474;
 
-.settings-container {
-  display: flex;
-  flex-direction: column;
-  padding-left: 50px;
-}
-
 .form-container {
   display: flex;
   flex-direction: column;
@@ -19,6 +13,13 @@ $text-color: #747474;
   &:not(:last-child) {
     margin-right: 30px;
   }
+}
+
+.button-container {
+  display: flex;
+  height: 100%;
+  justify-content: flex-end;
+  flex-direction: column;
 }
 
 .form {
@@ -51,5 +52,4 @@ $text-color: #747474;
 
 .save {
   align-self: flex-end;
-  margin-bottom: 30px;
 }
