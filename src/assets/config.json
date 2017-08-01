@@ -301,6 +301,15 @@
       "issuerPortal": [
         "ROLE_ADMIN",
         "ISSUER_ROLE_RESOURCE_READ"
+      ],
+      "reportDataName": [
+        "ROLE_ADMIN"
+      ],
+      "createdBy": [
+        "ROLE_ADMIN"
+      ],
+      "path": [
+        "ROLE_ADMIN"
       ]
     },
     "fileUpload": {
