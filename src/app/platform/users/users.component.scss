@@ -60,11 +60,13 @@ $date-label-width: 136px;
   .new-user-inputs {
     display: flex;
     justify-content: space-between;
+    min-width: 820px;
 
     .new-user-input-side {
       display: flex;
       flex-direction: column;
       width: 45%;
+      min-width: 400px;
     }
   }
 }

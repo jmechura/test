@@ -72,6 +72,7 @@
   "dictionary": {
     "trxUuid": "trxUuid",
     "trxDttm": "trxDttm",
+    "system": "System",
     "accountNumber": "Číslo účtu",
     "dttm": "dttm",
     "panSequenceNumber": "Pan Sequence Number",
@@ -469,30 +470,31 @@
   },
   "users": {
     "list": {
-      "title": "Uživetelé",
-      "cardGroupCode": "Card Group Code",
+      "title": "Uživatelé",
       "expiredDateForWarning": "Expired Date For Warning",
       "addUser": "Přidat uživetele",
       "sections": {
         "BASIC": "Základní",
-        "ADVANCED": "Pokročilé"
+        "NETWORK": "Network",
+        "ISSUER": "Issuer"
       }
     },
     "detail": {
-      "title": "Detail Uživetele",
+      "title": "Detail uživatele",
       "basic": "Basic",
       "personal": "Personal",
       "roles": "Roles",
       "cards": "Cards",
-      "authorities": "Authorities",
-      "resource": "Resource",
-      "resourceId": "Resource ID"
+      "authorities": "Authorities"
     },
     "dictionary": {
       "login": "Login",
       "blocked": "Blocked",
       "firstLogon": "First Logon",
-      "passwordExpired": "Password Expired"
+      "passwordExpired": "Password Expired",
+      "resource": "Resource",
+      "resourceId": "Resource ID",
+      "resourceName": "Resource Name"
     }
   },
   "reports": {
@@ -847,17 +849,17 @@
       "BASIC": "Základní informace",
       "KEYS": "Klíče"
     },
-    "topUpsScheduleStates": {
-      "NEW": "NEW",
-      "PROCESSED": "PROCESSED",
-      "CANCELED": "CANCELED"
-    },
     "paymentsTypes": {
       "NEW": "NEW",
       "ALREADY_EXIST": "ALREADY_EXIST",
       "NOT_FOUND": "NOT_FOUND",
       "PROCESSED": "PROCESSED",
       "RETURN": "RETURN"
+    },
+    "topUpsScheduleStates": {
+      "NEW": "NEW",
+      "PROCESSED": "PROCESSED",
+      "CANCELED": "CANCELED"
     }
   },
   "menu": {

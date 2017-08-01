@@ -26,7 +26,7 @@
     "TOPUP": "vertical_align_top",
     "TOPUP_CARD_GROUP": "publish",
     "DISCHARGE": "vertical_align_bottom",
-    "DEFAULT_ICON": "bubble_chart"
+    "DEFAULT_ICON": "help_outline"
   },
   "roles": {
     "showcase": {
@@ -166,6 +166,15 @@
       "edit": [
         "ROLE_ADMIN",
         "ROLE_USER_EDIT"
+      ],
+      "system": [
+        "ROLE_ADMIN"
+      ],
+      "resourceColumn": [
+        "ROLE_ADMIN"
+      ],
+      "resourceIdColumn": [
+        "ROLE_ADMIN"
       ]
     },
     "card": {

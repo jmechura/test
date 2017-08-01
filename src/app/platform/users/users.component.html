@@ -5,10 +5,14 @@
   </div>
 
   <!-- START FILTERS -->
-  <div class="row">
+  <div class="row" *ngIf="visibleSection != null">
     <div class="column" [formGroup]="filterForm">
-      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event" *ngIf="showAdvancedFilter"></mss-tabs>
-      <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
+      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"
+                *ngIf="filterSections.length > 1">
+      </mss-tabs>
+
+      <!--BASIC TAB-->
+      <div class="content column" *ngIf="visibleSection.value ===  userFilterSection[0]">
         <div class="row wrapped">
           <mss-input class="filter-item" formControlName="login" [label]="'basic.login' | translate"></mss-input>
           <mss-input class="filter-item" formControlName="firstName" [label]="'basic.firstName' | translate"></mss-input>
@@ -22,7 +26,25 @@
         </div>
       </div>
 
-      <div class="content" *ngIf="visibleSection.value === reportFilterSection.ADVANCED">
+      <!--ISSUER TAB-->
+      <div class="content" *ngIf="visibleSection.value === userFilterSection[1]">
+        <div class="row wrapped">
+          <mss-select class="filter-item"
+                      [label]="'dictionary.issuerCode' | translate"
+                      [options]="itemsForSelect['ISSUER']"
+                      (selectedOptionChange)="selectCode($event, 'CARD_GROUP')"
+                      *mssRoleIf="'filters.issuerCodeSelect'"
+                      formControlName="issuerCode"></mss-select>
+          <mss-select class="filter-item"
+                      [label]="'dictionary.cardGroupCode' | translate"
+                      [options]="itemsForSelect['CARD_GROUP']"
+                      *mssRoleIf="'filters.cardGroupCodeSelect'"
+                      formControlName="cardGroupCode"></mss-select>
+        </div>
+      </div>
+
+      <!--NETWORK TAB-->
+      <div class="content" *ngIf="visibleSection.value === userFilterSection[2]">
         <div class="row wrapped">
           <mss-select class="filter-item"
                       [label]="'dictionary.networkCode' | translate"
@@ -59,19 +81,38 @@
                    [rowHeight]="'auto'" [externalSorting]="true" [limit]="rowLimit"
                    [rows]="tableRows" [selectionType]="'single'" (select)="onSelect($event)"
                    (page)="setPage($event)" (sort)="getSorted($event)">
-      <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [maxWidth]="80"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'users.dictionary.login' | translate" prop="login"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'users.list.cardGroupCode' | translate" prop="cardGroupCode"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.firstName' | translate" prop="firstName"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.lastName' | translate" prop="lastName"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'users.dictionary.firstLogon' | translate" prop="firstLogon"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'users.list.expiredDateForWarning' | translate" prop="expiredDateForWarning"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'users.dictionary.passwordExpired' | translate" prop="passwordExpired"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'users.dictionary.blocked' | translate" prop="blocked"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state">
+      <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [maxWidth]="80" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.dictionary.login' | translate" prop="login" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.issuerCode' | translate" prop="issuerCode" *mssRoleIf="'filters.issuerCodeSelect'" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode" *mssRoleIf="'filters.cardGroupCodeSelect'" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.networkCode' | translate" prop="networkCode" *mssRoleIf="'filters.networkCodeSelect'" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode" *mssRoleIf="'filters.merchantCodeSelect'" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode" *mssRoleIf="'filters.orgUnitCodeSelect'" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.firstName' | translate" prop="firstName" [sortable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.lastName' | translate" prop="lastName" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value">
           <span class="mss-datatable-state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
         </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'basic.email' | translate" prop="email" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.system' | translate" prop="system" [sortable]="true" *mssRoleIf="'users.system'">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.dictionary.resourceName' | translate" prop="resourceName" [sortable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.dictionary.resource' | translate" prop="resource" *mssRoleIf="'users.resourceColumn'" [sortable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.dictionary.resourceId' | translate" prop="resourceId" *mssRoleIf="'users.resourceIdColumn'" [sortable]="true">
       </ngx-datatable-column>
       <ngx-datatable-footer>
         <ng-template
@@ -131,20 +172,27 @@
       </div>
       <div class="new-user-input-side">
         <mss-select formControlName="template" (selectedOptionChange)="onChangeTemplate($event)" [options]="templatesOptions"
-                    variant="small" label="{{'basic.template' | translate}}*"></mss-select>
+                    label="{{'basic.template' | translate}}*"></mss-select>
         <div class="mss-validation-label"><span *ngIf="isPresent('template')">{{'basic.required.template' | translate}}</span></div>
         <hr>
         <div class="mss-validation-label"></div>
         <div formArrayName="resources">
           <div *ngFor="let res of resources.controls; let i=index;" [formGroupName]="i">
-            <mss-select *ngIf="getResourceLabel(i) === 'MERCHANT'" formControlName="networkCode" label="Network"
-                        [options]="getTemplateResourcesOptionsByName('NETWORK')"
-                        (selectedOptionChange)="onChangeCode($event, i)"></mss-select>
-            <mss-select *ngIf="getResourceLabel(i) === 'CARD_GROUP'" formControlName="networkCode" label="Issuer"
+            <mss-select *ngIf="getResourceLabel(i) === 'MERCHANT' || getResourceLabel(i) === 'ORG_UNIT'" formControlName="networkCode"
+                        label="NETWORK" [options]="getTemplateResourcesOptionsByName('NETWORK')"
+                        (selectedOptionChange)="selectCode($event, 'MERCHANT')">
+            </mss-select>
+            <mss-select *ngIf="getResourceLabel(i) === 'ORG_UNIT'" formControlName="merchantCode" label="MERCHANT"
+                        [options]="getTemplateResourcesOptionsByName('MERCHANT')"
+                        (selectedOptionChange)="selectCode($event, 'ORG_UNIT')">
+            </mss-select>
+            <mss-select *ngIf="getResourceLabel(i) === 'CARD_GROUP'" formControlName="issuerCode" label="ISSUER"
                         [options]="getTemplateResourcesOptionsByName('ISSUER')"
-                        (selectedOptionChange)="onChangeCode($event, i)"></mss-select>
+                        (selectedOptionChange)="selectCode($event, 'CARD_GROUP')">
+            </mss-select>
             <mss-select formControlName="resourceId" label="{{getResourceLabel(i)}}*"
-                        [options]="getTemplateResourcesOptionsByIndex(i)"></mss-select>
+                        [options]="getTemplateResourcesOptionsByIndex(i)">
+            </mss-select>
             <hr>
           </div>
         </div>

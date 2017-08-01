@@ -19,15 +19,17 @@ import { CodeModel } from 'app/shared/models/code.model';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { cardGroupCodeActions } from '../../shared/reducers/card-group-code.reducer';
 import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer';
-import { UserFilterSections } from '../../shared/enums/users-filter-sections.enum';
 import { LanguageService } from '../../shared/services/language.service';
 import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer';
 import { AppConfigService } from '../../shared/services/app-config.service';
 import { RoleService } from '../../shared/services/role.service';
 import { MissingTokenResponse } from 'app/shared/utils';
+import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 
 const USERS_ROUTE = 'platform/users';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
+
+const USER_FILTER_SECTIONS = ['BASIC', 'ISSUER', 'NETWORK'];
 
 @Component({
   selector: 'mss-users',
@@ -52,7 +54,6 @@ export class UsersComponent implements OnDestroy {
   filterForm: FormGroup;
   filterSections: SelectItem[] = [];
   visibleSection: SelectItem;
-  reportFilterSection = UserFilterSections;
   templates: TemplateSimpleModel[] = [];
   templatesOptions = [];
   profile: ProfileModel;
@@ -61,7 +62,8 @@ export class UsersComponent implements OnDestroy {
   userStates: SelectItem[];
   @ViewChild('table') table: DatatableComponent;
   private unsubscribe$ = new Subject<void>();
-  showAdvancedFilter = false;
+
+  userFilterSection = USER_FILTER_SECTIONS;
 
   constructor(private store: Store<AppStateModel>,
               private router: Router,
@@ -81,8 +83,17 @@ export class UsersComponent implements OnDestroy {
       merchantCode: [{value: '', disabled: true}],
       networkCode: [{value: '', disabled: true}],
       orgUnitCode: [{value: '', disabled: true}],
+      issuerCode: [{value: '', disabled: true}],
+      cardGroupCode: [{value: '', disabled: true}],
       terminalCode: [{value: '', disabled: true}],
     });
+
+    this.filterSections = USER_FILTER_SECTIONS.filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.language.translate(`users.list.sections.${item}`),
+        value: item
+      }));
+    this.visibleSection = this.filterSections[0];
 
     this.appConfig.get('userStates').takeUntil(this.unsubscribe$).subscribe(
       data => {
@@ -92,12 +103,6 @@ export class UsersComponent implements OnDestroy {
       }
     );
 
-    this.filterSections = Object.keys(UserFilterSections).filter(key => isNaN(Number(key)))
-      .map(item => ({
-        label: this.language.translate(`users.list.sections.${item}`),
-        value: UserFilterSections[item]
-      }));
-    this.visibleSection = this.filterSections[0];
 
     this.newUserForm = fb.group({
       city: [''],
@@ -156,16 +161,35 @@ export class UsersComponent implements OnDestroy {
         }
         if (data != null && !loading) {
           this.profile = data;
+          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+            issuerResult => {
+              if (issuerResult) {
+                this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+              } else {
+                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                  cardGroupResult => {
+                    if (cardGroupResult) {
+                      this.store.dispatch({
+                        type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST,
+                        payload: this.profile.resourceId
+                      });
+                    } else {
+                      this.filterSections = this.filterSections.filter(item => item.value !== 'ISSUER');
+                    }
+                  }
+                );
+              }
+            }
+          );
+
           this.roles.isVisible('filters.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
-                this.showAdvancedFilter = true;
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
                 this.roles.isVisible('filters.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
-                      this.showAdvancedFilter = true;
                       this.store.dispatch({
                         type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST,
                         payload: this.profile.resourceAcquirerId
@@ -175,11 +199,12 @@ export class UsersComponent implements OnDestroy {
                       this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
                         orgUnitResult => {
                           if (orgUnitResult) {
-                            this.showAdvancedFilter = true;
                             this.store.dispatch({
                               type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST,
                               payload: this.profile.resourceAcquirerId
                             });
+                          } else {
+                            this.filterSections = this.filterSections.filter(item => item.value !== 'NETWORK');
                           }
                         }
                       );
@@ -212,11 +237,13 @@ export class UsersComponent implements OnDestroy {
           return;
         }
         if (data.data != null && !data.loading) {
-          this.itemsForSelect['NETWORK'] = data.data.map(item => ({label: item.code, value: item.id}));
+          this.itemsForSelect['NETWORK'] = data.data.map(item => ({value: item.id, label: item.code}));
           if (this.itemsForSelect['NETWORK'].length !== 0) {
             this.filterForm.get('networkCode').enable();
           } else {
             this.filterForm.get('networkCode').disable();
+            this.filterForm.get('merchantCode').disable();
+            this.filterForm.get('orgUnitCode').disable();
           }
         }
       }
@@ -239,17 +266,7 @@ export class UsersComponent implements OnDestroy {
         }
       }
     );
-    this.store.select('cardGroupCodes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<CodeModel[]>) => {
-        if (data.error) {
-          console.error('Error while getting issuer codes', data.error);
-          return;
-        }
-        if (data.data != null && !data.loading) {
-          this.itemsForSelect['CARD_GROUP'] = data.data.map(item => ({value: item.id, label: item.code}));
-        }
-      }
-    );
+
     this.store.select('orgUnitCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
         if (data.error) {
@@ -266,7 +283,39 @@ export class UsersComponent implements OnDestroy {
         }
       }
     );
+
+    this.store.select('cardGroupCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting card group codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.itemsForSelect['CARD_GROUP'] = data.data.map(item => ({value: item.id, label: item.code}));
+          this.filterForm.get('cardGroupCode').enable();
+        } else {
+          this.filterForm.get('cardGroupCode').disable();
+        }
+      }
+    );
+
+    this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error while getting issuer codes', data.error);
+          return;
+        }
+        if (data.data != null && !data.loading) {
+          this.itemsForSelect['ISSUER'] = data.data.map(item => ({value: item.id, label: item.code}));
+          this.filterForm.get('issuerCode').enable();
+        } else {
+          this.filterForm.get('issuerCode').disable();
+          this.filterForm.get('issuerCode').disable();
+        }
+      }
+    );
   }
+
 
   get requestModel(): RequestOptions<ProfilePredicateObject> {
     return {
@@ -304,10 +353,18 @@ export class UsersComponent implements OnDestroy {
   }
 
   selectCode(value: string, type: string): void {
-    if (type === 'ORG_UNIT') {
-      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
-    } else if (type === 'MERCHANT') {
-      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
+    switch (type) {
+      case 'ORG_UNIT':
+        this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
+        break;
+
+      case 'MERCHANT':
+        this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
+        break;
+
+      case 'CARD_GROUP':
+        this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: value});
+        break;
     }
   }
 
@@ -391,20 +448,12 @@ export class UsersComponent implements OnDestroy {
   }
 
   onChangeTemplate(value: number): void {
-    if (this.templates.filter(item => item.id === value)[0]) {
+    const template = this.templates.find(item => item.id === value);
+    if (template) {
       this.clearResources();
-      for (const res of this.templates.filter(item => item.id === value)[0].resources) {
+      for (const res of template.resources) {
         this.addResource(res.resource, res.id);
       }
-    }
-  }
-
-  onChangeCode(value: number, index: number): void {
-    const type = this.getResourceLabel(index);
-    if (type === 'CARD_GROUP') {
-      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: value});
-    } else if (type === 'MERCHANT') {
-      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
     }
   }
 

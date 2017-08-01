@@ -159,6 +159,9 @@
                    (activate)="goToDetail('transaction', $event)">
       <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false"
                             *mssRoleIf="'transactions.uuid'">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <span [title]="value" class="mss-limited-text">{{value}}</span>
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.terminalDate' | translate" prop="termDttm" [sortable]="true"
                             *mssRoleIf="'transactions.termDtm'">
