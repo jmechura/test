@@ -18,7 +18,6 @@ import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 import { CardFilterSections } from '../../shared/enums/card-sections.enum';
-import * as moment from 'moment';
 
 const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
   cardGroupCode: '',
@@ -262,7 +261,7 @@ export class CardListComponent implements OnDestroy {
     this.unsubscribe$.fire();
   }
 
-  getFormatedDate(date: number): string {
-    return moment(Number(date)).format(this.dateFormat);
+  getFormatedExpiration(date: string): string {
+    return (date != null && date.length > 0) ? `${date.slice(0, 2)}/${date.slice(2, 4)}` :  '';
   }
 }

@@ -1,4 +1,5 @@
-<div class="employer-card-container">
+<div class="mss-view-container">
+<div class="mss-view-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'cards.cardList.title' | translate}}</span>
   </div>
@@ -64,7 +65,7 @@
       <ngx-datatable-column [name]="'dictionary.expiryDate'| translate" prop="expiryDate"
                             [sortable]="true">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span>{{getFormatedDate(value)}}</span>
+          <span>{{getFormatedExpiration(value)}}</span>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.panSequenceNumber' | translate" prop="panSequenceNumber" [sortable]="false"></ngx-datatable-column>
