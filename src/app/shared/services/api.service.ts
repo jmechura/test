@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestMethod } from '@angular/http';
+import { Headers, Http, RequestMethod, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { LoginModel } from '../models/login.model';
 import { parseResponse, MissingTokenResponse } from '../utils';
@@ -55,6 +55,22 @@ export class ApiService {
         headers: new Headers({...(authToken !== null ? {Authorization: authToken} : null)})
       };
       return this.http.request(requestUrl, requestOptions).map(parseResponse);
+    });
+  }
+
+  getFile(path: string): Observable<any> {
+    const authToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+    if (authToken === null) {
+      return Observable.throw(new MissingTokenResponse());
+    }
+    return this.appConfig.get('apiUrl').switchMap(apiUrl => {
+      const requestUrl = `${apiUrl}${path}`;
+      const requestOptions = {
+        method: RequestMethod.Get,
+        headers: new Headers({...(authToken !== null ? {Authorization: authToken} : null)}),
+        responseType: ResponseContentType.Blob
+      };
+      return this.http.request(requestUrl, requestOptions);
     });
   }
 }

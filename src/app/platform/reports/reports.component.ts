@@ -21,10 +21,14 @@ import { orgUnitCodeActions } from '../../shared/reducers/org-unit-code.reducer'
 import { CodeModel } from '../../shared/models/code.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Moment } from 'moment';
+import { ApiService } from '../../shared/services/api.service';
+import * as FileSaver from 'file-saver';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const REPORT_ROUTE = 'platform/reports';
 const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
+
+declare function saveAs(data: Blob | File, filename?: string, disableAutoBom?: boolean): void;
 
 @Component({
   selector: 'mss-reports',
@@ -58,6 +62,7 @@ export class ReportsComponent implements OnDestroy {
               private router: Router,
               private roles: RoleService,
               private fb: FormBuilder,
+              private api: ApiService,
               private language: LanguageService) {
 
     this.filterForm = this.fb.group({
@@ -290,7 +295,12 @@ export class ReportsComponent implements OnDestroy {
   }
 
   download(id: number): void {
-    // TODO: :o
+    this.api.getFile(`/reports/download/${id}`).subscribe(
+      (resp: Response) => {
+        const file = new Blob([resp.blob()]);
+        FileSaver.saveAs(file, resp.headers.get('filename'));
+      }
+    );
   }
 
   setPage(pageInfo: { offset: number }): void {
