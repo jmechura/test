@@ -41,6 +41,7 @@ import { TopupsScheduleComponent } from './topups-schedule/topups-schedule.compo
 import { PaymentTopupsComponent } from './payment-topups/payment-topups.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
+import { TopupsScheduleDetailComponent } from './topups-schedule-detail/topups-schedule-detail.component';
 
 export const routes: Routes = [
   {
@@ -84,6 +85,7 @@ export const routes: Routes = [
       {path: 'acquirers', component: AcquirersComponent},
       {path: 'acquirers/:code', component: AcquirerDetailComponent},
       {path: 'topups-schedule', component: TopupsScheduleComponent},
+      {path: 'topups-schedule/:filename', component: TopupsScheduleDetailComponent},
       {path: 'payment-topups', component: PaymentTopupsComponent},
       {path: 'payment-topups/:id', component: PaymentTopupsDetailComponent},
       {path: 'file-upload', component: FileUploadComponent},

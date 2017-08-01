@@ -4,10 +4,39 @@
     <span class="mss-title">{{'topupsSchedule.list.title' | translate}}</span>
   </div>
 
+  <!-- FILTERS -->
+  <div class="row">
+    <div class="column" [formGroup]="filterForm">
+      <mss-tabs class="tabs" *ngIf="filterSections.length > 1" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+      <div class="content" *ngIf="visibleSection.value === topUpsScheduleFilterSections[0]">
+        <div class="row wrapped">
+          <mss-input class="filter-item" [label]="'dictionary.specificSymbol' | translate" formControlName="specificSymbol"></mss-input>
+          <mss-input class="filter-item" [label]="'dictionary.variableSymbol' | translate" formControlName="variableSymbol"></mss-input>
+          <mss-select class="filter-item" [options]="stateOptions"
+                      [label]="'dictionary.state' | translate" formControlName="state"></mss-select>
+        </div>
+      </div>
+      <div class="content" *ngIf="visibleSection.value === topUpsScheduleFilterSections[1]">
+        <div class="row wrapped">
+          <mss-select class="filter-item" formControlName="issuerCode" [options]="issuerCodes"
+                      [label]="'dictionary.issuerCode' | translate" *mssRoleIf="'filters.issuerCodeSelect'"></mss-select>
+          <mss-select class="filter-item" formControlName="cardGroupId" [options]="cardGroupCodes"
+                      [label]="'dictionary.cardGroupCode' | translate" *mssRoleIf="'filters.cardGroupCodeSelect'"></mss-select>
+        </div>
+      </div>
+    </div>
+    <mss-button class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+
+  <div class="mss-action-button">
+    <mss-button [label]="'basic.search' | translate" (click)="getTopupsScheduleList()"></mss-button>
+  </div>
+
   <!-- DATA TABLE-->
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [rows]="rows" [columnMode]="'force'"
                    [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
+                   (activate)="goToDetail($event.row)"
                    [limit]="requestModel.pagination.number" [count]="tableData ? tableData.totalElements : 0"
                    [externalSorting]="true" [externalPaging]="true"
                    (sort)="getSortedTopupsScheduleList($event)" (page)="setPage($event)">

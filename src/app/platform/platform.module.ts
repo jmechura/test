@@ -49,6 +49,7 @@ import { TopupsScheduleComponent } from './topups-schedule/topups-schedule.compo
 import { PaymentTopupsComponent } from './payment-topups/payment-topups.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
+import { TopupsScheduleDetailComponent } from './topups-schedule-detail/topups-schedule-detail.component';
 
 @NgModule({
   imports: [
@@ -107,6 +108,7 @@ import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-to
     PaymentTopupsComponent,
     FileUploadComponent,
     PaymentTopupsDetailComponent,
+    TopupsScheduleDetailComponent,
   ]
 })
 export class PlatformModule {}

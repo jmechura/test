@@ -1,0 +1,21 @@
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .content-column {
+    display: flex;
+    flex-direction: column;
+
+    width: 45%;
+    min-width: 500px;
+
+    .mss-input-like-container {
+      margin: 6px 0;
+    }
+  }
+}
+
+.mss-title {
+  margin: 20px 0;
+}

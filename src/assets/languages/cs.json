@@ -388,7 +388,15 @@
   },
   "topupsSchedule": {
     "list": {
-      "title": "Přehled výplatních rozpisů"
+      "title": "Přehled výplatních rozpisů",
+      "filterSections": {
+        "BASIC": "Základní",
+        "ISSUER": "Zaměstnavatel"
+      }
+    },
+    "detail": {
+      "title": "Výplatní rozpis",
+      "secondTitle": "Přehled dílčích částí"
     },
     "dictionary": {
       "filename": "Název suboru",
@@ -832,6 +840,11 @@
       "ADDRESS": "Adresa",
       "BASIC": "Základní informace",
       "KEYS": "Klíče"
+    },
+    "topUpsScheduleStates": {
+      "NEW": "NEW",
+      "PROCESSED": "PROCESSED",
+      "CANCELED": "CANCELED"
     }
   },
   "menu": {

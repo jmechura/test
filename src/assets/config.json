@@ -10,6 +10,11 @@
     "DISCARDED",
     "DELETED"
   ],
+  "topUpsScheduleStates": [
+    "NEW",
+    "PROCESSED",
+    "CANCELED"
+  ],
   "transactionTypeIcons": {
     "COLLECT": "plus_one",
     "BALANCE_INQUIRY": "account_balance",
