@@ -463,7 +463,7 @@ $date-picker-icon-background-color: #4a4a4a;
 
 @mixin mss-date-picker-input-container {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-  z-index: $modal-window-z-index - 1;
+  z-index: $modal-window-z-index;
 }
 
 @mixin mss-date-picker-overlay-active {

@@ -5,7 +5,7 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { paymentTopupsDetailActions } from '../reducers/payment-topups-detail.reducer';
 
-const TOPUPS_DETAIL_ENDPOINT_LIST = '/payments/topups';
+const TOPUPS_DETAIL_ENDPOINT = '/payments/topups';
 
 @Injectable()
 export class PaymentTopupsDetailEffect {
@@ -16,9 +16,19 @@ export class PaymentTopupsDetailEffect {
   getPaymentTopupsDetail(): Observable<Action> {
     return this.actions$
       .ofType(paymentTopupsDetailActions.TOPUPS_DETAIL_GET_REQUEST)
-      .switchMap(action => this.api.get(`${TOPUPS_DETAIL_ENDPOINT_LIST}/${action.payload}`)
+      .switchMap(action => this.api.get(`${TOPUPS_DETAIL_ENDPOINT}/${action.payload}`)
         .map(res => ({type: paymentTopupsDetailActions.TOPUPS_DETAIL_GET, payload: res}))
         .catch(res => Observable.of({type: paymentTopupsDetailActions.TOPUPS_DETAIL_GET_FAIL, payload: res}))
+      );
+  }
+
+  @Effect()
+  updatePaymentTopupsDetail(): Observable<Action> {
+    return this.actions$
+      .ofType(paymentTopupsDetailActions.TOPUPS_DETAIL_PUT_REQUEST)
+      .switchMap(action => this.api.put(TOPUPS_DETAIL_ENDPOINT, action.payload)
+        .map(res => ({type: paymentTopupsDetailActions.TOPUPS_DETAIL_PUT, payload: res}))
+        .catch(res => Observable.of({type: paymentTopupsDetailActions.TOPUPS_DETAIL_PUT_FAIL, payload: res}))
       );
   }
 }

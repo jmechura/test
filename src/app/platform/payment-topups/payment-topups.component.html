@@ -3,10 +3,61 @@
     <div class="mss-title">{{'paymentTopups.title' | translate}}</div>
   </div>
 
+  <div class="row">
+    <div class="column" [formGroup]="filterForm">
+      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+
+      <div class="content" *ngIf="visibleSection.value === topupsFilterSections[0]">
+        <div class="row wrapped">
+          <div class="calendar-select filter-item">
+            <span class="label">{{'dictionary.from' | translate}}</span>
+            <mss-date-time-picker-input formControlName="createdFrom"></mss-date-time-picker-input>
+          </div>
+          <div class="calendar-select filter-item">
+            <span class="label">{{'dictionary.to' | translate}}</span>
+            <mss-date-time-picker-input formControlName="createdTo"></mss-date-time-picker-input>
+          </div>
+        </div>
+      </div>
+
+      <div class="content" *ngIf="visibleSection.value === topupsFilterSections[1]">
+        <div class="row wrapped">
+          <mss-input class="filter-item" [label]="'dictionary.variableSymbol' | translate"
+                     formControlName="variableSymbol">
+          </mss-input>
+          <mss-input class="filter-item" [label]="'dictionary.specificSymbol' | translate"
+                     formControlName="specificSymbol">
+          </mss-input>
+          <mss-select class="filter-item" [label]="'basic.state' | translate"
+                      [options]="stateOptions" formControlName="state">
+          </mss-select>
+        </div>
+      </div>
+
+      <div class="content" *ngIf="visibleSection.value === topupsFilterSections[2]">
+        <div class="row wrapped">
+          <mss-select class="filter-item" [label]="'dictionary.issuerCode' | translate"
+                      *mssRoleIf="'filters.issuerCodeSelect'"
+                      [options]="issuerCodes" formControlName="issuerCode">
+          </mss-select>
+          <mss-select class="filter-item" [label]="'dictionary.cardGroupCode' | translate"
+                      *mssRoleIf="'filters.cardGroupCodeSelect'"
+                      [options]="cardGroupCodes" formControlName="cardGroupCode">
+          </mss-select>
+        </div>
+      </div>
+    </div>
+    <mss-button class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+
+  <div class="mss-action-button">
+    <mss-button [label]="'basic.search' | translate" (click)="getPayments()"></mss-button>
+  </div>
+
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="paymentTopup"
                    [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
-                   [limit]="requestModel.pagination.number" [count]="paymentData ? paymentData.totalElements : 0"
+                   [limit]="requestModel.pagination.number" [count]="totalItems"
                    [externalPaging]="true" (page)="setPage($event)"
                    [selectionType]="'single'" (select)="onSelect($event)">
       <ngx-datatable-column prop="uuid" [name]="'dictionary.uuid' | translate" [sortable]="false">
@@ -39,14 +90,11 @@
       </ngx-datatable-column>
       <ngx-datatable-footer>
         <ng-template
-          ngx-datatable-footer-template
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-curPage="curPage">
+          ngx-datatable-footer-template>
           <mss-table-footer
-            [page]="curPage"
-            [rowsShown]="pageSize"
-            [rowCount]="rowCount"
+            [page]="pageNumber"
+            [rowsShown]="rowLimit"
+            [rowCount]="totalItems"
             (rowsShownChange)="changeLimit($event)"
             (changePage)="table.onFooterPage($event)"
             class="d-table-footer">

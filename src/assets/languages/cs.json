@@ -176,7 +176,13 @@
     "changedAt": "Changed at",
     "settlementDate": "Settlement date",
     "detail": {
-      "title": "Detail platby"
+      "title": "Detail platby",
+      "process": "Zpracovat"
+    },
+    "filterSections": {
+      "DATE": "Datum",
+      "BASIC": "Základní",
+      "CARDGROUP": "Zaměstnavatel"
     }
   },
   "cards": {
@@ -840,6 +846,13 @@
       "ADDRESS": "Adresa",
       "BASIC": "Základní informace",
       "KEYS": "Klíče"
+    },
+    "paymentsTypes": {
+      "NEW": "NEW",
+      "ALREADY_EXIST": "ALREADY_EXIST",
+      "NOT_FOUND": "NOT_FOUND",
+      "PROCESSED": "PROCESSED",
+      "RETURN": "RETURN"
     },
     "topUpsScheduleStates": {
       "NEW": "NEW",

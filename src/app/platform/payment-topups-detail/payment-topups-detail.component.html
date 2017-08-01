@@ -1,6 +1,12 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
     <div class="mss-title" *ngIf="paymentTopup != null">{{'paymentTopups.detail.title' | translate}} - {{paymentTopup.uuid}}</div>
+    <ng-container *mssRoleIf="'paymentTopups.edit'">
+      <mss-button [label]="'paymentTopups.detail.process' | translate"
+                  (click)="processPayment()"
+                  *ngIf="paymentTopup?.state === 'NEW'">
+      </mss-button>
+    </ng-container>
   </div>
 
   <div class="payment-topups-detail-content" *ngIf="!isEditing && paymentTopup">
@@ -37,7 +43,7 @@
       </div>
       <div class="mss-input-like-container">
         <div class="label">{{'basic.state' | translate}}</div>
-        <div class="value">{{paymentTopup.state}}</div>
+        <div class="value">{{('enums.paymentsTypes.' + paymentTopup.state) | translate}}</div>
       </div>
       <div class="mss-input-like-container">
         <div class="label">{{'dictionary.issuerCode' | translate}}</div>
@@ -50,12 +56,29 @@
     </div>
   </div>
 
-  <!--<div class="mss-buttons-row">-->
-    <!--<mss-button *ngIf="!isEditing" class="mss-action-button" [label]="'basic.edit' | translate"-->
-                <!--(click)="toggleUpdateIssuer()"></mss-button>-->
-    <!--<mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"-->
-                <!--(click)="toggleUpdateIssuer()"></mss-button>-->
-    <!--<mss-button *ngIf="isEditing" [label]="'basic.save' | translate" class="mss-action-button" (click)="updateIssuer()"-->
-                <!--[disabled]="editIssuerForm.invalid"></mss-button>-->
-  <!--</div>-->
+  <div class="payment-topups-detail-content" *ngIf="isEditing" [formGroup]="paymentTopupsForm">
+    <div class="content-column">
+      <mss-input class="editable-item" [label]="'dictionary.variableSymbol' | translate" formControlName="variableSymbol">
+      </mss-input>
+      <mss-input class="editable-item" [label]="'dictionary.specificSymbol' | translate" formControlName="specificSymbol">
+      </mss-input>
+    </div>
+    <div class="content-column">
+      <mss-select *ngIf="canEditState" [label]="'basic.state' | translate" class="editable-item"
+                  [options]="stateOptions" formControlName="state">
+      </mss-select>
+    </div>
+  </div>
+
+  <div class="mss-buttons-row" *mssRoleIf="'paymentTopups.edit'">
+    <mss-button *ngIf="!isEditing" class="mss-action-button" [label]="'basic.edit' | translate"
+                (click)="toggleEditing()">
+    </mss-button>
+    <mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
+                (click)="toggleEditing()">
+    </mss-button>
+    <mss-button *ngIf="isEditing" [label]="'basic.save' | translate" class="mss-action-button"
+                (click)="updatePaymentTopup()" [disabled]="paymentTopupsForm.invalid">
+    </mss-button>
+  </div>
 </div>

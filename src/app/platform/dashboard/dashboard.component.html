@@ -12,11 +12,13 @@
         <div class="row wrapped">
           <div class="calendar-select filter-item">
             <span class="label">{{'dictionary.from' | translate}}</span>
-            <mss-date-time-picker-input [pickedDate]="fromDate" (pickedDateChange)="changeFromDate($event)"></mss-date-time-picker-input>
+            <mss-date-time-picker-input [pickedDate]="fromDate"
+                                        (pickedDateChange)="changeFromDate($event)"></mss-date-time-picker-input>
           </div>
           <div class="calendar-select filter-item">
             <span class="label">{{'dictionary.to' | translate}}</span>
-            <mss-date-time-picker-input [pickedDate]="toDate" (pickedDateChange)="changeToDate($event)"></mss-date-time-picker-input>
+            <mss-date-time-picker-input [pickedDate]="toDate"
+                                        (pickedDateChange)="changeToDate($event)"></mss-date-time-picker-input>
           </div>
         </div>
       </div>

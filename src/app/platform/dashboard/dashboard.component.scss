@@ -3,6 +3,7 @@
 $calendar-text-color: #747474;
 
 $filter-item-width: 500px;
+$filter-label-width: 136px;
 
 .data-table-container {
   .cell.clickable {
@@ -39,7 +40,7 @@ $filter-item-width: 500px;
     width: $filter-item-width;
 
     .label {
-      margin-right: 12px;
+      width: $filter-label-width;
     }
   }
 }

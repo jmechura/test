@@ -6,6 +6,9 @@ export const paymentTopupsDetailActions = {
   TOPUPS_DETAIL_GET_REQUEST: 'TOPUPS_DETAIL_GET_REQUEST',
   TOPUPS_DETAIL_GET: 'TOPUPS_DETAIL_GET',
   TOPUPS_DETAIL_GET_FAIL: 'TOPUPS_DETAIL_GET_FAIL',
+  TOPUPS_DETAIL_PUT_REQUEST: 'TOPUPS_DETAIL_PUT_REQUEST',
+  TOPUPS_DETAIL_PUT: 'TOPUPS_DETAIL_PUT',
+  TOPUPS_DETAIL_PUT_FAIL: 'TOPUPS_DETAIL_PUT_FAIL',
 };
 
 export type PaymentTopupsDetailState = StateModel<PaymentTopupsModel>;
@@ -21,6 +24,15 @@ export function paymentTopupsDetailReducer(state: PaymentTopupsDetailState = INI
       return {data: action.payload, error: null, loading: false};
 
     case paymentTopupsDetailActions.TOPUPS_DETAIL_GET_FAIL:
+      return {data: state.data, error: action.payload, loading: false};
+
+    case paymentTopupsDetailActions.TOPUPS_DETAIL_PUT_REQUEST:
+      return {data: state.data, error: null, loading: true};
+
+    case paymentTopupsDetailActions.TOPUPS_DETAIL_PUT:
+      return {data: action.payload, error: null, loading: false};
+
+    case paymentTopupsDetailActions.TOPUPS_DETAIL_PUT_FAIL:
       return {data: state.data, error: action.payload, loading: false};
 
     default:

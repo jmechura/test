@@ -12,8 +12,12 @@
     width: 45%;
     min-width: 500px;
 
-    .mss-input-like-container {
+    .mss-input-like-container, .editable-item {
       margin: 6px 0;
     }
   }
+}
+
+.editable-content {
+  margin: 6px 0;
 }
