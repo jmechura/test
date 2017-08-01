@@ -44,9 +44,6 @@ export class CampaignsComponent implements OnDestroy {
 
   campaignFactories: SelectItem[] = [{value: 'UNKNOWN'}];
 
-  editedRow = -1;
-  editedCampaign: CampaignModel = fillCampaign();
-
   loading = false;
 
   warnModalVisible = false;
@@ -169,32 +166,6 @@ export class CampaignsComponent implements OnDestroy {
     this.router.navigate([`${CAMPAIGN_ROUTE}`, routeParams]);
   }
 
-  startEditing(event: MouseEvent, row: any): void {
-    event.stopPropagation();
-    if (this.editedRow === -1) {
-      this.editedCampaign = Object.assign({}, this.tableData.content.find(item => item.name === row.name));
-      this.editedRow = row.$$index;
-    }
-  }
-
-  cancelEditing(event: MouseEvent): void {
-    event.stopPropagation();
-    this.editedRow = -1;
-  }
-
-  submitEdit(event: MouseEvent): void {
-    event.stopPropagation();
-    this.editedRow = -1;
-    this.api.put('/campaigns', this.editedCampaign).subscribe(
-      () => {
-        this.getCampaignsList();
-      },
-      error => {
-        console.error('Update merchant fail', error);
-      }
-    );
-  }
-
   setPage(pageInfo: { offset: number }): void {
     const routeParams: ListRouteParamsModel = {
       page: String(pageInfo.offset + 1),
@@ -204,7 +175,7 @@ export class CampaignsComponent implements OnDestroy {
   }
 
   redirectToDetail(event: { selected: any[] }): void {
-    if (this.editedRow === -1 && event && event.selected && event.selected.length > 0) {
+    if (event && event.selected && event.selected.length > 0) {
       this.router.navigateByUrl(`platform/campaigns/${event.selected[0].name}`);
     }
   }

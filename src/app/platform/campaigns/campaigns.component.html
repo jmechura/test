@@ -3,69 +3,32 @@
     <span class="mss-title">{{'campaigns.list.title' | translate}}</span>
     <mss-button class="mss-action-button" [label]="'campaigns.list.addCampaign' | translate" (click)="toggleNewCampaignForm()"></mss-button>
   </div>
-
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    [externalPaging]="true" [limit]="rowLimit"
                    [externalSorting]="true" (sort)="getSortedCampaigns($event)"
                    [selectionType]="'single'" (select)="redirectToDetail($event)"
                    [count]="totalItems" (page)="setPage($event)">
-
       <ngx-datatable-column prop="name" [name]="'basic.name' | translate" [cellClass]="'mss-click-able'" [sortable]="true">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" [(ngModel)]="editedCampaign.name"/>
-        </ng-template>
       </ngx-datatable-column>
-
       <ngx-datatable-column prop="campaignName" [name]="'campaigns.dictionary.campaignName' | translate" [sortable]="true">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{'enums.campaignFactories.' + value | translate}}</span>
-          <mss-select [options]="campaignFactories" [(selectedOption)]="editedCampaign.campaignName" variant="small"
-                      *ngIf="editedRow === row.$$index">
-          </mss-select>
-        </ng-template>
       </ngx-datatable-column>
-
       <ngx-datatable-column prop="orderCampaign" [name]="'campaigns.dictionary.orderCampaign' | translate" [sortable]="true">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span *ngIf="editedRow !== row.$$index">{{value}}</span>
-          <input class="table-input" autofocus *ngIf="editedRow === row.$$index" type="number" [(ngModel)]="editedCampaign.orderCampaign"/>
-        </ng-template>
       </ngx-datatable-column>
-
       <ngx-datatable-column prop="runAfterStart" [name]="'campaigns.dictionary.runAfterStart' | translate" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <span title="Double click to edit" (dblclick)="startEditing(row)"
-                *ngIf="editedRow !== row.$$index">{{value ? ('basic.yes' | translate) : ('basic.no' | translate)}}</span>
-          <mss-toggle [(toggled)]="editedCampaign.runAfterStart" *ngIf="editedRow === row.$$index"></mss-toggle>
-        </ng-template>
       </ngx-datatable-column>
-
-      <ngx-datatable-column [name]="'basic.edit' | translate" [width]="70" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <div class="edit-buttons-container">
-            <i (click)="startEditing($event, row)" class="material-icons table-icon" *ngIf="editedRow === -1">mode_edit</i>
-            <i class="material-icons table-icon" (click)="cancelEditing($event)" *ngIf="editedRow === row.$$index">not_interested</i>
-            <i class="material-icons table-icon" (click)="submitEdit($event)" *ngIf="editedRow === row.$$index">check</i>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
-
       <ngx-datatable-column [name]="'basic.delete' | translate" [width]="70" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
-            <i (click)="showDeleteModal($event,row.name)" class="material-icons table-icon" *ngIf="editedRow === -1">clear</i>
+            <i (click)="showDeleteModal($event,row.name)" class="material-icons table-icon">clear</i>
           </div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.action' | translate" [width]="70" [sortable]="false" prop="running">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="edit-buttons-container">
-            <i (click)="toggle($event,row)" class="material-icons table-icon" *ngIf="editedRow === -1">{{value ? 'stop' : 'play_arrow'}}</i>
+            <i (click)="toggle($event,row)" class="material-icons table-icon">{{value ? 'stop' : 'play_arrow'}}</i>
           </div>
         </ng-template>
       </ngx-datatable-column>
@@ -83,10 +46,7 @@
       </ngx-datatable-footer>
     </ngx-datatable>
   </div>
-
 </div>
-
-
 <mss-modal-window [(visible)]="newCampaignModalShowing">
   <h3 class="mss-modal-title">{{'campaigns.list.addCampaign' | translate}}</h3>
   <form [formGroup]="newCampaignForm" class="new-campaign-form">
@@ -112,7 +72,6 @@
     </div>
   </form>
 </mss-modal-window>
-
 <mss-modal-window [(visible)]="warnModalVisible">
   <h3 class="mss-modal-title">{{'campaigns.list.deleteQuestion' | translate}}</h3>
   <div class="warn-buttons">
