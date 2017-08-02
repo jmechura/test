@@ -126,7 +126,7 @@
         <mss-select [label]="('dictionary.networkCode' | translate) + '*'"
                     [options]="networkCodes"
                     formControlName="networkCode"
-                    *mssRoleIf="'filters.networkCodeSelect'">
+                    *mssRoleIf="'terminals.formNetworkSelect'">
         </mss-select>
         <div class="mss-validation-label">
           <span *ngIf="isPresent('networkCode')">{{'basic.required.networkCode' | translate}}</span>
@@ -134,7 +134,7 @@
         <mss-select [label]="('dictionary.merchantCode' | translate) + '*'"
                     [options]="merchantCodes"
                     formControlName="merchantId"
-                    *mssRoleIf="'filters.merchantCodeSelect'">
+                    *mssRoleIf="'terminals.formMerchantSelect'">
         </mss-select>
         <div class="mss-validation-label">
           <span *ngIf="isPresent('merchantId')">{{'basic.required.merchantId' | translate}}</span>
@@ -142,7 +142,7 @@
         <mss-select [label]="('dictionary.orgUnitCode' | translate) + '*'"
                     [options]="orgUnitCodes"
                     formControlName="orgUnitId"
-                    *mssRoleIf="'filters.orgUnitCodeSelect'">
+                    *mssRoleIf="'terminals.formOrgUnitSelect'">
         </mss-select>
         <div class="mss-validation-label">
           <span *ngIf="isPresent('orgUnitId')">{{'basic.required.orgUnitId' | translate}}</span>

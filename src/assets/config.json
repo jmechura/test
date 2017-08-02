@@ -271,6 +271,13 @@
         "ROLE_ADMIN",
         "NETWORK_ROLE_RESOURCE_EDIT",
         "MERCHANT_ROLE_RESOURCE_EDIT"
+      ],
+      "formNetworkSelect": [
+        "ROLE_ADMIN"
+      ],
+      "formMerchantSelect": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ"
       ]
     },
     "terminals": {
@@ -291,6 +298,18 @@
         "NETWORK_ROLE_RESOURCE_EDIT",
         "MERCHANT_ROLE_RESOURCE_EDIT",
         "ORG_UNIT_ROLE_RESOURCE_EDIT"
+      ],
+      "formNetworkSelect": [
+        "ROLE_ADMIN"
+      ],
+      "formMerchantSelect": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ"
+      ],
+      "formOrgUnitSelect": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ"
       ]
     },
     "reports": {

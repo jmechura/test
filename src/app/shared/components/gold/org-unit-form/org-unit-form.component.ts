@@ -54,7 +54,7 @@ export class OrgUnitFormComponent implements OnDestroy {
 
         if (data != null && !loading) {
           const user = data;
-          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+          this.roles.isVisible('orgUnits.formNetworkSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
@@ -63,7 +63,7 @@ export class OrgUnitFormComponent implements OnDestroy {
                 });
               } else {
                 this.form.patchValue({networkCode: user.networkCode});
-                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                this.roles.isVisible('orgUnits.formMerchantSelect').subscribe(
                   merchantResult => {
                     if (merchantResult) {
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});

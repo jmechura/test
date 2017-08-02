@@ -114,18 +114,18 @@ export class TerminalComponent implements OnDestroy {
         if (data.data && !data.loading /*because pn would be sad*/) {
           const user = data.data;
 
-          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+          this.roles.isVisible('terminals.formNetworkSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                this.roles.isVisible('terminals.formMerchantSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
                     } else {
 
-                      this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
+                      this.roles.isVisible('terminals.formOrgUnitSelect').subscribe(
                         orgUnitResult => {
                           if (orgUnitResult) {
                             this.store.dispatch({
