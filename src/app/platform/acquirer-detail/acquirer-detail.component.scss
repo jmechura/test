@@ -1,16 +1,3 @@
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-
-  &.shifted-down {
-    margin-top: 30px;
-  }
-
-  &.right {
-    justify-content: flex-start;
-  }
-}
-
 .content {
   margin-bottom: 30px;
 

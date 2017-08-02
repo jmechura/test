@@ -84,6 +84,7 @@ export const routes: Routes = [
       {path: 'reports', component: ReportsComponent},
       {path: 'acquirers', component: AcquirersComponent},
       {path: 'acquirers/:code', component: AcquirerDetailComponent},
+      {path: 'acquirers/create', component: AcquirerDetailComponent},
       {path: 'topups-schedule', component: TopupsScheduleComponent},
       {path: 'topups-schedule/:filename', component: TopupsScheduleDetailComponent},
       {path: 'payment-topups', component: PaymentTopupsComponent},

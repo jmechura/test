@@ -38,7 +38,6 @@ export class AcquirersComponent implements OnDestroy {
   tableRows = [];
   deleteModalVisible = false;
   deletingCode: string;
-  newAcquirerModalVisible = false;
   tabsOptions: SelectItem[] = [];
   visibleTab: SelectItem;
   newAcquirerForm: FormGroup;
@@ -139,20 +138,8 @@ export class AcquirersComponent implements OnDestroy {
     this.deleteModalVisible = true;
   }
 
-  toggleNewAcquirerModal(): void {
-    this.newAcquirerModalVisible = !this.newAcquirerModalVisible;
-  }
-
-  createNewAcquirer(): void {
-    this.api.post(ACQUIRERS_ENDPOINT, this.newAcquirerForm.value).subscribe(
-      () => {
-        this.getAcquirers();
-        this.toggleNewAcquirerModal();
-      },
-      (error) => {
-        console.error('Error occurred while creating new acquirer', error);
-      }
-    );
+  goToCreateAcquirer(): void {
+    this.router.navigateByUrl(`${ACQUIRERS_ROUTE}/create`);
   }
 
   deleteAcquirer(): void {

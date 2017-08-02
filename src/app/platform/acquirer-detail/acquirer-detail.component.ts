@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { UnsubscribeSubject } from '../../shared/utils';
@@ -13,6 +13,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AcquirerKey } from '../../shared/models/acquirer-key.model';
 import { acquirerKeysActions } from '../../shared/reducers/acquirer-key.reducer';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
+import { ApiService } from '../../shared/services/api.service';
+
+enum Mode {
+  View,
+  Edit,
+  Create
+}
+
+const ACQUIRERS_ROUTE = 'platform/acquirers';
+const ACQUIRERS_ENDPOINT = '/networks';
 
 @Component({
   selector: 'mss-acquirer-detail',
@@ -25,23 +35,66 @@ export class AcquirerDetailComponent implements OnDestroy {
   acquirerData: AcquirerModel;
   tabsOptions: SelectItem[] = [];
   visibleTab: SelectItem;
-  editForm: FormGroup;
+  acquirerForm: FormGroup;
   AcquirerSections = AcquirerSections;
-  editFormVisible = false;
   modalVisible = false;
   newKeyForm: FormGroup;
   keyRows: AcquirerKey[] = [];
   countries: SelectItem[] = [];
-
+  Mode = Mode;
+  mode: Mode;
+  deleteModalVisible = false;
+  deletingCode: string;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private language: LanguageService,
+              private api: ApiService,
               private fb: FormBuilder,
               private store: Store<AppStateModel>) {
+
+    this.acquirerForm = this.fb.group({
+      name: ['', Validators.required],
+      code: [{value: '', disabled: true}, Validators.required],
+      acquiringInstitutionCode: ['', Validators.required],
+      hsmKeyName: ['', Validators.required],
+      hsmTransitKeyName: ['', Validators.required],
+      country: [null],
+      region: [''],
+      city: [''],
+      street: [''],
+      zip: [''],
+    });
+
+    this.tabsOptions = [
+      {
+        value: AcquirerSections.BASIC,
+        label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.BASIC]}`)
+      },
+      {
+        value: AcquirerSections.ADDRESS,
+        label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.ADDRESS]}`)
+      },
+    ];
+
+    this.visibleTab = this.tabsOptions[0];
+
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
+
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: Params) => {
-        this.store.dispatch({type: acquirerDetailActions.ACQUIRER_DETAIL_GET_REQUEST, payload: params.code});
+        if (params.code !== 'create') {
+          this.mode = Mode.View;
+          this.tabsOptions.push({
+            value: AcquirerSections.KEYS,
+            label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.KEYS]}`)
+          });
+          this.store.dispatch({type: acquirerDetailActions.ACQUIRER_DETAIL_GET_REQUEST, payload: params.code});
+        } else {
+          this.mode = Mode.Create;
+          this.acquirerForm.reset();
+          this.acquirerForm.get('code').enable();
+        }
       }
     );
 
@@ -51,9 +104,12 @@ export class AcquirerDetailComponent implements OnDestroy {
           console.error(`Error occurred while retrieving acquirer detail information.`, data.error);
         }
         if (data.data !== undefined && !data.loading) {
-          this.acquirerData = data.data;
-          this.editForm.patchValue(this.acquirerData);
-          this.store.dispatch({type: acquirerKeysActions.ACQUIRER_KEYS_GET_REQUEST, payload: this.acquirerData.acquiringInstitutionCode});
+          if (this.mode !== Mode.Create) {
+            this.acquirerData = data.data;
+            this.acquirerForm.patchValue(this.acquirerData);
+            this.store.dispatch(
+              {type: acquirerKeysActions.ACQUIRER_KEYS_GET_REQUEST, payload: this.acquirerData.acquiringInstitutionCode});
+          }
         }
       }
     );
@@ -81,36 +137,6 @@ export class AcquirerDetailComponent implements OnDestroy {
       }
     );
 
-    this.tabsOptions = [
-      {
-        value: AcquirerSections.BASIC,
-        label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.BASIC]}`)
-      },
-      {
-        value: AcquirerSections.ADDRESS,
-        label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.ADDRESS]}`)
-      },
-      {
-        value: AcquirerSections.KEYS,
-        label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.KEYS]}`)
-      }
-    ];
-
-    this.visibleTab = this.tabsOptions[0];
-
-    this.editForm = this.fb.group({
-      name: ['', Validators.required],
-      code: [{value: '', disabled: true}, Validators.required],
-      acquiringInstitutionCode: ['', Validators.required],
-      hsmKeyName: ['', Validators.required],
-      hsmTransitKeyName: ['', Validators.required],
-      country: [null],
-      region: [''],
-      city: [''],
-      street: [''],
-      zip: [''],
-    });
-
     this.newKeyForm = this.fb.group({
       keyName: ['', Validators.required],
       keyValue: ['', Validators.required],
@@ -131,8 +157,9 @@ export class AcquirerDetailComponent implements OnDestroy {
     // need to join two objects because of disabled element in form
     this.store.dispatch({
       type: acquirerDetailActions.ACQUIRER_DETAIL_PUT_REQUEST,
-      payload: Object.assign({}, this.acquirerData, this.editForm.value)
+      payload: Object.assign({}, this.acquirerData, this.acquirerForm.value)
     });
+    this.mode = Mode.View;
   }
 
   setAsLast(id: number): void {
@@ -141,14 +168,39 @@ export class AcquirerDetailComponent implements OnDestroy {
       payload: id
     });
   }
+
   isInvalid(value: string): boolean {
-    const item = this.editForm.get(value);
+    const item = this.acquirerForm.get(value);
     return item.touched && item.invalid;
   }
 
+  cancelCreateNewAcquirer(): void {
+    this.router.navigateByUrl(`${ACQUIRERS_ROUTE}`);
+  }
+
+  createNewAcquirer(): void {
+    this.api.post(ACQUIRERS_ENDPOINT, this.acquirerForm.value).subscribe(
+      () => {
+        this.router.navigateByUrl(`${ACQUIRERS_ROUTE}/${this.acquirerForm.get('code').value}`);
+      },
+      (error) => {
+        console.error('Error occurred while creating new acquirer', error);
+      }
+    );
+  }
+
+  deleteAcquirer(): void {
+    this.api.remove(`${ACQUIRERS_ENDPOINT}/${this.acquirerData['code']}`).subscribe(
+      () => {
+        this.router.navigateByUrl(`${ACQUIRERS_ROUTE}`);
+      },
+      (error) => {
+        console.error(`Error occurred while deleting acquirer.`, error);
+      }
+    );
+  }
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
   }
-
 }
