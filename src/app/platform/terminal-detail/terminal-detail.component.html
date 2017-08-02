@@ -3,59 +3,170 @@
     <div class="mss-title">{{'terminals.detail.detailTitle' | translate}} - {{terminal.id}}</div>
   </div>
 
-  <mss-tabs [items]="detailOptions" (itemChanged)="setSelectedOption($event)"></mss-tabs>
+  <div class="content">
+    <div class="tabs-container">
+      <div class="tabs-row">
+        <mss-tabs class="tabs column"
+                  [items]="tabsOptions"
+                  (itemChanged)="visibleTab = $event">
+        </mss-tabs>
+      </div>
 
-  <div class="employee-detail-content" [formGroup]="terminalForm">
-    <div *ngIf="selectedOption === detailOptions[0]">
-      <div class="category-wrapper">
-        <div class="column" *ngFor="let infoColumn of basicInfo">
-          <div *ngIf="!editing">
-            <div class="mss-input-like-container employee-detail-item" *ngFor="let item of infoColumn">
-              <div class="label">{{item['label']}}</div>
-              <div class="value">{{item['value']}}</div>
+      <form class="terminal-detail-content"
+            [formGroup]="terminalForm"
+            (ngSubmit)="submitEdit()">
+        <div class="tab-content"
+             [ngClass]="{'visible': visibleTab.value === TerminalDetailSections.BASIC}">
+          <div class="column">
+            <!-- NAME -->
+            <div *ngIf="editing">
+              <mss-input [label]="('basic.name' | translate) + '*'"
+                         formControlName="name"
+                         [warn]="isPresent('name')">
+              </mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span>
+              </div>
+            </div>
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.name' | translate }}</div>
+              <div class="value">{{terminal.name}}</div>
+            </div>
+
+            <!-- CODE -->
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.code' | translate }}</div>
+              <div class="value">{{terminal.code}}</div>
+            </div>
+
+            <!-- ID -->
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.id' | translate }}</div>
+              <div class="value">{{terminal.id}}</div>
             </div>
           </div>
-          <div *ngIf="editing">
-            <div class="employee-detail-item" *ngFor="let item of infoColumn">
-              <mss-input [label]="item['label']" [formControlName]="item['formName']" *ngIf="item['options'] == null"></mss-input>
-              <mss-select [label]="item['label']" [formControlName]="item['formName']" *ngIf="item['options']"
-                          [options]="stateSelect"></mss-select>
+
+          <div class="column">
+            <!-- ORG UNIT CODE -->
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'dictionary.orgUnitCode' | translate }}</div>
+              <div class="value">{{terminal.orgUnitId}}</div>
+            </div>
+
+            <!-- MERCHANT ID -->
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'terminals.detail.merchantId' | translate }}</div>
+              <div class="value">{{terminal.merchantId}}</div>
+            </div>
+
+            <!-- MERCHANT CODE -->
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'dictionary.merchantCode' | translate }}</div>
+              <div class="value">{{terminal.merchantCode}}</div>
+            </div>
+
+            <!-- STATE -->
+            <mss-select *ngIf="editing"
+                        class="tab-item-not-required"
+                        [label]="'dictionary.state' | translate"
+                        formControlName="state"
+                        [options]="stateOptions">
+            </mss-select>
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'dictionary.state' | translate }}</div>
+              <div class="value">{{terminal.state}}</div>
             </div>
           </div>
         </div>
-      </div>
 
-    </div>
+        <div class="tab-content"
+             [ngClass]="{'visible': visibleTab.value === TerminalDetailSections.ADDRESS}">
+          <div class="column">
+            <!-- STREET -->
+            <mss-input *ngIf="editing"
+                       class="tab-item-not-required"
+                       [label]="'basic.street' | translate"
+                       formControlName="street"
+                       [warn]="isPresent('street')">
+            </mss-input>
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.street' | translate }}</div>
+              <div class="value">{{terminal.street}}</div>
+            </div>
 
-    <div *ngIf="selectedOption === detailOptions[1]">
-      <div class="category-wrapper">
-        <div class="column" *ngFor="let infoColumn of addressInfo">
-          <div *ngIf="!editing">
-            <div class="mss-input-like-container employee-detail-item" *ngFor="let item of infoColumn">
-              <div class="label">{{item['label']}}</div>
-              <div class="value">{{item['value']}}</div>
+            <!-- CITY -->
+            <mss-input *ngIf="editing"
+                       class="tab-item-not-required"
+                       [label]="'basic.city' | translate"
+                       formControlName="city"
+                       [warn]="isPresent('city')">
+            </mss-input>
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.city' | translate }}</div>
+              <div class="value">{{terminal.city}}</div>
+            </div>
+
+            <!-- ZIP -->
+            <mss-input *ngIf="editing"
+                       class="tab-item-not-required"
+                       [label]="'basic.zip' | translate"
+                       formControlName="zip"
+                       [warn]="isPresent('zip')">
+            </mss-input>
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.zip' | translate }}</div>
+              <div class="value">{{terminal.zip}}</div>
             </div>
           </div>
 
-          <div *ngIf="editing">
-            <div class="employee-detail-item" *ngFor="let item of infoColumn">
-              <mss-input [label]="item['label']" [formControlName]="item['formName']" *ngIf="item['options'] == null"></mss-input>
-              <mss-select [label]="item['label']" [formControlName]="item['formName']" *ngIf="item['options']"
-                          [options]="countries"></mss-select>
+          <div class="column">
+            <!-- REGION -->
+            <mss-input *ngIf="editing"
+                       class="tab-item-not-required"
+                       [label]="'basic.region' | translate"
+                       formControlName="region"
+                       [warn]="isPresent('region')">
+            </mss-input>
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.region' | translate }}</div>
+              <div class="value">{{terminal.region}}</div>
+            </div>
+
+            <!-- COUNTRY -->
+            <mss-select *ngIf="editing"
+                        class="tab-item-not-required"
+                        [label]="'basic.country' | translate"
+                        formControlName="country"
+                        [options]="countries">
+            </mss-select>
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.country' | translate }}</div>
+              <div class="value">{{terminal.country}}</div>
             </div>
           </div>
-
         </div>
-      </div>
-    </div>
 
-    <div *mssRoleIf="'users.edit'">
-      <div class="edit-buttons-container" *ngIf="selectedOption === detailOptions[0] || selectedOption === detailOptions[1]">
-        <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="mss-action-button"></mss-button>
-        <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()"
-                    class="mss-action-button right-margin"></mss-button>
-        <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()" class="mss-action-button"></mss-button>
-      </div>
+        <div *mssRoleIf="'users.edit'">
+          <div class="mss-buttons-row">
+            <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="mss-action-button"></mss-button>
+            <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()"
+                        class="mss-action-button right-margin"></mss-button>
+            <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()" class="mss-action-button"></mss-button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

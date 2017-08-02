@@ -75,7 +75,7 @@ export class TerminalComponent implements OnDestroy {
       orgUnitId: [{value: '', disabled: true}, Validators.required],
       city: '',
       coefficient: null,
-      merchantId: {value: '', disabled: true},
+      merchantId: [{value: '', disabled: true}, Validators.required],
       country: '',
       note: '',
       region: '',
@@ -332,5 +332,14 @@ export class TerminalComponent implements OnDestroy {
 
   merchantSelect(merchantCode: string): void {
     this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: merchantCode});
+  }
+
+  isPresent(value: string): boolean {
+    const item = this.newTerminalForm.get(value);
+    if (value === 'networkCode' || value === 'merchantId' || value === 'orgUnitId') {  // Selects
+      return item.touched && (item.value === null || item.value === '');
+    } else {
+      return item.touched && item.errors != null && item.errors.required;
+    }
   }
 }

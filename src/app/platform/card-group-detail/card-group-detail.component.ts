@@ -18,6 +18,7 @@ import { addressTypeActions } from '../../shared/reducers/address-type.reducer';
 import { addressDetailActions } from '../../shared/reducers/address-detail.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { RoleService } from 'app/shared/services/role.service';
+import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 
 interface TabOptions {
   label: string;
@@ -50,6 +51,7 @@ export class CardGroupDetailComponent implements OnDestroy {
   creatingAddress = true;
   editAddress = false;
   limitsAllowed = false;
+  countries: SelectItem[] = [];
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
@@ -139,18 +141,19 @@ export class CardGroupDetailComponent implements OnDestroy {
         limitType: [''],
         limit: [0],
         state: ['ENABLED'],
-        ico: [''],
-        dic: [''],
-        email: ['', optionalEmailValidator],
-        phone: [''],
+        ico: ['', Validators.required],
+        dic: ['', Validators.required],
+        email: ['', [optionalEmailValidator, Validators.required]],
         contact: [''],
         contact2: [''],
         bankAccount: [''],
         taxType: ['UNKNOWN'],
         taxValue: [0],
-        street: [''],
-        city: [''],
-        zip: ['']
+        phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        zip: ['', Validators.required],
+        country: ['', Validators.required],
       }
     );
 
@@ -196,6 +199,18 @@ export class CardGroupDetailComponent implements OnDestroy {
     ];
     this.visibleTab = this.tabsOptions[0];
 
+    this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
+    this.store.select('countryCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting country codes from api.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.countries = data.data.map(country => ({value: country}));
+        }
+      }
+    );
   }
 
   toggleCardGroup(): void {
@@ -220,6 +235,26 @@ export class CardGroupDetailComponent implements OnDestroy {
     );
   }
 
+  isPresent(value: string): boolean {
+    const item = this.editForm.get(value);
+    return item.touched && item.errors != null && item.errors.required;
+  }
+
+  isValidEmail(): boolean {
+    const item = this.editForm.get('email');
+    return item.touched && item.errors && item.errors.email;
+  }
+
+  isValidPhone(): boolean {
+    const item = this.editForm.get('phone');
+    return item.touched && item.errors && item.errors.pattern;
+  }
+
+  isPresentCountry(): boolean {
+    const item = this.editForm.get('country');
+    return (item.value === null || item.value === '') && item.touched;
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
   }
@@ -242,9 +277,11 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   changeAddressType(value: string): void {
     this.selectedAddressType = value;
-    this.store.dispatch({type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
-      resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: value
-    }});
+    this.store.dispatch({
+      type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
+        resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: value
+      }
+    });
   }
 
   startAddressEditing(): void {
@@ -267,9 +304,11 @@ export class CardGroupDetailComponent implements OnDestroy {
       }).subscribe(
         () => {
           this.addressForm.reset();
-          this.store.dispatch({type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
-            resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: this.selectedAddressType
-          }});
+          this.store.dispatch({
+            type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
+              resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: this.selectedAddressType
+            }
+          });
         },
         error => {
           console.error('Create address fail', error);
@@ -284,9 +323,11 @@ export class CardGroupDetailComponent implements OnDestroy {
       }).subscribe(
         () => {
           this.addressForm.reset();
-          this.store.dispatch({type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
-            resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: this.selectedAddressType
-          }});
+          this.store.dispatch({
+            type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
+              resource: 'CARD_GROUP', resourceId: this.cardGroupDetail.id, type: this.selectedAddressType
+            }
+          });
         },
         error => {
           console.error('Create address fail', error);

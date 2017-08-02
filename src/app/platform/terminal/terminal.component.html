@@ -83,40 +83,85 @@
 </div>
 
 <mss-modal-window [(visible)]="modalShowing" *mssRoleIf="'terminals.create'">
-  <form [formGroup]="newTerminalForm" (ngSubmit)="addTerminal()">
-    <div class="terminal-modal-container">
-      <div class="close-wrapper" (click)="switchModal()">
-        <div class="close">+</div>
-      </div>
-      <h3 class="mss-modal-title">{{'terminals.addTerminal' | translate}}</h3>
-      <div class="new-terminal-inputs">
-        <div class="modal-column">
-          <mss-input class="modal-input" [label]="'basic.name' | translate" formControlName="name"></mss-input>
-          <mss-select class="modal-input" [label]="'basic.country' | translate" [options]="countries" formControlName="country"></mss-select>
-          <mss-input class="modal-input" [label]="'basic.street' | translate" formControlName="street"></mss-input>
-          <mss-input class="modal-input" [label]="'basic.city' | translate" formControlName="city"></mss-input>
-          <mss-input class="modal-input" [label]="'basic.zip' | translate" formControlName="zip"></mss-input>
-          <mss-input class="modal-input" [label]="'basic.region' | translate" formControlName="region"></mss-input>
+  <h3 class="mss-modal-title">{{'terminals.addTerminal' | translate}}</h3>
+  <form [formGroup]="newTerminalForm" (ngSubmit)="addTerminal()" class="new-terminal-form">
+    <div class="new-terminal-inputs">
+      <div class="new-terminal-input-side">
+        <mss-input [label]="('basic.name' | translate) + '*'"
+                   formControlName="name"
+                   [warn]="isPresent('name')">
+        </mss-input>
+        <div class="mss-validation-label">
+          <span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span>
         </div>
-        <div class="modal-column">
-          <mss-input class="modal-input" [label]="'basic.code' | translate" formControlName="code"></mss-input>
-          <mss-select class="modal-input" [label]="'dictionary.networkCode' | translate" [options]="networkCodes"
-                      formControlName="networkCode" *mssRoleIf="'filters.networkCodeSelect'"></mss-select>
-          <mss-select class="modal-input" [label]="'dictionary.merchantCode' | translate" [options]="merchantCodes"
-                      formControlName="merchantId" *mssRoleIf="'filters.merchantCodeSelect'"></mss-select>
-          <mss-select class="modal-input" [label]="'dictionary.orgUnitCode' | translate" [options]="orgUnitCodes"
-                      formControlName="orgUnitId" *mssRoleIf="'filters.orgUnitCodeSelect'"></mss-select>
-          <mss-input class="modal-input" [type]="'number'" [label]="'basic.coefficient' | translate"
-                     formControlName="coefficient"></mss-input>
-          <mss-input class="modal-input" [label]="'basic.note' | translate" formControlName="note"></mss-input>
-          <div class="mss-buttons-row">
-            <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
-                        (click)="switchModal()"></mss-button>
-            <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" type="submit"
-                        [disabled]="newFormInvalid"></mss-button>
-          </div>
-        </div>
+        <mss-select [label]="'basic.country' | translate"
+                    [options]="countries"
+                    formControlName="country">
+        </mss-select>
+        <div class="mss-validation-label"></div>
+        <mss-input [label]="'basic.street' | translate"
+                   formControlName="street">
+        </mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input [label]="'basic.city' | translate"
+                   formControlName="city">
+        </mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input [label]="'basic.zip' | translate"
+                   formControlName="zip">
+        </mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input [label]="'basic.region' | translate"
+                   formControlName="region">
+        </mss-input>
       </div>
+      <div class="new-terminal-input-side">
+        <mss-input [label]="('basic.code' | translate) + '*'"
+                   formControlName="code"
+                   [warn]="isPresent('code')">
+        </mss-input>
+        <div class="mss-validation-label">
+          <span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span>
+        </div>
+        <mss-select [label]="('dictionary.networkCode' | translate) + '*'"
+                    [options]="networkCodes"
+                    formControlName="networkCode"
+                    *mssRoleIf="'filters.networkCodeSelect'">
+        </mss-select>
+        <div class="mss-validation-label">
+          <span *ngIf="isPresent('networkCode')">{{'basic.required.networkCode' | translate}}</span>
+        </div>
+        <mss-select [label]="('dictionary.merchantCode' | translate) + '*'"
+                    [options]="merchantCodes"
+                    formControlName="merchantId"
+                    *mssRoleIf="'filters.merchantCodeSelect'">
+        </mss-select>
+        <div class="mss-validation-label">
+          <span *ngIf="isPresent('merchantId')">{{'basic.required.merchantId' | translate}}</span>
+        </div>
+        <mss-select [label]="('dictionary.orgUnitCode' | translate) + '*'"
+                    [options]="orgUnitCodes"
+                    formControlName="orgUnitId"
+                    *mssRoleIf="'filters.orgUnitCodeSelect'">
+        </mss-select>
+        <div class="mss-validation-label">
+          <span *ngIf="isPresent('orgUnitId')">{{'basic.required.orgUnitId' | translate}}</span>
+        </div>
+        <mss-input [type]="'number'"
+                   [label]="'basic.coefficient' | translate"
+                   formControlName="coefficient">
+        </mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input [label]="'basic.note' | translate"
+                   formControlName="note">
+        </mss-input>
+      </div>
+    </div>
+    <div class="mss-buttons-row">
+      <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
+                  (click)="switchModal()"></mss-button>
+      <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" type="submit"
+                  [disabled]="newFormInvalid"></mss-button>
     </div>
   </form>
 </mss-modal-window>

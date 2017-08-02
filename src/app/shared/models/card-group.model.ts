@@ -22,6 +22,7 @@ export interface CardGroupModel {
   taxType: string;
   taxValue: number;
   zip: string;
+  country: string;
 }
 
 export interface CardGroupSearchModel {

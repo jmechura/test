@@ -49,6 +49,9 @@
     "required": {
       "code": "Kod je povinný údaj.",
       "name": "Jméno je povinný údaj.",
+      "id": "ID je povinný údaj.",
+      "orgUnitCode": "Org unit code je povinný údaj.",
+      "email": "Email je povinný údaj.",
       "badEmail": "Zle zadaný email.",
       "ico": "Ico je povinny udaj.",
       "dic": "Dic je povinny udaj.",
@@ -66,7 +69,9 @@
       "login": "Login je povinný údaj.",
       "passwordsNotEqual": "Hesla se nezhodují",
       "addressName": "Jméno adresy je povinný údaj.",
-      "issuerCode": "Issuer code je povinný údaj."
+      "issuerCode": "Issuer code je povinný údaj.",
+      "merchantId": "Merchant ID je povinný údaj.",
+      "orgUnitId": "Org unit code je povinný údaj."
     }
   },
   "dictionary": {

@@ -10,13 +10,7 @@ import { StateModel } from '../../shared/models/state.model';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { terminalDetailActions } from '../../shared/reducers/terminal-detail.reducer';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
-
-interface InfoModel {
-  label: string;
-  value: any;
-  formName?: string;
-  options?: SelectItem[];
-}
+import { TerminalDetailSections } from 'app/shared/enums/terminal-detail-sections.enum';
 
 @Component({
   selector: 'mss-terminal-detail',
@@ -27,16 +21,11 @@ export class TerminalDetailComponent implements OnDestroy {
   private unsubscribe$ = new UnsubscribeSubject();
   terminal: TerminalModel;
 
-  detailOptions: SelectItem[] = [
-    {value: 'Basic', label: this.langService.translate('cardGroups.sections.BASIC')},
-    {value: 'Address', label: this.langService.translate('cardGroups.sections.ADDRESS')},
-  ];
-  selectedOption = this.detailOptions[0];
+  tabsOptions: SelectItem[] = [];
+  TerminalDetailSections = TerminalDetailSections;
+  visibleTab: SelectItem;
 
-  basicInfo: InfoModel[][];
-  addressInfo: InfoModel[][];
-
-  stateSelect: SelectItem[] = [
+  stateOptions: SelectItem[] = [
     {value: 'ENABLED'},
     {value: 'DISABLED'}
   ];
@@ -45,10 +34,6 @@ export class TerminalDetailComponent implements OnDestroy {
   editing = false;
 
   terminalForm: FormGroup;
-
-  setSelectedOption(newIndex: SelectItem): void {
-    this.selectedOption = newIndex;
-  }
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppStateModel>,
@@ -72,6 +57,18 @@ export class TerminalDetailComponent implements OnDestroy {
       }
     );
 
+    this.tabsOptions = [
+      {
+        label: this.langService.translate('cardGroups.sections.BASIC'),
+        value: this.TerminalDetailSections.BASIC
+      },
+      {
+        label: this.langService.translate('cardGroups.sections.ADDRESS'),
+        value: this.TerminalDetailSections.ADDRESS
+      },
+    ];
+    this.visibleTab = this.tabsOptions[0];
+
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
 
     this.route.params.subscribe(
@@ -89,80 +86,6 @@ export class TerminalDetailComponent implements OnDestroy {
         if (data != null && !loading) {
           this.terminal = data;
           this.terminalForm.patchValue(this.terminal);
-          this.basicInfo = [
-            [
-              {
-                label: this.langService.translate('basic.name'),
-                value: this.terminal.name,
-                formName: 'name',
-              },
-              {
-                label: this.langService.translate('basic.code'),
-                value: this.terminal.code,
-                formName: 'code',
-              },
-              {
-                label: this.langService.translate('basic.id'),
-                value: this.terminal.id,
-                formName: 'id',
-              },
-            ],
-            [
-              {
-                label: this.langService.translate('dictionary.orgUnitCode'),
-                value: this.terminal.orgUnitId,
-                formName: 'orgUnitId',
-              },
-              {
-                label: this.langService.translate('terminals.detail.merchantId'),
-                value: this.terminal.merchantId,
-                formName: 'merchantId',
-              },
-              {
-                label: this.langService.translate('dictionary.merchantCode'),
-                value: this.terminal.merchantCode,
-                formName: 'merchantCode',
-              },
-              {
-                label: this.langService.translate('dictionary.state'),
-                value: this.terminal.state,
-                formName: 'state',
-                options: this.stateSelect
-              },
-            ],
-          ];
-          this.addressInfo = [
-            [
-              {
-                label: this.langService.translate('basic.street'),
-                value: this.terminal.street,
-                formName: 'street',
-              },
-              {
-                label: this.langService.translate('basic.city'),
-                value: this.terminal.city,
-                formName: 'city',
-              },
-              {
-                label: this.langService.translate('basic.zip'),
-                value: this.terminal.zip,
-                formName: 'zip',
-              },
-            ],
-            [
-              {
-                label: this.langService.translate('basic.region'),
-                value: this.terminal.region,
-                formName: 'region',
-              },
-              {
-                label: this.langService.translate('basic.country'),
-                value: this.terminal.country,
-                formName: 'country',
-                options: this.countries
-              },
-            ]
-          ];
         }
       }
     );
@@ -182,6 +105,11 @@ export class TerminalDetailComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
+  }
+
+  isPresent(value: string): boolean {
+    const item = this.terminalForm.get(value);
+    return item.touched && item.errors != null && item.errors.required;
   }
 
   startEditing(): void {

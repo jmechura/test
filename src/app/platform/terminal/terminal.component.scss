@@ -28,71 +28,18 @@ $form-item-width: 400px;
   }
 }
 
-.terminal-modal-container {
-  width: 820px;
-  padding: 20px 25px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  .close-wrapper {
-    position: absolute;
-    right: -10px;
-    top: -15px;
-    cursor: pointer;
-    width: 25px;
-    height: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .close {
-    font-size: 26px;
-    font-weight: 300;
-    transform: rotate(45deg);
-    color: $primary-text-color;
-  }
-}
-
-.click-able {
-  cursor: pointer;
-  user-select: none;
-}
-
-.new-terminal-inputs {
-  display: flex;
-}
-
-.modal-column {
+.new-terminal-form {
   display: flex;
   flex-direction: column;
 
-  &:first-child {
-    margin-right: 20px;
-  }
-}
-
-.modal-input:not(:last-child) {
-  margin-bottom: 20px;
-}
-
-.detail-row-container {
-  display: flex;
-  justify-content: space-around;
-  padding-top: 20px;
-
-  .detail-column {
+  .new-terminal-inputs {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+
+    .new-terminal-input-side {
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+    }
   }
-}
-
-.edit-button {
-  width: 150px;
-  align-self: flex-end;
-}
-
-.detail-shift {
-  margin-bottom: 20px;
 }
