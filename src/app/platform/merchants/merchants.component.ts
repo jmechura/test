@@ -33,7 +33,6 @@ export class MerchantsComponent implements OnDestroy {
   private unsubscribe$ = new UnsubscribeSubject();
 
   newMerchant: MerchantModel = fillMerchant();
-  newMerchantModalShowing = false;
   newMerchantForm: FormGroup;
 
   networkCodes: SelectItem[] = [];
@@ -227,8 +226,8 @@ export class MerchantsComponent implements OnDestroy {
     this.unsubscribe$.fire();
   }
 
-  toggleNewMerchantModal(): void {
-    this.newMerchantModalShowing = !this.newMerchantModalShowing;
+  redirectToMerchantCreation(): void {
+    this.router.navigateByUrl('/platform/merchants/create');
   }
 
   addMerchant(): void {
@@ -242,7 +241,6 @@ export class MerchantsComponent implements OnDestroy {
       }
     }
     this.newMerchant.id = `${this.newMerchant.networkCode}:${this.newMerchant.code}`;
-
     this.api.post('/merchants', this.newMerchant).subscribe(
       () => {
         this.getMerchantList();
@@ -251,7 +249,6 @@ export class MerchantsComponent implements OnDestroy {
         console.error('Create merchant fail', error);
       }
     );
-    this.toggleNewMerchantModal();
   }
 
   changeLimit(limit: { offset: number }): void {

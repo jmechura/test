@@ -4,7 +4,7 @@
   <div class="mss-header-row">
     <span class="mss-title">{{'merchants.title' | translate}}</span>
     <mss-button *mssRoleIf="'merchants.create'" [label]="'merchants.addMerchant' | translate"
-                (click)="toggleNewMerchantModal()" class="mss-action-button">
+                (click)="redirectToMerchantCreation()" class="mss-action-button">
     </mss-button>
   </div>
 
@@ -45,7 +45,6 @@
   <div class="mss-action-button">
     <mss-button [label]="'basic.search' | translate" (click)="getMerchantList()"></mss-button>
   </div>
-
   <!--merchants data table-->
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [rows]="rows" [columnMode]="'force'"
@@ -90,63 +89,4 @@
       </ngx-datatable-footer>
     </ngx-datatable>
   </div>
-
 </div>
-
-
-<!--Add new merchant modal-->
-<mss-modal-window [(visible)]="newMerchantModalShowing" *mssRoleIf="'merchants.create'">
-  <h3 class="mss-modal-title">{{'merchants.addMerchant' | translate}}</h3>
-  <form [formGroup]="newMerchantForm" class="new-merchant-form">
-    <div class="new-merchant-inputs">
-      <div class="new-merchant-input-side">
-        <mss-input formControlName="name" [(value)]="newMerchant.name" [label]="('basic.name' | translate) + '*'"
-                   [warn]="isPresent('name')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
-        <mss-input formControlName="code" [(value)]="newMerchant.code" [label]="('basic.code' | translate) + '*'"
-                   [warn]="isPresent('code')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
-        <mss-input formControlName="bankAccount" [(value)]="newMerchant.bankAccount"
-                   [label]="'dictionary.bankAccount' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="ico" [(value)]="newMerchant.ico" [label]="('basic.ico' | translate) + '*'"
-                   [warn]="isPresent('ico')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('ico')">{{'basic.required.ico' | translate}}</span></div>
-        <mss-input formControlName="dic" [(value)]="newMerchant.dic" [label]="('basic.dic' | translate) + '*'"
-                   [warn]="isPresent('dic')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('dic')">{{'basic.required.dic' | translate}}</span></div>
-        <mss-input formControlName="note" [(value)]="newMerchant.note" [label]="'basic.note' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-select *mssRoleIf="'filters.networkCodeSelect'" [label]="('dictionary.networkCode' | translate) + '*'"
-                    [options]="networkCodes" formControlName="networkCode"></mss-select>
-        <div class="mss-validation-label"><span *ngIf="isPresentNetworkCode()">{{'basic.required.networkCode' | translate}}</span></div>
-        <mss-select [label]="'dictionary.state' | translate" [options]="stateOptions" formControlName="state"></mss-select>
-      </div>
-      <div class="new-merchant-input-side">
-        <mss-select [label]="('basic.country' | translate) + '*'" [options]="countries" formControlName="country"></mss-select>
-        <div class="mss-validation-label"><span *ngIf="isPresentCountry()">{{'basic.required.country' | translate}}</span></div>
-        <mss-input formControlName="region" [(value)]="newMerchant.region" [label]="'basic.region' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="city" [(value)]="newMerchant.city" [label]="('basic.city' | translate) + '*'"
-                   [warn]="isPresent('city')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('city')">{{'basic.required.city' | translate}}</span></div>
-        <mss-input formControlName="zip" [(value)]="newMerchant.zip" [label]="('basic.zip' | translate) + '*'"
-                   [warn]="isPresent('zip')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('zip')">{{'basic.required.zip' | translate}}</span></div>
-        <mss-input formControlName="street" [(value)]="newMerchant.street" [label]="('basic.street' | translate) + '*'"
-                   [warn]="isPresent('street')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('street')">{{'basic.required.street' | translate}}</span></div>
-        <mss-input formControlName="email" [(value)]="newMerchant.email" [label]="'basic.email' | translate"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isValidEmail('email')">{{'basic.required.badEmail' | translate}}</span></div>
-        <mss-input formControlName="phone" [(value)]="newMerchant.phone" [label]="'basic.phone' | translate"></mss-input>
-        <div class="mss-validation-label"></div>
-      </div>
-    </div>
-    <div class="mss-buttons-row">
-      <mss-button [label]="'basic.dismiss' | translate" class="mss-action-button right-margin" type="button"
-                  (click)="toggleNewMerchantModal()"></mss-button>
-      <mss-button [label]="'basic.add' | translate" class="mss-action-button" (click)="addMerchant()" type="submit"
-                  [disabled]="newMerchantForm.invalid"></mss-button>
-    </div>
-  </form>
-</mss-modal-window>

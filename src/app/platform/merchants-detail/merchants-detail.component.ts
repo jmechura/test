@@ -4,7 +4,7 @@ import { UnsubscribeSubject } from '../../shared/utils';
 import { MerchantModel } from '../../shared/models/merchant.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { LanguageService } from '../../shared/services/language.service';
 import { merchantDetailActions } from '../../shared/reducers/merchant-detail.reducer';
@@ -14,6 +14,8 @@ import { CodeModel } from '../../shared/models/code.model';
 import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
 import { RoleService } from '../../shared/services/role.service';
 import { MerchantDetailSections } from 'app/shared/enums/merchant-detail-sections.enum';
+import { ApiService } from '../../shared/services/api.service';
+import { optionalEmailValidator } from '../../shared/validators/optional-email.validator';
 
 @Component({
   selector: 'mss-merchants-detail',
@@ -23,6 +25,7 @@ import { MerchantDetailSections } from 'app/shared/enums/merchant-detail-section
 export class MerchantsDetailComponent implements OnDestroy {
   merchant: MerchantModel;
   editing = false;
+  adding = false;
   merchantForm: FormGroup;
   stateOptions: SelectItem[] = [
     {value: 'ENABLED'},
@@ -39,17 +42,19 @@ export class MerchantsDetailComponent implements OnDestroy {
               private store: Store<AppStateModel>,
               private langService: LanguageService,
               private fb: FormBuilder,
-              private roles: RoleService) {
+              private roles: RoleService,
+              private api: ApiService,
+              private router: Router) {
 
     this.merchantForm = this.fb.group(
       {
         name: ['', Validators.required],
         code: ['', Validators.required],
-        id: ['', Validators.required],
+        id: '',
         state: '',
         ico: ['', Validators.required],
         dic: ['', Validators.required],
-        email: ['', control => control.value === '' ? null : Validators.email(control)],
+        email: ['', optionalEmailValidator],
         phone: '',
         bankAccount: '',
         street: ['', Validators.required],
@@ -82,7 +87,13 @@ export class MerchantsDetailComponent implements OnDestroy {
 
     this.route.params.subscribe(
       (params: { id: string }) => {
-        this.store.dispatch({type: merchantDetailActions.MERCHANT_DETAIL_GET_REQUEST, payload: params.id});
+        if (params.id === 'create') {
+          this.adding = true;
+          this.editing = true;
+          this.merchantForm.get('networkCode').enable();
+        } else {
+          this.store.dispatch({type: merchantDetailActions.MERCHANT_DETAIL_GET_REQUEST, payload: params.id});
+        }
       }
     );
 
@@ -94,7 +105,9 @@ export class MerchantsDetailComponent implements OnDestroy {
         }
         if (data != null && !loading) {
           this.merchant = data;
-          this.merchantForm.patchValue(this.merchant);
+          if (!this.adding) {
+            this.merchantForm.patchValue(this.merchant);
+          }
         }
       }
     );
@@ -165,13 +178,35 @@ export class MerchantsDetailComponent implements OnDestroy {
   }
 
   submitEdit(): void {
-    this.editing = false;
-    const editedMerchant = {...this.merchant, ...this.merchantForm.value};
-    this.store.dispatch({type: merchantDetailActions.MERCHANT_DETAIL_POST_REQUEST, payload: editedMerchant});
+    if (this.adding) {
+      const merch = {...this.merchantForm.value};
+      for (const key in merch) {
+        if (merch[key] === '') {
+          delete merch[key];
+        }
+      }
+      merch.id = `${merch.networkCode}:${merch.code}`;
+      this.api.post('/merchants', merch).subscribe(
+        (merchant: MerchantModel) => {
+          this.router.navigateByUrl(`platform/merchants/${merchant.id}`);
+        },
+        error => {
+          console.error('Create merchant fail', error);
+        }
+      );
+    } else {
+      this.editing = false;
+      const editedMerchant = {...this.merchant, ...this.merchantForm.value};
+      this.store.dispatch({type: merchantDetailActions.MERCHANT_DETAIL_POST_REQUEST, payload: editedMerchant});
+    }
   }
 
   cancelEditing(): void {
-    this.editing = false;
-    this.merchantForm.patchValue(this.merchant);
+    if (this.adding) {
+      this.router.navigateByUrl('platform/merchants');
+    } else {
+      this.editing = false;
+      this.merchantForm.patchValue(this.merchant);
+    }
   }
 }
