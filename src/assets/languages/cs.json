@@ -901,5 +901,38 @@
     "reports": "Reporty",
     "payment-topups": "Přehled plateb",
     "file-upload": "File Upload"
+  },
+  "toastr": {
+    "error": {
+      "enterLogin": "Zadejte užívatelské jméno.",
+      "enterPassword": "Zadejte heslo.",
+      "loginFailed": "Přihlášení se nedzařilo.",
+      "updateAcquirerDetail": "Could not update acquirer.",
+      "addAcquirerKey": "Could not add the acquirer key.",
+      "setKeyAsLast": "Could not set the key as last.",
+      "updateCampaign": "Could not update campaign",
+      "updateCardGroupDetail": "Could not update card group.",
+      "createConfiguration": "Could not create configuration.",
+      "deleteConfiguration": "Could not delete configuration.",
+      "editImport": "Could not edit import.",
+      "postMerchant": "Could not add merchant.",
+      "updateProfile": "Could not update profile.",
+      "updateReportDetail": "Could not update report.",
+      "deleteTerminal": "Could not delete terminal"
+    },
+    "success": {
+      "updateAcquirerDetail": "Acquirer updated.",
+      "addAcquirerKey": "Acquirer key added.",
+      "setKeyAsLast": "The key was set as last",
+      "updateCampaign": "Campaign updated.",
+      "updateCardGroupDetail": "Card Group updated.",
+      "createConfiguration": "Configuration created.",
+      "deleteConfiguration": "Configuration deleted.",
+      "editImport": "Import edited.",
+      "postMerchant": "Merchant added.",
+      "updateProfile": "Profile updated.",
+      "updateReportDetail": "Report updated.",
+      "deleteTerminal": "Terminal deleted"
+    }
   }
 }

@@ -4,12 +4,17 @@ import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { ApiService } from '../services/api.service';
 import { terminalDetailActions } from '../reducers/terminal-detail.reducer';
+import { LanguageService } from '../services/language.service';
+import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const TERMINAL_DETAIL_ENDPOINT = '/terminals';
 
 @Injectable()
 export class TerminalDetailEffect {
-  constructor(private api: ApiService, private actions$: Actions) {
+  constructor(private api: ApiService,
+              private actions$: Actions,
+              private language: LanguageService,
+              private toastr: ExtendedToastrService) {
   }
 
   @Effect()
@@ -22,7 +27,7 @@ export class TerminalDetailEffect {
       );
   }
 
-  @Effect()
+  @Effect() // TODO ?
   postTerminal(): Observable<Action> {
     return this.actions$
       .ofType(terminalDetailActions.TERMINAL_DETAIL_POST_REQUEST)

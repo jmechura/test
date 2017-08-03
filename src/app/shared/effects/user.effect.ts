@@ -4,12 +4,17 @@ import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { ApiService } from '../services/api.service';
 import { userActions } from '../reducers/user.reducer';
+import { LanguageService } from '../services/language.service';
+import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const USER_ENDPOINT = '/users';
 
 @Injectable()
 export class UserEffect {
-  constructor(private api: ApiService, private actions$: Actions) {
+  constructor(private api: ApiService,
+              private actions$: Actions,
+              private language: LanguageService,
+              private toastr: ExtendedToastrService) {
   }
 
   @Effect()
@@ -21,7 +26,7 @@ export class UserEffect {
         .catch((res) => Observable.of({type: userActions.USER_GET_FAIL, payload: res}))
       );
   }
-
+  // TODO ? PUT? -> used when saving user edit, is it used elsewhere???
   @Effect()
   puttUser(): Observable<Action> {
     return this.actions$

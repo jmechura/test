@@ -36,7 +36,7 @@
 <mss-modal-window *ngIf="card" [(visible)]="cardStatusChangeVisible">
   <div class="card-modal-title">{{'cards.userCard.warnModal.title' | translate}}</div>
   <div *ngIf="card.card.state === 'ENABLED'" class="card-modal-text">{{'cards.userCard.warnModal.deactivate' | translate}}</div>
-  <div *ngIf="card.card.state !== 'ENABLED'" class="card-modal-text">{{'cards.userCard.cardState.warnModal.activate' | translate}}
+  <div *ngIf="card.card.state !== 'ENABLED'" class="card-modal-text">{{'cards.userCard.warnModal.activate' | translate}}
   </div>
   <div class="confirmation-buttons">
     <mss-button class="confirm-button" [label]="'basic.yes' | translate" (click)="toggleCardStatus()"></mss-button>

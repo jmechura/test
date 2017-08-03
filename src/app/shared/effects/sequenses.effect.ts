@@ -20,7 +20,7 @@ export class SequencesEffect {
         .catch((res) => Observable.of({type: sequencesActions.SEQUENCES_GET_FAIL, payload: res}))
       );
   }
-
+  // TODO ? IS NEEDED?
   @Effect() postSequences(): Observable<Action> {
     return this.actions$
       .ofType(sequencesActions.SEQUENCES_POST_REQUEST)
@@ -29,7 +29,7 @@ export class SequencesEffect {
         .catch(() => Observable.of({type: sequencesActions.SEQUENCES_POST_FAIL}))
       );
   }
-
+  // TODO ? IS NEEDED? +see routes, needed?
   @Effect() putSequences(): Observable<Action> {
     return this.actions$
       .ofType(sequencesActions.SEQUENCES_PUT_REQUEST)

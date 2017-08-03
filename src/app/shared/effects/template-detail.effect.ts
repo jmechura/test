@@ -21,7 +21,7 @@ export class TemplateDetailEffect {
         .catch((res) => Observable.of({type: templateDetailActions.TEMPLATE_DETAIL_GET_FAIL, payload: res}))
       );
   }
-
+  // TODO ? IS NEEDED?
   @Effect()
   updateTemplate(): Observable<Action> {
     return this.actions$

@@ -4,12 +4,17 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { acquirerKeysActions } from '../reducers/acquirer-key.reducer';
+import { LanguageService } from '../services/language.service';
+import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const ACQUIRER_KEYS_ENDPOINT = '/networks/keys';
 
 @Injectable()
 export class AcquirerKeysEffect {
-  constructor(private api: ApiService, private actions$: Actions) {
+  constructor(private api: ApiService,
+              private actions$: Actions,
+              private toastr: ExtendedToastrService,
+              private language: LanguageService) {
   }
 
   @Effect()
@@ -27,8 +32,14 @@ export class AcquirerKeysEffect {
     return this.actions$
       .ofType(acquirerKeysActions.ACQUIRER_KEYS_POST_REQUEST)
       .switchMap(action => this.api.post(ACQUIRER_KEYS_ENDPOINT, action.payload)
-        .map(res => ({type: acquirerKeysActions.ACQUIRER_KEYS_POST, payload: res}))
-        .catch((res) => Observable.of({type: acquirerKeysActions.ACQUIRER_KEYS_POST_FAIL, payload: res}))
+        .map(res => {
+          this.toastr.success(this.language.translate('toastr.success.addAcquirerKey'));
+          return {type: acquirerKeysActions.ACQUIRER_KEYS_POST, payload: res};
+        })
+        .catch((res) => {
+          this.toastr.error(this.language.translate('toastr.error.addAcquirerKey'));
+          return Observable.of({type: acquirerKeysActions.ACQUIRER_KEYS_POST_FAIL, payload: res});
+        })
       );
   }
 
@@ -37,8 +48,14 @@ export class AcquirerKeysEffect {
     return this.actions$
       .ofType(acquirerKeysActions.ACQUIRER_KEYS_SET_LAST_POST_REQUEST)
       .switchMap(action => this.api.post(`${ACQUIRER_KEYS_ENDPOINT}/last/${action.payload}`, {})
-        .map(res => ({type: acquirerKeysActions.ACQUIRER_KEYS_SET_LAST_POST, payload: res}))
-        .catch((res) => Observable.of({type: acquirerKeysActions.ACQUIRER_KEYS_SET_LAST_POST_FAIL, payload: res}))
+        .map(res => {
+          this.toastr.success(this.language.translate('toastr.success.setKeyAsLast'));
+          return {type: acquirerKeysActions.ACQUIRER_KEYS_SET_LAST_POST, payload: res};
+        })
+        .catch((res) => {
+          this.toastr.error(this.language.translate('toastr.error.setKeyAsLast'));
+          return Observable.of({type: acquirerKeysActions.ACQUIRER_KEYS_SET_LAST_POST_FAIL, payload: res});
+        })
       );
   }
 }

@@ -26,7 +26,8 @@
       "styles": [
         "data-table.scss",
         "styles.scss",
-        "../node_modules/@swimlane/ngx-datatable/release/assets/icons.css"
+        "../node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+        "../node_modules/ngx-toastr/toastr.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

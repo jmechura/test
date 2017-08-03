@@ -3,7 +3,6 @@
     <form [formGroup]="loginForm" class="login-form" (ngSubmit)="login()">
       <img class="logo" src="assets/images/logo.svg">
       <mss-input formControlName="login" class="input" placeholder="Uživatelské jméno"></mss-input>
-      <span *ngIf="loginForm.invalid && loginForm.touched">Nesprávne zadané jméno</span>
       <mss-input formControlName="password" class="input" type="password" placeholder="Heslo"></mss-input>
       <mss-button class="login-button" label="PŘIHLÁSIT SE"></mss-button>
     </form>

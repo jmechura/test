@@ -44,7 +44,6 @@ export class AcquirerDetailComponent implements OnDestroy {
   Mode = Mode;
   mode: Mode;
   deleteModalVisible = false;
-  deletingCode: string;
   completeView = true;
 
   @Input()
@@ -61,7 +60,6 @@ export class AcquirerDetailComponent implements OnDestroy {
               private api: ApiService,
               private fb: FormBuilder,
               private store: Store<AppStateModel>) {
-
     this.acquirerForm = this.fb.group({
       name: ['', Validators.required],
       code: [{value: '', disabled: true}, Validators.required],

@@ -4,12 +4,17 @@ import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { ApiService } from '../services/api.service';
 import { cardGroupDetailActions } from '../reducers/card-group-detail.reducer';
+import { LanguageService } from '../services/language.service';
+import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const CARD_GROUP_ENDPOINT = '/cardgroups';
 
 @Injectable()
 export class CardGroupDetailEffect {
-  constructor(private api: ApiService, private actions$: Actions) {
+  constructor(private api: ApiService,
+              private actions$: Actions,
+              private toastr: ExtendedToastrService,
+              private language: LanguageService) {
   }
 
   @Effect() getCardGroupDetail(): Observable<Action> {
@@ -25,8 +30,14 @@ export class CardGroupDetailEffect {
     return this.actions$
       .ofType(cardGroupDetailActions.CARD_GROUP_DETAIL_PUT_REQUEST)
       .switchMap(action => this.api.put(`${CARD_GROUP_ENDPOINT}`, action.payload)
-        .map(res => ({type: cardGroupDetailActions.CARD_GROUP_DETAIL_PUT, payload: res}))
-        .catch((res) => Observable.of({type: cardGroupDetailActions.CARD_GROUP_DETAIL_PUT_FAIL, payload: res}))
+        .map(res => {
+          this.toastr.success(this.language.translate('toastr.success.updateCardGroupDetail'));
+          return {type: cardGroupDetailActions.CARD_GROUP_DETAIL_PUT, payload: res};
+        })
+        .catch((res) => {
+          this.toastr.error(this.language.translate('toastr.error.updateCardGroupDetail'));
+          return Observable.of({type: cardGroupDetailActions.CARD_GROUP_DETAIL_PUT_FAIL, payload: res});
+        })
       );
   }
 }

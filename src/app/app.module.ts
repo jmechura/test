@@ -172,6 +172,9 @@ import { topupsScheduleDetailReducer } from './shared/reducers/topups-schedule-d
 import { TopupsScheduleDetailEffect } from './shared/effects/topups-schedule-detail.effect';
 import { topupsScheduleItemReducer } from './shared/reducers/topup-schedule-item.reducer';
 import { TopupsScheduleItemEffect } from './shared/effects/topup-schedule-item.effect';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { ExtendedToastrService } from './shared/services/extended-toastr.service';
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/languages/', '.json');
@@ -355,12 +358,15 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
         deps: [Http]
       },
     }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     ApiService,
     LanguageService,
     AppConfigService,
     RoleService,
+    ExtendedToastrService,
     {
       provide: LOCALE_ID,
       useValue: 'de-DE'
