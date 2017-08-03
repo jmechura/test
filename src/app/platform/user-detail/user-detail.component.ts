@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { userActions } from '../../shared/reducers/user.reducer';
 import { ActivatedRoute } from '@angular/router';
@@ -26,6 +26,15 @@ interface InfoModel {
 export class UserDetailComponent implements OnDestroy {
   private unsubscribe$ = new UnsubscribeSubject();
   user: ProfileModel;
+
+  @Input()
+  set userId(id: string) {
+    this.store.dispatch({type: userActions.USER_GET_REQUEST, payload: id});
+    this.completeView = false;
+    this.detailOptions = this.detailOptions.filter(item => item.value !== 'Roles' && item.value !== 'Cards');
+  }
+
+  completeView = true;
 
   detailOptions: SelectItem[] = [
     {value: 'Basic', label: this.langService.translate('users.detail.basic')},
@@ -73,7 +82,9 @@ export class UserDetailComponent implements OnDestroy {
 
     this.route.params.subscribe(
       (params: { id: string }) => {
-        this.store.dispatch({type: userActions.USER_GET_REQUEST, payload: params.id});
+        if (params.id) {
+          this.store.dispatch({type: userActions.USER_GET_REQUEST, payload: params.id});
+        }
       }
     );
 

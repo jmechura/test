@@ -1,14 +1,17 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
-import { profileActions } from '../../shared/reducers/profile.reducer';
 import { StateModel } from '../../shared/models/state.model';
 import { ProfileModel } from '../../shared/models/profile.model';
 import { ApiService } from '../../shared/services/api.service';
 import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { orgUnitActions, OrgUnitState } from '../../shared/reducers/org-unit.reducer';
+import { OrgUnitModel } from '../../shared/models/org-unit.model';
+
+const SECTIONS = ['USER', 'PASSWORD', 'PAGE'];
 
 @Component({
   selector: 'mss-settings',
@@ -16,18 +19,14 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnDestroy {
-  infoForm: FormGroup;
   passwordForm: FormGroup;
-
   profile: ProfileModel;
-  editableProfile: ProfileModel;
-
-  oldPassword: string;
-  newPassword: string;
-  newPasswordConfirmation: string;
-
   languages: SelectItem[] = [];
   selectedLanguage: string;
+  sections: SelectItem[] = [];
+  visibleSection: SelectItem;
+  orgUnit: OrgUnitModel;
+
 
   private unsubscribe$ = new UnsubscribeSubject();
 
@@ -35,21 +34,18 @@ export class SettingsComponent implements OnDestroy {
               private store: Store<AppStateModel>,
               private language: LanguageService,
               private api: ApiService) {
-    this.infoForm = fb.group({
-      firstName: '',
-      surname: '',
-      id: [{value: null, disabled: true}],
-      email: ['', Validators.email],
-      phone: null
-    });
 
     this.passwordForm = fb.group({
       oldPassword: '',
       newPassword: '',
       newPasswordConfirmation: '',
-      newQuestion: [{value: '', disabled: true}],
-      newAnswer: [{value: '', disabled: true}],
     });
+
+    this.sections = SECTIONS.map(section => ({
+      value: section,
+      label: this.language.translate(`settings.sections.${section}`)
+    }));
+    this.visibleSection = this.sections[0];
 
     // Dispatch to get profile is in platform
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
@@ -65,28 +61,48 @@ export class SettingsComponent implements OnDestroy {
 
         if (data != null) {
           this.profile = data;
-          this.editableProfile = {...this.profile};
+          if (this.profile.resourceAcquirer === 'ORG_UNIT') {
+            this.store.dispatch({
+              type: orgUnitActions.ORG_UNIT_GET_REQUEST,
+              payload: this.profile.resourceAcquirerId
+            });
+          }
+          this.sections = [...this.sections, ...this.profile.roles.map(role => ({
+            value: role.resource,
+            label: this.language.translate(`settings.sections.${role.resource}`)
+          }))].filter(item => item.value !== 'SYSTEM');
         }
       }
     );
     this.languages = this.language.getLanguages().map(item => ({value: item}));
     this.selectedLanguage = this.language.getSelectedLanguage();
+
+    this.store.select('orgUnit').takeUntil(this.unsubscribe$).subscribe(
+      (state: OrgUnitState) => {
+        if (state.error !== null) {
+          console.error('Error getting org unit', state.error);
+          return;
+        }
+
+        if (state.data && !state.loading) {
+          this.orgUnit = state.data;
+        }
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
   }
 
-  updateUser(): void {
-    this.store.dispatch({type: profileActions.PROFILE_PUT_REQUEST, payload: this.editableProfile});
-  }
 
   updatePassword(): void {
     const newPasswordObject = {
-      newPassword: this.newPassword,
-      password: this.oldPassword,
+      newPassword: this.passwordForm.get('newPassword'),
+      password: this.passwordForm.get('oldPassword'),
       userId: this.profile.id,
     };
+
     this.api.post('/users/changepassword/own', newPasswordObject).subscribe(
       () => {
         console.info('Change password success');
@@ -100,6 +116,10 @@ export class SettingsComponent implements OnDestroy {
   selectLanguage(lang: string): void {
     this.language.setLanguage(lang);
     this.selectedLanguage = lang;
+  }
+
+  updateOrgUnit(model: OrgUnitModel): void {
+    this.store.dispatch({type: orgUnitActions.ORG_UNIT_PUT_REQUEST, payload: model});
   }
 
 }

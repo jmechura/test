@@ -1,5 +1,5 @@
-<div class="mss-view-container">
-  <div class="mss-header-row">
+<div [ngClass]="{'mss-view-container' : completeView}">
+  <div class="mss-header-row" *ngIf="completeView">
     <span class="mss-title title" *ngIf="!adding && merchant">{{'merchants.detail.title' | translate}} - {{merchant.id}}</span>
   </div>
   <div class="content">
@@ -83,6 +83,11 @@
             </mss-input>
             <div class="mss-validation-label">
               <span *ngIf="isValidEmail('email')">{{'basic.required.badEmail' | translate}}</span>
+            </div>
+            <div *ngIf="!editing"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'basic.email' | translate }}</div>
+              <div class="value">{{merchant.email}}</div>
             </div>
           </div>
           <div class="column">

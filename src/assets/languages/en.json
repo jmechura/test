@@ -271,7 +271,17 @@
     "confirmPassword": "Opakujte heslo",
     "changeQuestion": "Chcete změnit i kontrolní otázku?",
     "newQuestion": "Nová otázka",
-    "newAnswer": "Nová odpověď"
+    "newAnswer": "Nová odpověď",
+    "sections": {
+      "USER": "Uživatel",
+      "PASSWORD": "Heslo",
+      "PAGE": "Nastavení stránky",
+      "ISSUER": "Provozovatel",
+      "CARD_GROUP": "Zaměstnavatel",
+      "NETWORK": "Obchodní síť",
+      "MERCHANT": "Obchodník",
+      "ORG_UNIT": "Provozovna"
+    }
   },
   "cardGroupDetail": {
     "title": "Detail zaměstnavatele",

@@ -9,6 +9,7 @@ export const acquirerDetailActions = {
   ACQUIRER_DETAIL_PUT_REQUEST: 'ACQUIRER_DETAIL_PUT_REQUEST',
   ACQUIRER_DETAIL_PUT: 'ACQUIRER_DETAIL_PUT',
   ACQUIRER_DETAIL_PUT_FAIL: 'ACQUIRER_DETAIL_PUT_FAIL',
+  ACQUIRER_DETAIL_CLEAR: 'ACQUIRER_DETAIL_CLEAR',
 };
 
 const INITIAL_STATE: StateModel<AcquirerModel> = {error: null, loading: false};
@@ -33,6 +34,9 @@ export function acquirerDetailReducer(state: StateModel<AcquirerModel> = INITIAL
 
     case acquirerDetailActions.ACQUIRER_DETAIL_PUT_FAIL:
       return {data: state.data, error: action.payload, loading: false};
+
+    case acquirerDetailActions.ACQUIRER_DETAIL_CLEAR:
+      return {error: null, loading: false};
 
     default:
       return state;

@@ -26,6 +26,7 @@ export class OrgUnitFormComponent implements OnDestroy {
   networkOptions: SelectItem[] = [];
   merchantOptions: SelectItem[] = [];
   private unsubscribe$ = new UnsubscribeSubject();
+  @Input() completeView = true;
 
   constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private roles: RoleService) {
     this.form = this.fb.group({

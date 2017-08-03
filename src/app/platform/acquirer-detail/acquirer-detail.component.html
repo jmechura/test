@@ -1,5 +1,5 @@
-<div class="mss-view-container">
-  <div class="mss-header-row">
+<div [ngClass]="{'mss-view-container': completeView}">
+  <div class="mss-header-row" *ngIf="completeView">
     <span class="mss-title"
           *ngIf="mode === Mode.Create">
       {{'acquirers.list.addAcquirer' | translate}}
@@ -209,7 +209,8 @@
     </div>
 
     <div class="mss-buttons-row">
-      <mss-button class="mss-action-button right-margin" (click)="deleteModalVisible = false" [label]="'basic.dismiss' | translate"></mss-button>
+      <mss-button class="mss-action-button right-margin" (click)="deleteModalVisible = false"
+                  [label]="'basic.dismiss' | translate"></mss-button>
       <mss-button class="mss-action-button" (click)="deleteAcquirer()" [label]="'basic.yes' | translate"></mss-button>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { MerchantModel } from '../../shared/models/merchant.model';
@@ -37,6 +37,14 @@ export class MerchantsDetailComponent implements OnDestroy {
   tabsOptions: SelectItem[] = [];
   visibleTab: SelectItem;
   private unsubscribe$ = new UnsubscribeSubject();
+
+  completeView = true;
+
+  @Input()
+  set merchantId(id: string) {
+    this.store.dispatch({type: merchantDetailActions.MERCHANT_DETAIL_GET_REQUEST, payload: id});
+    this.completeView = false;
+  }
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppStateModel>,
@@ -87,6 +95,10 @@ export class MerchantsDetailComponent implements OnDestroy {
 
     this.route.params.subscribe(
       (params: { id: string }) => {
+        // component is not displayed through router outlet therefore there is no id
+        if (!params.id) {
+          return;
+        }
         if (params.id === 'create') {
           this.adding = true;
           this.editing = true;

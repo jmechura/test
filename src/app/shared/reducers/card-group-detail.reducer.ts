@@ -9,6 +9,7 @@ export const cardGroupDetailActions = {
   CARD_GROUP_DETAIL_PUT_REQUEST: 'CARD_GROUP_DETAIL_PUT_REQUEST',
   CARD_GROUP_DETAIL_PUT: 'CARD_GROUP_DETAIL_PUT',
   CARD_GROUP_DETAIL_PUT_FAIL: 'CARD_GROUP_DETAIL_PUT_FAIL',
+  CARD_GROUP_DETAIL_CLEAR: 'CARD_GROUP_DETAIL_CLEAR',
 };
 
 const INITIAL_STATE: StateModel<CardGroupModel> = {error: null, loading: false};
@@ -33,6 +34,8 @@ export function cardGroupDetailReducer(state: StateModel<CardGroupModel> = INITI
     case cardGroupDetailActions.CARD_GROUP_DETAIL_PUT_FAIL:
       return {data: state.data, error: action.payload, loading: false};
 
+    case cardGroupDetailActions.CARD_GROUP_DETAIL_CLEAR:
+      return {error: null, loading: false};
     default:
       return state;
   }

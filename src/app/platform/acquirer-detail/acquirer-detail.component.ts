@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStateModel } from '../../shared/models/app-state.model';
@@ -45,6 +45,15 @@ export class AcquirerDetailComponent implements OnDestroy {
   mode: Mode;
   deleteModalVisible = false;
   deletingCode: string;
+  completeView = true;
+
+  @Input()
+  set acquirerCode(code: string) {
+    this.store.dispatch({type: acquirerDetailActions.ACQUIRER_DETAIL_GET_REQUEST, payload: code});
+    this.completeView = false;
+    this.mode = Mode.View;
+  }
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -83,6 +92,10 @@ export class AcquirerDetailComponent implements OnDestroy {
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: Params) => {
+        // component is not displayed through router outlet therefore there is no code
+        if (!params.code) {
+          return;
+        }
         if (params.code !== 'create') {
           this.mode = Mode.View;
           this.tabsOptions.push({
@@ -107,8 +120,13 @@ export class AcquirerDetailComponent implements OnDestroy {
           if (this.mode !== Mode.Create) {
             this.acquirerData = data.data;
             this.acquirerForm.patchValue(this.acquirerData);
-            this.store.dispatch(
-              {type: acquirerKeysActions.ACQUIRER_KEYS_GET_REQUEST, payload: this.acquirerData.acquiringInstitutionCode});
+            if (this.completeView) {
+              this.store.dispatch({
+                type: acquirerKeysActions.ACQUIRER_KEYS_GET_REQUEST,
+                payload: this.acquirerData.acquiringInstitutionCode
+              });
+            }
+
           }
         }
       }
@@ -202,5 +220,6 @@ export class AcquirerDetailComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
+    this.store.dispatch({type: acquirerDetailActions.ACQUIRER_DETAIL_CLEAR});
   }
 }

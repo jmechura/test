@@ -1,5 +1,5 @@
 <form [formGroup]="form" class="org-unit-form">
-  <h1 class="org-unit-form-heading">{{'orgUnits.detail.sections.nameCode' | translate}}</h1>
+  <h1 class="org-unit-form-heading" *ngIf="completeView">{{'orgUnits.detail.sections.nameCode' | translate}}</h1>
   <div class="org-unit-form-body">
     <div class="org-unit-form-input-container">
       <mss-input formControlName="name" [label]="'basic.name' | translate"></mss-input>
@@ -43,7 +43,8 @@
   <div class="mss-buttons-row">
     <mss-button [label]="variant === 'update' ? ('basic.back' | translate) : ('basic.dismiss' | translate)"
                 class="mss-action-button right-margin" (click)="emitDismiss()"></mss-button>
-    <mss-button [label]="'basic.add' | translate" class="mss-action-button" (click)="emitOrgUnit()"
+    <mss-button [label]="variant === 'update' ? ('basic.edit' | translate) : ('basic.add' | translate)"
+                class="mss-action-button" (click)="emitOrgUnit()"
                 [disabled]="formInvalid"></mss-button>
   </div>
 </form>

@@ -1,5 +1,5 @@
-<div class="mss-view-container">
-  <div class="mss-header-row">
+<div [ngClass]="{'mss-view-container': completeView}">
+  <div class="mss-header-row" *ngIf="completeView">
     <span class="mss-title">{{'issuers.titleDetail' | translate}}</span>
   </div>
 

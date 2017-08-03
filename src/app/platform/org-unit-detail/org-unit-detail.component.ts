@@ -8,8 +8,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { UnsubscribeSubject } from '../../shared/utils';
 
-const ORG_UNIT_ENDPOINT = '/orgUnits';
-
 @Component({
   selector: 'mss-org-unit-detail',
   templateUrl: './org-unit-detail.component.html',
@@ -45,14 +43,7 @@ export class OrgUnitDetailComponent implements OnDestroy {
   }
 
   updateOrgUnit(model: OrgUnitModel): void {
-    this.api.put(ORG_UNIT_ENDPOINT, model).subscribe(
-      () => {
-        alert('Obchodní místo aktualizováno!');
-      },
-      error => {
-        console.error('Error updating org unit', error);
-      }
-    );
+    this.store.dispatch({type: orgUnitActions.ORG_UNIT_PUT_REQUEST, payload: model});
   }
 
   navigateBack(): void {

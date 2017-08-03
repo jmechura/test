@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { ApiService } from '../../shared/services/api.service';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -26,6 +26,14 @@ export class IssuerDetailComponent implements OnDestroy {
     {value: 'ENABLED'},
     {value: 'DISABLED'}
   ];
+  completeView = true;
+
+  @Input()
+  set issuerId(id: string) {
+    this.id = id;
+    this.completeView = false;
+    this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_API_GET, payload: this.id});
+  }
 
   constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private api: ApiService, private route: ActivatedRoute) {
     this.editIssuerForm = fb.group({
@@ -47,8 +55,10 @@ export class IssuerDetailComponent implements OnDestroy {
     });
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: { id: string }) => {
-        this.id = params.id;
-        this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_API_GET, payload: this.id});
+        if (params.id) {
+          this.id = params.id;
+          this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_API_GET, payload: this.id});
+        }
       }
     );
 

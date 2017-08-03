@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
@@ -52,6 +52,13 @@ export class CardGroupDetailComponent implements OnDestroy {
   editAddress = false;
   limitsAllowed = false;
   countries: SelectItem[] = [];
+  completeView = true;
+
+  @Input()
+  set cardGroupId(id: string) {
+    this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: id});
+    this.completeView = false;
+  }
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
@@ -62,7 +69,9 @@ export class CardGroupDetailComponent implements OnDestroy {
               private api: ApiService) {
     this.route.params.subscribe(
       (params: { id: string }) => {
-        this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
+        if (params.id) {
+          this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
+        }
       }
     );
 
@@ -257,6 +266,7 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
+    this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_CLEAR});
   }
 
   startEditing(): void {

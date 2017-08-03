@@ -2,45 +2,64 @@
   <div class="mss-header-row">
     <span class="mss-title">{{'settings.title' | translate}}</span>
   </div>
-  <div class="form-wrapper">
-    <div class="form-container">
-      <form [formGroup]="infoForm" class="form" *ngIf="profile">
-        <mss-input formControlName="id" class="input" [type]="'number'" [value]="editableProfile.id" [label]="'basic.id' | translate">
-        </mss-input>
-        <mss-input formControlName="firstName" class="input" [(value)]="editableProfile.firstName" [label]="'basic.firstName' | translate">
-        </mss-input>
-        <mss-input formControlName="surname" class="input" [(value)]="editableProfile.lastName" [label]="'basic.lastName' | translate">
-        </mss-input>
-        <mss-input formControlName="email" class="input" [(value)]="editableProfile.email" [label]="'basic.email' | translate">
-        </mss-input>
-        <mss-input formControlName="phone" class="input" [(value)]="editableProfile.phone" [label]="'basic.phone' | translate">
-        </mss-input>
-        <div class="button-container">
-          <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updateUser()"></mss-button>
-        </div>
-      </form>
-    </div>
-    <div class="form-container">
-      <form [formGroup]="passwordForm" class="form">
-        <mss-input formControlName="oldPassword" class="input" type="password" [(value)]="oldPassword"
-                   [label]="'settings.oldPassword' | translate"
-                   [placeholder]="' '">
-        </mss-input>
-        <mss-input formControlName="newPassword" class="input" type="password" [(value)]="newPassword"
-                   [label]="'settings.newPassword' | translate"
-                   [placeholder]="' '">
-        </mss-input>
-        <mss-input formControlName="newPasswordConfirmation" class="input" type="password" [(value)]="newPasswordConfirmation"
-                   [label]="'settings.confirmPassword' | translate" [placeholder]="' '">
-        </mss-input>
-        <div class="button-container">
-          <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
 
-        </div>
-      </form>
+  <mss-tabs class="tabs" [items]="sections" (itemChanged)="visibleSection = $event"></mss-tabs>
+
+  <div class="content" *ngIf="profile && visibleSection.value === 'USER'">
+    <mss-user-detail class="content-item" [userId]="profile.id"></mss-user-detail>
+  </div>
+
+  <form [formGroup]="passwordForm" *ngIf="profile && visibleSection.value === 'PASSWORD'">
+    <div class="content flex">
+      <div class="column">
+        <mss-input formControlName="oldPassword" type="password"
+                   [label]="'settings.oldPassword' | translate">
+        </mss-input>
+      </div>
+
+      <div class="column">
+        <mss-input formControlName="newPassword" type="password"
+                   [label]="'settings.newPassword' | translate">
+        </mss-input>
+        <div class="mss-validation-label"></div>
+        <mss-input formControlName="newPasswordConfirmation" type="password"
+                   [label]="'settings.confirmPassword' | translate">
+        </mss-input>
+        <div class="mss-validation-label"></div>
+      </div>
     </div>
-    <mss-select [options]="languages" [selectedOption]="selectedLanguage" [label]="'Jazyk'" [labelPosition]="'top'"
-                (selectedOptionChange)="selectLanguage($event)"></mss-select>
+    <div class="button-container">
+      <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
+    </div>
+  </form>
+
+  <div class="content" *ngIf="visibleSection.value === 'PAGE'">
+    <div class="column">
+      <mss-select [options]="languages" [selectedOption]="selectedLanguage" [label]="'Jazyk'" [labelPosition]="'top'"
+                  (selectedOptionChange)="selectLanguage($event)"></mss-select>
+    </div>
+    <div class="column"></div>
+  </div>
+
+  <div class="content" *ngIf="visibleSection.value === 'ISSUER' && profile">
+    <mss-issuer-detail [issuerId]="profile.resourceId"></mss-issuer-detail>
+  </div>
+
+  <div class="content" *ngIf="visibleSection.value === 'CARD_GROUP' && profile">
+    <mss-card-group-detail [cardGroupId]="profile.resourceId"></mss-card-group-detail>
+  </div>
+
+  <div class="content" *ngIf="visibleSection.value === 'NETWORK' && profile">
+    <mss-acquirer-detail [acquirerCode]="profile.resourceAcquirerId"></mss-acquirer-detail>
+  </div>
+
+  <div class="content" *ngIf="visibleSection.value === 'MERCHANT' && profile">
+    <mss-merchants-detail [merchantId]="profile.resourceAcquirerId"></mss-merchants-detail>
+  </div>
+
+  <div class="content" *ngIf="visibleSection.value === 'ORG_UNIT' && profile">
+    <mss-org-unit-form [completeView]="false" variant="update" [modelTemplate]="orgUnit"
+                       (modelSubmit)="updateOrgUnit($event)"></mss-org-unit-form>
   </div>
 </div>
 

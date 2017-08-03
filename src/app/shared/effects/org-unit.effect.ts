@@ -16,7 +16,17 @@ export class OrgUnitEffect {
       .ofType(orgUnitActions.ORG_UNIT_GET_REQUEST)
       .switchMap(action => this.api.get(`${ORG_UNIT_ENDPOINT}/${action.payload}`)
         .map(res => ({type: orgUnitActions.ORG_UNIT_GET, payload: res}))
-        .catch(res => Observable.of({type: orgUnitActions.ORG_UNIT_GET_ERROR, payload: res}))
+        .catch(res => Observable.of({type: orgUnitActions.ORG_UNIT_GET_FAIL, payload: res}))
+      );
+  }
+
+  @Effect()
+  put(): Observable<Action> {
+    return this.actions$
+      .ofType(orgUnitActions.ORG_UNIT_PUT_REQUEST)
+      .switchMap(action => this.api.put(ORG_UNIT_ENDPOINT, action.payload)
+        .map(res => ({type: orgUnitActions.ORG_UNIT_PUT, payload: res}))
+        .catch(res => Observable.of({type: orgUnitActions.ORG_UNIT_PUT_FAIL, payload: res}))
       );
   }
 }

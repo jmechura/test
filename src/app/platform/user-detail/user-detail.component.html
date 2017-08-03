@@ -1,5 +1,5 @@
-<div *ngIf="user" class="mss-view-container">
-  <div class="mss-header-row">
+<div *ngIf="user" [ngClass]="{'mss-view-container' : completeView}" class="mss-view-container">
+  <div class="mss-header-row" *ngIf="completeView">
     <span class="mss-title">{{'users.detail.title' | translate}} - {{user.id}}</span>
   </div>
 
