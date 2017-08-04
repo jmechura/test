@@ -132,13 +132,13 @@ export class CardListComponent implements OnDestroy {
           return;
         }
         if (data != null && !loading) {
-          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+          this.roles.isVisible('cards.issuerCodeSelect').subscribe(
             issuerResult => {
               if (issuerResult) {
                 this.issuerTab = true;
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                this.roles.isVisible('cards.cardGroupCodeSelect').subscribe(
                   cardGroupCodeResult => {
                     if (cardGroupCodeResult) {
                       this.issuerTab = true;

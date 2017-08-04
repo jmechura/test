@@ -101,13 +101,13 @@ export class TopupsScheduleComponent implements OnDestroy {
           const user = data.data;
 
           // is it admin?
-          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+          this.roles.isVisible('topupsSchedule.issuerCodeSelect').subscribe(
             result => {
               if (result) {
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
                 // is it issuer?
-                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                this.roles.isVisible('topupsSchedule.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
                       this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: user.resourceId});

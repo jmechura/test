@@ -15,7 +15,7 @@
         <mss-date-picker-input class="date-picker" [pickedDate]="toDate" (pickedDateChange)="changeToDate($event)"></mss-date-picker-input>
       </div>
       <mss-select [disabled]="issuerCodes.length === 0"
-                  *mssRoleIf="'filters.issuerCodeSelect'"
+                  *mssRoleIf="'cardRequests.issuerCodeSelect'"
                   class="filter-item"
                   [label]="'dictionary.issuerCode' | translate"
                   labelPosition="top"
@@ -23,7 +23,7 @@
                   [selectedOption]="searchModel.search.predicateObject.issuerCode"
                   (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
       <mss-select [disabled]="cardGroupCodes.length === 0"
-                  *mssRoleIf="'filters.cardGroupCodeSelect'"
+                  *mssRoleIf="'cardRequests.cardGroupCodeSelect'"
                   class="filter-item"
                   [options]="cardGroupCodes"
                   [label]="'dictionary.cardGroupCode' | translate"

@@ -24,14 +24,14 @@
       <div class="content" *ngIf="visibleSection.value === merchantsFilterSections.NETWORK">
         <div class="row wrapped">
           <mss-select [disabled]="networkCodes.length === 0"
-                      *mssRoleIf="'filters.networkCodeSelect'"
+                      *mssRoleIf="'merchants.networkCodeSelect'"
                       class="filter-item"
                       [label]="'dictionary.networkCode' | translate"
                       [options]="networkCodes"
                       [selectedOption]="networkCode"
                       (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
           <mss-select [disabled]="merchantCodes.length === 0"
-                      *mssRoleIf="'filters.merchantCodeSelect'"
+                      *mssRoleIf="'merchants.merchantCodeSelect'"
                       class="filter-item"
                       [options]="merchantCodes"
                       [label]="'dictionary.merchantCode' | translate"

@@ -8,21 +8,21 @@
 
   <div class="filter-container">
     <div class="filters" [formGroup]="filterForm">
-      <mss-select *mssRoleIf="'filters.networkCodeSelect'"
+      <mss-select *mssRoleIf="'terminals.networkCodeSelect'"
                   class="filter-item"
                   [options]="networkCodes"
                   [label]="'dictionary.networkCode' | translate"
                   formControlName="networkCode"
                   labelPosition="top"
                   (selectedOptionChange)="networkSelect($event)"></mss-select>
-      <mss-select *mssRoleIf="'filters.merchantCodeSelect'"
+      <mss-select *mssRoleIf="'terminals.merchantCodeSelect'"
                   class="filter-item"
                   [options]="merchantCodes"
                   [label]="'dictionary.merchantCode' | translate"
                   formControlName="merchantCode"
                   labelPosition="top"
                   (selectedOptionChange)="merchantSelect($event)"></mss-select>
-      <mss-select *mssRoleIf="'filters.orgUnitCodeSelect'"
+      <mss-select *mssRoleIf="'terminals.orgUnitCodeSelect'"
                   class="filter-item"
                   [options]="orgUnitCodes"
                   [label]="'dictionary.orgUnitCode' | translate"

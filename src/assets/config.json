@@ -176,8 +176,40 @@
       "resourceIdColumn": [
         "ROLE_ADMIN"
       ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
+      ],
       "discarge": [
         "ROLE_USER_DISCARGE"
+      ]
+    },
+    "dashboard": {
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     },
     "card": {
@@ -209,6 +241,21 @@
       "track2Column": [
         "ROLE_ADMIN",
         "ISSUER_ROLE_RESOURCE_READ"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     },
     "cardRequests": {
@@ -223,6 +270,21 @@
       "confirm": [
         "ROLE_ADMIN",
         "ROLE_CARD_REQUEST_CONFIRM"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     },
     "cardGroups": {
@@ -240,6 +302,21 @@
       ],
       "limits": [
         "ROLE_ADMIN"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     },
     "merchants": {
@@ -256,6 +333,21 @@
         "NETWORK_ROLE_RESOURCE_EDIT"
       ],
       "id": [
+        "ROLE_ADMIN"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
         "ROLE_ADMIN"
       ]
     },
@@ -281,6 +373,21 @@
       "formMerchantSelect": [
         "ROLE_ADMIN",
         "NETWORK_ROLE_RESOURCE_READ"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     },
     "terminals": {
@@ -313,6 +420,21 @@
         "ROLE_ADMIN",
         "NETWORK_ROLE_RESOURCE_READ",
         "MERCHANT_ROLE_RESOURCE_READ"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     },
     "reports": {
@@ -332,6 +454,21 @@
       ],
       "path": [
         "ROLE_ADMIN"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     },
     "fileUpload": {
@@ -348,12 +485,42 @@
       "edit": [
         "ROLE_ADMIN",
         "ROLE_PAYMENT_TOP_UP_EDIT"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     },
     "topupsSchedule": {
       "read": [
         "ROLE_ADMIN",
         "ROLE_TOPUP_SCHEDULE_READ"
+      ],
+      "issuerCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "networkCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "merchantCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "orgUnitCodeSelect": [
+        "ROLE_ADMIN"
+      ],
+      "cardGroupCodeSelect": [
+        "ROLE_ADMIN"
       ]
     }
   }

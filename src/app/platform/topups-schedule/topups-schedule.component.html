@@ -19,9 +19,9 @@
       <div class="content" *ngIf="visibleSection.value === topUpsScheduleFilterSections[1]">
         <div class="row wrapped">
           <mss-select class="filter-item" formControlName="issuerCode" [options]="issuerCodes"
-                      [label]="'dictionary.issuerCode' | translate" *mssRoleIf="'filters.issuerCodeSelect'"></mss-select>
+                      [label]="'dictionary.issuerCode' | translate" *mssRoleIf="'topupsSchedule.issuerCodeSelect'"></mss-select>
           <mss-select class="filter-item" formControlName="cardGroupId" [options]="cardGroupCodes"
-                      [label]="'dictionary.cardGroupCode' | translate" *mssRoleIf="'filters.cardGroupCodeSelect'"></mss-select>
+                      [label]="'dictionary.cardGroupCode' | translate" *mssRoleIf="'topupsSchedule.cardGroupCodeSelect'"></mss-select>
         </div>
       </div>
     </div>

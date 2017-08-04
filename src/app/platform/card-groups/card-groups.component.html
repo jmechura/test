@@ -31,7 +31,7 @@
       <div class="content column" *ngIf="visibleSection.value ===  cardFilterSection[1]">
         <div class="row wrapped">
           <div class="column">
-            <mss-select [options]="issuerCodes" *mssRoleIf="'filters.issuerCodeSelect'"
+            <mss-select [options]="issuerCodes" *mssRoleIf="'cardGroups.issuerCodeSelect'"
                         formControlName="issuerCode"
                         [label]="'dictionary.issuerCode' | translate"
                         (selectedOptionChange)="issuerSelect($event)"

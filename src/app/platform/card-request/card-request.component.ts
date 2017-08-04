@@ -76,13 +76,13 @@ export class CardRequestComponent {
         }
 
         if (data != null) {
-          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+          this.roles.isVisible('cardRequests.issuerCodeSelect').subscribe(
             issuerResult => {
               if (issuerResult) {
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
                 this.searchModel.search.predicateObject.issuerCode = data.resourceId;
-                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                this.roles.isVisible('cardRequests.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
                       this.store.dispatch(

@@ -11,11 +11,11 @@
   <h1 class="org-unit-form-heading" *mssRoleIf="'filters.merchantCodeSelect'">
     {{'orgUnits.detail.sections.networkMerchant' | translate}}
   </h1>
-  <div class="org-unit-form-body" *mssRoleIf="'orgUnits.formMerchantSelect'">
-    <div class="org-unit-form-input-container" *mssRoleIf="'orgUnits.formNetworkSelect'">
+  <div class="org-unit-form-body" *mssRoleIf="'filters.merchantCodeSelect'">
+    <div class="org-unit-form-input-container" *mssRoleIf="'filters.networkCodeSelect'">
       <mss-select formControlName="networkCode" [options]="networkOptions" [label]="'dictionary.networkCode' | translate"></mss-select>
     </div>
-    <div class="org-unit-form-input-container" *mssRoleIf="'orgUnits.formMerchantSelect'">
+    <div class="org-unit-form-input-container" *mssRoleIf="'filters.merchantCodeSelect'">
       <mss-select formControlName="merchantId" [options]="merchantOptions" [label]="'dictionary.merchantCode' | translate"></mss-select>
     </div>
   </div>

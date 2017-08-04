@@ -103,12 +103,12 @@ export class ReportsComponent implements OnDestroy {
         if (data.data && !data.loading /*because pn would be sad*/) {
           const user = data.data;
 
-          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+          this.roles.isVisible('reports.issuerCodeSelect').subscribe(
             result => {
               if (result) {
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                this.roles.isVisible('reports.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
                       this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: user.resourceId});
@@ -122,18 +122,18 @@ export class ReportsComponent implements OnDestroy {
             }
           );
 
-          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+          this.roles.isVisible('reports.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                this.roles.isVisible('reports.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
                     } else {
 
-                      this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
+                      this.roles.isVisible('reports.orgUnitCodeSelect').subscribe(
                         orgUnitResult => {
                           if (orgUnitResult) {
                             this.store.dispatch({

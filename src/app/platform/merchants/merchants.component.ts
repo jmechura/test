@@ -134,13 +134,13 @@ export class MerchantsComponent implements OnDestroy {
         if (data.data && !data.loading /*because pn would be sad*/) {
           const user = data.data;
 
-          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+          this.roles.isVisible('merchants.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.showNetworkTab = true;
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                this.roles.isVisible('merchants.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
                       this.showNetworkTab = true;

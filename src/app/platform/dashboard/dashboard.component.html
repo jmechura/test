@@ -68,7 +68,7 @@
       <div class="content column" *ngIf="visibleFilter.value === transactionFilters[1]">
         <div class="row wrapped">
           <mss-select [disabled]="issuerCodes.length === 0"
-                      *mssRoleIf="'filters.issuerCodeSelect'"
+                      *mssRoleIf="'dashboard.issuerCodeSelect'"
                       class="filter-item"
                       [label]="'dictionary.issuerCode' | translate"
                       labelPosition="top"
@@ -76,7 +76,7 @@
                       [selectedOption]="pagination.search.predicateObject.issuerCode"
                       (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
           <mss-select [disabled]="cardGroupCodes.length === 0"
-                      *mssRoleIf="'filters.cardGroupCodeSelect'"
+                      *mssRoleIf="'dashboard.cardGroupCodeSelect'"
                       class="filter-item"
                       [options]="cardGroupCodes"
                       [label]="'dictionary.cardGroupCode' | translate"
@@ -84,7 +84,7 @@
                       [(selectedOption)]="pagination.search.predicateObject.cardGroupCode"></mss-select>
           <mss-select [disabled]="networkCodes.length === 0"
                       class="filter-item"
-                      *mssRoleIf="'filters.networkCodeSelect'"
+                      *mssRoleIf="'dashboard.networkCodeSelect'"
                       [label]="'dictionary.networkCode' | translate"
                       labelPosition="top"
                       [options]="networkCodes"
@@ -92,14 +92,14 @@
                       (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
           <mss-select [disabled]="merchantCodes.length === 0"
                       class="filter-item"
-                      *mssRoleIf="'filters.merchantCodeSelect'"
+                      *mssRoleIf="'dashboard.merchantCodeSelect'"
                       [label]="'dictionary.merchantCode' | translate"
                       labelPosition="top"
                       [options]="merchantCodes"
                       [selectedOption]="pagination.search.predicateObject.merchantCode"
                       (selectedOptionChange)="selectMerchantCode($event)"></mss-select>
           <mss-select [disabled]="orgUnitCodes.length === 0"
-                      *mssRoleIf="'filters.orgUnitCodeSelect'"
+                      *mssRoleIf="'dashboard.orgUnitCodeSelect'"
                       class="filter-item"
                       [label]="'dictionary.orgUnitCode' | translate"
                       labelPosition="top"

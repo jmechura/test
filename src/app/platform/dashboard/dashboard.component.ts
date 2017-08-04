@@ -182,13 +182,13 @@ export class DashboardComponent implements OnDestroy {
         if (data.data && !data.loading /*because pn would be sad*/) {
           const user = data.data;
 
-          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+          this.roles.isVisible('dashboard.issuerCodeSelect').subscribe(
             result => {
               if (result) {
                 this.showLocationFilterTab = true;
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                this.roles.isVisible('dashboard.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
                       this.showLocationFilterTab = true;
@@ -200,20 +200,20 @@ export class DashboardComponent implements OnDestroy {
             }
           );
 
-          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+          this.roles.isVisible('dashboard.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.showLocationFilterTab = true;
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                this.roles.isVisible('dashboard.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
                       this.showLocationFilterTab = true;
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
                     } else {
 
-                      this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
+                      this.roles.isVisible('dashboard.orgUnitCodeSelect').subscribe(
                         orgUnitResult => {
                           if (orgUnitResult) {
                             this.showLocationFilterTab = true;

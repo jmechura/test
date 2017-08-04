@@ -33,12 +33,12 @@
                       [label]="'dictionary.issuerCode' | translate"
                       [options]="itemsForSelect['ISSUER']"
                       (selectedOptionChange)="selectCode($event, 'CARD_GROUP')"
-                      *mssRoleIf="'filters.issuerCodeSelect'"
+                      *mssRoleIf="'users.issuerCodeSelect'"
                       formControlName="issuerCode"></mss-select>
           <mss-select class="filter-item"
                       [label]="'dictionary.cardGroupCode' | translate"
                       [options]="itemsForSelect['CARD_GROUP']"
-                      *mssRoleIf="'filters.cardGroupCodeSelect'"
+                      *mssRoleIf="'users.cardGroupCodeSelect'"
                       formControlName="cardGroupCode"></mss-select>
         </div>
       </div>
@@ -50,18 +50,18 @@
                       [label]="'dictionary.networkCode' | translate"
                       [options]="itemsForSelect['NETWORK']"
                       (selectedOptionChange)="selectCode($event, 'MERCHANT')"
-                      *mssRoleIf="'filters.networkCodeSelect'"
+                      *mssRoleIf="'users.networkCodeSelect'"
                       formControlName="networkCode"></mss-select>
           <mss-select class="filter-item"
                       [label]="'dictionary.merchantCode' | translate"
                       [options]="itemsForSelect['MERCHANT']"
                       (selectedOptionChange)="selectCode($event, 'ORG_UNIT')"
-                      *mssRoleIf="'filters.merchantCodeSelect'"
+                      *mssRoleIf="'users.merchantCodeSelect'"
                       formControlName="merchantCode"></mss-select>
           <mss-select class="filter-item"
                       [label]="'dictionary.orgUnitCode' | translate"
                       [options]="itemsForSelect['ORG_UNIT']"
-                      *mssRoleIf="'filters.orgUnitCodeSelect'"
+                      *mssRoleIf="'users.orgUnitCodeSelect'"
                       formControlName="orgUnitCode"></mss-select>
         </div>
       </div>

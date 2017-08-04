@@ -117,12 +117,12 @@ export class PaymentTopupsComponent {
         if (data.data && !data.loading) {
           const user = data.data;
 
-          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+          this.roles.isVisible('paymentTopups.issuerCodeSelect').subscribe(
             result => {
               if (result) {
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                this.roles.isVisible('paymentTopups.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
                       this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: user.resourceId});

@@ -37,11 +37,11 @@
       <div class="content" *ngIf="visibleSection.value === topupsFilterSections[2]">
         <div class="row wrapped">
           <mss-select class="filter-item" [label]="'dictionary.issuerCode' | translate"
-                      *mssRoleIf="'filters.issuerCodeSelect'"
+                      *mssRoleIf="'paymentTopups.issuerCodeSelect'"
                       [options]="issuerCodes" formControlName="issuerCode">
           </mss-select>
           <mss-select class="filter-item" [label]="'dictionary.cardGroupCode' | translate"
-                      *mssRoleIf="'filters.cardGroupCodeSelect'"
+                      *mssRoleIf="'paymentTopups.cardGroupCodeSelect'"
                       [options]="cardGroupCodes" formControlName="cardGroupCode">
           </mss-select>
         </div>
