@@ -495,7 +495,9 @@ export class DashboardComponent implements OnDestroy {
   }
 
   getSortedTransactions(sortInfo: any): void {
-    this.pagination.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.pagination.sort = {
+      predicate: (sortInfo.sorts[0].prop === 'termDttm') ? `pk.${sortInfo.sorts[0].prop}` : sortInfo.sorts[0].prop,
+      reverse: sortInfo.sorts[0].dir === 'asc'};
     this.getTransactions();
   }
 

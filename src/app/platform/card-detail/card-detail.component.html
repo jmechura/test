@@ -37,10 +37,22 @@
                      (sort)="getSortedTransfers($event)" (page)="setPage($event)">
         <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false"></ngx-datatable-column>
         <ngx-datatable-column [name]="'dictionary.trxUuid' | translate" prop="trxUuid"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.type' | translate" prop="amount"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <div>{{getFormatedDate(value)}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm">
+          <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <div>{{getFormatedDate(value)}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount">
+          <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <div>{{value | currency:row['currency']['code']:true:'1.' + row['currency']['digits']}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'dictionary.type' | translate" prop="type"></ngx-datatable-column>
         <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state"></ngx-datatable-column>
         <ngx-datatable-footer>
           <ng-template
