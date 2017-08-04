@@ -12,6 +12,7 @@ import { userResourceActions } from '../../shared/reducers/user-resource.reducer
 import { systemsActions } from '../../shared/reducers/system.reducer';
 import { Router } from '@angular/router';
 import { TemplateModel } from '../../shared/models/template.model';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 @Component({
   selector: 'mss-template-create',
@@ -29,7 +30,8 @@ export class TemplateCreateComponent implements OnDestroy {
   constructor(private store: Store<AppStateModel>,
               private fb: FormBuilder,
               private router: Router,
-              private api: ApiService) {
+              private api: ApiService,
+              private toastr: ExtendedToastrService) {
     this.templateForm = fb.group({
       code: ['', Validators.required],
       description: [''],
@@ -145,9 +147,11 @@ export class TemplateCreateComponent implements OnDestroy {
   addTemplate(): void {
     this.api.post('/users/templates', this.templateForm.value).subscribe(
       (template: TemplateModel) => {
+        this.toastr.success('toastr.success.createTemplate');
         this.router.navigateByUrl(`platform/templates/detail/${template.id}`);
       },
       error => {
+        this.toastr.error(error);
         console.error('Create template fail', error);
       }
     );

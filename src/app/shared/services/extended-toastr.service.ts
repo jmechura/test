@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { LanguageService } from './language.service';
 
 @Injectable()
 export class ExtendedToastrService {
-  // private toast: ActiveToast;
-  constructor(private toastrService: ToastrService) {}
-
-  error(message: string | number): void {
-    if (typeof message === 'string') {
-      this.toastrService.error(message);
-    }
-    if (typeof message === 'number') {
-      this.toastrService.error('TODO');
+  constructor(private toastrService: ToastrService,
+              private language: LanguageService) {}
+  // response can be of type Response or type string
+  // type string will be provided as a key from .json file in LanguageService
+  // type Response is from http error
+  error(response: any): void {
+    if (typeof response === 'string') {
+      this.toastrService.error(this.language.translate(response));
+    } else {
+      const errorBody = response.json();
+      this.toastrService.error(errorBody.message);
     }
   }
 
-  success(message: string): void {
-    this.toastrService.success(message);
+  success(key: string): void {
+    this.toastrService.success(this.language.translate(key));
   }
 }

@@ -14,6 +14,7 @@ import { userResourceActions } from '../../shared/reducers/user-resource.reducer
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { SystemModel } from '../../shared/models/system.model';
 import { systemsActions } from '../../shared/reducers/system.reducer';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 interface Role {
   value: string;
@@ -49,7 +50,11 @@ export class TemplatesComponent implements OnDestroy {
   rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
   totalElements = 0;
 
-  constructor(private store: Store<AppStateModel>, private router: Router, private fb: FormBuilder, private api: ApiService) {
+  constructor(private store: Store<AppStateModel>,
+              private router: Router,
+              private fb: FormBuilder,
+              private api: ApiService,
+              private toastr: ExtendedToastrService) {
     this.newTemplateForm = fb.group({
       code: ['', Validators.required],
       description: [''],
@@ -197,10 +202,12 @@ export class TemplatesComponent implements OnDestroy {
   addTemplate(): void {
     this.api.post('/users/templates', this.newTemplateForm.value).subscribe(
       () => {
+        this.toastr.success('toastr.success.createTemplate');
         this.newTemplateForm.reset();
         this.store.dispatch({type: templatesActions.TEMPLATES_GET_REQUEST, payload: this.templatesRequest});
       },
       error => {
+        this.toastr.error(error);
         console.error('Create template fail', error);
       }
     );

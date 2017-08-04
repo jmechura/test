@@ -15,6 +15,7 @@ import { importPropertyDefActions } from '../../shared/reducers/import-property-
 import { PropertyDefModel } from '../../shared/models/property-def.model.';
 import { importPropertyActions } from '../../shared/reducers/import-property.reducer';
 import { PropertyModel } from '../../shared/models/property.model';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const IMPORT_DESTROY_ENDPOINT = '/imports/destroy';
 const IMPORT_START_ENDPOINT = '/imports/start';
@@ -44,7 +45,8 @@ export class ImportDetailComponent implements OnDestroy {
               private fb: FormBuilder,
               private api: ApiService,
               private router: Router,
-              private store: Store<AppStateModel>) {
+              private store: Store<AppStateModel>,
+              private toastr: ExtendedToastrService) {
     this.store.dispatch({type: importTypeActions.IMPORT_TYPE_GET_REQUEST});
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       params => {
@@ -176,10 +178,12 @@ export class ImportDetailComponent implements OnDestroy {
     }));
     this.api.put(PROPERTY_ENDPOINT, payload).subscribe(
       () => {
+        this.toastr.success('toastr.success.updateImportProperties');
         this.store.dispatch({type: importPropertyActions.IMPORT_PROPERTY_GET_REQUEST, payload: this.importName});
         this.editingProperties = false;
       },
       (error) => {
+        this.toastr.error(error);
         console.error('Error occurred while updating campaign properties', error);
       }
     );
@@ -188,9 +192,11 @@ export class ImportDetailComponent implements OnDestroy {
   deleteImport(): void {
     this.api.remove(`${IMPORT_ENDPOINT}/${this.importName}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteImport');
         this.router.navigateByUrl('platform/imports');
       },
       (error) => {
+        this.toastr.error(error);
         console.error('Error occurred while deleting import.', error);
       }
     );

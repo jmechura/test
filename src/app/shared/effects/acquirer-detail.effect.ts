@@ -4,7 +4,6 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { acquirerDetailActions } from '../reducers/acquirer-detail.reducer';
-import { LanguageService } from 'app/shared/services/language.service';
 import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const ACQUIRER_ENDPOINT_LIST = '/networks';
@@ -13,8 +12,7 @@ const ACQUIRER_ENDPOINT_LIST = '/networks';
 export class AcquirerDetailEffect {
   constructor(private api: ApiService,
               private actions$: Actions,
-              private toastr: ExtendedToastrService,
-              private language: LanguageService) {
+              private toastr: ExtendedToastrService) {
   }
 
   @Effect()
@@ -33,11 +31,11 @@ export class AcquirerDetailEffect {
       .ofType(acquirerDetailActions.ACQUIRER_DETAIL_PUT_REQUEST)
       .switchMap(action => this.api.put(ACQUIRER_ENDPOINT_LIST, action.payload)
         .map(res => {
-          this.toastr.success(this.language.translate('toastr.success.updateAcquirerDetail'));
+          this.toastr.success('toastr.success.updateAcquirer');
           return {type: acquirerDetailActions.ACQUIRER_DETAIL_PUT, payload: res};
         })
         .catch((res) => {
-          this.toastr.error(this.language.translate('toastr.error.updateAcquirerDetail'));
+          this.toastr.error(res);
           return Observable.of({type: acquirerDetailActions.ACQUIRER_DETAIL_PUT_FAIL, payload: res});
         })
       );

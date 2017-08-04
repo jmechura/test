@@ -15,6 +15,7 @@ import { PropertyDefModel } from '../../shared/models/property-def.model.';
 import { ApiService } from '../../shared/services/api.service';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const REPORT_DESTROY_ENDPOINT = '/reports/destroy';
 const REPORT_START_ENDPOINT = '/reports/start';
@@ -44,7 +45,8 @@ export class ReportDetailComponent implements OnDestroy {
               private fb: FormBuilder,
               private router: Router,
               private api: ApiService,
-              private store: Store<AppStateModel>) {
+              private store: Store<AppStateModel>,
+              private toastr: ExtendedToastrService) {
     this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       params => {
@@ -156,11 +158,14 @@ export class ReportDetailComponent implements OnDestroy {
     }));
     this.api.post(PROPERTY_ENDPOINT, payload).subscribe(
       () => {
+        this.toastr.success('toastr.success.updateReportProperties');
         this.store.dispatch({type: reportPropertyActions.REPORT_PROPERTY_GET_REQUEST, payload: this.reportName});
         this.editingProperties = false;
       },
       (error) => {
+        this.toastr.error(error);
         console.error('Error occurred while updating campaign properties', error);
+        this.editingProperties = false;
       }
     );
   }
@@ -179,9 +184,13 @@ export class ReportDetailComponent implements OnDestroy {
   deleteReport(): void {
     this.api.remove(`${REPORT_ENDPOINT}/${this.reportName}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteReport');
+        this.reportModalVisible = false;
         this.router.navigateByUrl('platform/imports');
       },
       (error) => {
+        this.toastr.error(error);
+        this.reportModalVisible = false;
         console.error('Error occurred while deleting import.', error);
       }
     );

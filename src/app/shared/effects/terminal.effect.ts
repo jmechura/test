@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { ApiService } from '../services/api.service';
 import { terminalActions } from '../reducers/terminal.reducer';
-import { LanguageService } from '../services/language.service';
 import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const TERMINAL_ENDPOINT = '/terminals';
@@ -13,7 +12,6 @@ const TERMINAL_ENDPOINT = '/terminals';
 export class TerminalEffect {
   constructor(private api: ApiService,
               private actions$: Actions,
-              private language: LanguageService,
               private toastr: ExtendedToastrService) {
   }
 
@@ -25,22 +23,34 @@ export class TerminalEffect {
         .catch((res) => Observable.of({type: terminalActions.TERMINAL_GET_FAIL, payload: res}))
       );
   }
-  // TODO ?
-  @Effect() postTerminal(): Observable<Action> {
+
+  @Effect() createTerminal(): Observable<Action> {
     return this.actions$
       .ofType(terminalActions.TERMINAL_POST_REQUEST)
       .switchMap(action => this.api.post(TERMINAL_ENDPOINT, action.payload)
-        .map(res => ({type: terminalActions.TERMINAL_POST, payload: res}))
-        .catch(() => Observable.of({type: terminalActions.TERMINAL_POST_FAIL}))
+        .map(res => {
+          this.toastr.success('toastr.success.createTerminal');
+          return {type: terminalActions.TERMINAL_POST, payload: res};
+        })
+        .catch(res => {
+          this.toastr.error(res);
+          return Observable.of({type: terminalActions.TERMINAL_POST_FAIL});
+        })
       );
   }
 
-  @Effect() putTerminal(): Observable<Action> {
+  @Effect() updateTerminal(): Observable<Action> {
     return this.actions$
       .ofType(terminalActions.TERMINAL_PUT_REQUEST)
       .switchMap(action => this.api.put(TERMINAL_ENDPOINT, action.payload)
-        .map(res => ({type: terminalActions.TERMINAL_PUT, payload: res}))
-        .catch(() => Observable.of({type: terminalActions.TERMINAL_PUT_FAIL}))
+        .map(res => {
+          this.toastr.success('toastr.success.updateTerminal');
+          return {type: terminalActions.TERMINAL_PUT, payload: res};
+        })
+        .catch(res => {
+          this.toastr.error(res);
+          return Observable.of({type: terminalActions.TERMINAL_PUT_FAIL});
+        })
       );
   }
 
@@ -49,11 +59,11 @@ export class TerminalEffect {
       .ofType(terminalActions.TERMINAL_DELETE_REQUEST)
       .switchMap(action => this.api.remove(`${TERMINAL_ENDPOINT}/${action.payload}`)
         .map(res => {
-          this.toastr.success(this.language.translate('toastr.success.deleteTerminal'));
+          this.toastr.success('toastr.success.deleteTerminal');
           return {type: terminalActions.TERMINAL_DELETE, payload: action.payload};
         })
-        .catch(() => {
-          this.toastr.error(this.language.translate('toastr.error.deleteTerminal'));
+        .catch(res => {
+          this.toastr.error(res);
           return Observable.of({type: terminalActions.TERMINAL_DELETE_FAIL});
         })
       );

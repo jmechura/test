@@ -13,6 +13,7 @@ import { UnsubscribeSubject } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LanguageService } from '../../shared/services/language.service';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const CAMPAIGN_ROUTE = 'platform/campaigns';
@@ -54,7 +55,8 @@ export class CampaignsComponent implements OnDestroy {
               private router: Router,
               private route: ActivatedRoute,
               private language: LanguageService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private toastr: ExtendedToastrService) {
 
     this.newCampaignForm = fb.group({
       name: ['', Validators.required],
@@ -125,9 +127,11 @@ export class CampaignsComponent implements OnDestroy {
   addCampaign(): void {
     this.api.post('/campaigns', this.newCampaign).subscribe(
       () => {
+        this.toastr.success('toastr.success.createCampaign');
         this.getCampaignsList();
       },
       error => {
+        this.toastr.error(error);
         console.error('Create campaign fail', error);
       }
     );
@@ -150,10 +154,14 @@ export class CampaignsComponent implements OnDestroy {
   deleteCampaign(): void {
     this.api.remove(`/campaigns/${this.deletingCampaignName}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteCampaign');
         this.getCampaignsList();
+        this.warnModalVisible = false;
       },
       error => {
+        this.toastr.error(error);
         console.error('Delete campaign fail', error);
+        this.warnModalVisible = false;
       }
     );
   }

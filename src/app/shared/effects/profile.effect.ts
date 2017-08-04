@@ -4,7 +4,6 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { profileActions } from '../reducers/profile.reducer';
-import { LanguageService } from '../services/language.service';
 import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const PROFILE_GET_ENDPOINT = '/account';
@@ -14,7 +13,6 @@ const PROFILE_UPDATE_ENDPOINT = '/users';
 export class ProfileEffect {
   constructor(private api: ApiService,
               private actions$: Actions,
-              private language: LanguageService,
               private toastr: ExtendedToastrService) {
   }
 
@@ -34,16 +32,16 @@ export class ProfileEffect {
       .ofType(profileActions.PROFILE_PUT_REQUEST)
       .switchMap(action => this.api.put(PROFILE_UPDATE_ENDPOINT, action.payload)
         .map(res => {
-          this.toastr.success(this.language.translate('toastr.success.updateProfile'));
+          this.toastr.success('toastr.success.updateProfile');
           return {type: profileActions.PROFILE_PUT, payload: res};
         })
         .catch(res => {
-          this.toastr.error(this.language.translate('toastr.error.updateProfile'));
+          this.toastr.error(res);
           return Observable.of({type: profileActions.PROFILE_PUT_ERROR, payload: res});
         })
       );
   }
-  // TODO ? IS NEEDED?
+
   @Effect()
   discard(): Observable<Action> {
     return this.actions$

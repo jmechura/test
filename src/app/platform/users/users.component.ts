@@ -25,6 +25,7 @@ import { AppConfigService } from '../../shared/services/app-config.service';
 import { RoleService } from '../../shared/services/role.service';
 import { MissingTokenResponse } from 'app/shared/utils';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const USERS_ROUTE = 'platform/users';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -72,7 +73,8 @@ export class UsersComponent implements OnDestroy {
               private api: ApiService,
               private language: LanguageService,
               private appConfig: AppConfigService,
-              private roles: RoleService) {
+              private roles: RoleService,
+              private toastr: ExtendedToastrService) {
 
     this.filterForm = this.fb.group({
       email: [''],
@@ -436,11 +438,13 @@ export class UsersComponent implements OnDestroy {
     delete newUser.resources;
     this.api.post('/users', newUser).subscribe(
       () => {
+        this.toastr.success('toastr.success.createUser');
         this.newUserForm.reset();
         this.clearResources();
         this.getUsers();
       },
       error => {
+        this.toastr.error(error);
         console.error('Create user fail', error);
       }
     );

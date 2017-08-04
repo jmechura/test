@@ -19,6 +19,7 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 import { LanguageService } from '../../shared/services/language.service';
 import { MerchantsFilterSections } from '../../shared/enums/merchants-filter-sections.enum';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const MERCHANT_ROUTE = 'platform/merchants';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -78,7 +79,8 @@ export class MerchantsComponent implements OnDestroy {
               private language: LanguageService,
               private router: Router,
               private route: ActivatedRoute,
-              private roles: RoleService) {
+              private roles: RoleService,
+              private toastr: ExtendedToastrService) {
 
     this.newMerchantForm = fb.group({
       name: ['', Validators.required],
@@ -243,9 +245,11 @@ export class MerchantsComponent implements OnDestroy {
     this.newMerchant.id = `${this.newMerchant.networkCode}:${this.newMerchant.code}`;
     this.api.post('/merchants', this.newMerchant).subscribe(
       () => {
+        this.toastr.success('toastr.success.createMerchant');
         this.getMerchantList();
       },
       error => {
+        this.toastr.error(error);
         console.error('Create merchant fail', error);
       }
     );

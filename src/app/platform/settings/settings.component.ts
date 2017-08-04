@@ -10,6 +10,7 @@ import { LanguageService } from '../../shared/services/language.service';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { orgUnitActions, OrgUnitState } from '../../shared/reducers/org-unit.reducer';
 import { OrgUnitModel } from '../../shared/models/org-unit.model';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const SECTIONS = ['USER', 'PASSWORD', 'PAGE'];
 
@@ -33,7 +34,8 @@ export class SettingsComponent implements OnDestroy {
   constructor(private fb: FormBuilder,
               private store: Store<AppStateModel>,
               private language: LanguageService,
-              private api: ApiService) {
+              private api: ApiService,
+              private toastr: ExtendedToastrService) {
 
     this.passwordForm = fb.group({
       oldPassword: '',
@@ -105,9 +107,11 @@ export class SettingsComponent implements OnDestroy {
 
     this.api.post('/users/changepassword/own', newPasswordObject).subscribe(
       () => {
+        this.toastr.success('toastr.success.changePassword');
         console.info('Change password success');
       },
       error => {
+        this.toastr.error(error);
         console.error('Change password API call has returned error', error);
       }
     );

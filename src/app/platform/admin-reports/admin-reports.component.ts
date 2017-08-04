@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const REPORT_ROUTE = 'platform/admin-reports';
@@ -48,7 +49,8 @@ export class AdminReportsComponent implements OnDestroy {
               private router: Router,
               private fb: FormBuilder,
               private route: ActivatedRoute,
-              private api: ApiService) {
+              private api: ApiService,
+              private toastr: ExtendedToastrService) {
     this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: ListRouteParamsModel) => {
@@ -107,11 +109,13 @@ export class AdminReportsComponent implements OnDestroy {
   addNewReport(): void {
     this.api.post(REPORT_ENDPOINT, this.newReportForm.value).subscribe(
       () => {
+        this.toastr.success('toastr.success.addReport');
         this.newReportModalVisible = false;
         this.getReports();
       },
       (error) => {
         console.error('Error occurred while creating new report.', error);
+        this.toastr.error(error);
         this.newReportModalVisible = false;
       }
     );
@@ -126,11 +130,13 @@ export class AdminReportsComponent implements OnDestroy {
   deleteReport(): void {
     this.api.remove(`${REPORT_ENDPOINT}/${this.deletingName}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteReport');
         this.deleteModalVisible = false;
         this.getReports();
       },
       (error) => {
         console.error('Error occurred while creating new report.', error);
+        this.toastr.error(error);
         this.deleteModalVisible = false;
       }
     );

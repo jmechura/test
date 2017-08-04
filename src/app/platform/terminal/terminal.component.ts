@@ -19,6 +19,7 @@ import { ProfileModel } from '../../shared/models/profile.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const TERMINALS_ROUTE = 'platform/terminal';
@@ -65,7 +66,8 @@ export class TerminalComponent implements OnDestroy {
               private api: ApiService,
               private router: Router,
               private route: ActivatedRoute,
-              private roles: RoleService) {
+              private roles: RoleService,
+              private toastr: ExtendedToastrService) {
     this.getTerminalList();
 
     this.newTerminalForm = fb.group({
@@ -277,9 +279,11 @@ export class TerminalComponent implements OnDestroy {
   addTerminal(): void {
     this.api.post(`${API_ENDPOINT}`, this.newTerminalForm.value).subscribe(
       () => {
+        this.toastr.success('toastr.success.createTerminal');
         this.getTerminalList();
       },
       (error) => {
+        this.toastr.error(error);
         console.error('Terminal API call returned error.', error);
       }
     );

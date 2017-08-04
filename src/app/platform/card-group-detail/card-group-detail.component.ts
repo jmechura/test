@@ -19,6 +19,7 @@ import { addressDetailActions } from '../../shared/reducers/address-detail.reduc
 import { ApiService } from '../../shared/services/api.service';
 import { RoleService } from 'app/shared/services/role.service';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 interface TabOptions {
   label: string;
@@ -66,7 +67,8 @@ export class CardGroupDetailComponent implements OnDestroy {
               private langService: LanguageService,
               private configService: AppConfigService,
               private roles: RoleService,
-              private api: ApiService) {
+              private api: ApiService,
+              private toastr: ExtendedToastrService) {
     this.route.params.subscribe(
       (params: { id: string }) => {
         if (params.id) {
@@ -313,6 +315,7 @@ export class CardGroupDetailComponent implements OnDestroy {
         type: this.selectedAddressType,
       }).subscribe(
         () => {
+          this.toastr.success('toastr.success.submitAddress');
           this.addressForm.reset();
           this.store.dispatch({
             type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
@@ -321,6 +324,7 @@ export class CardGroupDetailComponent implements OnDestroy {
           });
         },
         error => {
+          this.toastr.error(error);
           console.error('Create address fail', error);
         }
       );
@@ -332,6 +336,7 @@ export class CardGroupDetailComponent implements OnDestroy {
         type: this.selectedAddressType,
       }).subscribe(
         () => {
+          this.toastr.success('toastr.success.submitAddress');
           this.addressForm.reset();
           this.store.dispatch({
             type: addressDetailActions.ADDRESS_DETAIL_GET_REQUEST, payload: {
@@ -340,6 +345,7 @@ export class CardGroupDetailComponent implements OnDestroy {
           });
         },
         error => {
+          this.toastr.error(error);
           console.error('Create address fail', error);
         }
       );

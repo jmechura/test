@@ -4,7 +4,6 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { campaignDetailActions } from '../reducers/campaign-detail.reducer';
-import { LanguageService } from '../services/language.service';
 import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const CAMPAIGN_ENDPOINT = '/campaigns';
@@ -13,8 +12,7 @@ const CAMPAIGN_ENDPOINT = '/campaigns';
 export class CampaignDetailEffect {
   constructor(private api: ApiService,
               private actions$: Actions,
-              private toastr: ExtendedToastrService,
-              private language: LanguageService) {
+              private toastr: ExtendedToastrService) {
   }
 
   @Effect() getCampaign(): Observable<Action> {
@@ -31,11 +29,11 @@ export class CampaignDetailEffect {
       .ofType(campaignDetailActions.CAMPAIGN_DETAIL_PUT_REQUEST)
       .switchMap(action => this.api.put(CAMPAIGN_ENDPOINT, action.payload)
         .map(res => {
-          this.toastr.success(this.language.translate('toastr.success.updateCampaign'));
+          this.toastr.success('toastr.success.updateCampaign');
           return {type: campaignDetailActions.CAMPAIGN_DETAIL_PUT, payload: res};
         })
         .catch((res) => {
-          this.toastr.error(this.language.translate('toastr.error.updateCampaign'));
+          this.toastr.error(res);
           return Observable.of({type: campaignDetailActions.CAMPAIGN_DETAIL_PUT_FAIL, payload: res});
         })
       );

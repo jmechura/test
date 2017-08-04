@@ -15,6 +15,7 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 import { campaignFactoriesActions } from '../../shared/reducers/campaign-factories.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { LanguageService } from '../../shared/services/language.service';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const PROPERTY_ENDPOINT = '/campaigns/properties';
 const CAMPAIGNS_ENDPOINT = '/campaigns';
@@ -44,7 +45,8 @@ export class CampaignsDetailComponent implements OnDestroy {
               private store: Store<AppStateModel>,
               private router: Router,
               private language: LanguageService,
-              private api: ApiService) {
+              private api: ApiService,
+              private toastr: ExtendedToastrService) {
     this.store.dispatch({type: campaignFactoriesActions.CAMPAIGN_FACTORIES_GET_REQUEST});
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       params => {
@@ -144,9 +146,11 @@ export class CampaignsDetailComponent implements OnDestroy {
   deleteCampaign(): void {
     this.api.remove(`${CAMPAIGNS_ENDPOINT}/${this.campaignName}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteCampaign');
         this.router.navigateByUrl('platform/campaigns');
       },
       (error) => {
+        this.toastr.error(error);
         console.error('Error occured while deleting campaign.', error);
       }
     );
@@ -173,11 +177,12 @@ export class CampaignsDetailComponent implements OnDestroy {
 
     this.api.put(PROPERTY_ENDPOINT, payload).subscribe(
       () => {
-        // TODO indicate success, dude!
+        this.toastr.success('toastr.success.updateCampaignProperties');
         this.store.dispatch({type: campaignPropertyActions.CAMPAIGN_PROPERTY_GET_REQUEST, payload: this.campaignDetail.name});
         this.editingProperties = false;
       },
       error => {
+        this.toastr.error(error);
         console.error(error);
       }
     );

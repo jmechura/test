@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { ApiService } from '../services/api.service';
 import { userActions } from '../reducers/user.reducer';
-import { LanguageService } from '../services/language.service';
 import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 const USER_ENDPOINT = '/users';
@@ -13,7 +12,6 @@ const USER_ENDPOINT = '/users';
 export class UserEffect {
   constructor(private api: ApiService,
               private actions$: Actions,
-              private language: LanguageService,
               private toastr: ExtendedToastrService) {
   }
 
@@ -26,14 +24,20 @@ export class UserEffect {
         .catch((res) => Observable.of({type: userActions.USER_GET_FAIL, payload: res}))
       );
   }
-  // TODO ? PUT? -> used when saving user edit, is it used elsewhere???
+
   @Effect()
-  puttUser(): Observable<Action> {
+  updateUser(): Observable<Action> {
     return this.actions$
       .ofType(userActions.USER_PUT_REQUEST)
       .switchMap(action => this.api.put(USER_ENDPOINT, action.payload)
-        .map(res => ({type: userActions.USER_PUT, payload: res}))
-        .catch((res) => Observable.of({type: userActions.USER_PUT_FAIL, payload: res}))
+        .map(res => {
+          this.toastr.success('toastr.success.updateUser');
+          return {type: userActions.USER_PUT, payload: res};
+        })
+        .catch((res) => {
+          this.toastr.error(res);
+          return Observable.of({type: userActions.USER_PUT_FAIL, payload: res});
+        })
       );
   }
 }

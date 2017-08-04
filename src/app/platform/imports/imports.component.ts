@@ -13,6 +13,7 @@ import { StateModel } from '../../shared/models/state.model';
 import { LanguageService } from '../../shared/services/language.service';
 import { importTypeActions } from '../../shared/reducers/import-type.reducer';
 import { ApiService } from '../../shared/services/api.service';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const IMPORT_ROUTE = 'platform/imports';
 const IMPORT_ENDPOINT = '/imports';
@@ -49,7 +50,8 @@ export class ImportsComponent implements OnDestroy {
               private fb: FormBuilder,
               private api: ApiService,
               private language: LanguageService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ExtendedToastrService) {
     this.store.dispatch({type: importTypeActions.IMPORT_TYPE_GET_REQUEST});
     this.store.select('imports').takeUntil(this.unsubscribe$).subscribe(
       (data: ImportState) => {
@@ -120,11 +122,14 @@ export class ImportsComponent implements OnDestroy {
   addNewImport(): void {
     this.api.post(IMPORT_ENDPOINT, this.newImportForm.value).subscribe(
       () => {
+        this.toastr.success('toastr.success.createImport');
         this.getImports();
         this.newImportModalVisible = false;
       },
       (error) => {
+        this.toastr.error(error);
         console.error('Error occurred while creating new import.', error);
+        this.newImportModalVisible = false;
       }
     );
   }
@@ -138,11 +143,14 @@ export class ImportsComponent implements OnDestroy {
   deleteImport(): void {
     this.api.remove(`${IMPORT_ENDPOINT}/${this.deletingName}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteImport');
         this.getImports();
         this.deleteModalVisible = false;
       },
       (error) => {
+        this.toastr.error(error);
         console.error('Error occurred while deleting import.', error);
+        this.deleteModalVisible = false;
       }
     );
   }

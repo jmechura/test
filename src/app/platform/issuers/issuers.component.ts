@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
 import { Router } from '@angular/router';
 import { UnsubscribeSubject } from '../../shared/utils';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 @Component({
   selector: 'mss-issuers',
@@ -36,7 +37,11 @@ export class IssuersComponent implements OnDestroy {
   loading = true;
   rows = [];
 
-  constructor(private store: Store<AppStateModel>, private router: Router, private fb: FormBuilder, private api: ApiService) {
+  constructor(private store: Store<AppStateModel>,
+              private router: Router,
+              private fb: FormBuilder,
+              private api: ApiService,
+              private toastr: ExtendedToastrService) {
     this.newIssuerForm = fb.group({
       addressName: [''],
       city: ['', Validators.required],
@@ -82,13 +87,14 @@ export class IssuersComponent implements OnDestroy {
       return;
     }
 
-
     this.api.post('/issuers', this.newIssuerForm.value).subscribe(
       () => {
+        this.toastr.success('toastr.success.createIssuer');
         this.newIssuerForm.reset();
         this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
       },
       error => {
+        this.toastr.error(error);
         console.error('Create issuer fail', error);
       }
     );

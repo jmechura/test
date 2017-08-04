@@ -9,6 +9,7 @@ import { CardDetailModel } from '../../shared/models/card-detail.model';
 import { ProfileModel } from '../../shared/models/profile.model';
 import { cardDetailActions } from '../../shared/reducers/card-detail.reducer';
 import { ApiService } from '../../shared/services/api.service';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 interface PinblocKeyModel {
   alg: string;
@@ -50,7 +51,8 @@ export class CardViewComponent implements OnDestroy {
   constructor(private fb: FormBuilder,
               private crypto: EncryptPinBlockService,
               private store: Store<AppStateModel>,
-              private api: ApiService) {
+              private api: ApiService,
+              private toastr: ExtendedToastrService) {
 
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
       ({data, error}: StateModel<ProfileModel>) => {
@@ -116,9 +118,11 @@ export class CardViewComponent implements OnDestroy {
         .post('/cards/changepin', {aesKey: pinBlock.aesKeyHex, pinBlock: pinBlock.pinBlockHex, cardUuid: this.card.card.cardUuid})
         .subscribe(
           () => {
+            this.toastr.success('toastr.success.changePin');
             this.toggleCardPin();
           },
           err => {
+            this.toastr.error(err);
             console.error('Error occurred while changing pin');
           }
         )
@@ -129,11 +133,14 @@ export class CardViewComponent implements OnDestroy {
     const state = this.card.card.state === 'ENABLED' ? 'DISABLED' : 'ENABLED';
     this.api.post('/cards/state', {state, uuid: this.card.card.cardUuid}).subscribe(
       () => {
+        this.toastr.success('toastr.success.changeCardStatus');
         this.store.dispatch({type: cardDetailActions.CARD_DETAIL_GET_REQUEST, payload: this.card.card.cardUuid});
         this.toggleStatusChange();
       },
       err => {
+        this.toastr.error(err);
         console.error('Error occurred while changing card status');
+        this.toggleStatusChange();
       }
     );
   }

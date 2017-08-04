@@ -5,7 +5,6 @@ import { Action } from '@ngrx/store';
 import { ApiService } from '../services/api.service';
 import { importDetailActions } from '../reducers/import-detail.reducer';
 import { ExtendedToastrService } from '../services/extended-toastr.service';
-import { LanguageService } from '../services/language.service';
 
 const IMPORT_ENDPOINT = '/imports/data';
 const IMPORT_EDIT_ENDPOINT = '/imports';
@@ -14,7 +13,6 @@ const IMPORT_EDIT_ENDPOINT = '/imports';
 export class ImportDetailEffect {
   constructor(private api: ApiService,
               private actions$: Actions,
-              private language: LanguageService,
               private toastr: ExtendedToastrService) {
   }
 
@@ -29,16 +27,16 @@ export class ImportDetailEffect {
   }
 
   @Effect()
-  editImport(): Observable<Action> {
+  updateImport(): Observable<Action> {
     return this.actions$
       .ofType(importDetailActions.IMPORT_DETAIL_PUT_REQUEST)
       .switchMap(action => this.api.put(`${IMPORT_EDIT_ENDPOINT}`, action.payload)
         .map(res => {
-          this.toastr.success(this.language.translate('toastr.success.editImport'));
+          this.toastr.success('toastr.success.updateImport');
           return {type: importDetailActions.IMPORT_DETAIL_PUT, payload: res};
         })
         .catch((res) => {
-          this.toastr.error(this.language.translate('toastr.error.editImport'));
+          this.toastr.error(res);
           return Observable.of({type: importDetailActions.IMPORT_DETAIL_PUT_FAIL, payload: res});
         })
       );

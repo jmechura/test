@@ -9,6 +9,7 @@ import { IssuerModel } from '../../shared/models/issuer.model';
 import { ActivatedRoute } from '@angular/router';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 @Component({
   selector: 'mss-issuer-detail',
@@ -35,7 +36,11 @@ export class IssuerDetailComponent implements OnDestroy {
     this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_API_GET, payload: this.id});
   }
 
-  constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private api: ApiService, private route: ActivatedRoute) {
+  constructor(private store: Store<AppStateModel>,
+              private fb: FormBuilder,
+              private api: ApiService,
+              private route: ActivatedRoute,
+              private toastr: ExtendedToastrService) {
     this.editIssuerForm = fb.group({
       addressName: [''],
       city: ['', Validators.required],
@@ -92,10 +97,12 @@ export class IssuerDetailComponent implements OnDestroy {
       ...this.editIssuerForm.value
     }).subscribe(
       () => {
+        this.toastr.success('toastr.success.updateIssuer');
         this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_API_GET, payload: this.id});
         this.toggleUpdateIssuer();
       },
       error => {
+        this.toastr.error(error);
         console.error('Update issuer fail', error);
       }
     );

@@ -16,6 +16,7 @@ import { RoleService } from '../../shared/services/role.service';
 import { MerchantDetailSections } from 'app/shared/enums/merchant-detail-sections.enum';
 import { ApiService } from '../../shared/services/api.service';
 import { optionalEmailValidator } from '../../shared/validators/optional-email.validator';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 @Component({
   selector: 'mss-merchants-detail',
@@ -52,7 +53,8 @@ export class MerchantsDetailComponent implements OnDestroy {
               private fb: FormBuilder,
               private roles: RoleService,
               private api: ApiService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ExtendedToastrService) {
 
     this.merchantForm = this.fb.group(
       {
@@ -200,9 +202,11 @@ export class MerchantsDetailComponent implements OnDestroy {
       merch.id = `${merch.networkCode}:${merch.code}`;
       this.api.post('/merchants', merch).subscribe(
         (merchant: MerchantModel) => {
+          this.toastr.success('toastr.success.updateMerchant');
           this.router.navigateByUrl(`platform/merchants/${merchant.id}`);
         },
         error => {
+          this.toastr.error(error);
           console.error('Create merchant fail', error);
         }
       );

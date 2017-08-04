@@ -21,6 +21,7 @@ import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 import { AppConfigService } from '../../shared/services/app-config.service';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 interface TabOptions {
   label: string;
@@ -90,7 +91,8 @@ export class CardGroupsComponent implements OnDestroy {
               private language: LanguageService,
               private router: Router,
               private roles: RoleService,
-              private configService: AppConfigService) {
+              private configService: AppConfigService,
+              private toastr: ExtendedToastrService) {
 
 
     this.filterSections = this.cardFilterSection.filter(key => isNaN(Number(key)))
@@ -310,10 +312,12 @@ export class CardGroupsComponent implements OnDestroy {
         }
         this.api.post('/cardgroups', payload).subscribe(
           () => {
+            this.toastr.success('toastr.success.createCardGroup');
             this.toggleAddCardGroupModal();
             this.getCardGroups();
           },
           (error) => {
+            this.toastr.error(error);
             console.error('data', error);
           }
         );

@@ -18,6 +18,7 @@ import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 import { CardFilterSections } from '../../shared/enums/card-sections.enum';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
   cardGroupCode: '',
@@ -68,7 +69,8 @@ export class CardListComponent implements OnDestroy {
               private api: ApiService,
               private language: LanguageService,
               private router: Router,
-              private roles: RoleService) {
+              private roles: RoleService,
+              private toastr: ExtendedToastrService) {
     this.store.dispatch({type: cardStateActions.CARD_STATE_GET_REQUEST});
 
     this.filterSections = Object.keys(CardFilterSections).filter(key => isNaN(Number(key)))
@@ -187,9 +189,11 @@ export class CardListComponent implements OnDestroy {
     }
     this.api.post('/cards/requests', {cardUuid: row.cardUuid, confirm: true}).subscribe(
       () => {
+        this.toastr.success('toastr.success.sendCardRequest');
         this.store.dispatch({type: cardActions.CARD_API_GET, payload: this.requestModel});
       },
       error => {
+        this.toastr.error(error);
         console.error('Error occurred while sending card request', error);
       }
     );
@@ -216,9 +220,11 @@ export class CardListComponent implements OnDestroy {
     this.editingRow = -1;
     this.api.post('/cards/state', {state: this.editedCard.state, uuid: this.editedCard.cardUuid}).subscribe(
       () => {
+        this.toastr.success('toastr.success.changeCardStatus');
         this.store.dispatch({type: cardActions.CARD_API_GET, payload: this.requestModel});
       },
       error => {
+        this.toastr.error(error);
         console.error('Error occured while changing card state', error);
       }
     );

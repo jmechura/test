@@ -14,6 +14,7 @@ import { AcquirerSections } from '../../shared/enums/acquirer-sections.enum';
 import { LanguageService } from '../../shared/services/language.service';
 import { StateModel } from '../../shared/models/state.model';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const ACQUIRERS_ROUTE = 'platform/acquirers';
@@ -49,7 +50,8 @@ export class AcquirersComponent implements OnDestroy {
               private api: ApiService,
               private fb: FormBuilder,
               private language: LanguageService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private toastr: ExtendedToastrService) {
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
     this.store.select('acquirers').takeUntil(this.unsubscribe$).subscribe(
       (data: AcquirerState) => {
@@ -145,10 +147,14 @@ export class AcquirersComponent implements OnDestroy {
   deleteAcquirer(): void {
     this.api.remove(`${ACQUIRERS_ENDPOINT}/${this.deletingCode}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteAcquirer');
+        this.deleteModalVisible = false;
         this.getAcquirers();
       },
       (error) => {
         console.error(`Error occurred while deleting acquirer.`, error);
+        this.toastr.error(error);
+        this.deleteModalVisible = false;
       }
     );
   }

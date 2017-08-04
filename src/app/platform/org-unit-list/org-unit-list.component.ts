@@ -18,6 +18,7 @@ import { RoleService } from '../../shared/services/role.service';
 import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
 import { merchantCodeActions } from '../../shared/reducers/merchant-code.reducer';
 import { CodeModel } from '../../shared/models/code.model';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const ORG_UNIT_ENDPOINT = '/orgUnits';
 const ORG_UNIT_ROUTE = '/platform/org-units';
@@ -59,7 +60,8 @@ export class OrgUnitListComponent implements OnDestroy {
               private router: Router,
               private fb: FormBuilder,
               private roles: RoleService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private toastr: ExtendedToastrService) {
     this.filterOptions = Object.keys(OrgUnitFilterSections).filter(key => isNaN(Number(key)))
       .map(item => ({
         label: this.language.translate(`orgUnits.list.sections.${item}`),
@@ -212,11 +214,14 @@ export class OrgUnitListComponent implements OnDestroy {
   createOrgUnit(model: OrgUnitModel): void {
     this.api.post(ORG_UNIT_ENDPOINT, model).subscribe(
       () => {
+        this.toastr.success('toastr.success.createOrgUnit');
         this.store.dispatch({type: orgUnitListActions.ORG_UNIT_LIST_GET_REQUEST, payload: this.requestModel});
         this.createModalShown = false;
       },
       error => {
+        this.toastr.error(error);
         console.error('Error creating org unit', error);
+        this.createModalShown = false;
       }
     );
   }
@@ -234,11 +239,14 @@ export class OrgUnitListComponent implements OnDestroy {
   deleteOrgUnit(): void {
     this.api.remove(`${ORG_UNIT_ENDPOINT}/${this.selectedOrgUnitId}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteOrgUnit');
         this.store.dispatch({type: orgUnitListActions.ORG_UNIT_LIST_GET_REQUEST, payload: this.requestModel});
         this.deleteModalShown = false;
       },
       error => {
+        this.toastr.error(error);
         console.error('Error deleting org unit', error);
+        this.deleteModalShown = false;
       }
     );
   }

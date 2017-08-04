@@ -4,7 +4,6 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { acquirerKeysActions } from '../reducers/acquirer-key.reducer';
-import { LanguageService } from '../services/language.service';
 import { ExtendedToastrService } from '../services/extended-toastr.service';
 
 export const ACQUIRER_KEYS_ENDPOINT = '/networks/keys';
@@ -13,8 +12,7 @@ export const ACQUIRER_KEYS_ENDPOINT = '/networks/keys';
 export class AcquirerKeysEffect {
   constructor(private api: ApiService,
               private actions$: Actions,
-              private toastr: ExtendedToastrService,
-              private language: LanguageService) {
+              private toastr: ExtendedToastrService) {
   }
 
   @Effect()

@@ -14,8 +14,8 @@ import { AcquirerKey } from '../../shared/models/acquirer-key.model';
 import { acquirerKeysActions } from '../../shared/reducers/acquirer-key.reducer';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 import { ApiService } from '../../shared/services/api.service';
+import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 import { ACQUIRER_KEYS_ENDPOINT } from '../../shared/effects/acquirer-keys.effect';
-import { ToastrService } from 'ngx-toastr';
 
 enum Mode {
   View,
@@ -61,8 +61,8 @@ export class AcquirerDetailComponent implements OnDestroy {
               private language: LanguageService,
               private api: ApiService,
               private fb: FormBuilder,
-              private toastr: ToastrService,
-              private store: Store<AppStateModel>) {
+              private store: Store<AppStateModel>,
+              private toastr: ExtendedToastrService) {
     this.acquirerForm = this.fb.group({
       name: ['', Validators.required],
       code: [{value: '', disabled: true}, Validators.required],
@@ -202,7 +202,7 @@ export class AcquirerDetailComponent implements OnDestroy {
         });
       },
       (error) => {
-        this.toastr.error(this.language.translate('toastr.error.setKeyAsLast'));
+        this.toastr.error(error);
       }
     );
   }
@@ -219,10 +219,12 @@ export class AcquirerDetailComponent implements OnDestroy {
   createNewAcquirer(): void {
     this.api.post(ACQUIRERS_ENDPOINT, this.acquirerForm.value).subscribe(
       () => {
+        this.toastr.success('toastr.success.createAcquirer');
         this.router.navigateByUrl(`${ACQUIRERS_ROUTE}/${this.acquirerForm.get('code').value}`);
       },
       (error) => {
         console.error('Error occurred while creating new acquirer', error);
+        this.toastr.error(error);
       }
     );
   }
@@ -230,10 +232,12 @@ export class AcquirerDetailComponent implements OnDestroy {
   deleteAcquirer(): void {
     this.api.remove(`${ACQUIRERS_ENDPOINT}/${this.acquirerData['code']}`).subscribe(
       () => {
+        this.toastr.success('toastr.success.deleteAcquirer');
         this.router.navigateByUrl(`${ACQUIRERS_ROUTE}`);
       },
       (error) => {
         console.error(`Error occurred while deleting acquirer.`, error);
+        this.toastr.error(error);
       }
     );
   }
