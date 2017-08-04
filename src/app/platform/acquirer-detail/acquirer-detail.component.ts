@@ -14,6 +14,8 @@ import { AcquirerKey } from '../../shared/models/acquirer-key.model';
 import { acquirerKeysActions } from '../../shared/reducers/acquirer-key.reducer';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 import { ApiService } from '../../shared/services/api.service';
+import { ACQUIRER_KEYS_ENDPOINT } from '../../shared/effects/acquirer-keys.effect';
+import { ToastrService } from 'ngx-toastr';
 
 enum Mode {
   View,
@@ -59,6 +61,7 @@ export class AcquirerDetailComponent implements OnDestroy {
               private language: LanguageService,
               private api: ApiService,
               private fb: FormBuilder,
+              private toastr: ToastrService,
               private store: Store<AppStateModel>) {
     this.acquirerForm = this.fb.group({
       name: ['', Validators.required],
@@ -155,16 +158,27 @@ export class AcquirerDetailComponent implements OnDestroy {
 
     this.newKeyForm = this.fb.group({
       keyName: ['', Validators.required],
-      keyValue: ['', Validators.required],
+      keyValue: [''],
       last: [false]
     });
   }
 
   addNewKey(): void {
-    this.store.dispatch({
-      type: acquirerKeysActions.ACQUIRER_KEYS_POST_REQUEST,
-      payload: Object.assign({}, this.newKeyForm.value, {acquirerInstitutionCode: this.acquirerData.acquiringInstitutionCode})
-    });
+    this.api.post(ACQUIRER_KEYS_ENDPOINT, Object.assign(
+      {}, this.newKeyForm.value,
+      {acquirerInstitutionCode: this.acquirerData.acquiringInstitutionCode})
+    ).subscribe(
+      () => {
+        this.toastr.success(this.language.translate('toastr.success.addAcquirerKey'));
+        this.store.dispatch({
+          type: acquirerKeysActions.ACQUIRER_KEYS_GET_REQUEST,
+          payload: this.acquirerData.acquiringInstitutionCode
+        });
+      },
+      (error) => {
+        this.toastr.error(this.language.translate('toastr.error.addAcquirerKey'));
+      }
+    );
     this.modalVisible = false;
     this.newKeyForm.reset();
   }
@@ -179,10 +193,18 @@ export class AcquirerDetailComponent implements OnDestroy {
   }
 
   setAsLast(id: number): void {
-    this.store.dispatch({
-      type: acquirerKeysActions.ACQUIRER_KEYS_SET_LAST_POST_REQUEST,
-      payload: id
-    });
+    this.api.post(`${ACQUIRER_KEYS_ENDPOINT}/last/${id}`, {}).subscribe(
+      () => {
+        this.toastr.success(this.language.translate('toastr.success.setKeyAsLast'));
+        this.store.dispatch({
+          type: acquirerKeysActions.ACQUIRER_KEYS_GET_REQUEST,
+          payload: this.acquirerData.acquiringInstitutionCode
+        });
+      },
+      (error) => {
+        this.toastr.error(this.language.translate('toastr.error.setKeyAsLast'));
+      }
+    );
   }
 
   isInvalid(value: string): boolean {
@@ -219,5 +241,10 @@ export class AcquirerDetailComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
     this.store.dispatch({type: acquirerDetailActions.ACQUIRER_DETAIL_CLEAR});
+  }
+
+  isPresentKeyName(): boolean {
+    const item = this.newKeyForm.get('keyName');
+    return (item.value === null || item.value === '') && item.touched;
   }
 }

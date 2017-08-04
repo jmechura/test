@@ -221,8 +221,8 @@
     <h3 class="mss-modal-title">{{'acquirers.detail.addKey' | translate}}</h3>
     <div class="content">
       <form novalidate [formGroup]="newKeyForm" (ngSubmit)="addNewKey()">
-        <mss-input [label]="'acquirers.dictionary.keyName' | translate" formControlName="keyName"></mss-input>
-        <div class="mss-validation-label"></div>
+        <mss-input [label]="'acquirers.dictionary.keyName' | translate" formControlName="keyName" [warn]="isPresentKeyName()"></mss-input>
+        <div class="mss-validation-label"><span *ngIf="isPresentKeyName()">{{'basic.required.keyName' | translate}}</span></div>
         <mss-input [label]="'acquirers.dictionary.keyValue' | translate" formControlName="keyValue"></mss-input>
         <div class="mss-validation-label"></div>
         <mss-checkbox [label]="'acquirers.dictionary.last' | translate" formControlName="last"></mss-checkbox>

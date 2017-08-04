@@ -47,6 +47,7 @@
     "addressName": "Jmeno adresy",
     "passwordExpired": "Heslo expirovano",
     "required": {
+      "keyName": "keyName je povinný údaj.",
       "code": "Kod je povinný údaj.",
       "name": "Jméno je povinný údaj.",
       "id": "ID je povinný údaj.",
