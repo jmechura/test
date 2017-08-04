@@ -518,4 +518,16 @@ export class UsersComponent implements OnDestroy {
   clearFilter(): void {
     this.filterForm.reset();
   }
+
+  discardUser(event: Event, id: string): void {
+    this.api.get(`/users/discarge/${id}`).subscribe(
+      () => {
+        this.getUsers();
+      },
+      error => {
+        console.error('Discharge user fail', error);
+      }
+    );
+    event.stopPropagation();
+  }
 }

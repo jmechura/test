@@ -504,6 +504,7 @@
       "authorities": "Authorities"
     },
     "dictionary": {
+      "discarge": "Discarge",
       "login": "Login",
       "blocked": "Blocked",
       "firstLogon": "First Logon",

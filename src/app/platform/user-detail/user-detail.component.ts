@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { userActions } from '../../shared/reducers/user.reducer';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StateModel } from '../../shared/models/state.model';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { AppStateModel } from '../../shared/models/app-state.model';
@@ -9,6 +9,7 @@ import { ProfileModel } from 'app/shared/models/profile.model';
 import { LanguageService } from '../../shared/services/language.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UnsubscribeSubject } from '../../shared/utils';
+import { ApiService } from '../../shared/services/api.service';
 
 interface InfoModel {
   label: string;
@@ -58,6 +59,8 @@ export class UserDetailComponent implements OnDestroy {
   }
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
+              private api: ApiService,
               private store: Store<AppStateModel>,
               private langService: LanguageService,
               private fb: FormBuilder) {
@@ -211,5 +214,16 @@ export class UserDetailComponent implements OnDestroy {
       }
     });
     this.store.dispatch({type: userActions.USER_PUT_REQUEST, payload: editedUser});
+  }
+
+  discardUser(): void {
+    this.api.get(`/users/discarge/${this.user.id}`).subscribe(
+      () => {
+        this.router.navigateByUrl(`/platform/users`);
+      },
+      error => {
+        console.error('Discharge user fail', error);
+      }
+    );
   }
 }

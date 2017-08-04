@@ -75,6 +75,8 @@
 
     <div *mssRoleIf="'users.edit'">
       <div class="edit-buttons-container" *ngIf="selectedOption === detailOptions[0] || selectedOption === detailOptions[1]">
+        <mss-button *mssRoleIf="'users.discarge'"
+          class="mss-action-button right-margin" [label]="('users.dictionary.discarge' | translate)" (click)="discardUser()"></mss-button>
         <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="mss-action-button"></mss-button>
         <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()"
                     class="mss-action-button right-margin"></mss-button>

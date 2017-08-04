@@ -175,6 +175,9 @@
       ],
       "resourceIdColumn": [
         "ROLE_ADMIN"
+      ],
+      "discarge": [
+        "ROLE_USER_DISCARGE"
       ]
     },
     "card": {

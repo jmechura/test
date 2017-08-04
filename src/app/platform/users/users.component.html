@@ -114,6 +114,11 @@
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'users.dictionary.resourceId' | translate" prop="resourceId" *mssRoleIf="'users.resourceIdColumn'" [sortable]="true">
       </ngx-datatable-column>
+      <ngx-datatable-column [name]="'users.discarge' | translate" [sortable]="false" *mssRoleIf="'users.discarge'">
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <i *ngIf="row.state !== 'DISCARDED'" (click)="discardUser($event, row.id)" class="material-icons icon">clear</i>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-footer>
         <ng-template
           ngx-datatable-footer-template
