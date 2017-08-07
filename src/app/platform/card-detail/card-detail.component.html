@@ -28,49 +28,51 @@
       </div>
     </div>
 
-    <div class="data-table-container row-break" *ngIf="selectedOption === detailOptions[2] && selectedAccountData.content">
-      <mss-tabs [items]="accountOptions" (itemChanged)="setSelectedAccountOption($event)" *ngIf="accountOptions.length > 0"></mss-tabs>
-      <ngx-datatable #table [loadingIndicator]="loading" [rows]="selectedAccountData.content"
-                     [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
-                     [limit]="requestModel.pagination.number" [count]="selectedAccountData ? selectedAccountData.totalElements : 0"
-                     [externalSorting]="true" [externalPaging]="true"
-                     (sort)="getSortedTransfers($event)" (page)="setPage($event)">
-        <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.trxUuid' | translate" prop="trxUuid"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm" [sortable]="false">
-          <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-            <div>{{getFormatedDate(value)}}</div>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm">
-          <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-            <div>{{getFormatedDate(value)}}</div>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount">
-          <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-            <div>{{value | currency:row['currency']['code']:true:'1.' + row['currency']['digits']}}</div>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.type' | translate" prop="type"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state"></ngx-datatable-column>
-        <ngx-datatable-footer>
-          <ng-template
-            ngx-datatable-footer-template
-            let-rowCount="rowCount"
-            let-pageSize="pageSize"
-            let-curPage="curPage">
-            <mss-table-footer
-              [page]="curPage"
-              [rowsShown]="pageSize"
-              [rowCount]="rowCount"
-              (rowsShownChange)="changeLimit($event)"
-              (changePage)="table.onFooterPage($event)"
-              class="d-table-footer">
-            </mss-table-footer>
-          </ng-template>
-        </ngx-datatable-footer>
-      </ngx-datatable>
-    </div>
+    <ng-container *mssRoleIf="'accounts.read'">
+      <div class="data-table-container row-break" *ngIf="selectedOption === detailOptions[2] && selectedAccountData.content">
+        <mss-tabs [items]="accountOptions" (itemChanged)="setSelectedAccountOption($event)" *ngIf="accountOptions.length > 0"></mss-tabs>
+        <ngx-datatable #table [loadingIndicator]="loading" [rows]="selectedAccountData.content"
+                       [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
+                       [limit]="requestModel.pagination.number" [count]="selectedAccountData ? selectedAccountData.totalElements : 0"
+                       [externalSorting]="true" [externalPaging]="true"
+                       (sort)="getSortedTransfers($event)" (page)="setPage($event)">
+          <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.trxUuid' | translate" prop="trxUuid"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <div>{{getFormatedDate(value)}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <div>{{getFormatedDate(value)}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <div>{{value | currency:row['currency']['code']:true:'1.' + row['currency']['digits']}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.type' | translate" prop="type"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state"></ngx-datatable-column>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-curPage="curPage">
+              <mss-table-footer
+                [page]="curPage"
+                [rowsShown]="pageSize"
+                [rowCount]="rowCount"
+                (rowsShownChange)="changeLimit($event)"
+                (changePage)="table.onFooterPage($event)"
+                class="d-table-footer">
+              </mss-table-footer>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </ng-container>
   </div>
 </div>

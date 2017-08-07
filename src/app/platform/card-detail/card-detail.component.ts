@@ -15,6 +15,7 @@ import { transfersActions } from '../../shared/reducers/transfers.reducer';
 import { Pagination } from '../../shared/models/pagination.model';
 import * as moment from 'moment';
 import { AppConfigService } from 'app/shared/services/app-config.service';
+import { RoleService } from '../../shared/services/role.service';
 
 interface InfoModel {
   label: string;
@@ -74,6 +75,7 @@ export class CardDetailComponent implements OnDestroy {
               private langService: LanguageService,
               private route: ActivatedRoute,
               private fb: FormBuilder,
+              private roles: RoleService,
               private configService: AppConfigService) {
 
     this.configService.get('dateFormat').subscribe(
@@ -102,6 +104,7 @@ export class CardDetailComponent implements OnDestroy {
         this.store.dispatch({type: cardDetailActions.CARD_DETAIL_GET_REQUEST, payload: params.uuid});
       }
     );
+
     this.store.select('cardDetail').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CardDetailModel>) => {
         if (data.error) {
@@ -113,13 +116,23 @@ export class CardDetailComponent implements OnDestroy {
           this.cardForm.patchValue(this.cardData);
           this.accountOptions = this.cardData.accounts.map(account => ({value: account.uuid}));
           this.selectedAccountOption = this.accountOptions[0];
-          this.store.dispatch({
-            type: transfersActions.TRANSFERS_GET_REQUEST, payload: {
-              predicatedObject: this.requestModel,
-              uuid: this.cardData.accounts[0].uuid,
-              type: 'CARD'
+
+          this.roles.isVisible('accounts.read').subscribe(
+            result => {
+              if (result) {
+                this.store.dispatch({
+                  type: transfersActions.TRANSFERS_GET_REQUEST, payload: {
+                    predicatedObject: this.requestModel,
+                    uuid: this.cardData.accounts[0].uuid,
+                    type: 'CARD'
+                  }
+                });
+              } else {
+                this.detailOptions = this.detailOptions.filter(opt => opt.value !== 'Account');
+              }
             }
-          });
+          );
+
           this.basicInfo = [
             [
               {
