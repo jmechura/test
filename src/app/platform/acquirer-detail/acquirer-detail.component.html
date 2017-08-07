@@ -12,7 +12,8 @@
                 (click)="deleteModalVisible = true"></mss-button>
   </div>
 
-  <div class="content">
+  <!--ADMIN VIEW-->
+  <div class="content" *mssRoleIf="'admin.view'">
     <div class="tabs">
       <mss-tabs [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
     </div>
@@ -134,6 +135,7 @@
           <div class="value">{{acquirerData.hsmTransitKeyName}}</div>
         </div>
         <div class="mss-validation-label"></div>
+
       </div>
     </div>
     <div class="section" *ngIf="mode === Mode.View && acquirerData" [ngClass]="{'visible': visibleTab.value === AcquirerSections.ADDRESS}">
@@ -195,6 +197,107 @@
     </div>
     <div class="mss-buttons-row">
       <mss-button *ngIf="mode === Mode.View && visibleTab.value !== AcquirerSections.KEYS"
+                  class="mss-action-button"
+                  (click)="mode = Mode.Edit"
+                  [label]="'basic.edit' | translate"></mss-button>
+    </div>
+  </div>
+  <!--ACQUIRER VIEW-->
+  <div class="content" *mssRoleIf="'networks.view'">
+    <form [formGroup]="acquirerForm" novalidate (ngSubmit)="editAcquirer()" *ngIf="mode === Mode.Edit">
+      <div class="section visible">
+        <div class="column">
+          <div class="form-item">
+            <mss-input [label]="('basic.name' | translate) + '*'" formControlName="name" [warn]="isInvalid('name')"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('name')">{{'basic.required.name' | translate}}</span>
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="('basic.code' | translate) + '*'" formControlName="code" [warn]="isInvalid('code')"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('code')">{{'basic.required.code' | translate}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="form-item">
+            <mss-select [label]="'basic.country' | translate" [options]="countries" formControlName="country"></mss-select>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'basic.region' | translate" formControlName="region"></mss-input>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'basic.city' | translate" formControlName="city"></mss-input>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'basic.street' | translate" formControlName="street"></mss-input>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+          <div class="form-item">
+            <mss-input [label]="'basic.zip' | translate" formControlName="zip"></mss-input>
+            <div class="mss-validation-label">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mss-buttons-row">
+        <mss-button class="mss-action-button right-margin" (click)="mode = Mode.View" type="button"
+                    [label]="'basic.dismiss' | translate"></mss-button>
+        <mss-button class="mss-action-button" [disabled]="acquirerForm.invalid" [label]="'basic.save' | translate" type="submit">
+        </mss-button>
+      </div>
+    </form>
+    <div class="section visible" *ngIf="mode === Mode.View && acquirerData">
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.name' | translate}}</div>
+          <div class="value">{{acquirerData.name}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.code' | translate}}</div>
+          <div class="value">{{acquirerData.code}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.country' | translate}}</div>
+          <div class="value">{{acquirerData.country}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.region' | translate}}</div>
+          <div class="value">{{acquirerData.region}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.city' | translate}}</div>
+          <div class="value">{{acquirerData.city}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.street' | translate}}</div>
+          <div class="value">{{acquirerData.street}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'basic.zip' | translate}}</div>
+          <div class="value">{{acquirerData.zip}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+    </div>
+    <div class="mss-buttons-row" *mssRoleIf="'networks.edit'">
+      <mss-button *ngIf="mode === Mode.View"
                   class="mss-action-button"
                   (click)="mode = Mode.Edit"
                   [label]="'basic.edit' | translate"></mss-button>

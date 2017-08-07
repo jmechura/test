@@ -98,7 +98,10 @@ export class DashboardComponent implements OnDestroy {
     search: {
       predicateObject: Object.assign({}, DEFAULT_FILTER)
     },
-    sort: {}
+    sort: {
+      predicate: 'pk.termDttm',
+      reverse: false
+    }
   };
   /**
    * Holds currently displayed rows of table

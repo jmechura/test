@@ -44,12 +44,16 @@
               <div class="label">{{ 'basic.id' | translate }}</div>
               <div class="value">{{cardGroupDetail.id}}</div>
             </div>
-            <mss-select *ngIf="edit" class="tab-item" [label]="'dictionary.state' | translate" formControlName="state"
-                        [options]="stateOptions"></mss-select>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
-              <div class="label">{{ 'dictionary.issuerCode' | translate }}</div>
-              <div class="value">{{cardGroupDetail.issuerCode}}</div>
-            </div>
+            <ng-container *mssRoleIf="'cardGroups.changeState'">
+              <mss-select *ngIf="edit" class="tab-item" [label]="'dictionary.state' | translate" formControlName="state"
+                          [options]="stateOptions"></mss-select>
+            </ng-container>
+            <ng-container *mssRoleIf="'admin.view'">
+              <div class="mss-input-like-container tab-item" *ngIf="!edit">
+                <div class="label">{{ 'dictionary.issuerCode' | translate }}</div>
+                <div class="value">{{cardGroupDetail.issuerCode}}</div>
+              </div>
+            </ng-container>
             <div class="mss-input-like-container tab-item" *ngIf="!edit">
               <div class="label">{{ 'dictionary.state' | translate }}</div>
               <div class="value">{{cardGroupDetail.state}}</div>

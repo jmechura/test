@@ -66,6 +66,14 @@
         "ROLE_ACCOUNT_READ"
       ]
     },
+    "networks": {
+      "view": [
+        "NETWORK_ROLE_RESOURCE_READ"
+      ],
+      "edit": [
+        "NETWORK_ROLE_RESOURCE_EDIT"
+      ]
+    },
     "transactions": {
       "read": [
         "ROLE_ADMIN",
@@ -327,6 +335,10 @@
       ],
       "cardGroupCodeSelect": [
         "ROLE_ADMIN"
+      ],
+      "changeState": [
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ"
       ]
     },
     "merchants": {

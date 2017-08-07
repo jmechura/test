@@ -8,12 +8,12 @@
       <form [formGroup]="editIssuerForm" class="edit-issuer-form">
         <div class="edit-issuer-inputs" *ngIf="isEditing">
           <div class="edit-issuer-input-side">
-            <mss-input formControlName="code" [label]="('basic.code' | translate) + '*'"
-                       [warn]="isPresent('code')"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
             <mss-input formControlName="name" [label]="('basic.name' | translate) + '*'"
                        [warn]="isPresent('name')"></mss-input>
             <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
+            <mss-input formControlName="code" [label]="('basic.code' | translate) + '*'"
+                       [warn]="isPresent('code')"></mss-input>
+            <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
             <mss-input formControlName="contactFirstname"
                        [label]="'basic.firstName' | translate"></mss-input>
             <div class="mss-validation-label"></div>
@@ -24,13 +24,17 @@
             <div class="mss-validation-label"><span *ngIf="isPresent('ico')">{{'basic.required.ico' | translate}}</span></div>
             <mss-input formControlName="dic" [label]="('basic.dic' | translate) + '*' | translate"></mss-input>
             <div class="mss-validation-label"><span *ngIf="isPresent('dic')">{{'basic.required.dic' | translate}}</span></div>
-            <mss-input formControlName="passwordHashValidityMinute"
-                       [label]="('issuers.passwordHashValidityMinute' | translate) + '*'" type="number"></mss-input>
-            <div class="mss-validation-label">
-              <span *ngIf="isPresent('passwordHashValidityMinute')">{{'issuers.required.passwordHashValidityMinute' | translate}}</span>
-            </div>
-            <mss-toggle formControlName="maskedClnUse" [label]="('issuers.maskedClnUse' | translate) + '*'"></mss-toggle>
-            <div class="mss-validation-label"></div>
+            <ng-container *mssRoleIf="'admin.view'">
+              <mss-input formControlName="passwordHashValidityMinute"
+                         [label]="('issuers.passwordHashValidityMinute' | translate) + '*'" type="number"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isPresent('passwordHashValidityMinute')">{{'issuers.required.passwordHashValidityMinute' | translate}}</span>
+              </div>
+            </ng-container>
+            <ng-container *mssRoleIf="'admin.view'">
+              <mss-toggle formControlName="maskedClnUse" [label]="('issuers.maskedClnUse' | translate) + '*'"></mss-toggle>
+              <div class="mss-validation-label"></div>
+            </ng-container>
           </div>
           <div class="edit-issuer-input-side">
             <mss-input formControlName="email" [label]="'basic.email' | translate">></mss-input>
@@ -57,12 +61,12 @@
         <div class="edit-issuer-inputs" *ngIf="!isEditing && issuer">
           <div class="detail-container">
             <div class="mss-input-like-container">
-              <div class="label">{{'basic.code' | translate}}</div>
-              <div class="value">{{issuer.code}}</div>
-            </div>
-            <div class="mss-input-like-container">
               <div class="label">{{'basic.name' | translate}}</div>
               <div class="value">{{issuer.name}}</div>
+            </div>
+            <div class="mss-input-like-container">
+              <div class="label">{{'basic.code' | translate}}</div>
+              <div class="value">{{issuer.code}}</div>
             </div>
             <div class="mss-input-like-container">
               <div class="label">{{'basic.firstName' | translate}}</div>
