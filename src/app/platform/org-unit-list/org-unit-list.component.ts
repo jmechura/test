@@ -118,13 +118,13 @@ export class OrgUnitListComponent implements OnDestroy {
         if (data.data && !data.loading) {
           const user = data.data;
 
-          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+          this.roles.isVisible('createEdit.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.showNetworkTab = true;
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                this.roles.isVisible('createEdit.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
                       this.showNetworkTab = true;

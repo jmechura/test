@@ -163,12 +163,12 @@ export class UsersComponent implements OnDestroy {
         }
         if (data != null && !loading) {
           this.profile = data;
-          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+          this.roles.isVisible('createEdit.issuerCodeSelect').subscribe(
             issuerResult => {
               if (issuerResult) {
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                this.roles.isVisible('createEdit.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
                       this.store.dispatch({
@@ -184,12 +184,12 @@ export class UsersComponent implements OnDestroy {
             }
           );
 
-          this.roles.isVisible('filters.networkCodeSelect').subscribe(
+          this.roles.isVisible('createEdit.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.merchantCodeSelect').subscribe(
+                this.roles.isVisible('createEdit.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
                       this.store.dispatch({
@@ -198,7 +198,7 @@ export class UsersComponent implements OnDestroy {
                       });
                     } else {
 
-                      this.roles.isVisible('filters.orgUnitCodeSelect').subscribe(
+                      this.roles.isVisible('createEdit.orgUnitCodeSelect').subscribe(
                         orgUnitResult => {
                           if (orgUnitResult) {
                             this.store.dispatch({

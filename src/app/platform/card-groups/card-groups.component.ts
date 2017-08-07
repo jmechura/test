@@ -179,13 +179,13 @@ export class CardGroupsComponent implements OnDestroy {
 
         if (data != null) {
           this.user = data;
-          this.roles.isVisible('filters.issuerCodeSelect').subscribe(
+          this.roles.isVisible('createEdit.issuerCodeSelect').subscribe(
             issuerResult => {
               if (issuerResult) {
                 this.issuerTab = true;
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('filters.cardGroupCodeSelect').subscribe(
+                this.roles.isVisible('createEdit.cardGroupCodeSelect').subscribe(
                   cardGroupResult => {
                     if (cardGroupResult) {
                       this.issuerTab = true;

@@ -52,10 +52,10 @@
                           [sortable]="true"></ngx-datatable-column>
     <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
     <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode"
-                          [sortable]="true" *mssRoleIf="'filters.orgUnitCodeSelect'">
+                          [sortable]="true" *mssRoleIf="'createEdit.orgUnitCodeSelect'">
     </ngx-datatable-column>
     <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode"
-                          [sortable]="true" *mssRoleIf="'filters.merchantCodeSelect'">
+                          [sortable]="true" *mssRoleIf="'createEdit.merchantCodeSelect'">
     </ngx-datatable-column>
     <ngx-datatable-column [name]="'basic.street' | translate" prop="street" [sortable]="false"></ngx-datatable-column>
     <ngx-datatable-column [name]="'basic.city' | translate" prop="city" [sortable]="false"></ngx-datatable-column>
@@ -126,7 +126,7 @@
         <mss-select [label]="('dictionary.networkCode' | translate) + '*'"
                     [options]="networkCodes"
                     formControlName="networkCode"
-                    *mssRoleIf="'terminals.formNetworkSelect'">
+                    *mssRoleIf="'createEdit.networkCodeSelect'">
         </mss-select>
         <div class="mss-validation-label">
           <span *ngIf="isPresent('networkCode')">{{'basic.required.networkCode' | translate}}</span>
@@ -134,7 +134,7 @@
         <mss-select [label]="('dictionary.merchantCode' | translate) + '*'"
                     [options]="merchantCodes"
                     formControlName="merchantId"
-                    *mssRoleIf="'terminals.formMerchantSelect'">
+                    *mssRoleIf="'createEdit.merchantCodeSelect'">
         </mss-select>
         <div class="mss-validation-label">
           <span *ngIf="isPresent('merchantId')">{{'basic.required.merchantId' | translate}}</span>
@@ -142,7 +142,7 @@
         <mss-select [label]="('dictionary.orgUnitCode' | translate) + '*'"
                     [options]="orgUnitCodes"
                     formControlName="orgUnitId"
-                    *mssRoleIf="'terminals.formOrgUnitSelect'">
+                    *mssRoleIf="'createEdit.orgUnitCodeSelect'">
         </mss-select>
         <div class="mss-validation-label">
           <span *ngIf="isPresent('orgUnitId')">{{'basic.required.orgUnitId' | translate}}</span>

@@ -126,7 +126,7 @@ export class MerchantsDetailComponent implements OnDestroy {
       }
     );
 
-    this.roles.isVisible('filters.networkCodeSelect').subscribe(
+    this.roles.isVisible('createEdit.networkCodeSelect').subscribe(
       networkResult => {
         if (networkResult) {
           this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});

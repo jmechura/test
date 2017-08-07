@@ -46,13 +46,13 @@
                        formControlName="note">
             </mss-input>
             <!-- NETWORK CODE -->
-            <mss-select *mssRoleIf="'filters.networkCodeSelect'"
+            <mss-select *mssRoleIf="'createEdit.networkCodeSelect'"
                         [label]="('dictionary.networkCode' | translate) + '*'"
                         formControlName="networkCode"
                         [options]="networkCodes">
             </mss-select>
             <div class="mss-validation-label"
-                 *mssRoleIf="'filters.networkCodeSelect'">
+                 *mssRoleIf="'createEdit.networkCodeSelect'">
               <span *ngIf="isPresentNetworkCode()">{{'basic.required.networkCode' | translate}}</span>
             </div>
           </div>

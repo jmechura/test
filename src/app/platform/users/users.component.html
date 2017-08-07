@@ -85,15 +85,20 @@
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'users.dictionary.login' | translate" prop="login" [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.issuerCode' | translate" prop="issuerCode" *mssRoleIf="'filters.issuerCodeSelect'" [sortable]="true">
+      <ngx-datatable-column [name]="'dictionary.issuerCode' | translate" prop="issuerCode" *mssRoleIf="'createEdit.issuerCodeSelect'"
+                            [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode" *mssRoleIf="'filters.cardGroupCodeSelect'" [sortable]="true">
+      <ngx-datatable-column [name]="'dictionary.cardGroupCode' | translate" prop="cardGroupCode"
+                            *mssRoleIf="'createEdit.cardGroupCodeSelect'" [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.networkCode' | translate" prop="networkCode" *mssRoleIf="'filters.networkCodeSelect'" [sortable]="true">
+      <ngx-datatable-column [name]="'dictionary.networkCode' | translate" prop="networkCode" *mssRoleIf="'createEdit.networkCodeSelect'"
+                            [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode" *mssRoleIf="'filters.merchantCodeSelect'" [sortable]="true">
+      <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode" *mssRoleIf="'createEdit.merchantCodeSelect'"
+                            [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode" *mssRoleIf="'filters.orgUnitCodeSelect'" [sortable]="true">
+      <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode" *mssRoleIf="'createEdit.orgUnitCodeSelect'"
+                            [sortable]="true">
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.firstName' | translate" prop="firstName" [sortable]="false">
       </ngx-datatable-column>

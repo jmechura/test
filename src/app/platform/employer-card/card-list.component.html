@@ -80,9 +80,9 @@
           </mss-select>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column *mssRoleIf="'filters.cardGroupCodeSelect'" [name]="'dictionary.cardGroupPrimaryCode' | translate"
+      <ngx-datatable-column *mssRoleIf="'createEdit.cardGroupCodeSelect'" [name]="'dictionary.cardGroupPrimaryCode' | translate"
                             prop="cardGroupPrimaryCode" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column *mssRoleIf="'filters.issuerCodeSelect'" [name]="'dictionary.issuerCode' | translate" prop="issuerCode"
+      <ngx-datatable-column *mssRoleIf="'createEdit.issuerCodeSelect'" [name]="'dictionary.issuerCode' | translate" prop="issuerCode"
                             [sortable]="true"></ngx-datatable-column>
       <ngx-datatable-column *mssRoleIf="'cards.servisCodeSelect'" [name]="'dictionary.serviceCode' | translate" prop="serviceCode"
                             [sortable]="true"></ngx-datatable-column>

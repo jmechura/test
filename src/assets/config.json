@@ -34,7 +34,7 @@
         "ROLE_ADMIN"
       ]
     },
-    "filters": {
+    "createEdit": {
       "issuerCodeSelect": [
         "ROLE_ADMIN"
       ],
@@ -42,13 +42,17 @@
         "ROLE_ADMIN"
       ],
       "merchantCodeSelect": [
-        "ROLE_ADMIN"
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ"
       ],
       "orgUnitCodeSelect": [
-        "ROLE_ADMIN"
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_READ",
+        "MERCHANT_ROLE_RESOURCE_READ"
       ],
       "cardGroupCodeSelect": [
-        "ROLE_ADMIN"
+        "ROLE_ADMIN",
+        "ISSUER_ROLE_RESOURCE_READ"
       ]
     },
     "admin": {

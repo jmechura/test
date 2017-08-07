@@ -68,7 +68,6 @@ export class TerminalComponent implements OnDestroy {
               private route: ActivatedRoute,
               private roles: RoleService,
               private toastr: ExtendedToastrService) {
-    this.getTerminalList();
 
     this.newTerminalForm = fb.group({
       code: ['', Validators.required],
@@ -116,18 +115,18 @@ export class TerminalComponent implements OnDestroy {
         if (data.data && !data.loading /*because pn would be sad*/) {
           const user = data.data;
 
-          this.roles.isVisible('terminals.formNetworkSelect').subscribe(
+          this.roles.isVisible('createEdit.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('terminals.formMerchantSelect').subscribe(
+                this.roles.isVisible('createEdit.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
                       this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: user.resourceAcquirerId});
                     } else {
 
-                      this.roles.isVisible('terminals.formOrgUnitSelect').subscribe(
+                      this.roles.isVisible('createEdit.orgUnitCodeSelect').subscribe(
                         orgUnitResult => {
                           if (orgUnitResult) {
                             this.store.dispatch({
