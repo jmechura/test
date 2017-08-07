@@ -1,7 +1,7 @@
 <div class="card-groups-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'cardGroups.title' | translate}}</span>
-    <mss-button class="mss-action-button" (click)="toggleAddCardGroupModal()" [label]="'cardGroups.addCardGroup' | translate"
+    <mss-button class="mss-action-button" (click)="goToCreate()" [label]="'cardGroups.addCardGroup' | translate"
                 *mssRoleIf="'cardGroups.create'">
     </mss-button>
   </div>
@@ -38,7 +38,7 @@
                         class="form-item"></mss-select>
           </div>
           <div class="column">
-            <mss-select [options]="cardGroupCodes"
+            <mss-select [options]="cardGroupCodes" *mssRoleIf="'cardGroups.cardGroupCodeSelect'"
                         formControlName="cardGroupCode"
                         [label]="'dictionary.cardGroupCode' | translate"
                         class="form-item"></mss-select>
@@ -86,150 +86,5 @@
       </ngx-datatable-footer>
     </ngx-datatable>
   </div>
-  <mss-modal-window [(visible)]="modalVisible">
-    <h3 class="mss-modal-title">
-      {{'cardGroups.addCardGroup' | translate}}
-    </h3>
-    <div class="add-card-group-modal-content">
-      <div class="tabs">
-        <mss-tabs [items]="addCardGroupTabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
-      </div>
-      <form novalidate [formGroup]="newCardGroupForm" class="form" (ngSubmit)="createNewCardGroup()">
-        <div class="section" [ngClass]="{'visible': visibleTab.value === CardGroupSections.BASIC}">
-          <div class="column">
-            <div class="form-item">
-              <mss-input [label]="('basic.name' | translate) +'*'" formControlName="name"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('name')">{{'basic.required.name' | translate}}</span>
-              </div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="('basic.code' | translate) +'*'" formControlName="code"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('code')">{{'basic.required.code' | translate}}</span>
-              </div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="'dictionary.externalCode' | translate" formControlName="externalCode"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-          </div>
-          <div class="column">
-            <div class="form-item" *mssRoleIf="'createEdit.issuerCodeSelect'">
-              <mss-select [label]="('dictionary.issuerCode' | translate) +'*'" [options]="issuerCodes"
-                          formControlName="issuerCode"></mss-select>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('issuerCode')">{{'basic.required.issuerCode' | translate}}</span>
-              </div>
-            </div>
-            <div class="form-item">
-              <mss-select [label]="'dictionary.state' | translate" [options]="states" formControlName="state"></mss-select>
-              <div class="mss-validation-label"></div>
-            </div>
-          </div>
-        </div>
-        <div class="section" [ngClass]="{'visible': visibleTab.value === CardGroupSections.LIMITS}">
-          <div class="column">
-            <div class="form-item">
-              <mss-input [label]="'dictionary.limitType' | translate" formControlName="limitType"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-          </div>
-          <div class="column">
-            <div class="form-item">
-              <mss-input [label]="'dictionary.limit' | translate" type="number" formControlName="limit"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-          </div>
-        </div>
-        <div class="section" [ngClass]="{'visible': visibleTab.value === CardGroupSections.CONTACTS}">
-          <div class="column">
-            <div class="form-item">
-              <mss-input [label]="('basic.ico' | translate) + '*'" formControlName="ico"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('ico')">{{'basic.required.ico' | translate}}</span>
-              </div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="('basic.dic' | translate) + '*'" formControlName="dic"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('dic')">{{'basic.required.dic' | translate}}</span>
-              </div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="('basic.email' | translate) + '*'" formControlName="email"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('email')">{{'basic.required.badEmail' | translate}}</span>
-              </div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="'basic.phone' | translate" formControlName="phone"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="'basic.contact' | translate" formControlName="contact"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="'basic.contact2' | translate" formControlName="contact2"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-          </div>
-          <div class="column">
-            <div class="form-item">
-              <mss-input [label]="'dictionary.bankAccount' | translate" formControlName="bankAccount"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-            <div class="form-item">
-              <mss-select [label]="'dictionary.taxType' | translate" [options]="taxTypes" formControlName="taxType"></mss-select>
-              <div class="mss-validation-label"></div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="'dictionary.tax' | translate" type="number" formControlName="taxValue"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-          </div>
-        </div>
-        <div class="section" [ngClass]="{'visible': visibleTab.value === CardGroupSections.ADDRESS}">
-          <div class="column">
-            <div class="form-item">
-              <mss-input [label]="('basic.street' | translate) + '*'" formControlName="street"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('street')">{{'basic.required.street' | translate}}</span>
-              </div>
-            </div>
-            <div class="form-item">
-              <mss-input [label]="('basic.city' | translate) + '*'" formControlName="city"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('city')">{{'basic.required.city' | translate}}</span>
-              </div>
-            </div>
-          </div>
-          <div class="column">
-            <div class="form-item">
-              <mss-input [label]="('basic.zip' | translate) + '*'" formControlName="zip"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('zip')">{{'basic.required.zip' | translate}}</span>
-              </div>
-            </div>
-            <div class="form-item">
-              <mss-select [options]="countries"
-                          formControlName="country"
-                          [label]="('basic.country' | translate) + '*'"></mss-select>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('country')">{{'basic.required.country' | translate}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mss-buttons-row">
-          <mss-button [label]="'basic.dismiss' | translate" (click)="toggleAddCardGroupModal()" type="button"
-                      class="mss-action-button right-margin"></mss-button>
-          <mss-button [label]="'basic.add' | translate" type="submit" [disabled]="newCardGroupForm.invalid"
-                      class="mss-action-button"></mss-button>
-        </div>
-      </form>
-    </div>
-  </mss-modal-window>
 </div>
 

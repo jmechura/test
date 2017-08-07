@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { cardGroupDetailActions } from '../../shared/reducers/card-group-detail.reducer';
@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { optionalEmailValidator } from '../../shared/validators/optional-email.validator';
 import { CardGroupSections } from '../../shared/enums/card-group-sections.enum';
 import { taxTypeActions } from '../../shared/reducers/tax-types.reducer';
-import { UnsubscribeSubject } from '../../shared/utils';
+import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { AppConfigService } from '../../shared/services/app-config.service';
 import { AddressModel } from '../../shared/models/address.model';
@@ -19,6 +19,10 @@ import { addressDetailActions } from '../../shared/reducers/address-detail.reduc
 import { ApiService } from '../../shared/services/api.service';
 import { RoleService } from 'app/shared/services/role.service';
 import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
+import { ComponentMode } from '../../shared/enums/detail-component-mode.enum';
+import { ProfileModel } from '../../shared/models/profile.model';
+import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
+import { CodeModel } from '../../shared/models/code.model';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 interface TabOptions {
@@ -54,11 +58,16 @@ export class CardGroupDetailComponent implements OnDestroy {
   limitsAllowed = false;
   countries: SelectItem[] = [];
   completeView = true;
+  mode = ComponentMode.View;
+  ComponentMode = ComponentMode;
+  issuerCodes: SelectItem[] = [];
+  user: ProfileModel;
 
   @Input()
   set cardGroupId(id: string) {
     this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: id});
     this.completeView = false;
+    this.mode = ComponentMode.View;
   }
 
   constructor(private route: ActivatedRoute,
@@ -66,98 +75,27 @@ export class CardGroupDetailComponent implements OnDestroy {
               private store: Store<AppStateModel>,
               private langService: LanguageService,
               private configService: AppConfigService,
+              private router: Router,
               private roles: RoleService,
               private api: ApiService,
               private toastr: ExtendedToastrService) {
-    this.route.params.subscribe(
-      (params: { id: string }) => {
-        if (params.id) {
-          this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
-        }
-      }
-    );
-
-    this.roles.isVisible('cardGroups.limits').subscribe(
-      limitsResult => {
-        if (limitsResult) {
-          this.limitsAllowed = true;
-        }
-      }
-    );
-
-    this.configService.get('createDefaultDeliveryAddress').subscribe(
-      address => {
-        this.createDefaultDeliveryAddress = address;
-      }
-    );
-
-    this.store.dispatch({type: taxTypeActions.TAX_TYPES_GET_REQUEST});
-
-    this.store.select('cardGroupDetail').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<CardGroupModel>) => {
-        if (data.error) {
-          console.error('Error occurred while retrieving card group detail from API.', data.error);
-          return;
-        }
-        if (data.data !== undefined && !data.loading) {
-          this.cardGroupDetail = data.data;
-          this.editForm.patchValue(this.cardGroupDetail);
-        }
-      }
-    );
-
-    this.store.select('taxTypes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<string[]>) => {
-        if (data.error) {
-          console.error('Error occurred while retrieving tax types from API.', data.error);
-          return;
-        }
-        if (data.data !== undefined && !data.loading) {
-          this.taxTypes = data.data.map(item => ({value: item}));
-        }
-      }
-    );
-    this.store.select('addressDetail').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<AddressModel>) => {
-        if (data.error) {
-          console.error('Error occurred while retrieving tax types from API.', data.error);
-          return;
-        }
-        this.creatingAddress = true;
-        if (data.data !== undefined && !data.loading) {
-          this.deliveryAddress = data.data;
-          this.addressForm.patchValue(this.deliveryAddress);
-          if (data.data !== '') {
-            this.creatingAddress = false;
-          }
-        }
-      }
-    );
-    this.store.select('addressType').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<string[]>) => {
-        if (data.error) {
-          console.error('Error occurred while retrieving tax types from API.', data.error);
-          return;
-        }
-        if (data.data !== undefined && !data.loading) {
-          this.addressTypes = data.data.map(item => ({value: item}));
-        }
-      }
-    );
-    this.store.dispatch({type: addressTypeActions.ADDRESS_TYPE_GET_REQUEST});
 
     this.editForm = fb.group(
       {
         name: ['', Validators.required],
+        code: ['', Validators.required],
+        issuerCode: [{value: '', disabled: true}, Validators.required],
+        externalCode: [''],
         limitType: [''],
         limit: [0],
         state: ['ENABLED'],
         ico: ['', Validators.required],
         dic: ['', Validators.required],
-        email: ['', [optionalEmailValidator, Validators.required]],
+        email: ['', [Validators.email, Validators.required]],
         contact: [''],
         contact2: [''],
         bankAccount: [''],
+        specificSymbol: [''],
         taxType: ['UNKNOWN'],
         taxValue: [0],
         phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
@@ -210,7 +148,96 @@ export class CardGroupDetailComponent implements OnDestroy {
     ];
     this.visibleTab = this.tabsOptions[0];
 
+    this.route.params.subscribe(
+      (params: { id: string }) => {
+        if (!params.id) {
+          return;
+        }
+        if (params.id !== 'create') {
+          this.mode = ComponentMode.View;
+          this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
+        } else {
+          this.mode = ComponentMode.Create;
+          this.edit = true;
+          this.tabsOptions = this.tabsOptions.filter(opt => opt.value !== CardGroupSections.DELIVERYADRESS);
+        }
+      }
+    );
+
+    this.roles.isVisible('cardGroups.limits').subscribe(
+      limitsResult => {
+        if (limitsResult) {
+          this.limitsAllowed = true;
+        }
+      }
+    );
+
+    this.configService.get('createDefaultDeliveryAddress').subscribe(
+      address => {
+        this.createDefaultDeliveryAddress = address;
+      }
+    );
+
+    this.store.dispatch({type: taxTypeActions.TAX_TYPES_GET_REQUEST});
+
+    this.store.select('cardGroupDetail').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CardGroupModel>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving card group detail from API.', data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          if (this.mode !== ComponentMode.Create) {
+            this.cardGroupDetail = data.data;
+            this.editForm.patchValue(this.cardGroupDetail);
+          } else {
+            this.editForm.reset();
+          }
+        }
+      }
+    );
+
+    this.store.select('taxTypes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving tax types from API.', data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.taxTypes = data.data.map(item => ({value: item}));
+        }
+      }
+    );
+    this.store.select('addressDetail').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<AddressModel>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving tax types from API.', data.error);
+          return;
+        }
+        this.creatingAddress = true;
+        if (data.data !== undefined && !data.loading) {
+          this.deliveryAddress = data.data;
+          this.addressForm.patchValue(this.deliveryAddress);
+          if (data.data !== '') {
+            this.creatingAddress = false;
+          }
+        }
+      }
+    );
+    this.store.select('addressType').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving tax types from API.', data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.addressTypes = data.data.map(item => ({value: item}));
+        }
+      }
+    );
+    this.store.dispatch({type: addressTypeActions.ADDRESS_TYPE_GET_REQUEST});
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
+
     this.store.select('countryCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<string[]>) => {
         if (data.error) {
@@ -219,6 +246,50 @@ export class CardGroupDetailComponent implements OnDestroy {
         }
         if (data.data !== undefined && !data.loading) {
           this.countries = data.data.map(country => ({value: country}));
+        }
+      }
+    );
+
+    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+      ({data, error, loading}: StateModel<ProfileModel>) => {
+        if (error instanceof MissingTokenResponse) {
+          return;
+        }
+
+        if (error !== null) {
+          console.error('Error occurred while retrieving profile', error);
+          return;
+        }
+
+        if (data != null && !loading) {
+          this.user = data;
+          this.roles.isVisible('createEdit.issuerCodeSelect').subscribe(
+            issuerResult => {
+              if (issuerResult) {
+                this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+                this.editForm.get('issuerCode').enable();
+              }
+            }
+          );
+          this.roles.isVisible('cardGroups.limits').subscribe(
+            limitsResult => {
+              if (!limitsResult) {
+                this.tabsOptions = this.tabsOptions.filter(opt => opt.value !== CardGroupSections.LIMITS);
+              }
+            }
+          );
+        }
+      }
+    );
+
+    this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<CodeModel[]>) => {
+        if (data.error) {
+          console.error('Error occurred while retrieving issuer codes.', data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.issuerCodes = data.data.map(code => ({value: code.id, label: code.code}));
         }
       }
     );
@@ -236,15 +307,42 @@ export class CardGroupDetailComponent implements OnDestroy {
     this.modalVisible = false;
   }
 
-  editCardGroup(): void {
-    this.edit = false;
-    this.store.dispatch(
-      {
-        type: cardGroupDetailActions.CARD_GROUP_DETAIL_PUT_REQUEST,
-        payload: Object.assign({}, this.cardGroupDetail, this.editForm.value)
-      }
-    );
+  handleFormSubmit(): void {
+    if (this.mode === ComponentMode.Edit) {
+      this.edit = false;
+      this.mode = this.ComponentMode.View;
+      this.store.dispatch(
+        {
+          type: cardGroupDetailActions.CARD_GROUP_DETAIL_PUT_REQUEST,
+          payload: Object.assign({}, this.cardGroupDetail, this.editForm.value)
+        }
+      );
+    } else {
+      this.configService.get('createSpecSymbol').subscribe(
+        symbol => {
+          let payload = {...this.editForm.value, createSpecSymbol: symbol};
+          if (this.editForm.get('issuerCode').disabled) {
+            payload = {...payload, issuerCode: this.user.resourceId};
+          }
+          this.configService.get('createDefaultDeliveryAddress').subscribe(
+            address => {
+              payload = {...payload, createDefaultDeliveryAddress: address};
+              this.api.post('/cardgroups', payload).subscribe(
+                (data: CardGroupModel) => {
+                  this.router.navigateByUrl(`platform/card-groups/${data.id}`);
+                },
+                (error) => {
+                  this.toastr.error(error);
+                  console.error('data', error);
+                }
+              );
+            }
+          );
+        }
+      );
+    }
   }
+
 
   isPresent(value: string): boolean {
     const item = this.editForm.get(value);
@@ -253,6 +351,11 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   isValidEmail(): boolean {
     const item = this.editForm.get('email');
+    return item.touched && item.errors && item.errors.email;
+  }
+
+  addresssValidEmail(): boolean {
+    const item = this.addressForm.get('email');
     return item.touched && item.errors && item.errors.email;
   }
 
@@ -273,11 +376,17 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   startEditing(): void {
     this.edit = true;
+    this.mode = ComponentMode.Edit;
   }
 
   cancelEditing(): void {
     this.edit = false;
+    this.mode = this.ComponentMode.View;
     this.editForm.patchValue(this.cardGroupDetail);
+  }
+
+  goToList(): void {
+    this.router.navigateByUrl('platform/card-groups');
   }
 
   get cardGroupTabsOptions(): TabOptions[] {
@@ -298,10 +407,12 @@ export class CardGroupDetailComponent implements OnDestroy {
 
   startAddressEditing(): void {
     this.editAddress = true;
+    this.mode = ComponentMode.Edit;
   }
 
   cancelAddressEditing(): void {
     this.editAddress = false;
+    this.mode = ComponentMode.View;
     this.addressForm.patchValue(this.deliveryAddress);
   }
 

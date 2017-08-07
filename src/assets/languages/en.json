@@ -361,8 +361,10 @@
     "detail": {
       "title": "Detail provozovny",
       "sections": {
-        "nameCode": "Název a kód",
-        "networkMerchant": "Síť a obchodník"
+        "BASIC": "Zakladní",
+        "MERCHANT": "Obchodník",
+        "ADDRESS": "Adresa",
+        "NOTE": "Poznámka"
       }
     },
     "dictionary": {

@@ -16,12 +16,8 @@ import { countryCodeActions } from '../../shared/reducers/country-code.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 import { ACQUIRER_KEYS_ENDPOINT } from '../../shared/effects/acquirer-keys.effect';
+import { ComponentMode } from '../../shared/enums/detail-component-mode.enum';
 
-enum Mode {
-  View,
-  Edit,
-  Create
-}
 
 const ACQUIRERS_ROUTE = 'platform/acquirers';
 const ACQUIRERS_ENDPOINT = '/networks';
@@ -43,8 +39,8 @@ export class AcquirerDetailComponent implements OnDestroy {
   newKeyForm: FormGroup;
   keyRows: AcquirerKey[] = [];
   countries: SelectItem[] = [];
-  Mode = Mode;
-  mode: Mode;
+  ComponentMode = ComponentMode;
+  mode: ComponentMode;
   deleteModalVisible = false;
   completeView = true;
 
@@ -52,7 +48,7 @@ export class AcquirerDetailComponent implements OnDestroy {
   set acquirerCode(code: string) {
     this.store.dispatch({type: acquirerDetailActions.ACQUIRER_DETAIL_GET_REQUEST, payload: code});
     this.completeView = false;
-    this.mode = Mode.View;
+    this.mode = ComponentMode.View;
   }
 
 
@@ -98,14 +94,14 @@ export class AcquirerDetailComponent implements OnDestroy {
           return;
         }
         if (params.code !== 'create') {
-          this.mode = Mode.View;
+          this.mode = ComponentMode.View;
           this.tabsOptions.push({
             value: AcquirerSections.KEYS,
             label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.KEYS]}`)
           });
           this.store.dispatch({type: acquirerDetailActions.ACQUIRER_DETAIL_GET_REQUEST, payload: params.code});
         } else {
-          this.mode = Mode.Create;
+          this.mode = ComponentMode.Create;
           this.acquirerForm.reset();
           this.acquirerForm.get('code').enable();
         }
@@ -118,7 +114,7 @@ export class AcquirerDetailComponent implements OnDestroy {
           console.error(`Error occurred while retrieving acquirer detail information.`, data.error);
         }
         if (data.data !== undefined && !data.loading) {
-          if (this.mode !== Mode.Create) {
+          if (this.mode !== ComponentMode.Create) {
             this.acquirerData = data.data;
             this.acquirerForm.patchValue(this.acquirerData);
             if (this.completeView) {
@@ -189,7 +185,7 @@ export class AcquirerDetailComponent implements OnDestroy {
       type: acquirerDetailActions.ACQUIRER_DETAIL_PUT_REQUEST,
       payload: Object.assign({}, this.acquirerData, this.acquirerForm.value)
     });
-    this.mode = Mode.View;
+    this.mode = ComponentMode.View;
   }
 
   setAsLast(id: number): void {

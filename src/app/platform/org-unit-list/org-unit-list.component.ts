@@ -39,7 +39,6 @@ export class OrgUnitListComponent implements OnDestroy {
   };
   // other
   tableRows: OrgUnitModel[] = [];
-  createModalShown = false;
   deleteModalShown = false;
   private selectedOrgUnitId: string;
   private unsubscribe$ = new UnsubscribeSubject();
@@ -118,13 +117,13 @@ export class OrgUnitListComponent implements OnDestroy {
         if (data.data && !data.loading) {
           const user = data.data;
 
-          this.roles.isVisible('createEdit.networkCodeSelect').subscribe(
+          this.roles.isVisible('orgUnits.networkCodeSelect').subscribe(
             networkResult => {
               if (networkResult) {
                 this.showNetworkTab = true;
                 this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
               } else {
-                this.roles.isVisible('createEdit.merchantCodeSelect').subscribe(
+                this.roles.isVisible('orgUnits.merchantCodeSelect').subscribe(
                   merchResult => {
                     if (merchResult) {
                       this.showNetworkTab = true;
@@ -203,28 +202,10 @@ export class OrgUnitListComponent implements OnDestroy {
     this.router.navigate([`${ORG_UNIT_ROUTE}`, routeParams]);
   }
 
-  showCreateModal(): void {
-    this.createModalShown = true;
+  goToCreate(): void {
+    this.router.navigateByUrl('platform/org-units/create');
   }
 
-  hideCreateModal(): void {
-    this.createModalShown = false;
-  }
-
-  createOrgUnit(model: OrgUnitModel): void {
-    this.api.post(ORG_UNIT_ENDPOINT, model).subscribe(
-      () => {
-        this.toastr.success('toastr.success.createOrgUnit');
-        this.store.dispatch({type: orgUnitListActions.ORG_UNIT_LIST_GET_REQUEST, payload: this.requestModel});
-        this.createModalShown = false;
-      },
-      error => {
-        this.toastr.error(error);
-        console.error('Error creating org unit', error);
-        this.createModalShown = false;
-      }
-    );
-  }
 
   showDeleteModal(orgUnitId: string, event: Event): void {
     event.stopPropagation();
@@ -237,7 +218,9 @@ export class OrgUnitListComponent implements OnDestroy {
   }
 
   deleteOrgUnit(): void {
-    this.api.remove(`${ORG_UNIT_ENDPOINT}/${this.selectedOrgUnitId}`).subscribe(
+    let editModel = this.tableRows.find(item => item.id === this.selectedOrgUnitId);
+    editModel = {...editModel, state: editModel.state === 'ENABLED' ? 'DISABLED' : 'ENABLED'};
+    this.api.put(ORG_UNIT_ENDPOINT, editModel).subscribe(
       () => {
         this.toastr.success('toastr.success.deleteOrgUnit');
         this.store.dispatch({type: orgUnitListActions.ORG_UNIT_LIST_GET_REQUEST, payload: this.requestModel});

@@ -1,12 +1,13 @@
 <div [ngClass]="{'mss-view-container': completeView}">
   <div class="mss-header-row" *ngIf="completeView">
-    <span class="mss-title">{{'issuers.titleDetail' | translate}}</span>
+    <span class="mss-title" *ngIf="mode !== ComponentMode.Create">{{'issuers.titleDetail' | translate}}</span>
+    <span class="mss-title" *ngIf="mode === ComponentMode.Create">{{'issuers.addIssuer' | translate}}</span>
   </div>
 
   <div class="form-wrapper">
     <div>
       <form [formGroup]="editIssuerForm" class="edit-issuer-form">
-        <div class="edit-issuer-inputs" *ngIf="isEditing">
+        <div class="edit-issuer-inputs" *ngIf="mode === ComponentMode.Create || mode === ComponentMode.Edit">
           <div class="edit-issuer-input-side">
             <mss-input formControlName="name" [label]="('basic.name' | translate) + '*'"
                        [warn]="isPresent('name')"></mss-input>
@@ -58,7 +59,7 @@
 
           </div>
         </div>
-        <div class="edit-issuer-inputs" *ngIf="!isEditing && issuer">
+        <div class="edit-issuer-inputs" *ngIf="mode === ComponentMode.View && issuer">
           <div class="detail-container">
             <div class="mss-input-like-container">
               <div class="label">{{'basic.name' | translate}}</div>
@@ -125,11 +126,14 @@
           </div>
         </div>
         <div class="mss-buttons-row">
-          <mss-button *ngIf="!isEditing" class="mss-action-button" [label]="'basic.edit' | translate"
+          <mss-button *ngIf="mode === ComponentMode.View" class="mss-action-button" [label]="'basic.edit' | translate"
                       (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="isEditing" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
+          <mss-button *ngIf="mode === ComponentMode.Edit" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
                       (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="isEditing" [label]="'basic.save' | translate" class="mss-action-button" (click)="updateIssuer()"
+          <mss-button *ngIf="mode === ComponentMode.Create" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
+                      (click)="goToTable()"></mss-button>
+          <mss-button *ngIf="mode !== ComponentMode.View" [label]="'basic.save' | translate" class="mss-action-button"
+                      (click)="handleSaveButton()"
                       [disabled]="editIssuerForm.invalid"></mss-button>
         </div>
       </form>

@@ -58,8 +58,7 @@
   </div>
 
   <div class="content" *ngIf="visibleSection.value === 'ORG_UNIT' && profile">
-    <mss-org-unit-form [completeView]="false" variant="update" [modelTemplate]="orgUnit"
-                       (modelSubmit)="updateOrgUnit($event)"></mss-org-unit-form>
+    <mss-org-unit-detail [orgUnitId]="profile.resourceAcquirerId"></mss-org-unit-detail>
   </div>
 </div>
 

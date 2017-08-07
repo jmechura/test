@@ -5,11 +5,13 @@ import { StateModel } from '../../shared/models/state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { issuersActions } from '../../shared/reducers/issuer.reducer';
 import { IssuerModel, IssuerPredicateObject } from '../../shared/models/issuer.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../shared/services/api.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeSubject } from '../../shared/utils';
+import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
+const ISSUER_ROUTE = 'platform/reports';
 
 @Component({
   selector: 'mss-issuers',
@@ -18,47 +20,30 @@ import { ExtendedToastrService } from '../../shared/services/extended-toastr.ser
 })
 export class IssuersComponent implements OnDestroy {
 
-  tableData: Pagination<IssuerModel>;
   issuers: IssuerModel[] = [];
-  newIssuerModalShowing = false;
-  newIssuerForm: FormGroup;
   private unsubscribe$ = new UnsubscribeSubject();
-  issuersRequest: RequestOptions<IssuerPredicateObject> = {
-    pagination: {
-      number: 5,
-      numberOfPages: 0,
-      start: 0,
-    },
-    search: {
-      predicateObject: {},
-    },
-    sort: {}
-  };
-  loading = true;
+  loading = false;
   rows = [];
+  pageNumber = 0;
+  totalItems = 0;
+  sortOptions: {
+    predicate: string;
+    reverse: boolean;
+  };
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
 
   constructor(private store: Store<AppStateModel>,
+              private route: ActivatedRoute,
               private router: Router,
-              private fb: FormBuilder,
-              private api: ApiService,
               private toastr: ExtendedToastrService) {
-    this.newIssuerForm = fb.group({
-      addressName: [''],
-      city: ['', Validators.required],
-      code: ['', Validators.required],
-      contactFirstname: [''],
-      contactLastname: [''],
-      dic: ['', Validators.required],
-      email: ['', control => control.value === '' ? null : Validators.email(control)],
-      ico: ['', Validators.required],
-      maskedClnUse: [''],
-      name: ['', Validators.required],
-      passwordHashValidityMinute: [0],
-      phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
-      state: ['ENABLED'],
-      street: ['', Validators.required],
-      zip: ['', Validators.required],
-    });
+
+    this.route.params.takeUntil(this.unsubscribe$).subscribe(
+      (params: ListRouteParamsModel) => {
+        this.pageNumber = Math.max(Number(params.page) || 0, 1);
+        this.rowLimit = ITEM_LIMIT_OPTIONS.find(limit => limit === Number(params.limit)) || ITEM_LIMIT_OPTIONS[0];
+        this.getIssuers();
+      }
+    );
 
     this.store.select('issuers').takeUntil(this.unsubscribe$).subscribe(
       ({data, error, loading}: StateModel<Pagination<IssuerModel>>) => {
@@ -68,46 +53,24 @@ export class IssuersComponent implements OnDestroy {
           return;
         }
         if (data != null) {
-          this.tableData = data;
-          this.issuers = this.tableData.content;
+          this.issuers = data.content;
+          this.totalItems = data.totalElements;
           this.rows = this.issuers.map(item => Object.assign({}, item));
         }
       }
     );
-    this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
   }
 
-  toggleNewIssuerModal(): void {
-    this.newIssuerModalShowing = !this.newIssuerModalShowing;
+  getIssuers(): void {
+    this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.requestModel});
   }
 
-  addIssuer(): void {
-    if (this.newIssuerForm.invalid) {
-      // show some error messages maybe ?
-      return;
-    }
-
-    this.api.post('/issuers', this.newIssuerForm.value).subscribe(
-      () => {
-        this.toastr.success('toastr.success.createIssuer');
-        this.newIssuerForm.reset();
-        this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
-      },
-      error => {
-        this.toastr.error(error);
-        console.error('Create issuer fail', error);
-      }
-    );
-    this.toggleNewIssuerModal();
+  goToCreate(): void {
+    this.router.navigateByUrl('/platform/issuers/create');
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
-  }
-
-  isPresent(value: string): boolean {
-    const item = this.newIssuerForm.get(value);
-    return item.touched && item.errors != null && item.errors.required;
   }
 
   onSelect({selected}: { selected: IssuerModel[] }): void {
@@ -116,22 +79,41 @@ export class IssuersComponent implements OnDestroy {
     }
   }
 
-  setPage(pageInfo: any): void {
-    this.issuersRequest.pagination.start = pageInfo.offset * this.issuersRequest.pagination.number;
-    this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
+  setPage(pageInfo: { offset: number }): void {
+    const routeParams: ListRouteParamsModel = {
+      page: String(pageInfo.offset + 1),
+      limit: String(this.rowLimit)
+    };
+    this.router.navigate([`${ISSUER_ROUTE}`, routeParams]);
   }
 
   getSortedIssuers(sortInfo: any): void {
-    this.issuersRequest.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
-    this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
+    this.sortOptions = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getIssuers();
   }
 
-  changeLimit(limit: number): void {
-    if (this.issuersRequest.pagination.number === limit) {
-      return;
-    }
-    this.issuersRequest.pagination.number = limit;
-    this.store.dispatch({type: issuersActions.ISSUERS_API_GET, payload: this.issuersRequest});
+  changeLimit(itemLimit: number): void {
+    const routeParams: ListRouteParamsModel = {
+      page: '1',
+      limit: String(itemLimit)
+    };
+    this.router.navigate([`${ISSUER_ROUTE}`, routeParams]);
   }
 
+  private get requestModel(): RequestOptions<IssuerPredicateObject> {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: (this.pageNumber - 1 ) * this.rowLimit
+      },
+      search: this.predicateObject,
+      sort: this.sortOptions ? this.sortOptions : {}
+    };
+  }
+
+  // TODO: ADD FILTER FORM
+  private get predicateObject(): IssuerPredicateObject {
+    return {};
+  }
 }

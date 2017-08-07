@@ -9,6 +9,7 @@ export const orgUnitActions = {
   ORG_UNIT_PUT_REQUEST: 'ORG_UNIT_PUT_REQUEST',
   ORG_UNIT_PUT_FAIL: 'ORG_UNIT_PUT_FAIL',
   ORG_UNIT_PUT: 'ORG_UNIT_GET',
+  CLEAR: 'CLEAR',
 };
 
 export type OrgUnitState = StateModel<OrgUnitModel>;
@@ -34,6 +35,9 @@ export function orgUnitReducer(state: OrgUnitState = INITIAL_STATE, action: Acti
 
     case orgUnitActions.ORG_UNIT_PUT:
       return {data: action.payload, error: null, loading: false};
+
+    case orgUnitActions.CLEAR:
+      return INITIAL_STATE;
 
     default:
       return state;

@@ -6,7 +6,8 @@
   }
 
   .section {
-    display: none;
+    display: flex;
+    flex-wrap: wrap;
 
     .column {
       flex-grow: 1;
@@ -19,11 +20,6 @@
       &:last-child {
         margin-left: 30px;
       }
-    }
-
-    &.visible {
-      display: flex;
-      flex-wrap: wrap;
     }
 
     &.submit-button {

@@ -41,11 +41,7 @@ $blocks-bottom-margin: 30px;
     }
 
     .tab-content {
-      display: none;
-
-      &.visible {
-        display: flex;
-      }
+      display: flex;
 
       .values {
         display: flex;

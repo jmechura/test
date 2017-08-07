@@ -1,14 +1,14 @@
 <div [ngClass]="{'mss-view-container': completeView}">
   <div class="mss-header-row" *ngIf="completeView">
     <span class="mss-title"
-          *ngIf="mode === Mode.Create">
+          *ngIf="mode === ComponentMode.Create">
       {{'acquirers.list.addAcquirer' | translate}}
     </span>
     <span class="mss-title"
-          *ngIf="acquirerData && mode !== Mode.Create">
+          *ngIf="acquirerData && mode !== ComponentMode.Create">
       {{'acquirers.detail.title' | translate}} - {{acquirerData.name}}
     </span>
-    <mss-button *ngIf="mode !== Mode.Create" class="mss-action-button" [label]="'basic.delete' | translate"
+    <mss-button *ngIf="mode !== ComponentMode.Create" class="mss-action-button" [label]="'basic.delete' | translate"
                 (click)="deleteModalVisible = true"></mss-button>
   </div>
 
@@ -17,8 +17,9 @@
     <div class="tabs">
       <mss-tabs [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
     </div>
-    <form [formGroup]="acquirerForm" novalidate (ngSubmit)="editAcquirer()" *ngIf="mode === Mode.Edit || mode === Mode.Create">
-      <div class="section" [ngClass]="{'visible': visibleTab.value === AcquirerSections.BASIC}">
+    <form [formGroup]="acquirerForm" novalidate (ngSubmit)="editAcquirer()"
+          *ngIf="mode === ComponentMode.Edit || mode === ComponentMode.Create">
+      <div class="section" *ngIf="visibleTab.value === AcquirerSections.BASIC">
         <div class="column">
           <div class="form-item">
             <mss-input [label]="('basic.name' | translate) + '*'" formControlName="name" [warn]="isInvalid('name')"></mss-input>
@@ -59,7 +60,7 @@
           </div>
         </div>
       </div>
-      <div class="section" [ngClass]="{'visible': visibleTab.value === AcquirerSections.ADDRESS}">
+      <div class="section" *ngIf="visibleTab.value === AcquirerSections.ADDRESS">
         <div class="column">
           <div class="form-item">
             <mss-select [label]="'basic.country' | translate" [options]="countries" formControlName="country"></mss-select>
@@ -91,13 +92,13 @@
         </div>
       </div>
       <div *ngIf="visibleTab.value !== AcquirerSections.KEYS">
-        <div *ngIf="mode === Mode.Edit" class="mss-buttons-row">
-          <mss-button class="mss-action-button right-margin" (click)="mode = Mode.View" type="button"
+        <div *ngIf="mode === ComponentMode.Edit" class="mss-buttons-row">
+          <mss-button class="mss-action-button right-margin" (click)="mode = ComponentMode.View" type="button"
                       [label]="'basic.dismiss' | translate"></mss-button>
           <mss-button class="mss-action-button" [disabled]="acquirerForm.invalid" [label]="'basic.save' | translate" type="submit">
           </mss-button>
         </div>
-        <div *ngIf="mode === Mode.Create" class="mss-buttons-row">
+        <div *ngIf="mode === ComponentMode.Create" class="mss-buttons-row">
           <mss-button class="mss-action-button right-margin" (click)="cancelCreateNewAcquirer()" type="button"
                       [label]="'basic.dismiss' | translate"></mss-button>
           <mss-button class="mss-action-button" (click)="createNewAcquirer()" type="button" [disabled]="acquirerForm.invalid"
@@ -106,7 +107,7 @@
       </div>
     </form>
 
-    <div class="section" *ngIf="mode === Mode.View && acquirerData" [ngClass]="{'visible': visibleTab.value === AcquirerSections.BASIC}">
+    <div class="section" *ngIf="mode === ComponentMode.View && acquirerData && visibleTab.value === AcquirerSections.BASIC">
       <div class="column">
         <div class="mss-input-like-container">
           <div class="label">{{'basic.name' | translate}}</div>
@@ -138,7 +139,7 @@
 
       </div>
     </div>
-    <div class="section" *ngIf="mode === Mode.View && acquirerData" [ngClass]="{'visible': visibleTab.value === AcquirerSections.ADDRESS}">
+    <div class="section" *ngIf="mode === ComponentMode.View && acquirerData && visibleTab.value === AcquirerSections.ADDRESS">
       <div class="column">
         <div class="mss-input-like-container">
           <div class="label">{{'basic.country' | translate}}</div>
@@ -169,7 +170,7 @@
         <div class="mss-validation-label"></div>
       </div>
     </div>
-    <div class="section column" [ngClass]="{'visible': visibleTab.value === AcquirerSections.KEYS}">
+    <div class="section column" *ngIf="visibleTab.value === AcquirerSections.KEYS">
       <div class="mss-buttons-row">
         <mss-button class="mss-action-button" (click)="modalVisible = true" [label]="'acquirers.detail.addKey' | translate"></mss-button>
       </div>
@@ -196,9 +197,9 @@
       </div>
     </div>
     <div class="mss-buttons-row">
-      <mss-button *ngIf="mode === Mode.View && visibleTab.value !== AcquirerSections.KEYS"
+      <mss-button *ngIf="mode === ComponentMode.View && visibleTab.value !== AcquirerSections.KEYS"
                   class="mss-action-button"
-                  (click)="mode = Mode.Edit"
+                  (click)="mode = ComponentMode.Edit"
                   [label]="'basic.edit' | translate"></mss-button>
     </div>
   </div>

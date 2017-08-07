@@ -389,13 +389,6 @@
         "NETWORK_ROLE_RESOURCE_EDIT",
         "MERCHANT_ROLE_RESOURCE_EDIT"
       ],
-      "formNetworkSelect": [
-        "ROLE_ADMIN"
-      ],
-      "formMerchantSelect": [
-        "ROLE_ADMIN",
-        "NETWORK_ROLE_RESOURCE_READ"
-      ],
       "issuerCodeSelect": [
         "ROLE_ADMIN"
       ],

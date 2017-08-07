@@ -1,7 +1,7 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
     <h1 class="mss-title">{{'orgUnits.list.title' | translate}}</h1>
-    <mss-button class="mss-action-button" [label]="'orgUnits.list.addOrgUnit' | translate" (click)="showCreateModal()"
+    <mss-button class="mss-action-button" [label]="'orgUnits.list.addOrgUnit' | translate" (click)="goToCreate()"
                 *mssRoleIf="'orgUnits.create'"></mss-button>
   </div>
 
@@ -84,11 +84,6 @@
     </div>
   </div>
 </div>
-
-<mss-modal-window [(visible)]="createModalShown" *mssRoleIf="'orgUnits.create'">
-  <h3 class="mss-modal-title">{{'orgUnits.list.addOrgUnit' | translate}}</h3>
-  <mss-org-unit-form (modelSubmit)="createOrgUnit($event)" (dismiss)="hideCreateModal()"></mss-org-unit-form>
-</mss-modal-window>
 
 <mss-modal-window [(visible)]="deleteModalShown">
   <div class="delete-prompt">

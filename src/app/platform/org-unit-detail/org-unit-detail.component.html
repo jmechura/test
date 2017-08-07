@@ -1,8 +1,172 @@
-<div class="mss-view-container">
+<div [ngClass]="{'mss-view-container': completeView}" class="mss-view-container">
   <div class="mss-header-row">
-    <span class="mss-title">Detail obchodního místa</span>
+    <span class="mss-title" *ngIf="mode !== ComponentMode.Create">{{'orgUnits.detail.title' | translate}}</span>
+    <span class="mss-title" *ngIf="mode === ComponentMode.Create">{{'orgUnits.list.addOrgUnit' | translate}}</span>
   </div>
 
-  <mss-org-unit-form variant="update" [modelTemplate]="orgUnit" (modelSubmit)="updateOrgUnit($event)"
-                     (dismiss)="navigateBack()"></mss-org-unit-form>
+  <div class="content">
+    <div class="tabs">
+      <mss-tabs [items]="tabOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
+    </div>
+
+    <!--EDIT AND CREATE FORM-->
+    <form [formGroup]="form" *ngIf="mode === ComponentMode.Edit || mode === ComponentMode.Create">
+      <div class="section" *ngIf="visibleTab.value === 'BASIC'">
+        <div class="column">
+          <div>
+            <mss-input [label]="('basic.name' | translate) + '*'" formControlName="name" [warn]="isInvalid('name')"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('name')">{{'basic.required.name' | translate}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div>
+            <mss-input [label]="('basic.code' | translate) + '*'" formControlName="code" [warn]="isInvalid('code')"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('code')">{{'basic.required.code' | translate}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section" *ngIf="visibleTab.value === 'MERCHANT'">
+        <div class="column" *mssRoleIf="'createEdit.networkCodeSelect'">
+          <div>
+            <mss-select formControlName="networkCode" [options]="networkOptions"
+                        [label]="('dictionary.networkCode' | translate) + '*'"></mss-select>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('networkCode')">{{'basic.required.networkCode' | translate}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="column" *mssRoleIf="'createEdit.merchantCodeSelect'">
+          <div>
+            <mss-select formControlName="merchantId" [options]="merchantOptions"
+                        [label]="('dictionary.merchantCode' | translate) + '*'"></mss-select>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('merchantId')">{{'basic.required.merchantCode' | translate}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section" *ngIf="visibleTab.value === 'ADDRESS'">
+        <div class="column">
+          <div>
+            <mss-input formControlName="street" [label]="'basic.street' | translate"></mss-input>
+            <div class="mss-validation-label"></div>
+          </div>
+          <div>
+            <mss-input formControlName="city" [label]="'basic.city' | translate"></mss-input>
+            <div class="mss-validation-label"></div>
+          </div>
+        </div>
+        <div class="column">
+          <div>
+            <mss-input formControlName="region" [label]="'basic.region' | translate"></mss-input>
+            <div class="mss-validation-label"></div>
+          </div>
+          <div>
+            <mss-input formControlName="zip" [label]="'basic.zip' | translate"></mss-input>
+            <div class="mss-validation-label"></div>
+          </div>
+        </div>
+      </div>
+      <div class="section" *ngIf="visibleTab.value === 'NOTE'">
+        <div class="column">
+          <mss-input formControlName="note" [label]="'basic.note' | translate"></mss-input>
+        </div>
+        <div class="column"></div>
+      </div>
+      <div class="mss-buttons-row">
+        <mss-button class="mss-action-button right-margin" *ngIf="mode === ComponentMode.Create" [label]="'basic.save' | translate"
+                    (click)="addOrgUnit()">
+        </mss-button>
+        <mss-button class="mss-action-button right-margin" *ngIf="mode === ComponentMode.Edit" [label]="'basic.save' | translate"
+                    (click)="updateOrgUnit()">
+        </mss-button>
+        <mss-button class="mss-action-button" [label]="'basic.dismiss' | translate"
+                    (click)="dismissForm()">
+        </mss-button>
+      </div>
+    </form>
+    <div *ngIf="mode === ComponentMode.View && orgUnit">
+      <div class="section" *ngIf="visibleTab.value === 'BASIC'">
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.name' | translate}}</div>
+            <div class="value">{{orgUnit.name}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+        </div>
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.code' | translate}}</div>
+            <div class="value">{{orgUnit.code}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="visibleTab.value === 'MERCHANT'">
+        <div class="column">
+          <div class="mss-input-like-container" *mssRoleIf="'createEdit.networkCodeSelect'">
+            <div class="label">{{'dictionary.networkCode' | translate}}</div>
+            <div class="value">{{orgUnit.networkCode}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+        </div>
+        <div class="column">
+          <!-- NO NEED TO HIDE BECAUSE THE TAB WONT BE DISPLAYED-->
+          <div class="mss-input-like-container">
+            <div class="label">{{'dictionary.merchantCode' | translate}}</div>
+            <div class="value">{{orgUnit.merchantId}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="visibleTab.value === 'ADDRESS'">
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.street' | translate}}</div>
+            <div class="value">{{orgUnit.street}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.city' | translate}}</div>
+            <div class="value">{{orgUnit.city}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+        </div>
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.region' | translate}}</div>
+            <div class="value">{{orgUnit.region}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.zip' | translate}}</div>
+            <div class="value">{{orgUnit.zip}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="visibleTab.value === 'NOTE'">
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.note' | translate}}</div>
+            <div class="value">{{orgUnit.note}}</div>
+          </div>
+          <div class="mss-validation-label"></div>
+        </div>
+        <div class="column"></div>
+      </div>
+      <div class="mss-buttons-row">
+        <mss-button class="mss-action-button" (click)="mode = ComponentMode.Edit" [label]="'basic.edit' | translate">
+        </mss-button>
+      </div>
+    </div>
+  </div>
+
 </div>

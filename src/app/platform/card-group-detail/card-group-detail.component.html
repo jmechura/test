@@ -1,233 +1,129 @@
 <div [ngClass]="{'mss-view-container' : completeView}">
   <div class="mss-header-row" *ngIf="completeView">
-    <span class="mss-title">{{ 'cardGroupDetail.title' | translate }} - {{cardGroupDetail?.name}}</span>
+    <span class="mss-title" *ngIf="mode !== ComponentMode.Create">{{ 'cardGroupDetail.title' | translate }} -
+      {{cardGroupDetail?.name}}</span>
+    <span class="mss-title" *ngIf="mode === ComponentMode.Create">{{ 'cardGroups.addCardGroup' | translate }}</span>
   </div>
-
   <div class="content">
-    <div class="tabs-container" *ngIf="cardGroupDetail">
+    <div class="tabs-container">
       <div class="tabs-row">
         <mss-tabs class="tabs column" [items]="cardGroupTabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
-        <mss-button class="mss-action-button shifted activate-button" *mssRoleIf="'cardGroups.edit'"
-                    [label]="cardGroupDetail?.state === 'ENABLED' ?
+        <ng-container *ngIf="mode !== ComponentMode.Create">
+          <mss-button class="mss-action-button shifted activate-button" *mssRoleIf="'cardGroups.edit'"
+                      [label]="cardGroupDetail?.state === 'ENABLED' ?
                   ('cardGroupDetail.deactivateEmployer' | translate) : ('cardGroupDetail.activateEmployer' | translate)"
-                    (click)="modalVisible = true"></mss-button>
+                      (click)="modalVisible = true"></mss-button>
+        </ng-container>
       </div>
       <!--FORM FOR EDIT STATE -->
-      <form [formGroup]="editForm" novalidate (ngSubmit)="editCardGroup()">
-        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.BASIC}">
+      <div *ngIf="!edit && cardGroupDetail">
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.BASIC">
           <div class="column">
-            <div *ngIf="edit">
-              <mss-input class="tab-item"
-                         [label]="('basic.name' | translate) + '*'"
-                         formControlName="name"
-                         [warn]="isPresent('name')">
-              </mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.name' | translate }}</div>
               <div class="value">{{cardGroupDetail.name}}</div>
             </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.code' | translate }}</div>
               <div class="value">{{cardGroupDetail.code}}</div>
             </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'dictionary.externalCode' | translate }}</div>
               <div class="value">{{cardGroupDetail.externalCode}}</div>
             </div>
           </div>
           <div class="column">
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.id' | translate }}</div>
               <div class="value">{{cardGroupDetail.id}}</div>
             </div>
-            <ng-container *mssRoleIf="'cardGroups.changeState'">
-              <mss-select *ngIf="edit" class="tab-item" [label]="'dictionary.state' | translate" formControlName="state"
-                          [options]="stateOptions"></mss-select>
-            </ng-container>
             <ng-container *mssRoleIf="'admin.view'">
-              <div class="mss-input-like-container tab-item" *ngIf="!edit">
+              <div class="mss-input-like-container tab-item">
                 <div class="label">{{ 'dictionary.issuerCode' | translate }}</div>
                 <div class="value">{{cardGroupDetail.issuerCode}}</div>
               </div>
             </ng-container>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'dictionary.state' | translate }}</div>
               <div class="value">{{cardGroupDetail.state}}</div>
             </div>
           </div>
         </div>
-        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.LIMITS}">
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.LIMITS">
           <div class="column">
-            <mss-input *ngIf="edit" class="tab-item" [label]="'dictionary.limit' | translate" type="number"
-                       formControlName="limit"></mss-input>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'dictionary.limit' | translate }}</div>
               <div class="value">{{cardGroupDetail.limit}}</div>
             </div>
           </div>
           <div class="column">
-            <mss-select *ngIf="edit" class="tab-item" [label]="'dictionary.limitType' | translate" formControlName="limitType"
-                        [options]="limitOptions"></mss-select>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'dictionary.limitType' | translate }}</div>
               <div class="value">{{cardGroupDetail.limitType}}</div>
             </div>
           </div>
         </div>
-        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.CONTACTS}">
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.CONTACTS">
           <div class="column">
-            <div *ngIf="edit">
-              <mss-input class="tab-item"
-                         [label]="('basic.ico' | translate) + '*'"
-                         formControlName="ico"
-                         [warn]="isPresent('ico')">
-              </mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresent('ico')">{{'basic.required.ico' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.ico' | translate }}</div>
               <div class="value">{{cardGroupDetail.ico}}</div>
             </div>
-            <div *ngIf="edit">
-              <mss-input class="tab-item"
-                         [label]="('basic.dic' | translate) + '*'"
-                         formControlName="dic"
-                         [warn]="isPresent('dic')">
-              </mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresent('dic')">{{'basic.required.dic' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.dic' | translate }}</div>
               <div class="value">{{cardGroupDetail.dic}}</div>
             </div>
-            <div *ngIf="edit">
-              <mss-input class="tab-item"
-                         [label]="('basic.email' | translate) + '*'"
-                         formControlName="email"
-                         [warn]="isPresent('email') || isValidEmail()">
-              </mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresent('email')">{{'basic.required.email' | translate}}</span>
-                <span *ngIf="isValidEmail()">{{'basic.required.badEmail' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.email' | translate }}</div>
               <div class="value">{{cardGroupDetail.email}}</div>
             </div>
-            <div *ngIf="edit">
-              <mss-input class="tab-item"
-                         [label]="'basic.phone' | translate"
-                         formControlName="phone"
-                         [warn]="isValidPhone()">
-              </mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isValidPhone()">{{'basic.required.phone' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.phone' | translate }}</div>
               <div class="value">{{cardGroupDetail.phone}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.contact' | translate" formControlName="contact"></mss-input>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.contact' | translate }}</div>
               <div class="value">{{cardGroupDetail.contact}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" [label]="'basic.contact2' | translate" formControlName="contact2"></mss-input>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.contact2' | translate }}</div>
               <div class="value">{{cardGroupDetail.contact2}}</div>
             </div>
           </div>
           <div class="column">
-            <mss-input *ngIf="edit" class="tab-item" [label]="'dictionary.bankAccount' | translate"
-                       formControlName="bankAccount"></mss-input>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'dictionary.bankAccount' | translate }}</div>
               <div class="value">{{cardGroupDetail.bankAccount}}</div>
             </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'dictionary.specificSymbol' | translate }}</div>
               <div class="value">{{cardGroupDetail.specificSymbol}}</div>
             </div>
-            <mss-select *ngIf="edit" class="tab-item" [label]="'dictionary.taxType' | translate" [options]="taxTypes"
-                        formControlName="taxType"></mss-select>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'dictionary.taxType' | translate }}</div>
               <div class="value">{{cardGroupDetail.taxType}}</div>
             </div>
-            <mss-input *ngIf="edit" class="tab-item" [label]="'dictionary.tax' | translate" type="number"
-                       formControlName="taxValue"></mss-input>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'dictionary.tax' | translate }}</div>
               <div class="value">{{cardGroupDetail.taxValue}}</div>
             </div>
           </div>
         </div>
-        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.ADDRESS}">
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.ADDRESS">
           <div class="column">
-            <div *ngIf="edit">
-              <mss-input class="tab-item"
-                         [label]="('basic.street' | translate) + '*'"
-                         formControlName="street"
-                         [warn]="isPresent('street')">
-              </mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresent('street')">{{'basic.required.street' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.street' | translate }}</div>
               <div class="value">{{cardGroupDetail.street}}</div>
             </div>
-            <div *ngIf="edit">
-              <mss-input class="tab-item"
-                         [label]="('basic.city' | translate) + '*'"
-                         formControlName="city"
-                         [warn]="isPresent('city')">
-              </mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresent('city')">{{'basic.required.city' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.city' | translate }}</div>
               <div class="value">{{cardGroupDetail.city}}</div>
             </div>
-            <div *ngIf="edit">
-              <mss-input class="tab-item"
-                         [label]="('basic.zip' | translate) + '*'"
-                         formControlName="zip"
-                         [warn]="isPresent('zip')">
-              </mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresent('zip')">{{'basic.required.zip' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.zip' | translate }}</div>
               <div class="value">{{cardGroupDetail.zip}}</div>
             </div>
-            <div *ngIf="edit">
-              <mss-select class="tab-item"
-                          [label]="('basic.country' | translate) + '*'"
-                          [options]="countries"
-                          formControlName="country">
-              </mss-select>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresentCountry()">{{'basic.required.country' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!edit">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.country' | translate }}</div>
               <div class="value">{{cardGroupDetail.country}}</div>
             </div>
@@ -235,146 +131,309 @@
           <div class="column"></div>
         </div>
         <div *mssRoleIf="'users.edit'">
-          <div class="mss-buttons-row" *ngIf="!(visibleTab.value === CardGroupSections.DELIVERYADRESS)">
-            <mss-button [label]="'basic.edit' | translate" *ngIf="!edit" type="button" (click)="startEditing()"
+          <div class="mss-buttons-row" *ngIf="visibleTab.value !== CardGroupSections.DELIVERYADRESS">
+            <mss-button [label]="'basic.edit' | translate" type="button" (click)="startEditing()"
                         class="mss-action-button"></mss-button>
-            <mss-button [label]="'basic.dismiss' | translate" *ngIf="edit" type="button" (click)="cancelEditing()"
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="editForm" novalidate (ngSubmit)="handleFormSubmit()"
+            *ngIf="edit">
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.BASIC">
+          <div class="column">
+            <mss-input class="form-item"
+                       [label]="('basic.name' | translate) + '*'"
+                       formControlName="name"
+                       [warn]="isPresent('name')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span>
+            </div>
+            <div class="form-item" *ngIf="mode === ComponentMode.Create">
+              <mss-input [label]="('basic.code' | translate) +'*'" formControlName="code"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span>
+              </div>
+            </div>
+            <div class="form-item" *ngIf="mode === ComponentMode.Create">
+              <mss-input [label]="'dictionary.externalCode' | translate" formControlName="externalCode"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+          </div>
+          <div class="column">
+            <ng-container *ngIf="mode === ComponentMode.Create">
+              <div class="form-item" *mssRoleIf="'createEdit.issuerCodeSelect'">
+                <mss-select [label]="('dictionary.issuerCode' | translate) +'*'" [options]="issuerCodes"
+                            formControlName="issuerCode"></mss-select>
+                <div class="mss-validation-label">
+                  <span *ngIf="isPresent('issuerCode')">{{'basic.required.issuerCode' | translate}}</span>
+                </div>
+              </div>
+            </ng-container>
+            <mss-select *mssRoleIf="'cardGroups.changeState'" [label]="'dictionary.state' | translate" formControlName="state"
+                        [options]="stateOptions"></mss-select>
+          </div>
+        </div>
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.LIMITS">
+          <div class="column">
+            <mss-input [label]="'dictionary.limit' | translate" type="number"
+                       formControlName="limit"></mss-input>
+          </div>
+          <div class="column">
+            <mss-select [label]="'dictionary.limitType' | translate" formControlName="limitType"
+                        [options]="limitOptions"></mss-select>
+          </div>
+        </div>
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.CONTACTS">
+          <div class="column">
+            <mss-input
+              [label]="('basic.ico' | translate) + '*'"
+              formControlName="ico"
+              [warn]="isPresent('ico')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresent('ico')">{{'basic.required.ico' | translate}}</span>
+            </div>
+            <mss-input
+              [label]="('basic.dic' | translate) + '*'"
+              formControlName="dic"
+              [warn]="isPresent('dic')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresent('dic')">{{'basic.required.dic' | translate}}</span>
+            </div>
+            <mss-input
+              [label]="('basic.email' | translate) + '*'"
+              formControlName="email"
+              [warn]="isPresent('email') || isValidEmail()">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresent('email')">{{'basic.required.email' | translate}}</span>
+              <span *ngIf="isValidEmail()">{{'basic.required.badEmail' | translate}}</span>
+            </div>
+            <mss-input
+              [label]="'basic.phone' | translate"
+              formControlName="phone"
+              [warn]="isValidPhone()">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isValidPhone()">{{'basic.required.phone' | translate}}</span>
+            </div>
+            <mss-input [label]="'basic.contact' | translate" formControlName="contact"></mss-input>
+            <div class="mss-validation-label"></div>
+            <mss-input [label]="'basic.contact2' | translate" formControlName="contact2"></mss-input>
+            <div class="mss-validation-label"></div>
+          </div>
+          <div class="column">
+            <mss-input [label]="'dictionary.bankAccount' | translate"
+                       formControlName="bankAccount"></mss-input>
+            <div class="mss-validation-label"></div>
+            <mss-input [label]="'dictionary.specificSymbol' | translate"
+                       formControlName="specificSymbol"></mss-input>
+            <div class="mss-validation-label"></div>
+            <mss-select [label]="'dictionary.taxType' | translate" [options]="taxTypes"
+                        formControlName="taxType"></mss-select>
+            <div class="mss-validation-label"></div>
+            <mss-input [label]="'dictionary.tax' | translate" type="number"
+                       formControlName="taxValue"></mss-input>
+            <div class="mss-validation-label"></div>
+          </div>
+        </div>
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.ADDRESS">
+          <div class="column">
+            <mss-input
+              [label]="('basic.street' | translate) + '*'"
+              formControlName="street"
+              [warn]="isPresent('street')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresent('street')">{{'basic.required.street' | translate}}</span>
+            </div>
+            <mss-input
+              [label]="('basic.city' | translate) + '*'"
+              formControlName="city"
+              [warn]="isPresent('city')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresent('city')">{{'basic.required.city' | translate}}</span>
+            </div>
+            <mss-input
+              [label]="('basic.zip' | translate) + '*'"
+              formControlName="zip"
+              [warn]="isPresent('zip')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresent('zip')">{{'basic.required.zip' | translate}}</span>
+            </div>
+            <mss-select
+              [label]="('basic.country' | translate) + '*'"
+              [options]="countries"
+              formControlName="country">
+            </mss-select>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresentCountry()">{{'basic.required.country' | translate}}</span>
+            </div>
+          </div>
+          <div class="column"></div>
+        </div>
+        <div>
+          <div class="mss-buttons-row" *ngIf="visibleTab.value !== CardGroupSections.DELIVERYADRESS">
+            <mss-button [label]="'basic.dismiss' | translate" type="button" (click)="cancelEditing()"
+                        *ngIf="mode === ComponentMode.Edit"
                         class="mss-action-button right-margin"></mss-button>
-            <mss-button [label]="'basic.save' | translate" *ngIf="edit" type="submit" [disabled]="editForm.invalid"
+            <mss-button [label]="'basic.dismiss' | translate" type="button" (click)="goToList()"
+                        *ngIf="mode === ComponentMode.Create"
+                        class="mss-action-button right-margin"></mss-button>
+            <mss-button [label]="'basic.save' | translate"
+                        type="submit" [disabled]="editForm.invalid"
                         class="mss-action-button"></mss-button>
           </div>
         </div>
       </form>
-      <form [formGroup]="addressForm" novalidate (ngSubmit)="submitAddress()">
-        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === CardGroupSections.DELIVERYADRESS}">
+      <mss-select class="typeSelect" [label]="'dictionary.type' | translate"
+                  *ngIf="visibleTab.value === CardGroupSections.DELIVERYADRESS"
+                  [options]="addressTypes"
+                  (selectedOptionChange)="changeAddressType($event)"></mss-select>
+      <div *ngIf="!editAddress">
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.DELIVERYADRESS">
           <div class="column">
-            <mss-select class="typeSelect" [label]="'dictionary.type' | translate"
-                        [options]="addressTypes"
-                        (selectedOptionChange)="changeAddressType($event)"></mss-select>
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input class="tab-item" [label]="('basic.addressName' | translate) + '*'" formControlName="addressName"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('addressName')">{{'basic.required.addressName' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.addressName' | translate }}</div>
               <div class="value">{{deliveryAddress?.addressName}}</div>
             </div>
-
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="('basic.city' | translate) + '*'" formControlName="city"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('city')">{{'basic.required.city' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.city' | translate }}</div>
               <div class="value">{{deliveryAddress?.city}}</div>
             </div>
-
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="'basic.contact' | translate" formControlName="contact"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.contact' | translate }}</div>
               <div class="value">{{deliveryAddress?.contact}}</div>
             </div>
-
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="'basic.contact2' | translate" formControlName="contact2"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.contact2' | translate }}</div>
               <div class="value">{{deliveryAddress?.contact2}}</div>
             </div>
-
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="('basic.country' | translate) + '*'"
-                         formControlName="country"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('country')">{{'basic.required.country' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.country' | translate }}</div>
               <div class="value">{{deliveryAddress?.country}}</div>
             </div>
-
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="('basic.street' | translate) + '*'"
-                         formControlName="street"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('street')">{{'basic.required.street' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.street' | translate }}</div>
               <div class="value">{{deliveryAddress?.street}}</div>
             </div>
           </div>
           <div class="column">
             <div class="mss-input-like-container tab-item">
-              <div class="label"></div>
-              <div class="invisible"></div>
-            </div>
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="'basic.dic' | translate" formControlName="dic"></mss-input>
-              <div class="mss-validation-label"></div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
               <div class="label">{{ 'basic.dic' | translate }}</div>
               <div class="value">{{deliveryAddress?.dic}}</div>
             </div>
-
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="'basic.email' | translate" formControlName="email"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('email')">{{'basic.required.badEmail' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.email' | translate }}</div>
               <div class="value">{{deliveryAddress?.email}}</div>
             </div>
-            <mss-input *ngIf="editAddress" class="tab-item" [label]="'basic.ico' | translate" formControlName="ico"></mss-input>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.ico' | translate }}</div>
               <div class="value">{{deliveryAddress?.ico}}</div>
             </div>
-
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="'basic.phone' | translate" formControlName="phone"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('phone')">{{'basic.required.phone' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.phone' | translate }}</div>
               <div class="value">{{deliveryAddress?.phone}}</div>
             </div>
-
-            <div *ngIf="editAddress" class="form-item">
-              <mss-input *ngIf="editAddress" class="tab-item" [label]="('basic.zip' | translate) + '*'" formControlName="zip"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isInvalid('zip')">{{'basic.required.zip' | translate}}</span>
-              </div>
-            </div>
-            <div class="mss-input-like-container tab-item" *ngIf="!editAddress">
+            <div class="mss-input-like-container tab-item">
               <div class="label">{{ 'basic.zip' | translate }}</div>
               <div class="value">{{deliveryAddress?.zip}}</div>
             </div>
           </div>
         </div>
         <div *mssRoleIf="'users.edit'">
-          <div class="mss-buttons-row" *ngIf="visibleTab.value === CardGroupSections.DELIVERYADRESS && selectedAddressType">
-            <mss-button [label]="'basic.edit' | translate" *ngIf="!editAddress" type="button" (click)="startAddressEditing()"
+          <div class="mss-buttons-row" *ngIf="visibleTab.value === CardGroupSections.DELIVERYADRESS">
+            <mss-button [label]="'basic.edit' | translate" type="button" (click)="startAddressEditing()"
                         class="mss-action-button"></mss-button>
-            <mss-button [label]="'basic.dismiss' | translate" *ngIf="editAddress" type="button" (click)="cancelAddressEditing()"
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="addressForm" novalidate (ngSubmit)="submitAddress()"
+            *ngIf="editAddress">
+        <div class="tab-content" *ngIf="visibleTab.value === CardGroupSections.DELIVERYADRESS">
+          <div class="column">
+            <div class="form-item">
+              <mss-input [label]="('basic.addressName' | translate) + '*'" formControlName="addressName"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('addressName')">{{'basic.required.addressName' | translate}}</span>
+              </div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="('basic.city' | translate) + '*'" formControlName="city"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('city')">{{'basic.required.city' | translate}}</span>
+              </div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="'basic.contact' | translate" formControlName="contact"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="'basic.contact2' | translate" formControlName="contact2"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="('basic.country' | translate) + '*'"
+                         formControlName="country"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('country')">{{'basic.required.country' | translate}}</span>
+              </div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="('basic.street' | translate) + '*'" formControlName="street"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('street')">{{'basic.required.street' | translate}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="form-item">
+              <mss-input [label]="'basic.dic' | translate" formControlName="dic"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="'basic.email' | translate" formControlName="email"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="addresssValidEmail()">{{'basic.required.badEmail' | translate}}</span>
+              </div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="'basic.ico' | translate" formControlName="ico"></mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="'basic.phone' | translate" formControlName="phone"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('phone')">{{'basic.required.phone' | translate}}</span>
+              </div>
+            </div>
+
+            <div class="form-item">
+              <mss-input [label]="('basic.zip' | translate) + '*'" formControlName="zip"></mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('zip')">{{'basic.required.zip' | translate}}</span>
+              </div>
+            </div>
+          </div>
+          </div>
+        <div *mssRoleIf="'users.edit'">
+          <div class="mss-buttons-row" *ngIf="visibleTab.value === CardGroupSections.DELIVERYADRESS">
+            <mss-button [label]="'basic.dismiss' | translate" type="button" (click)="cancelAddressEditing()"
                         class="mss-action-button right-margin"></mss-button>
-            <mss-button [label]="'basic.save' | translate" *ngIf="editAddress" type="submit" [disabled]="addressForm.invalid"
+            <mss-button [label]="'basic.save' | translate" type="submit" [disabled]="addressForm.invalid"
                         class="mss-action-button"></mss-button>
           </div>
         </div>

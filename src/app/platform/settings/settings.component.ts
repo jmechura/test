@@ -8,8 +8,6 @@ import { ApiService } from '../../shared/services/api.service';
 import { UnsubscribeSubject, MissingTokenResponse } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
-import { orgUnitActions, OrgUnitState } from '../../shared/reducers/org-unit.reducer';
-import { OrgUnitModel } from '../../shared/models/org-unit.model';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const SECTIONS = ['USER', 'PASSWORD', 'PAGE'];
@@ -26,7 +24,6 @@ export class SettingsComponent implements OnDestroy {
   selectedLanguage: string;
   sections: SelectItem[] = [];
   visibleSection: SelectItem;
-  orgUnit: OrgUnitModel;
 
 
   private unsubscribe$ = new UnsubscribeSubject();
@@ -63,12 +60,6 @@ export class SettingsComponent implements OnDestroy {
 
         if (data != null) {
           this.profile = data;
-          if (this.profile.resourceAcquirer === 'ORG_UNIT') {
-            this.store.dispatch({
-              type: orgUnitActions.ORG_UNIT_GET_REQUEST,
-              payload: this.profile.resourceAcquirerId
-            });
-          }
           this.sections = [...this.sections, ...this.profile.roles.map(role => ({
             value: role.resource,
             label: this.language.translate(`settings.sections.${role.resource}`)
@@ -79,24 +70,11 @@ export class SettingsComponent implements OnDestroy {
     this.languages = this.language.getLanguages().map(item => ({value: item}));
     this.selectedLanguage = this.language.getSelectedLanguage();
 
-    this.store.select('orgUnit').takeUntil(this.unsubscribe$).subscribe(
-      (state: OrgUnitState) => {
-        if (state.error !== null) {
-          console.error('Error getting org unit', state.error);
-          return;
-        }
-
-        if (state.data && !state.loading) {
-          this.orgUnit = state.data;
-        }
-      }
-    );
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
   }
-
 
   updatePassword(): void {
     const newPasswordObject = {
@@ -120,10 +98,6 @@ export class SettingsComponent implements OnDestroy {
   selectLanguage(lang: string): void {
     this.language.setLanguage(lang);
     this.selectedLanguage = lang;
-  }
-
-  updateOrgUnit(model: OrgUnitModel): void {
-    this.store.dispatch({type: orgUnitActions.ORG_UNIT_PUT_REQUEST, payload: model});
   }
 
 }
