@@ -74,6 +74,7 @@ export const routes: Routes = [
       {path: 'card-request/:uuid', component: CardRequestDetailComponent},
       {path: 'terminal', component: TerminalComponent},
       {path: 'terminal/:id', component: TerminalDetailComponent},
+      {path: 'terminal/create', component: TerminalDetailComponent},
       {path: 'card-groups', component: CardGroupsComponent},
       {path: 'card-groups/:id', component: CardGroupDetailComponent},
       {path: 'transaction/:uuid/:termDttm', component: TransactionDetailComponent},

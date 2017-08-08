@@ -1,5 +1,9 @@
-<div *ngIf="terminal" class="mss-view-container">
-  <div class="mss-header-row">
+<div class="mss-view-container">
+
+  <div class="mss-header-row" *ngIf="mode === Mode.Create">
+    <div class="mss-title">{{'terminals.list.addTerminal' | translate}}</div>
+  </div>
+  <div class="mss-header-row" *ngIf="mode !== Mode.Create && terminal">
     <div class="mss-title">{{'terminals.detail.detailTitle' | translate}} - {{terminal.id}}</div>
   </div>
 
@@ -12,14 +16,10 @@
         </mss-tabs>
       </div>
 
-      <form class="terminal-detail-content"
-            [formGroup]="terminalForm"
-            (ngSubmit)="submitEdit()">
-        <div class="tab-content"
-             [ngClass]="{'visible': visibleTab.value === TerminalDetailSections.BASIC}">
+      <form [formGroup]="terminalForm" novalidate (ngSubmit)="submitEdit()" *ngIf="mode === Mode.Edit || mode === Mode.Create">
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === TerminalDetailSections.BASIC}">
           <div class="column">
-            <!-- NAME -->
-            <div *ngIf="editing">
+            <div class="form-item">
               <mss-input [label]="('basic.name' | translate) + '*'"
                          formControlName="name"
                          [warn]="isPresent('name')">
@@ -28,145 +28,189 @@
                 <span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span>
               </div>
             </div>
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.name' | translate }}</div>
-              <div class="value">{{terminal.name}}</div>
-            </div>
-
-            <!-- CODE -->
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.code' | translate }}</div>
-              <div class="value">{{terminal.code}}</div>
-            </div>
-
-            <!-- ID -->
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.id' | translate }}</div>
-              <div class="value">{{terminal.id}}</div>
+            <div class="form-item" *ngIf="mode === Mode.Create">
+              <mss-input [label]="('basic.code' | translate) + '*'"
+                         formControlName="code"
+                         [warn]="isPresent('code')">
+              </mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span>
+              </div>
             </div>
           </div>
-
           <div class="column">
-            <!-- ORG UNIT CODE -->
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'dictionary.orgUnitCode' | translate }}</div>
-              <div class="value">{{terminal.orgUnitId}}</div>
+            <div class="form-item" *ngIf="mode === Mode.Create">
+              <mss-select [label]="('dictionary.networkCode' | translate) + '*'"
+                          [options]="networkCodes"
+                          formControlName="networkCode"
+                          *mssRoleIf="'terminals.formNetworkSelect'">
+              </mss-select>
+              <div class="mss-validation-label">
+                <span *ngIf="isPresent('networkCode')">{{'basic.required.networkCode' | translate}}</span>
+              </div>
             </div>
-
-            <!-- MERCHANT ID -->
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'terminals.detail.merchantId' | translate }}</div>
-              <div class="value">{{terminal.merchantId}}</div>
+            <div class="form-item" *ngIf="mode === Mode.Create">
+              <mss-select [label]="('dictionary.merchantCode' | translate) + '*'"
+                          [options]="merchantCodes"
+                          formControlName="merchantId"
+                          *mssRoleIf="'terminals.formMerchantSelect'">
+              </mss-select>
+              <div class="mss-validation-label">
+                <span *ngIf="isPresent('merchantId')">{{'basic.required.merchantId' | translate}}</span>
+              </div>
             </div>
-
-            <!-- MERCHANT CODE -->
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'dictionary.merchantCode' | translate }}</div>
-              <div class="value">{{terminal.merchantCode}}</div>
+            <div class="form-item" *ngIf="mode === Mode.Create">
+              <mss-select [label]="('dictionary.orgUnitCode' | translate) + '*'"
+                          [options]="orgUnitCodes"
+                          formControlName="orgUnitId"
+                          *mssRoleIf="'terminals.formOrgUnitSelect'">
+              </mss-select>
+              <div class="mss-validation-label">
+                <span *ngIf="isPresent('orgUnitId')">{{'basic.required.orgUnitId' | translate}}</span>
+              </div>
             </div>
-
-            <!-- STATE -->
-            <mss-select *ngIf="editing"
-                        class="tab-item-not-required"
-                        [label]="'dictionary.state' | translate"
-                        formControlName="state"
-                        [options]="stateOptions">
-            </mss-select>
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'dictionary.state' | translate }}</div>
-              <div class="value">{{terminal.state}}</div>
+            <div class="form-item" *ngIf="mode === Mode.Create">
+              <mss-input [label]="'basic.note' | translate"
+                         formControlName="note">
+              </mss-input>
+              <div class="mss-validation-label"></div>
+            </div>
+            <div class="form-item" *ngIf="mode === Mode.Edit">
+              <mss-select [label]="'dictionary.state' | translate"
+                          formControlName="state"
+                          [options]="stateOptions">
+              </mss-select>
+              <div class="mss-validation-label"></div>
             </div>
           </div>
         </div>
-
-        <div class="tab-content"
-             [ngClass]="{'visible': visibleTab.value === TerminalDetailSections.ADDRESS}">
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === TerminalDetailSections.ADDRESS}">
           <div class="column">
-            <!-- STREET -->
-            <mss-input *ngIf="editing"
-                       class="tab-item-not-required"
-                       [label]="'basic.street' | translate"
-                       formControlName="street"
-                       [warn]="isPresent('street')">
-            </mss-input>
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.street' | translate }}</div>
-              <div class="value">{{terminal.street}}</div>
+            <div class="form-item">
+              <mss-input [label]="'basic.street' | translate"
+                         formControlName="street">
+              </mss-input>
+              <div class="mss-validation-label"></div>
             </div>
-
-            <!-- CITY -->
-            <mss-input *ngIf="editing"
-                       class="tab-item-not-required"
-                       [label]="'basic.city' | translate"
-                       formControlName="city"
-                       [warn]="isPresent('city')">
-            </mss-input>
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.city' | translate }}</div>
-              <div class="value">{{terminal.city}}</div>
+            <div class="form-item">
+              <mss-input [label]="'basic.city' | translate"
+                         formControlName="city">
+              </mss-input>
+              <div class="mss-validation-label"></div>
             </div>
-
-            <!-- ZIP -->
-            <mss-input *ngIf="editing"
-                       class="tab-item-not-required"
-                       [label]="'basic.zip' | translate"
-                       formControlName="zip"
-                       [warn]="isPresent('zip')">
-            </mss-input>
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.zip' | translate }}</div>
-              <div class="value">{{terminal.zip}}</div>
+            <div class="form-item">
+              <mss-input [label]="'basic.zip' | translate"
+                         formControlName="zip">
+              </mss-input>
+              <div class="mss-validation-label"></div>
             </div>
           </div>
-
           <div class="column">
-            <!-- REGION -->
-            <mss-input *ngIf="editing"
-                       class="tab-item-not-required"
-                       [label]="'basic.region' | translate"
-                       formControlName="region"
-                       [warn]="isPresent('region')">
-            </mss-input>
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.region' | translate }}</div>
-              <div class="value">{{terminal.region}}</div>
+            <div class="form-item">
+              <mss-input [label]="'basic.region' | translate"
+                         formControlName="region">
+              </mss-input>
+              <div class="mss-validation-label"></div>
             </div>
-
-            <!-- COUNTRY -->
-            <mss-select *ngIf="editing"
-                        class="tab-item-not-required"
-                        [label]="'basic.country' | translate"
-                        formControlName="country"
-                        [options]="countries">
-            </mss-select>
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.country' | translate }}</div>
-              <div class="value">{{terminal.country}}</div>
+            <div class="form-item">
+              <mss-select [label]="'basic.country' | translate"
+                          [options]="countries"
+                          formControlName="country">
+              </mss-select>
+              <div class="mss-validation-label"></div>
             </div>
-          </div>
-        </div>
-
-        <div *mssRoleIf="'users.edit'">
-          <div class="mss-buttons-row">
-            <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="mss-action-button"></mss-button>
-            <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()"
-                        class="mss-action-button right-margin"></mss-button>
-            <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()" class="mss-action-button"></mss-button>
           </div>
         </div>
       </form>
+
+      <div class="tab-content" *ngIf="mode === Mode.View && terminal"
+           [ngClass]="{'visible': visibleTab.value === TerminalDetailSections.BASIC}">
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.name' | translate }}</div>
+            <div class="value">{{terminal.name}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.code' | translate }}</div>
+            <div class="value">{{terminal.code}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.id' | translate }}</div>
+            <div class="value">{{terminal.id}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.code' | translate }}</div>
+            <div class="value">{{terminal.code}}</div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'dictionary.orgUnitCode' | translate }}</div>
+            <div class="value">{{terminal.orgUnitId}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'terminals.detail.merchantId' | translate }}</div>
+            <div class="value">{{terminal.merchantId}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'dictionary.merchantCode' | translate }}</div>
+            <div class="value">{{terminal.merchantCode}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'dictionary.state' | translate }}</div>
+            <div class="value">{{terminal.state}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-content" *ngIf="mode === Mode.View && terminal"
+           [ngClass]="{'visible': visibleTab.value === TerminalDetailSections.ADDRESS}">
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.street' | translate }}</div>
+            <div class="value">{{terminal.street}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.city' | translate }}</div>
+            <div class="value">{{terminal.city}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.zip' | translate }}</div>
+            <div class="value">{{terminal.zip}}</div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.region' | translate }}</div>
+            <div class="value">{{terminal.region}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{ 'basic.country' | translate }}</div>
+            <div class="value">{{terminal.country}}</div>
+          </div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
     </div>
+
+
+    <div class="tabs-container" *mssRoleIf="'terminals.edit'">
+      <div class="mss-buttons-row" *ngIf="mode !== Mode.Create">
+        <mss-button [label]="'basic.edit' | translate" *ngIf="mode !== Mode.Edit" (click)="startEditing()"
+                    class="mss-action-button"></mss-button>
+        <mss-button [label]="'basic.dismiss' | translate" *ngIf="mode === Mode.Edit" (click)="cancelEditing()"
+                    class="mss-action-button right-margin"></mss-button>
+        <mss-button [label]="'basic.save' | translate" *ngIf="mode === Mode.Edit" (click)="submitEdit()"
+                    class="mss-action-button" [disabled]="terminalForm.invalid"></mss-button>
+      </div>
+    </div>
+    <div class="tabs-container">
+      <div *ngIf="mode === Mode.Create" class="mss-buttons-row">
+        <mss-button class="mss-action-button right-margin" (click)="cancelCreateNewTerminal()" type="button"
+                    [label]="'basic.dismiss' | translate"></mss-button>
+        <mss-button class="mss-action-button" (click)="createNewTerminal()" type="button" [disabled]="terminalForm.invalid"
+                    [label]="'basic.add' | translate"></mss-button>
+      </div>
+    </div>
+
   </div>
 </div>

@@ -5,7 +5,7 @@ import { StateModel } from '../../shared/models/state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { TerminalModel, TerminalPredicateObject } from '../../shared/models/terminal.model';
 import { terminalActions } from '../../shared/reducers/terminal.reducer';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { networkCodeActions } from '../../shared/reducers/network-code.reducer';
 import { CodeModel } from '../../shared/models/code.model';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
@@ -23,7 +23,6 @@ import { ExtendedToastrService } from '../../shared/services/extended-toastr.ser
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const TERMINALS_ROUTE = 'platform/terminal';
-const API_ENDPOINT = '/terminals';
 
 @Component({
   selector: 'mss-terminal',
@@ -38,19 +37,14 @@ export class TerminalComponent implements OnDestroy {
   pageNumber = 0;
   totalItems = 0;
 
-  newTerminalForm: FormGroup;
   terminalData: Pagination<TerminalModel>;
   networkCodes: SelectItem[] = [];
   merchantCodes: SelectItem[] = [];
   orgUnitCodes: SelectItem[] = [];
   countries: SelectItem[] = [];
 
-  editModel: TerminalModel;
-  editedRow: any;
-
   terminalRows: any[] = [];
   loading = false;
-  modalShowing = false;
 
   filterForm: FormGroup;
 
@@ -68,21 +62,6 @@ export class TerminalComponent implements OnDestroy {
               private route: ActivatedRoute,
               private roles: RoleService,
               private toastr: ExtendedToastrService) {
-
-    this.newTerminalForm = fb.group({
-      code: ['', Validators.required],
-      name: ['', Validators.required],
-      networkCode: ['', Validators.required],
-      orgUnitId: [{value: '', disabled: true}, Validators.required],
-      city: '',
-      coefficient: null,
-      merchantId: [{value: '', disabled: true}, Validators.required],
-      country: '',
-      note: '',
-      region: '',
-      street: '',
-      zip: '',
-    });
 
     this.filterForm = fb.group({
         code: '',
@@ -182,7 +161,6 @@ export class TerminalComponent implements OnDestroy {
         }
         if (data != undefined) {
           this.merchantCodes = data.map(item => ({value: item.code + ';' + item.id, label: item.name}));
-          this.newTerminalForm.get('merchantId').enable();
           this.filterForm.get('merchantCode').enable();
         }
       }
@@ -196,7 +174,6 @@ export class TerminalComponent implements OnDestroy {
         }
         if (data != undefined) {
           this.orgUnitCodes = data.map(item => ({value: item.code, label: item.code}));
-          this.newTerminalForm.get('orgUnitId').enable();
           this.filterForm.get('orgUnitCode').enable();
         }
       }
@@ -211,27 +188,6 @@ export class TerminalComponent implements OnDestroy {
         if (data.data !== undefined && !data.loading) {
           this.countries = data.data.map(country => ({value: country}));
         }
-      }
-    );
-
-    this.newTerminalForm.get('networkCode').valueChanges.takeUntil(this.unsubscribe$).subscribe(
-      (value: string | number) => {
-        if (value == null || value.toString().length === 0) {
-          return;
-        }
-        this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
-        this.newTerminalForm.get('merchantId').reset();
-        this.newTerminalForm.get('orgUnitId').disable();
-      }
-    );
-
-    this.newTerminalForm.get('merchantId').valueChanges.takeUntil(this.unsubscribe$).subscribe(
-      (value: string | number) => {
-        if (value == null || value.toString().length === 0) {
-          return;
-        }
-        this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
-        this.newTerminalForm.get('orgUnitId').reset();
       }
     );
   }
@@ -259,10 +215,6 @@ export class TerminalComponent implements OnDestroy {
     this.getTerminalList();
   }
 
-  get newFormInvalid(): boolean {
-    return this.newTerminalForm.invalid || this.newTerminalForm.get('orgUnitId').disabled;
-  }
-
   setPage(pageInfo: { offset: number }): void {
     const routeParams: ListRouteParamsModel = {
       page: String(pageInfo.offset + 1),
@@ -273,42 +225,6 @@ export class TerminalComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
-  }
-
-  switchModal(): void {
-    this.modalShowing = !this.modalShowing;
-  }
-
-  addTerminal(): void {
-    this.api.post(`${API_ENDPOINT}`, this.newTerminalForm.value).subscribe(
-      () => {
-        this.toastr.success('toastr.success.createTerminal');
-        this.getTerminalList();
-      },
-      (error) => {
-        this.toastr.error(error);
-        console.error('Terminal API call returned error.', error);
-      }
-    );
-  }
-
-  editing(row: any): void {
-    if (this.editedRow === row) {
-      this.saveEditing();
-      return;
-    }
-    if (this.editedRow) {
-      this.table.rowDetail.toggleExpandRow(this.editedRow);
-    }
-    this.editedRow = row;
-    this.editModel = Object.assign({}, this.terminalData.content.find(item => item.id === row.id));
-    this.table.rowDetail.toggleExpandRow(row);
-  }
-
-  saveEditing(): void {
-    this.store.dispatch({type: terminalActions.TERMINAL_PUT_REQUEST, payload: this.editModel});
-    this.table.rowDetail.toggleExpandRow(this.editedRow);
-    this.editedRow = null;
   }
 
   changeLimit(limit: number): void {
@@ -339,14 +255,5 @@ export class TerminalComponent implements OnDestroy {
 
   merchantSelect(merchantCode: string): void {
     this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: merchantCode.split(';')[1]});
-  }
-
-  isPresent(value: string): boolean {
-    const item = this.newTerminalForm.get(value);
-    if (value === 'networkCode' || value === 'merchantId' || value === 'orgUnitId') {  // Selects
-      return item.touched && (item.value === null || item.value === '');
-    } else {
-      return item.touched && item.errors != null && item.errors.required;
-    }
   }
 }
