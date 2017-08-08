@@ -1,6 +1,6 @@
 <div *ngIf="cardData" class="mss-view-container">
   <div class="mss-header-row">
-    <span class="mss-title">{{'cards.cardDetail.title' | translate}} - {{cardData.card.cardUuid}}</span>
+    <span class="mss-title">{{'cards.cardDetail.title' | translate}} - {{cardData.card.cln}}</span>
   </div>
 
   <mss-tabs [items]="detailOptions" (itemChanged)="setSelectedOption($event)"></mss-tabs>
@@ -8,10 +8,36 @@
   <div class="card-detail-content" [formGroup]="cardForm">
     <div *ngIf="selectedOption === detailOptions[0]">
       <div class="category-wrapper">
-        <div class="column" *ngFor="let infoColumn of basicInfo">
-          <div class="mss-input-like-container card-detail-item" *ngFor="let item of infoColumn">
-            <div class="label">{{item['label']}}</div>
-            <div class="value">{{item['value']}}</div>
+        <div class="column">
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.uuid' | translate}}</div>
+            <div class="value">{{cardData.card.cardUuid}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.cln' | translate}}</div>
+            <div class="value">{{cardData.card.cln}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.panSequenceNumber' | translate}}</div>
+            <div class="value">{{cardData.card.panSequenceNumber}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.typeOfCard' | translate}}</div>
+            <div class="value">{{cardData.card.type}}</div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.state' | translate}}</div>
+            <div class="value">{{cardData.card.state}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.expiration' | translate}}</div>
+            <div class="value">{{cardData.card.expiration}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'cards.cardDetail.expirationDate' | translate}}</div>
+            <div class="value">{{cardData.card.expiryDate}}</div>
           </div>
         </div>
       </div>
@@ -19,33 +45,71 @@
 
     <div *ngIf="selectedOption === detailOptions[1]">
       <div class="category-wrapper">
-        <div class="column" *ngFor="let infoColumn of ownerInfo">
-          <div class="mss-input-like-container card-detail-item" *ngFor="let item of infoColumn">
-            <div class="label">{{item['label']}}</div>
-            <div class="value">{{item['value']}}</div>
+        <div class="column">
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'basic.firstName' | translate}}</div>
+            <div class="value">{{cardData.card.firstname}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'basic.lastName' | translate}}</div>
+            <div class="value">{{cardData.card.lastname}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item" *mssRoleIf="'cardDetail.limit'">
+            <div class="label">{{'dictionary.limit' | translate}}</div>
+            <div class="value">{{cardData.card.limit}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item" *mssRoleIf="'cardDetail.limitType'">
+            <div class="label">{{'dictionary.limitType' | translate}}</div>
+            <div class="value">{{cardData.card.limitType}}</div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.issuerCode' | translate}}</div>
+            <div class="value">{{cardData.card.issuerCode}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.cardGroupCode' | translate}}</div>
+            <div class="value">{{cardData.card.cardGroupPrimaryCode}}</div>
+          </div>
+          <div class="mss-input-like-container card-detail-item">
+            <div class="label">{{'dictionary.cardGroupName' | translate}}</div>
+            <div class="value">{{cardData.card.cardGroupName}}</div>
           </div>
         </div>
       </div>
     </div>
 
     <ng-container *mssRoleIf="'accounts.read'">
-      <div class="data-table-container row-break" *ngIf="selectedOption === detailOptions[2] && selectedAccountData.content">
+      <div *ngIf="cardData.accounts.length === 0 && selectedOption === detailOptions[2]" class="no-account-text">
+        {{'cards.cardDetail.account.noAccount' | translate}}
+      </div>
+      <div class="data-table-container"
+           *ngIf="cardData.accounts.length > 0 && selectedOption === detailOptions[2] && selectedAccountData.content">
         <mss-tabs [items]="accountOptions" (itemChanged)="setSelectedAccountOption($event)" *ngIf="accountOptions.length > 0"></mss-tabs>
-        <ngx-datatable #table [loadingIndicator]="loading" [rows]="selectedAccountData.content"
+        <ngx-datatable #table [loadingIndicator]="loading" [rows]="selectedAccountData.content" [columnMode]="'force'"
                        [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                        [limit]="requestModel.pagination.number" [count]="selectedAccountData ? selectedAccountData.totalElements : 0"
                        [externalSorting]="true" [externalPaging]="true"
                        (sort)="getSortedTransfers($event)" (page)="setPage($event)">
-          <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false"></ngx-datatable-column>
-          <ngx-datatable-column [name]="'dictionary.trxUuid' | translate" prop="trxUuid"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <span [title]="value" class="mss-limited-text">{{value}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.trxUuid' | translate" prop="trxUuid">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <span [title]="value" class="mss-limited-text">{{value}}</span>
+            </ng-template>
+          </ngx-datatable-column>
           <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-              <div>{{getFormatedDate(value)}}</div>
+              <div>{{getFormattedDate(value)}}</div>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm">
             <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-              <div>{{getFormatedDate(value)}}</div>
+              <div>{{getFormattedDate(value)}}</div>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount">

@@ -61,6 +61,9 @@
       <ngx-datatable-column [name]="'cards.cardRequests.employerName' | translate" prop="cardGroupName"
                             [sortable]="true"></ngx-datatable-column>
       <ngx-datatable-column [name]="'cards.cardRequests.created' | translate" prop="created" [sortable]="true">
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <div>{{getFormattedDate(value)}}</div>
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'cards.cardRequests.createdBy' | translate" prop="createdBy" [sortable]="true">
       </ngx-datatable-column>

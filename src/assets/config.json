@@ -235,6 +235,14 @@
         "CARD_ROLE_RESOURCE_READ"
       ]
     },
+    "cardDetail": {
+      "limit": [
+        "ROLE_ADMIN"
+      ],
+      "limitType": [
+        "ROLE_ADMIN"
+      ]
+    },
     "cards": {
       "read": [
         "ROLE_ADMIN",

@@ -17,13 +17,6 @@ import * as moment from 'moment';
 import { AppConfigService } from 'app/shared/services/app-config.service';
 import { RoleService } from '../../shared/services/role.service';
 
-interface InfoModel {
-  label: string;
-  value: any;
-  formName?: string;
-  options?: SelectItem[];
-}
-
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 
 @Component({
@@ -50,24 +43,16 @@ export class CardDetailComponent implements OnDestroy {
   selectedOption = this.detailOptions[0];
   selectedAccountOption: SelectItem = null;
 
-  basicInfo: InfoModel[][];
-  ownerInfo: InfoModel[][];
-
   sortOption: {
     predicate: string;
     reverse: boolean;
   };
 
-  loading = true;
+  loading = false;
 
   rowLimit = ITEM_LIMIT_OPTIONS[0];
   pageNumber = 0;
   totalItems = 0;
-
-  stateSelect: SelectItem[] = [
-    {value: 'ENABLED'},
-    {value: 'DISABLED'}
-  ];
 
   @ViewChild('table') table: DatatableComponent;
 
@@ -114,113 +99,31 @@ export class CardDetailComponent implements OnDestroy {
         if (data.data != undefined && !data.loading) {
           this.cardData = data.data;
           this.cardForm.patchValue(this.cardData);
-          this.accountOptions = this.cardData.accounts.map(account => ({value: account.uuid}));
+          this.accountOptions = this.cardData.accounts.map(
+            account => ({
+              value: account.uuid,
+              label: `${account.name} - ${account.type}`
+            })
+          );
           this.selectedAccountOption = this.accountOptions[0];
 
-          this.roles.isVisible('accounts.read').subscribe(
-            result => {
-              if (result) {
-                this.store.dispatch({
-                  type: transfersActions.TRANSFERS_GET_REQUEST, payload: {
-                    predicatedObject: this.requestModel,
-                    uuid: this.cardData.accounts[0].uuid,
-                    type: 'CARD'
-                  }
-                });
-              } else {
-                this.detailOptions = this.detailOptions.filter(opt => opt.value !== 'Account');
+          if (this.cardData.accounts.length > 0) {
+            this.roles.isVisible('accounts.read').subscribe(
+              result => {
+                if (result) {
+                  this.store.dispatch({
+                    type: transfersActions.TRANSFERS_GET_REQUEST, payload: {
+                      predicatedObject: this.requestModel,
+                      uuid: this.cardData.accounts[0].uuid,
+                      type: 'CARD'
+                    }
+                  });
+                } else {
+                  this.detailOptions = this.detailOptions.filter(opt => opt.value !== 'Account');
+                }
               }
-            }
-          );
-
-          this.basicInfo = [
-            [
-              {
-                label: this.langService.translate(`dictionary.uuid`),
-                value: this.cardData.card.cardUuid,
-                formName: 'cardUuid',
-              },
-              {
-                label: this.langService.translate(`dictionary.cln`),
-                value: this.cardData.card.cln,
-                formName: 'cln',
-              },
-              {
-                label: this.langService.translate(`dictionary.pan`),
-                value: this.cardData.card.panSequenceNumber,
-                formName: 'panSequenceNumber',
-              },
-              {
-                label: this.langService.translate(`dictionary.expiration`),
-                value: this.cardData.card.expiration,
-                formName: 'expiration',
-              },
-              {
-                label: this.langService.translate(`cards.cardDetail.expirationDate`),
-                value: this.cardData.card.expiryDate,
-                formName: 'expiryDate',
-              },
-            ],
-            [
-              {
-                label: this.langService.translate('dictionary.serviceCode'),
-                value: this.cardData.card.serviceCode,
-                formName: 'serviceCode',
-              },
-              {
-                label: this.langService.translate('dictionary.typeOfCard'),
-                value: this.cardData.card.type,
-                formName: 'typeOfCard',
-              },
-              {
-                label: this.langService.translate('dictionary.state'),
-                value: this.cardData.card.state,
-                formName: 'state',
-                options: this.stateSelect
-              },
-              {
-                label: this.langService.translate('cards.cardDetail.track2'),
-                value: this.cardData.card.track2,
-                formName: 'track2',
-              },
-            ],
-          ];
-          this.ownerInfo = [
-            [
-              {
-                label: this.langService.translate('basic.firstName'),
-                value: this.cardData.card.firstname,
-                formName: 'firstname',
-              },
-              {
-                label: this.langService.translate('basic.lastName'),
-                value: this.cardData.card.lastname,
-                formName: 'lastname',
-              },
-              {
-                label: this.langService.translate('dictionary.limit'),
-                value: this.cardData.card.limit,
-                formName: 'limit',
-              },
-            ],
-            [
-              {
-                label: this.langService.translate('dictionary.limitType'),
-                value: this.cardData.card.limitType,
-                formName: 'limitType',
-              },
-              {
-                label: this.langService.translate('dictionary.cardGroupCode'),
-                value: this.cardData.card.cardGroupPrimaryCode,
-                formName: 'cardGroupPrimaryCode',
-              },
-              {
-                label: this.langService.translate('dictionary.issuerCode'),
-                value: this.cardData.card.issuerCode,
-                formName: 'issuerCode',
-              },
-            ]
-          ];
+            );
+          }
         }
       }
     );
@@ -295,7 +198,7 @@ export class CardDetailComponent implements OnDestroy {
     this.getTransfers();
   }
 
-  getFormatedDate(date: Date | string): string {
+  getFormattedDate(date: Date | string): string {
     return moment(date).format(this.dateFormat);
   }
 }

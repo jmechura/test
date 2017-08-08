@@ -245,7 +245,8 @@
         "amount": "Amount",
         "type": "Type",
         "state": "State",
-        "balance": "Balance"
+        "balance": "Balance",
+        "noAccount": "This card has no accounts"
       }
     },
     "cardRequests": {

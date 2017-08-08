@@ -26,6 +26,6 @@
   margin: 6px 0;
 }
 
-.row-break {
-  @include mss-datatable-row-break(14, false);
+.no-account-text {
+  @include default-component-label;
 }

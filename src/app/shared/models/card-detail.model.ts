@@ -11,4 +11,5 @@ interface CardDetailAccount {
   transfers: Transfer[];
   type: string;
   uuid: string;
+  name: string;
 }
