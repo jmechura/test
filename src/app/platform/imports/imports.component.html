@@ -2,7 +2,7 @@
   <div class="mss-header-row">
     <span class="mss-title">{{'imports.list.title' | translate}}</span>
     <mss-button class="mss-action-button" [label]="'imports.list.addImport' | translate"
-                (click)="newImportModalVisible = true"></mss-button>
+                (click)="goToCreate()"></mss-button>
   </div>
 
   <div class="data-table-container">
@@ -56,26 +56,6 @@
     </ngx-datatable>
   </div>
 </div>
-
-<mss-modal-window [(visible)]="newImportModalVisible">
-  <div class="mss-view-container">
-    <h3 class="mss-modal-title">{{'imports.list.addImport' | translate}}</h3>
-    <form [formGroup]="newImportForm" (ngSubmit)="addNewImport()">
-      <mss-input [label]="('basic.name' | translate) + '*'" [warn]="isPresent('name')" formControlName="name"></mss-input>
-      <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
-      <mss-input [label]="'imports.dictionary.nameRead' | translate" [warn]="isPresent('nameRead')" formControlName="nameRead"></mss-input>
-      <div class="mss-validation-label"><span *ngIf="isPresent('nameRead')">{{'imports.dictionary.nameRead' | translate}}</span></div>
-      <mss-checkbox formControlName="runAfterStart" [label]="'imports.dictionary.runAfterStart' | translate"></mss-checkbox>
-      <mss-select [label]="'imports.dictionary.type' | translate" formControlName="type" [options]="importTypes"></mss-select>
-      <div class="mss-buttons-row">
-        <mss-button class="mss-action-button right-margin" (click)="newImportModalVisible = false" type="button"
-                    [label]="'basic.dismiss' | translate"></mss-button>
-        <mss-button class="mss-action-button" [disabled]="newImportForm.invalid" [label]="'basic.add' | translate"
-                    type="submit"></mss-button>
-      </div>
-    </form>
-  </div>
-</mss-modal-window>
 
 <mss-modal-window [(visible)]="deleteModalVisible">
   <div class="mss-view-container">

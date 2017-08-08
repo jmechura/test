@@ -1,5 +1,4 @@
 import { Component, OnDestroy, } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
@@ -16,6 +15,8 @@ import { PropertyDefModel } from '../../shared/models/property-def.model.';
 import { importPropertyActions } from '../../shared/reducers/import-property.reducer';
 import { PropertyModel } from '../../shared/models/property.model';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { ComponentMode } from '../../shared/enums/detail-component-mode.enum';
+import { UnsubscribeSubject } from '../../shared/utils';
 
 const IMPORT_DESTROY_ENDPOINT = '/imports/destroy';
 const IMPORT_START_ENDPOINT = '/imports/start';
@@ -29,16 +30,18 @@ const PROPERTY_ENDPOINT = '/imports/properties';
 })
 export class ImportDetailComponent implements OnDestroy {
 
-  private unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new UnsubscribeSubject();
   importName: string;
   importDetail: ImportModel;
   modalVisible = false;
-  editingImport = false;
   importTypes: SelectItem[] = [];
   importEditForm: FormGroup;
   propertyForm: FormArray;
   editingProperties = false;
   properties: PropertyModel[] = [];
+  mode = ComponentMode.View;
+  ComponentMode = ComponentMode;
+
 
   constructor(private route: ActivatedRoute,
               private language: LanguageService,
@@ -48,10 +51,29 @@ export class ImportDetailComponent implements OnDestroy {
               private store: Store<AppStateModel>,
               private toastr: ExtendedToastrService) {
     this.store.dispatch({type: importTypeActions.IMPORT_TYPE_GET_REQUEST});
+
+
+    this.importEditForm = this.fb.group(
+      {
+        name: [{value: '', disabled: true}],
+        nameRead: [''],
+        runAfterStart: [false],
+        type: ['']
+      }
+    );
+
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
-      params => {
-        this.importName = params.name;
-        this.store.dispatch({type: importDetailActions.IMPORT_DETAIL_GET_REQUEST, payload: this.importName});
+      (params: { name: string }) => {
+        if (params.name !== 'create') {
+          this.importName = params.name;
+          this.store.dispatch({type: importDetailActions.IMPORT_DETAIL_GET_REQUEST, payload: this.importName});
+          this.mode = ComponentMode.View;
+        } else {
+          this.mode = ComponentMode.Create;
+          this.importEditForm.get('name').enable();
+          this.importEditForm.reset();
+        }
+
       }
     );
 
@@ -62,9 +84,11 @@ export class ImportDetailComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.importDetail = data.data;
-          this.importEditForm.patchValue(this.importDetail);
-          this.store.dispatch({type: importPropertyActions.IMPORT_PROPERTY_GET_REQUEST, payload: this.importName});
+          if (this.mode !== ComponentMode.Create) {
+            this.importDetail = data.data;
+            this.importEditForm.patchValue(this.importDetail);
+            this.store.dispatch({type: importPropertyActions.IMPORT_PROPERTY_GET_REQUEST, payload: this.importName});
+          }
         }
       }
     );
@@ -123,24 +147,28 @@ export class ImportDetailComponent implements OnDestroy {
         }
       }
     );
-
-
-    this.importEditForm = this.fb.group(
-      {
-        name: [{value: '', disabled: true}],
-        nameRead: [''],
-        runAfterStart: [false],
-        type: ['']
-      }
-    );
   }
 
-  editImport(): void {
-    this.editingImport = false;
-    this.store.dispatch({
-      type: importDetailActions.IMPORT_DETAIL_PUT_REQUEST,
-      payload: Object.assign({}, this.importDetail, this.importEditForm.value)
-    });
+  handleImportSubmit(): void {
+    if (this.mode === ComponentMode.Edit) {
+      this.mode = ComponentMode.View;
+      this.store.dispatch({
+        type: importDetailActions.IMPORT_DETAIL_PUT_REQUEST,
+        payload: Object.assign({}, this.importDetail, this.importEditForm.value)
+      });
+    } else {
+      this.api.post(IMPORT_ENDPOINT, this.importEditForm.value).subscribe(
+        (imp: ImportModel) => {
+          this.toastr.success('toastr.success.createImport');
+          this.router.navigateByUrl(`platform/imports/${imp.name}`);
+        },
+        (error) => {
+          this.toastr.error(error);
+          console.error('Error occurred while creating new import.', error);
+        }
+      );
+    }
+
   }
 
   toggleImport(): void {
@@ -202,17 +230,20 @@ export class ImportDetailComponent implements OnDestroy {
     );
   }
 
+  goToList(): void {
+    this.router.navigateByUrl('platform/imports');
+  }
+
   startEditing(): void {
-    this.editingImport = true;
+    this.mode = ComponentMode.Edit;
   }
 
   cancelEditing(): void {
-    this.editingImport = false;
+    this.mode = ComponentMode.View;
     this.importEditForm.patchValue(this.importDetail);
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.unsubscribe$.fire();
   }
 }
