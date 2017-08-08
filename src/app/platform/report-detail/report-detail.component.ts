@@ -16,6 +16,7 @@ import { ApiService } from '../../shared/services/api.service';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { ComponentMode } from '../../shared/enums/detail-component-mode.enum';
 
 const REPORT_DESTROY_ENDPOINT = '/reports/destroy';
 const REPORT_START_ENDPOINT = '/reports/start';
@@ -35,10 +36,11 @@ export class ReportDetailComponent implements OnDestroy {
   reportEditForm: FormGroup;
   reportTypes: SelectItem[] = [];
   reportModalVisible = false;
-  editingReport = false;
   properties: PropertyModel[] = [];
   propertyForm: FormArray;
   editingProperties = false;
+  mode = ComponentMode.View;
+  ComponentMode = ComponentMode;
 
   constructor(private route: ActivatedRoute,
               private language: LanguageService,
@@ -47,11 +49,28 @@ export class ReportDetailComponent implements OnDestroy {
               private api: ApiService,
               private store: Store<AppStateModel>,
               private toastr: ExtendedToastrService) {
+
+    this.reportEditForm = this.fb.group(
+      {
+        name: [{value: '', disabled: true}],
+        runAfterStart: [false],
+        type: ['']
+      }
+    );
+
     this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
-      params => {
-        this.reportName = params.name;
-        this.store.dispatch({type: reportDetailActions.REPORTS_DETAIL_GET_REQUEST, payload: this.reportName});
+      (params: { name: string }) => {
+        if (params.name !== 'create') {
+          this.reportName = params.name;
+          this.store.dispatch({type: reportDetailActions.REPORTS_DETAIL_GET_REQUEST, payload: this.reportName});
+          this.mode = ComponentMode.View;
+        } else {
+          this.mode = ComponentMode.Create;
+          this.reportEditForm.get('name').enable();
+          this.reportEditForm.reset();
+        }
+
       }
     );
 
@@ -62,9 +81,11 @@ export class ReportDetailComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.reportDetail = data.data;
-          this.reportEditForm.patchValue(this.reportDetail);
-          this.store.dispatch({type: reportPropertyActions.REPORT_PROPERTY_GET_REQUEST, payload: this.reportName});
+          if (this.mode !== ComponentMode.Create) {
+            this.reportDetail = data.data;
+            this.reportEditForm.patchValue(this.reportDetail);
+            this.store.dispatch({type: reportPropertyActions.REPORT_PROPERTY_GET_REQUEST, payload: this.reportName});
+          }
         }
       }
     );
@@ -121,14 +142,6 @@ export class ReportDetailComponent implements OnDestroy {
             }
           ));
         }
-      }
-    );
-
-    this.reportEditForm = this.fb.group(
-      {
-        name: [{value: '', disabled: true}],
-        runAfterStart: [false],
-        type: ['']
       }
     );
   }
@@ -196,20 +209,38 @@ export class ReportDetailComponent implements OnDestroy {
     );
   }
 
-  editReport(): void {
-    this.editingReport = false;
-    this.store.dispatch({
-      type: reportDetailActions.REPORT_DETAIL_PUT_REQUEST,
-      payload: Object.assign({}, this.reportDetail, this.reportEditForm.value)
-    });
+  handleReportSubmit(): void {
+    if (this.mode === ComponentMode.Edit) {
+      this.mode = ComponentMode.View;
+      this.store.dispatch({
+        type: reportDetailActions.REPORT_DETAIL_PUT_REQUEST,
+        payload: Object.assign({}, this.reportDetail, this.reportEditForm.value)
+      });
+    } else {
+      this.api.post(REPORT_ENDPOINT, this.reportEditForm.value).subscribe(
+        (report: AdminReportModel) => {
+          this.toastr.success('toastr.success.addReport');
+          this.router.navigateByUrl(`platform/admin-reports/${report.name}`);
+        },
+        (error) => {
+          console.error('Error occurred while creating new report.', error);
+          this.toastr.error(error);
+        }
+      );
+    }
+
+  }
+
+  goToList(): void {
+    this.router.navigateByUrl('platform/admin-reports');
   }
 
   startEditing(): void {
-    this.editingReport = true;
+    this.mode = ComponentMode.Edit;
   }
 
   cancelEditing(): void {
-    this.editingReport = false;
+    this.mode = ComponentMode.View;
     this.reportEditForm.patchValue(this.reportDetail);
   }
 

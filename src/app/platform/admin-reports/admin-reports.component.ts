@@ -9,7 +9,6 @@ import { ListRouteParamsModel } from '../../shared/models/list-route-params.mode
 import { reportTypeActions } from '../../shared/reducers/report-types.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { StateModel } from '../../shared/models/state.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
@@ -29,7 +28,6 @@ const REPORT_START_ENDPOINT = '/reports/start';
 export class AdminReportsComponent implements OnDestroy {
 
   private unsubscribe$ = new UnsubscribeSubject();
-  newReportModalVisible = false;
   rowLimit = ITEM_LIMIT_OPTIONS[0];
   totalItems = 0;
   pageNumber = 0;
@@ -40,14 +38,12 @@ export class AdminReportsComponent implements OnDestroy {
   reportTypes: SelectItem[] = [];
   loading = false;
   tableRows: AdminReportModel[] = [];
-  newReportForm: FormGroup;
   deleteModalVisible = false;
   deletingName: string;
 
   constructor(private store: Store<AppStateModel>,
               private language: LanguageService,
               private router: Router,
-              private fb: FormBuilder,
               private route: ActivatedRoute,
               private api: ApiService,
               private toastr: ExtendedToastrService) {
@@ -88,13 +84,6 @@ export class AdminReportsComponent implements OnDestroy {
         }
       }
     );
-
-    this.newReportForm = this.fb.group({
-      name: ['', Validators.required],
-      runAfterStart: [false],
-      type: ['']
-    });
-
   }
 
   getReports(): void {
@@ -104,21 +93,6 @@ export class AdminReportsComponent implements OnDestroy {
   getSortedReports(sortInfo: any): void {
     this.sortOptions = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
     this.getReports();
-  }
-
-  addNewReport(): void {
-    this.api.post(REPORT_ENDPOINT, this.newReportForm.value).subscribe(
-      () => {
-        this.toastr.success('toastr.success.addReport');
-        this.newReportModalVisible = false;
-        this.getReports();
-      },
-      (error) => {
-        console.error('Error occurred while creating new report.', error);
-        this.toastr.error(error);
-        this.newReportModalVisible = false;
-      }
-    );
   }
 
   showDeleteModal(event: MouseEvent, name: string): void {
@@ -158,17 +132,16 @@ export class AdminReportsComponent implements OnDestroy {
     this.router.navigateByUrl(`platform/admin-reports/${name}`);
   }
 
+  goToCreate(): void {
+    this.router.navigateByUrl('platform/admin-reports/create');
+  }
+
   setPage(pageInfo: { offset: number }): void {
     const routeParams: ListRouteParamsModel = {
       page: String(pageInfo.offset + 1),
       limit: String(this.rowLimit)
     };
     this.router.navigate([`${REPORT_ROUTE}`, routeParams]);
-  }
-
-  isPresent(value: string): boolean {
-    const item = this.newReportForm.get(value);
-    return item.touched && item.errors != null && item.errors.required;
   }
 
   itemsPerPage(itemLimit: number): void {

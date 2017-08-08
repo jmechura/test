@@ -2,7 +2,7 @@
   <div class="mss-header-row">
     <span class="mss-title">{{'reports.list.title' | translate}}</span>
     <mss-button class="mss-action-button" [label]="'reports.list.addReport' | translate"
-                (click)="newReportModalVisible = true"></mss-button>
+                (click)="goToCreate()"></mss-button>
   </div>
 
   <div class="data-table-container">
@@ -55,24 +55,6 @@
     </ngx-datatable>
   </div>
 </div>
-
-<mss-modal-window [(visible)]="newReportModalVisible">
-  <div class="mss-view-container">
-    <h3 class="mss-modal-title">{{'reports.list.addReport' | translate}}</h3>
-    <form [formGroup]="newReportForm" (ngSubmit)="addNewReport()">
-      <mss-input [label]="('basic.name' | translate) + '*'" [warn]="isPresent('name')" formControlName="name"></mss-input>
-      <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
-      <mss-checkbox formControlName="runAfterStart" [label]="'reports.dictionary.runAfterStart' | translate"></mss-checkbox>
-      <mss-select [label]="'reports.dictionary.type' | translate" formControlName="type" [options]="reportTypes"></mss-select>
-      <div class="mss-buttons-row">
-        <mss-button class="mss-action-button right-margin" (click)="newReportModalVisible = false" type="button"
-                    [label]="'basic.dismiss' | translate"></mss-button>
-        <mss-button class="mss-action-button" [disabled]="newReportForm.invalid" [label]="'basic.add' | translate"
-                    type="submit"></mss-button>
-      </div>
-    </form>
-  </div>
-</mss-modal-window>
 
 <mss-modal-window [(visible)]="deleteModalVisible">
   <div class="mss-view-container">
