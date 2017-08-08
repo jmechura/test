@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { userActions } from '../../shared/reducers/user.reducer';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,15 +59,6 @@ export class UserDetailComponent implements OnDestroy {
 
   loading = false;
 
-  @Input()
-  set userId(id: string) {
-    this.store.dispatch({type: userActions.USER_GET_REQUEST, payload: id});
-    this.completeView = false;
-    this.visibleTab.value = UserSections.PERSONAL;
-    this.mode = ComponentMode.View;
-    this.userForm.get('login').disable();
-  }
-
   constructor(private route: ActivatedRoute,
               private router: Router,
               private api: ApiService,
@@ -107,22 +98,105 @@ export class UserDetailComponent implements OnDestroy {
       zip: [''],
     });
 
+    this.tabsOptions = [
+      {
+        value: UserSections.BASIC,
+        label: this.langService.translate(`users.detail.basic`)
+      },
+      {
+        value: UserSections.PERSONAL,
+        label: this.langService.translate(`users.detail.personal`)
+      }
+    ];
+    this.visibleTab = this.tabsOptions[0];
+
     this.route.params.subscribe(
       (params: { id: string }) => {
+        this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+          ({data, error, loading}: StateModel<ProfileModel>) => {
+            this.loading = loading;
+            if (error) {
+              if (error instanceof MissingTokenResponse) {
+                return;
+              }
+              console.error('Account API call has returned error', error);
+              return;
+            }
+            if (data != null && !loading) {
+              // component is used in settings, only get data to display
+              if (!params.id) {
+                this.setViewData(data);
+                this.completeView = false;
+                this.visibleTab.value = UserSections.PERSONAL;
+                this.mode = ComponentMode.View;
+                this.userForm.get('login').disable();
+              } else {
+                // component is used via router check if create
+                if (params.id === 'create') {
+                  // create mode
+                  this.profile = data;
+                  this.roles.isVisible('createEdit.issuerCodeSelect').subscribe(
+                    issuerResult => {
+                      if (issuerResult) {
+                        this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
+                      } else {
+                        this.roles.isVisible('createEdit.cardGroupCodeSelect').subscribe(
+                          cardGroupResult => {
+                            if (cardGroupResult) {
+                              this.store.dispatch({
+                                type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST,
+                                payload: this.profile.resourceId
+                              });
+                            }
+                          }
+                        );
+                      }
+                    }
+                  );
+
+                  this.roles.isVisible('createEdit.networkCodeSelect').subscribe(
+                    networkResult => {
+                      if (networkResult) {
+                        this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
+                      } else {
+                        this.roles.isVisible('createEdit.merchantCodeSelect').subscribe(
+                          merchResult => {
+                            if (merchResult) {
+                              this.store.dispatch({
+                                type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST,
+                                payload: this.profile.resourceAcquirerId
+                              });
+                            } else {
+                              this.roles.isVisible('createEdit.orgUnitCodeSelect').subscribe(
+                                orgUnitResult => {
+                                  if (orgUnitResult) {
+                                    this.store.dispatch({
+                                      type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST,
+                                      payload: this.profile.resourceAcquirerId
+                                    });
+                                  }
+                                }
+                              );
+                            }
+                          }
+                        );
+                      }
+                    }
+                  );
+                }
+              }
+            }
+          }
+        );
+
+        // component is used in settings, the rest of code is useless now
         if (!params.id) {
           return;
         }
+
         if (params.id !== 'create') {
           this.mode = ComponentMode.View;
-          this.tabsOptions = [
-            {
-              value: UserSections.BASIC,
-              label: this.langService.translate(`users.detail.basic`)
-            },
-            {
-              value: UserSections.PERSONAL,
-              label: this.langService.translate(`users.detail.personal`)
-            },
+          this.tabsOptions = [...this.tabsOptions, ...[
             {
               value: UserSections.ROLES,
               label: this.langService.translate(`users.detail.roles`)
@@ -130,91 +204,20 @@ export class UserDetailComponent implements OnDestroy {
             {
               value: UserSections.CARDS,
               label: this.langService.translate(`users.detail.cards`)
-            },
+            }]
           ];
-          this.visibleTab = this.tabsOptions[0];
           this.store.dispatch({type: userActions.USER_GET_REQUEST, payload: params.id});
         } else {
           this.mode = ComponentMode.Create;
-          this.tabsOptions = [
-            {
-              value: UserSections.BASIC,
-              label: this.langService.translate(`users.detail.basic`)
-            },
-            {
-              value: UserSections.PERSONAL,
-              label: this.langService.translate(`users.detail.personal`)
-            },
+          this.store.dispatch({type: templatesSimpleActions.TEMPLATES_SIMPLE_GET_REQUEST});
+          this.tabsOptions = [...this.tabsOptions, ...[
             {
               value: UserSections.TEMPLATE,
               label: this.langService.translate(`users.detail.template`)
-            },
+            }]
           ];
-          this.visibleTab = this.tabsOptions[0];
           this.addUserForm.reset();
-          this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
-            ({data, error, loading}: StateModel<ProfileModel>) => {
-              this.loading = loading;
-              if (error) {
-                if (error instanceof MissingTokenResponse) {
-                  return;
-                }
-                console.error('Account API call has returned error', error);
-                return;
-              }
-              if (data != null && !loading) {
-                this.profile = data;
-                this.roles.isVisible('createEdit.issuerCodeSelect').subscribe(
-                  issuerResult => {
-                    if (issuerResult) {
-                      this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
-                    } else {
-                      this.roles.isVisible('createEdit.cardGroupCodeSelect').subscribe(
-                        cardGroupResult => {
-                          if (cardGroupResult) {
-                            this.store.dispatch({
-                              type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST,
-                              payload: this.profile.resourceId
-                            });
-                          }
-                        }
-                      );
-                    }
-                  }
-                );
 
-                this.roles.isVisible('createEdit.networkCodeSelect').subscribe(
-                  networkResult => {
-                    if (networkResult) {
-                      this.store.dispatch({type: networkCodeActions.NETWORK_CODE_GET_REQUEST});
-                    } else {
-                      this.roles.isVisible('createEdit.merchantCodeSelect').subscribe(
-                        merchResult => {
-                          if (merchResult) {
-                            this.store.dispatch({
-                              type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST,
-                              payload: this.profile.resourceAcquirerId
-                            });
-                          } else {
-                            this.roles.isVisible('createEdit.orgUnitCodeSelect').subscribe(
-                              orgUnitResult => {
-                                if (orgUnitResult) {
-                                  this.store.dispatch({
-                                    type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST,
-                                    payload: this.profile.resourceAcquirerId
-                                  });
-                                }
-                              }
-                            );
-                          }
-                        }
-                      );
-                    }
-                  }
-                );
-              }
-            }
-          );
         }
       }
     );
@@ -226,16 +229,11 @@ export class UserDetailComponent implements OnDestroy {
           return;
         }
         if (state.data != undefined && !state.loading && !(this.mode && this.mode === ComponentMode.Create)) {
-          this.user = state.data;
-          this.userForm.patchValue(this.user);
-          this.roleInfo = this.user.roles.map(role => ({
-            authorities: role.authorities.join(', '),
-            resource: role.resource,
-            resourceId: role.resourceId,
-          }));
+          this.setViewData(state.data);
         }
       }
     );
+
 
     this.store.select('templatesSimple').takeUntil(this.unsubscribe$).subscribe(
       ({data, error, loading}: StateModel<TemplateSimpleModel[]>) => {
@@ -250,7 +248,6 @@ export class UserDetailComponent implements OnDestroy {
         }
       }
     );
-    this.store.dispatch({type: templatesSimpleActions.TEMPLATES_SIMPLE_GET_REQUEST});
 
     this.store.select('networkCodes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<CodeModel[]>) => {
@@ -311,6 +308,16 @@ export class UserDetailComponent implements OnDestroy {
         }
       }
     );
+  }
+
+  setViewData(data: ProfileModel): void {
+    this.user = data;
+    this.userForm.patchValue(this.user);
+    this.roleInfo = this.user.roles.map(role => ({
+      authorities: role.authorities.join(', '),
+      resource: role.resource,
+      resourceId: role.resourceId,
+    }));
   }
 
   getTemplateResourcesOptionsByIndex(index: number): SelectItem[] {

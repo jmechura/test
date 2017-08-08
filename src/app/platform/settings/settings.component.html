@@ -6,7 +6,7 @@
   <mss-tabs class="tabs" [items]="sections" (itemChanged)="visibleSection = $event"></mss-tabs>
 
   <div class="content" *ngIf="profile && visibleSection.value === 'USER'">
-    <mss-user-detail class="content-item" [userId]="profile.id"></mss-user-detail>
+    <mss-user-detail class="content-item"></mss-user-detail>
   </div>
 
   <form [formGroup]="passwordForm" *ngIf="profile && visibleSection.value === 'PASSWORD'">
