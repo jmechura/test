@@ -205,7 +205,7 @@
   </div>
   <!--ACQUIRER VIEW-->
   <div class="content" *mssRoleIf="'networks.view'">
-    <form [formGroup]="acquirerForm" novalidate (ngSubmit)="editAcquirer()" *ngIf="mode === Mode.Edit">
+    <form [formGroup]="acquirerForm" novalidate (ngSubmit)="editAcquirer()" *ngIf="mode === ComponentMode.Edit">
       <div class="section visible">
         <div class="column">
           <div class="form-item">
@@ -250,13 +250,13 @@
         </div>
       </div>
       <div class="mss-buttons-row">
-        <mss-button class="mss-action-button right-margin" (click)="mode = Mode.View" type="button"
+        <mss-button class="mss-action-button right-margin" (click)="mode = ComponentMode.View" type="button"
                     [label]="'basic.dismiss' | translate"></mss-button>
         <mss-button class="mss-action-button" [disabled]="acquirerForm.invalid" [label]="'basic.save' | translate" type="submit">
         </mss-button>
       </div>
     </form>
-    <div class="section visible" *ngIf="mode === Mode.View && acquirerData">
+    <div class="section visible" *ngIf="mode === ComponentMode.View && acquirerData">
       <div class="column">
         <div class="mss-input-like-container">
           <div class="label">{{'basic.name' | translate}}</div>
@@ -298,9 +298,9 @@
       </div>
     </div>
     <div class="mss-buttons-row" *mssRoleIf="'networks.edit'">
-      <mss-button *ngIf="mode === Mode.View"
+      <mss-button *ngIf="mode === ComponentMode.View"
                   class="mss-action-button"
-                  (click)="mode = Mode.Edit"
+                  (click)="mode = ComponentMode.Edit"
                   [label]="'basic.edit' | translate"></mss-button>
     </div>
   </div>

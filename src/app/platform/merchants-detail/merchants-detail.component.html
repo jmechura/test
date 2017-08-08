@@ -24,27 +24,19 @@
             <div class="mss-validation-label">
               <span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span>
             </div>
-            <!-- CODE -->
-            <mss-input [label]="('basic.code' | translate) + '*'"
-                       formControlName="code"
-                       [warn]="isPresent('code')">
-            </mss-input>
-            <div class="mss-validation-label">
-              <span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span>
-            </div>
-          </div>
-          <div class="column">
-            <!-- STATE -->
-            <mss-select class="tab-item-not-required"
-                        [label]="'dictionary.state' | translate"
-                        formControlName="state"
-                        [options]="stateOptions">
-            </mss-select>
             <!-- NOTE -->
             <mss-input class="tab-item-not-required"
                        [label]="'basic.note' | translate"
                        formControlName="note">
             </mss-input>
+          </div>
+          <div class="column">
+            <!-- STATE -->
+            <mss-select class="tab-item-not-required" *mssRoleIf="'admin.view'"
+                        [label]="'dictionary.state' | translate"
+                        formControlName="state"
+                        [options]="stateOptions">
+            </mss-select>
             <!-- NETWORK CODE -->
             <mss-select *mssRoleIf="'createEdit.networkCodeSelect'"
                         [label]="('dictionary.networkCode' | translate) + '*'"
@@ -83,11 +75,6 @@
             </mss-input>
             <div class="mss-validation-label">
               <span *ngIf="isValidEmail('email')">{{'basic.required.badEmail' | translate}}</span>
-            </div>
-            <div *ngIf="!editing"
-                 class="mss-input-like-container">
-              <div class="label">{{ 'basic.email' | translate }}</div>
-              <div class="value">{{merchant.email}}</div>
             </div>
           </div>
           <div class="column">
@@ -173,17 +160,17 @@
                 <div class="value">{{merchant.id}}</div>
               </div>
             </div>
+            <!-- NOTE -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.note' | translate }}</div>
+              <div class="value">{{merchant.note}}</div>
+            </div>
           </div>
           <div class="column">
             <!-- STATE -->
             <div class="mss-input-like-container">
               <div class="label">{{ 'dictionary.state' | translate }}</div>
               <div class="value">{{merchant.state}}</div>
-            </div>
-            <!-- NOTE -->
-            <div class="mss-input-like-container">
-              <div class="label">{{ 'basic.note' | translate }}</div>
-              <div class="value">{{merchant.note}}</div>
             </div>
             <!-- NETWORK CODE -->
             <div class="mss-input-like-container">

@@ -18,7 +18,7 @@ import { merchantCodeActions, MerchantCodeState } from '../../shared/reducers/me
 import { RoleService } from '../../shared/services/role.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
-const TAB_OPTIONS = ['BASIC', 'MERCHANT', 'ADDRESS', 'NOTE'];
+const TAB_OPTIONS = ['BASIC', 'ADDRESS'];
 const ORG_UNIT_ENDPOINT = '/orgUnits';
 
 @Component({
