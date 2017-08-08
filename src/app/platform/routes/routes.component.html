@@ -100,14 +100,14 @@
       <h3 class="mss-modal-title">{{'routingTables.detail.addRoute' | translate}}</h3>
       <div class="routes-select-container routing-table-modal-input">
         <mss-select [(selectedOption)]="newRoute.ruleName"
-                    [label]="'routingTables.dictionary.rule' | translate"
+                    [label]="('routingTables.dictionary.rule' | translate) + '*'"
                     class="routes-select" formControlName="rule" [options]="rules"></mss-select>
       </div>
       <mss-input formControlName="ruleParam" class="routing-table-modal-input" [label]="'routingTables.dictionary.ruleParam' | translate"
                  [(value)]="newRoute.ruleParam"></mss-input>
       <div class="routes-select-container routing-table-modal-input">
         <mss-select [(selectedOption)]="newRoute.targetName"
-                    [label]="'routingTables.dictionary.target' | translate"
+                    [label]="('routingTables.dictionary.target' | translate) + '*'"
                     class="routes-select" formControlName="target" [options]="targets">
         </mss-select>
       </div>

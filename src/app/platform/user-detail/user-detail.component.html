@@ -1,86 +1,384 @@
-<div *ngIf="user" [ngClass]="{'mss-view-container' : completeView}" class="mss-view-container">
+<div [ngClass]="{'mss-view-container' : completeView}">
   <div class="mss-header-row" *ngIf="completeView">
-    <span class="mss-title">{{'users.detail.title' | translate}} - {{user.id}}</span>
+    <span class="mss-title"
+          *ngIf="mode === ComponentMode.Create">
+      {{'users.list.addUser' | translate}}
+    </span>
+    <span class="mss-title"
+          *ngIf="user && mode !== ComponentMode.Create">
+      {{'users.detail.title' | translate}} - {{user.id}}
+    </span>
+    <div class="mss-buttons-row">
+      <mss-button *mssRoleIf="'users.discarge'"
+                  class="mss-action-button right-margin"
+                  [label]="('users.dictionary.discarge' | translate)"
+                  (click)="discardUser()"></mss-button>
+    </div>
   </div>
 
-  <mss-tabs [items]="detailOptions" (itemChanged)="setSelectedOption($event)"></mss-tabs>
+  <div class="content">
+    <div class="tabs-container">
+      <div class="tabs-row">
+        <mss-tabs class="tabs column"
+                  [items]="tabsOptions"
+                  *ngIf="completeView"
+                  (itemChanged)="visibleTab = $event">
+        </mss-tabs>
+      </div>
+      <!-- EDITING VIEW -->
+      <form [formGroup]="mode === ComponentMode.Create ? addUserForm : userForm"
+            class="user-detail-content"
+            (ngSubmit)="submitEdit()"
+            *ngIf="mode === ComponentMode.Edit || mode === ComponentMode.Create">
+        <div class="tab-content"
+             [ngClass]="{'visible': visibleTab.value === UserSections.BASIC}">
+          <div class="column">
 
-  <div class="user-detail-content" [formGroup]="userForm">
-    <div *ngIf="selectedOption === detailOptions[0]">
-      <div class="category-wrapper">
-        <div class="column" *ngFor="let infoColumn of basicInfo">
-          <div *ngIf="!editing">
-            <div class="mss-input-like-container user-detail-item" *ngFor="let item of infoColumn">
-              <div class="label">{{item['label']}}</div>
-              <div class="value">{{item['value']}}</div>
+            <!-- LOGIN -->
+            <mss-input [label]="('users.dictionary.login' | translate) + '*'"
+                       formControlName="login"
+                       [warn]="isInvalid('login')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('login')">{{'basic.required.login' | translate}}</span>
             </div>
-          </div>
-          <div *ngIf="editing">
-            <div class="user-detail-item" *ngFor="let item of infoColumn">
-              <mss-input
-                *ngIf="item['type'] == null"
-                [label]="item['label']"
-                [formControlName]="item['formName']">
-              </mss-input>
-              <mss-select
-                *ngIf="item['type'] === 'select'"
-                [options]="stateOptions" [label]="item['label']"
-                [formControlName]="item['formName']">
-              </mss-select>
-              <mss-toggle
-                *ngIf="item['type'] === 'toggle'"
-                [label]="item['label']"
-                [formControlName]="item['formName']">
+
+            <!-- BLOCKED -->
+            <div *ngIf="mode === ComponentMode.Edit">
+              <mss-toggle [label]="'users.dictionary.blocked' | translate"
+                          formControlName="blocked">
               </mss-toggle>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('blocked')">{{'basic.required.blocked' | translate}}</span>
+              </div>
             </div>
+
+            <!-- PASSWORD -->
+            <div *ngIf="mode === ComponentMode.Create">
+              <mss-input [label]="('basic.password' | translate) + '*'"
+                         formControlName="password"
+                         [type]="'password'"
+                         [warn]="isInvalid('password')">
+              </mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('password')">{{'basic.required.password' | translate}}</span>
+              </div>
+
+              <mss-input [label]="('basic.passwordAgain' | translate) + '*'"
+                         formControlName="passwordAgain"
+                         [type]="'password'"
+                         [warn]="isInvalid('passwordAgain')">
+              </mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('passwordAgain')">{{'basic.required.passwordAgain' | translate}}</span>
+                <span *ngIf="!isPasswordsEqual">{{'basic.required.passwordsNotEqual' | translate}}</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="column">
+
+            <!-- STATE -->
+            <div *ngIf="mode === ComponentMode.Edit">
+              <mss-select [label]="'dictionary.state' | translate"
+                          formControlName="state"
+                          [options]="stateOptions">
+              </mss-select>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('state')"></span>
+              </div>
+            </div>
+
+            <!-- FIRST LOGIN -->
+            <div *ngIf="mode === ComponentMode.Edit">
+              <mss-toggle [label]="'users.dictionary.firstLogon' | translate"
+                          formControlName="firstLogon">
+              </mss-toggle>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('firstLogon')"></span>
+              </div>
+            </div>
+
+            <!-- PASSWORD EXPIRED -->
+            <div *ngIf="mode === ComponentMode.Edit">
+              <mss-toggle [label]="'users.dictionary.passwordExpired' | translate"
+                          formControlName="passwordExpired">
+              </mss-toggle>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('passwordExpired')"></span>
+              </div>
+            </div>
+
           </div>
         </div>
-      </div>
+        <div class="tab-content"
+             [ngClass]="{'visible': visibleTab.value === UserSections.PERSONAL}">
+          <div class="column">
 
-    </div>
-
-    <div *ngIf="selectedOption === detailOptions[1]">
-      <div class="category-wrapper">
-        <div class="column" *ngFor="let infoColumn of personalInfo">
-          <div *ngIf="!editing">
-            <div class="mss-input-like-container user-detail-item" *ngFor="let item of infoColumn">
-              <div class="label">{{item['label']}}</div>
-              <div class="value">{{item['value']}}</div>
+            <!-- LOGIN -->
+            <div *ngIf="!completeView">
+              <mss-input [label]="('users.dictionary.login' | translate) + '*'"
+                         formControlName="login"
+                         [warn]="isInvalid('login')">
+              </mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isInvalid('login')">{{'basic.required.login' | translate}}</span>
+              </div>
             </div>
-          </div>
 
-          <div *ngIf="editing">
-            <div class="user-detail-item" *ngFor="let item of infoColumn">
-              <mss-input [label]="item['label']" [formControlName]="item['formName']"></mss-input>
+            <!-- FIRST NAME -->
+            <mss-input [label]="('basic.firstName' | translate) + '*'"
+                       formControlName="firstName"
+                       [warn]="isInvalid('firstName')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('firstName')">{{'basic.required.firstName' | translate}}</span>
             </div>
+
+            <!-- LAST NAME -->
+            <mss-input [label]="('basic.lastName' | translate) + '*'"
+                       formControlName="lastName"
+                       [warn]="isInvalid('lastName')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('lastName')">{{'basic.required.lastName' | translate}}</span>
+            </div>
+
+            <!-- EMAIL -->
+            <mss-input [label]="('basic.email' | translate) + '*'"
+                       formControlName="email"
+                       [warn]="isInvalid('email')">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('email')">{{'basic.required.email' | translate}}</span>
+              <span *ngIf="isInvalidEmail()">{{'basic.required.badEmail' | translate}}</span>
+            </div>
+
+            <!-- PHONE -->
+            <mss-input [label]="'basic.phone' | translate"
+                       formControlName="phone"
+                       [warn]="isValidPhone()">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isValidPhone()">{{'basic.required.phone' | translate}}</span>
+            </div>
+
           </div>
+          <div class="column">
+
+            <!-- STREET -->
+            <mss-input [label]="'basic.street' | translate"
+                       formControlName="street">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('street')"></span>
+            </div>
+
+            <!-- CITY -->
+            <mss-input [label]="'basic.city' | translate"
+                       formControlName="city">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('city')"></span>
+            </div>
+
+            <!-- ZIP -->
+            <mss-input [label]="'basic.zip' | translate"
+                       formControlName="zip">
+            </mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('zip')"></span>
+            </div>
+
+          </div>
+        </div>
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === UserSections.CARDS}">
+
+          Cards placeholder
 
         </div>
-      </div>
-    </div>
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === UserSections.ROLES}">
 
-    <div *ngIf="selectedOption === detailOptions[2]">
-      <ngx-datatable #table *ngIf="roleInfo" [rows]="roleInfo"
-                     [headerHeight]="60" [footerHeight]="50"
-                     [columnMode]="'force'" [rowHeight]="'auto'">
-        <ngx-datatable-column [name]="'users.detail.authorities' | translate" prop="authorities"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'users.detail.resource' | translate" prop="resource" [maxWidth]="200"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'users.detail.resourceId' | translate" prop="resourceId" [maxWidth]="200"></ngx-datatable-column>
-      </ngx-datatable>
-    </div>
+          <ngx-datatable #table *ngIf="roleInfo" [rows]="roleInfo"
+                         [headerHeight]="60" [footerHeight]="50"
+                         [columnMode]="'force'" [rowHeight]="'auto'">
+            <ngx-datatable-column [name]="'users.detail.authorities' | translate" prop="authorities"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'users.dictionary.resource' | translate" prop="resource" [maxWidth]="200"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'users.dictionary.resourceId' | translate" prop="resourceId" [maxWidth]="200"></ngx-datatable-column>
+          </ngx-datatable>
 
-    <div *ngIf="selectedOption === detailOptions[3]">
-      Cards placeholder
-    </div>
+        </div>
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === UserSections.TEMPLATE}">
 
-    <div *mssRoleIf="'users.edit'">
-      <div class="edit-buttons-container" *ngIf="selectedOption === detailOptions[0] || selectedOption === detailOptions[1]">
-        <mss-button *mssRoleIf="'users.discarge'"
-          class="mss-action-button right-margin" [label]="('users.dictionary.discarge' | translate)" (click)="discardUser()"></mss-button>
-        <mss-button [label]="'basic.edit' | translate" *ngIf="!editing" (click)="startEditing()" class="mss-action-button"></mss-button>
-        <mss-button [label]="'basic.save' | translate" *ngIf="editing" (click)="submitEdit()"
-                    class="mss-action-button right-margin"></mss-button>
-        <mss-button [label]="'basic.dismiss' | translate" *ngIf="editing" (click)="cancelEditing()" class="mss-action-button"></mss-button>
+          <div class="column" *ngIf="mode === ComponentMode.Create">
+            <mss-select formControlName="template" (selectedOptionChange)="onChangeTemplate($event)" [options]="templatesOptions"
+                        label="{{'basic.template' | translate}}*"></mss-select>
+            <div class="mss-validation-label"><span *ngIf="isInvalid('template')">{{'basic.required.template' | translate}}</span></div>
+            <hr>
+            <div formArrayName="resources">
+              <div *ngFor="let res of resources.controls; let i=index;" [formGroupName]="i">
+                <mss-select *ngIf="getResourceLabel(i) === 'MERCHANT' || getResourceLabel(i) === 'ORG_UNIT'" formControlName="networkCode"
+                            label="NETWORK" [options]="getTemplateResourcesOptionsByName('NETWORK')" class="template-select"
+                            (selectedOptionChange)="selectCode($event, 'MERCHANT')">
+                </mss-select>
+                <mss-select *ngIf="getResourceLabel(i) === 'ORG_UNIT'" formControlName="merchantCode" label="MERCHANT"
+                            [options]="getTemplateResourcesOptionsByName('MERCHANT')" class="template-select"
+                            (selectedOptionChange)="selectCode($event, 'ORG_UNIT')">
+                </mss-select>
+                <mss-select *ngIf="getResourceLabel(i) === 'CARD_GROUP'" formControlName="issuerCode" label="ISSUER"
+                            [options]="getTemplateResourcesOptionsByName('ISSUER')" class="template-select"
+                            (selectedOptionChange)="selectCode($event, 'CARD_GROUP')">
+                </mss-select>
+                <mss-select formControlName="resourceId" label="{{getResourceLabel(i)}}*" class="template-select"
+                            [options]="getTemplateResourcesOptionsByIndex(i)">
+                </mss-select>
+                <hr>
+              </div>
+            </div>
+          </div>
+          <div class="column"></div>
+
+        </div>
+        <div *ngIf="mode === ComponentMode.Edit" class="mss-buttons-row">
+          <mss-button class="mss-action-button right-margin" (click)="mode = ComponentMode.View" type="button"
+                      [label]="'basic.dismiss' | translate"></mss-button>
+          <mss-button class="mss-action-button" [disabled]="userForm.invalid" [label]="'basic.save' | translate" type="submit">
+          </mss-button>
+        </div>
+        <div *ngIf="mode === ComponentMode.Create" class="mss-buttons-row">
+          <mss-button class="mss-action-button right-margin" (click)="cancelCreateNewUser()" type="button"
+                      [label]="'basic.dismiss' | translate"></mss-button>
+          <mss-button class="mss-action-button" (click)="createNewUser()" type="button" [disabled]="addUserForm.invalid"
+                      [label]="'basic.add' | translate"></mss-button>
+        </div>
+      </form>
+
+      <!-- NON EDITING VIEW -->
+      <div *ngIf="mode === ComponentMode.View && user" class="user-detail-content">
+        <div class="tab-content"
+             [ngClass]="{'visible': visibleTab.value === UserSections.BASIC}">
+          <div class="column">
+
+            <!-- ID -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.id' | translate }}</div>
+              <div class="value">{{user.id}}</div>
+            </div>
+
+            <!-- LOGIN -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'users.dictionary.login' | translate }}</div>
+              <div class="value">{{user.login}}</div>
+            </div>
+
+            <!-- BLOCKED -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'users.dictionary.blocked' | translate }}</div>
+              <div class="value">{{user.blocked}}</div>
+            </div>
+
+          </div>
+          <div class="column">
+
+            <!-- STATE -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'dictionary.state' | translate }}</div>
+              <div class="value">{{user.state}}</div>
+            </div>
+
+            <!-- FIRST LOGIN -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'users.dictionary.firstLogon' | translate }}</div>
+              <div class="value">{{user.firstLogon}}</div>
+            </div>
+
+            <!-- PASSWORD EXPIRED -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'users.dictionary.passwordExpired' | translate }}</div>
+              <div class="value">{{user.passwordExpired}}</div>
+            </div>
+
+          </div>
+        </div>
+        <div class="tab-content"
+             [ngClass]="{'visible': visibleTab.value === UserSections.PERSONAL}">
+          <div class="column">
+
+            <!-- LOGIN -->
+            <div *ngIf="!completeView"
+                 class="mss-input-like-container">
+              <div class="label">{{ 'users.dictionary.login' | translate }}</div>
+              <div class="value">{{user.login}}</div>
+            </div>
+
+            <!-- FIRST NAME -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.firstName' | translate }}</div>
+              <div class="value">{{user.firstName}}</div>
+            </div>
+
+            <!-- LAST NAME -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.lastName' | translate }}</div>
+              <div class="value">{{user.lastName}}</div>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.email' | translate }}</div>
+              <div class="value">{{user.email}}</div>
+            </div>
+
+            <!-- PHONE -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.phone' | translate }}</div>
+              <div class="value">{{user.phone}}</div>
+            </div>
+
+          </div>
+          <div class="column">
+
+            <!-- STREET -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.street' | translate }}</div>
+              <div class="value">{{user.street}}</div>
+            </div>
+
+            <!-- CITY -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.city' | translate }}</div>
+              <div class="value">{{user.city}}</div>
+            </div>
+
+            <!-- ZIP -->
+            <div class="mss-input-like-container">
+              <div class="label">{{ 'basic.zip' | translate }}</div>
+              <div class="value">{{user.zip}}</div>
+            </div>
+
+          </div>
+        </div>
+        <div class="tab-content" [ngClass]="{'visible': visibleTab.value === UserSections.ROLES}">
+
+          <ngx-datatable #table *ngIf="roleInfo" [rows]="roleInfo"
+                         [headerHeight]="60" [footerHeight]="50"
+                         [columnMode]="'force'" [rowHeight]="'auto'">
+            <ngx-datatable-column [name]="'users.detail.authorities' | translate" prop="authorities"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'users.dictionary.resource' | translate" prop="resource" [maxWidth]="200"></ngx-datatable-column>
+            <ngx-datatable-column [name]="'users.dictionary.resourceId' | translate" prop="resourceId"
+                                  [maxWidth]="200"></ngx-datatable-column>
+          </ngx-datatable>
+
+        </div>
+        <div class="tab-content"
+             [ngClass]="{'visible': visibleTab.value === UserSections.CARDS}">
+          Cards placeholder
+        </div>
+        <div class="mss-buttons-row">
+          <mss-button class="mss-action-button"
+                      (click)="mode = ComponentMode.Edit"
+                      [label]="'basic.edit' | translate"></mss-button>
+        </div>
       </div>
     </div>
   </div>

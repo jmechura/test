@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { ProfileModel, ProfilePredicateObject } from '../../shared/models/profile.model';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TemplateSimpleModel } from '../../shared/models/template-simple.model';
 import { ApiService } from '../../shared/services/api.service';
 import { profileActions } from '../../shared/reducers/profile.reducer';
@@ -25,7 +25,6 @@ import { AppConfigService } from '../../shared/services/app-config.service';
 import { RoleService } from '../../shared/services/role.service';
 import { MissingTokenResponse } from 'app/shared/utils';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
-import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
 const USERS_ROUTE = 'platform/users';
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -50,7 +49,6 @@ export class UsersComponent implements OnDestroy {
     reverse: boolean;
   };
   users: ProfileModel[] = [];
-  newUserModalShowing = false;
   newUserForm: FormGroup;
   filterForm: FormGroup;
   filterSections: SelectItem[] = [];
@@ -73,8 +71,7 @@ export class UsersComponent implements OnDestroy {
               private api: ApiService,
               private language: LanguageService,
               private appConfig: AppConfigService,
-              private roles: RoleService,
-              private toastr: ExtendedToastrService) {
+              private roles: RoleService) {
 
     this.filterForm = this.fb.group({
       email: [''],
@@ -318,7 +315,6 @@ export class UsersComponent implements OnDestroy {
     );
   }
 
-
   get requestModel(): RequestOptions<ProfilePredicateObject> {
     return {
       pagination: {
@@ -332,21 +328,6 @@ export class UsersComponent implements OnDestroy {
       sort: this.sortOption != null ? this.sortOption : {},
     };
   }
-
-  get isPasswordsEqual(): boolean {
-    const passwordControl = this.newUserForm.get('password');
-    const passwordAgainControl = this.newUserForm.get('passwordAgain');
-    return passwordControl.value === passwordAgainControl.value;
-  }
-
-  get isValidEmail(): boolean {
-    const emailControl = this.newUserForm.get('email');
-    return !(emailControl.value !== '' && emailControl.errors !== null && emailControl.errors.email);
-  }
-
-  get resources(): FormArray {
-    return this.newUserForm.get('resources') as FormArray;
-  };
 
   private get predicateObject(): ProfilePredicateObject {
     return {
@@ -407,112 +388,8 @@ export class UsersComponent implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  isPresent(value: string): boolean {
-    const item = this.newUserForm.get(value);
-    return item.touched && item.errors != null && item.errors.required;
-  }
-
-  toggleNewUserModal(): void {
-    this.newUserModalShowing = !this.newUserModalShowing;
-  }
-
-  addUser(): void {
-    if (this.newUserForm.invalid) {
-      // show some error messages maybe ?
-      return;
-    }
-
-    const newUser = {
-      ...this.newUserForm.value,
-      template: {
-        id: this.newUserForm.get('template').value,
-        name: this.templates.filter(item => item.id === this.newUserForm.get('template').value)[0].name,
-        resources: [...this.newUserForm.get('resources').value.map(item => ({
-          id: item.id,
-          resource: item.resource,
-          resourceId: item.resourceId
-        }))]
-      }
-    };
-    delete newUser.passwordAgain;
-    delete newUser.resources;
-    this.api.post('/users', newUser).subscribe(
-      () => {
-        this.toastr.success('toastr.success.createUser');
-        this.newUserForm.reset();
-        this.clearResources();
-        this.getUsers();
-      },
-      error => {
-        this.toastr.error(error);
-        console.error('Create user fail', error);
-      }
-    );
-    this.toggleNewUserModal();
-  }
-
-  onChangeTemplate(value: number): void {
-    const template = this.templates.find(item => item.id === value);
-    if (template) {
-      this.clearResources();
-      for (const res of template.resources) {
-        this.addResource(res.resource, res.id);
-      }
-    }
-  }
-
-  addResource(resource: string, id: number): void {
-    this.resources.push(
-      this.fb.group({
-        id: [id],
-        resource: [resource],
-        resourceId: ['', Validators.required],
-        networkCode: ['']
-      })
-    );
-  }
-
-  clearResources(): void {
-    this.newUserForm.setControl('resources', this.fb.array([]));
-  }
-
-  getTemplateResourcesOptionsByIndex(index: number): SelectItem[] {
-    if (this.templates.filter(item => item.id === this.newUserForm.get('template').value)[0]) {
-      const label = this.getResourceLabel(index);
-      if (this.isContextEqual(label)) {
-        return this.getContextValue(label);
-      }
-      return this.itemsForSelect[label];
-    } else {
-      return [];
-    }
-  }
-
-  getTemplateResourcesOptionsByName(name: string): SelectItem[] {
-    if (this.isContextEqual(name)) {
-      this.getContextValue(name);
-    }
-    return this.itemsForSelect[name];
-  }
-
-  getResourceLabel(index: number): string {
-    if (this.templates.filter(item => item.id === this.newUserForm.get('template').value)[0]) {
-      return this.templates.filter(item => item.id === this.newUserForm.get('template').value)[0].resources[index].resource;
-    } else {
-      return '';
-    }
-  }
-
-  isContextEqual(context: string): boolean {
-    return this.profile.resource === context || this.profile.resourceAcquirer === context;
-  }
-
-  getContextValue(context: string): SelectItem[] {
-    if (this.profile.resource === context) {
-      return [{value: this.profile.resourceId, label: this.profile.resourceId}];
-    } else if (this.profile.resourceAcquirer === context) {
-      return [{value: this.profile.resourceAcquirerId, label: this.profile.resourceAcquirerId}];
-    }
+  goToCreateUser(): void {
+    this.router.navigateByUrl(`${USERS_ROUTE}/create`);
   }
 
   clearFilter(): void {

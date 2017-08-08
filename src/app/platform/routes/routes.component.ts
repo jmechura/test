@@ -56,7 +56,7 @@ export class RoutesComponent implements OnDestroy {
 
     this.routingTableForm = this.fb.group(
       {
-        name: ['', Validators.required],
+        name: [{value: '', disabled: true}, Validators.required],
         description: '',
       }
     );

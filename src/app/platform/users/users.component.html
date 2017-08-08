@@ -1,7 +1,7 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'users.list.title' | translate}}</span>
-    <mss-button class="mss-action-button" label="{{'users.list.addUser' | translate}}" (click)="toggleNewUserModal($event)"></mss-button>
+    <mss-button class="mss-action-button" label="{{'users.list.addUser' | translate}}" (click)="goToCreateUser($event)"></mss-button>
   </div>
 
   <!-- START FILTERS -->
@@ -143,77 +143,3 @@
     </ngx-datatable>
   </div>
 </div>
-
-<!--Add new user modal-->
-<mss-modal-window [(visible)]="newUserModalShowing">
-  <h3 class="mss-modal-title">{{'users.list.addUser' | translate}}</h3>
-  <form [formGroup]="newUserForm" class="new-user-form">
-    <div class="new-user-inputs">
-      <div class="new-user-input-side">
-        <mss-input formControlName="firstName" label="{{'basic.firstName' | translate}}*" [warn]="isPresent('firstName')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('firstName')">{{'basic.required.firstName' | translate}}</span></div>
-        <mss-input formControlName="lastName" label="{{'basic.lastName' | translate}}*" [warn]="isPresent('lastName')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('lastName')">{{'basic.required.lastName' | translate}}</span></div>
-        <mss-input formControlName="login" label="{{'basic.login' | translate}}*" [warn]="isPresent('login')"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('login')">{{'basic.required.login' | translate}}</span></div>
-        <mss-input formControlName="password" label="{{'basic.password' | translate}}*" [warn]="isPresent('password')"
-                   [type]="'password'"></mss-input>
-        <div class="mss-validation-label"><span *ngIf="isPresent('password')">{{'basic.required.password' | translate}}</span></div>
-        <mss-input formControlName="passwordAgain" label="{{'basic.passwordAgain' | translate}}*"
-                   [warn]="isPresent('passwordAgain') || !isPasswordsEqual"
-                   [type]="'password'"></mss-input>
-        <div class="mss-validation-label">
-          <span *ngIf="isPresent('passwordAgain')">{{'basic.required.passwordAgain' | translate}}</span>
-          <span *ngIf="!isPasswordsEqual">{{'basic.required.passwordsNotEqual' | translate}}</span>
-        </div>
-        <mss-input formControlName="email" label="{{'basic.email' | translate}}*" [warn]="isPresent('email') || !isValidEmail"></mss-input>
-        <div class="mss-validation-label">
-          <span *ngIf="isPresent('email')">{{'basic.required.badEmail' | translate}}</span>
-          <span *ngIf="!isValidEmail">{{'basic.required.badEmail' | translate}}</span>
-        </div>
-        <mss-input formControlName="phone" label="{{'basic.phone' | translate}}"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="city" label="{{'basic.city' | translate}}"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="street" label="{{'basic.street' | translate}}"></mss-input>
-        <div class="mss-validation-label"></div>
-        <mss-input formControlName="zip" label="{{'basic.zip' | translate}}"></mss-input>
-        <div class="mss-validation-label"></div>
-      </div>
-      <div class="new-user-input-side">
-        <mss-select formControlName="template" (selectedOptionChange)="onChangeTemplate($event)" [options]="templatesOptions"
-                    label="{{'basic.template' | translate}}*"></mss-select>
-        <div class="mss-validation-label"><span *ngIf="isPresent('template')">{{'basic.required.template' | translate}}</span></div>
-        <hr>
-        <div class="mss-validation-label"></div>
-        <div formArrayName="resources">
-          <div *ngFor="let res of resources.controls; let i=index;" [formGroupName]="i">
-            <mss-select *ngIf="getResourceLabel(i) === 'MERCHANT' || getResourceLabel(i) === 'ORG_UNIT'" formControlName="networkCode"
-                        label="NETWORK" [options]="getTemplateResourcesOptionsByName('NETWORK')"
-                        (selectedOptionChange)="selectCode($event, 'MERCHANT')">
-            </mss-select>
-            <mss-select *ngIf="getResourceLabel(i) === 'ORG_UNIT'" formControlName="merchantCode" label="MERCHANT"
-                        [options]="getTemplateResourcesOptionsByName('MERCHANT')"
-                        (selectedOptionChange)="selectCode($event, 'ORG_UNIT')">
-            </mss-select>
-            <mss-select *ngIf="getResourceLabel(i) === 'CARD_GROUP'" formControlName="issuerCode" label="ISSUER"
-                        [options]="getTemplateResourcesOptionsByName('ISSUER')"
-                        (selectedOptionChange)="selectCode($event, 'CARD_GROUP')">
-            </mss-select>
-            <mss-select formControlName="resourceId" label="{{getResourceLabel(i)}}*"
-                        [options]="getTemplateResourcesOptionsByIndex(i)">
-            </mss-select>
-            <hr>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="mss-buttons-row">
-      <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
-                  (click)="toggleNewUserModal()"></mss-button>
-      <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" (click)="addUser()" type="submit"
-                  [disabled]="newUserForm.invalid || !isPasswordsEqual || !isValidEmail"></mss-button>
-    </div>
-  </form>
-</mss-modal-window>
-
