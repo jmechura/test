@@ -16,6 +16,7 @@ import { campaignFactoriesActions } from '../../shared/reducers/campaign-factori
 import { ApiService } from '../../shared/services/api.service';
 import { LanguageService } from '../../shared/services/language.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { ComponentMode } from '../../shared/enums/detail-component-mode.enum';
 
 const PROPERTY_ENDPOINT = '/campaigns/properties';
 const CAMPAIGNS_ENDPOINT = '/campaigns';
@@ -33,12 +34,13 @@ export class CampaignsDetailComponent implements OnDestroy {
   campaignName = '';
   campaignDetail: CampaignModel;
   properties: PropertyModel[] = [];
-  campaingForm: FormGroup;
+  campaignForm: FormGroup;
   campaignFactories: SelectItem[] = [];
-  editingCampaign = false;
   editingProperties = false;
   propertyForm: FormArray;
   modalVisible = false;
+  mode = ComponentMode.View;
+  ComponentMode = ComponentMode;
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
@@ -47,11 +49,26 @@ export class CampaignsDetailComponent implements OnDestroy {
               private language: LanguageService,
               private api: ApiService,
               private toastr: ExtendedToastrService) {
+    this.campaignForm = fb.group(
+      {
+        name: [{value: '', disabled: true}],
+        campaignName: ['DEFAULT', Validators.required],
+        orderCampaign: [0],
+        runAfterStart: [false]
+      }
+    );
+
     this.store.dispatch({type: campaignFactoriesActions.CAMPAIGN_FACTORIES_GET_REQUEST});
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
-      params => {
-        this.campaignName = params.name;
-        this.store.dispatch({type: campaignDetailActions.CAMPAIGN_DETAIL_GET_REQUEST, payload: this.campaignName});
+      (params: { name: string }) => {
+        if (params.name !== 'create') {
+          this.campaignName = params.name;
+          this.store.dispatch({type: campaignDetailActions.CAMPAIGN_DETAIL_GET_REQUEST, payload: this.campaignName});
+          this.mode = ComponentMode.View;
+        } else {
+          this.mode = ComponentMode.Create;
+          this.campaignForm.get('name').enable();
+        }
       }
     );
 
@@ -62,9 +79,11 @@ export class CampaignsDetailComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.campaignDetail = data.data;
-          this.campaingForm.patchValue(this.campaignDetail);
-          this.store.dispatch({type: campaignPropertyActions.CAMPAIGN_PROPERTY_GET_REQUEST, payload: this.campaignDetail.name});
+          if (this.mode !== ComponentMode.Create) {
+            this.campaignDetail = data.data;
+            this.campaignForm.patchValue(this.campaignDetail);
+            this.store.dispatch({type: campaignPropertyActions.CAMPAIGN_PROPERTY_GET_REQUEST, payload: this.campaignDetail.name});
+          }
         }
       }
     );
@@ -123,24 +142,31 @@ export class CampaignsDetailComponent implements OnDestroy {
         }
       }
     );
-
-    this.campaingForm = fb.group(
-      {
-        name: [{value: '', disabled: true}],
-        campaignName: ['DEFAULT', Validators.required],
-        orderCampaign: [0],
-        runAfterStart: [false]
-      }
-    );
-
   }
 
-  editCampaign(): void {
-    this.editingCampaign = false;
-    this.store.dispatch({
-      type: campaignDetailActions.CAMPAIGN_DETAIL_PUT_REQUEST,
-      payload: Object.assign({}, this.campaignDetail, this.campaingForm.value)
-    });
+  handleCampaignSubmit(): void {
+    if (this.mode === ComponentMode.Edit) {
+      this.mode = ComponentMode.View;
+      this.store.dispatch({
+        type: campaignDetailActions.CAMPAIGN_DETAIL_PUT_REQUEST,
+        payload: Object.assign({}, this.campaignDetail, this.campaignForm.value)
+      });
+    } else {
+      this.api.post('/campaigns', this.campaignForm.value).subscribe(
+        (campaign: CampaignModel) => {
+          this.toastr.success('toastr.success.createCampaign');
+          this.router.navigateByUrl(`platform/campaigns/${campaign.name}`);
+        },
+        error => {
+          this.toastr.error(error);
+          console.error('Create campaign fail', error);
+        }
+      );
+    }
+  }
+
+  goToList(): void {
+    this.router.navigateByUrl('platform/campaigns');
   }
 
   deleteCampaign(): void {
@@ -204,12 +230,12 @@ export class CampaignsDetailComponent implements OnDestroy {
   }
 
   startEditing(): void {
-    this.editingCampaign = true;
+    this.mode = ComponentMode.Edit;
   }
 
   cancelEditing(): void {
-    this.editingCampaign = false;
-    this.campaingForm.patchValue(this.campaignDetail);
+    this.mode = ComponentMode.View;
+    this.campaignForm.patchValue(this.campaignDetail);
   }
 
   ngOnDestroy(): void {

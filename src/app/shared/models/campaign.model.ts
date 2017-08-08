@@ -12,12 +12,3 @@ export interface CampaignPredicateObject {
   orderCampaign?: number;
   runAfterStart?: boolean;
 }
-
-export function fillCampaign(): CampaignModel {
-  return {
-    campaignName: 'UNKNOWN',
-    name: '',
-    orderCampaign: 0,
-    runAfterStart: false,
-  };
-}

@@ -1,7 +1,7 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'campaigns.list.title' | translate}}</span>
-    <mss-button class="mss-action-button" [label]="'campaigns.list.addCampaign' | translate" (click)="toggleNewCampaignForm()"></mss-button>
+    <mss-button class="mss-action-button" [label]="'campaigns.list.addCampaign' | translate" (click)="goToCreate()"></mss-button>
   </div>
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="rows"
@@ -47,31 +47,6 @@
     </ngx-datatable>
   </div>
 </div>
-<mss-modal-window [(visible)]="newCampaignModalShowing">
-  <h3 class="mss-modal-title">{{'campaigns.list.addCampaign' | translate}}</h3>
-  <form [formGroup]="newCampaignForm" class="new-campaign-form">
-    <mss-input formControlName="name" [(value)]="newCampaign.name" [label]="('basic.name' | translate) + '*'"
-               [warn]="isPresent('name')"></mss-input>
-    <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
-
-    <mss-input formControlName="orderCampaign" [(value)]="newCampaign.orderCampaign" type="number"
-               [label]="'campaigns.dictionary.orderCampaign' | translate"></mss-input>
-    <div class="mss-validation-label"></div>
-
-    <mss-checkbox [(checked)]="newCampaign.runAfterStart" [label]="'campaigns.dictionary.runAfterStart' | translate"></mss-checkbox>
-    <div class="mss-validation-label"></div>
-
-    <mss-select [options]="campaignFactories" [(selectedOption)]="newCampaign.campaignName"
-                [label]="'campaigns.dictionary.campaignName' | translate"></mss-select>
-    <div class="mss-validation-label"></div>
-    <div class="mss-buttons-row">
-      <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
-                  (click)="toggleNewCampaignForm()"></mss-button>
-      <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" (click)="addCampaign()" type="submit"
-                  [disabled]="newCampaignForm.invalid"></mss-button>
-    </div>
-  </form>
-</mss-modal-window>
 <mss-modal-window [(visible)]="warnModalVisible">
   <h3 class="mss-modal-title">{{'campaigns.list.deleteQuestion' | translate}}</h3>
   <div class="warn-buttons">

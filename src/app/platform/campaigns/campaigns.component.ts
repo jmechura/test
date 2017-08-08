@@ -2,16 +2,12 @@ import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
-import { CampaignModel, CampaignPredicateObject, fillCampaign } from '../../shared/models/campaign.model';
+import { CampaignModel, CampaignPredicateObject } from '../../shared/models/campaign.model';
 import { campaignsActions } from '../../shared/reducers/campaign.reducer';
 import { StateModel } from '../../shared/models/state.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../shared/services/api.service';
-import { campaignFactoriesActions } from '../../shared/reducers/campaign-factories.reducer';
-import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LanguageService } from '../../shared/services/language.service';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 
@@ -35,18 +31,8 @@ export class CampaignsComponent implements OnDestroy {
     predicate: string;
     reverse: boolean
   };
-
-  newCampaignModalShowing = false;
-  newCampaign: CampaignModel = fillCampaign();
-  newCampaignForm: FormGroup;
-
-  tableData: Pagination<CampaignModel>;
   rows = [];
-
-  campaignFactories: SelectItem[] = [{value: 'UNKNOWN'}];
-
   loading = false;
-
   warnModalVisible = false;
   deletingCampaignName: string;
 
@@ -54,33 +40,7 @@ export class CampaignsComponent implements OnDestroy {
               private api: ApiService,
               private router: Router,
               private route: ActivatedRoute,
-              private language: LanguageService,
-              private fb: FormBuilder,
               private toastr: ExtendedToastrService) {
-
-    this.newCampaignForm = fb.group({
-      name: ['', Validators.required],
-      orderCampaign: [0],
-      runAfterStart: [false],
-    });
-
-    this.store.dispatch({type: campaignFactoriesActions.CAMPAIGN_FACTORIES_GET_REQUEST});
-
-    this.store.select('campaignFactories').takeUntil(this.unsubscribe$).subscribe(
-      ({data, error}: StateModel<string[]>) => {
-        if (error) {
-          console.error('Campaign Factories API call has returned error', error);
-          return;
-        }
-
-        if (data != undefined) {
-          this.campaignFactories = data.map(item => ({
-            value: item,
-            label: this.language.translate(`enums.campaignFactories.${item}`)
-          }));
-        }
-      }
-    );
 
     this.store.select('campaigns').takeUntil(this.unsubscribe$).subscribe(
       ({data, error, loading}: StateModel<Pagination<CampaignModel>>) => {
@@ -90,10 +50,9 @@ export class CampaignsComponent implements OnDestroy {
           return;
         }
 
-        if (data != undefined) {
-          this.tableData = data;
+        if (data != undefined && !loading) {
           this.totalItems = data.totalElements;
-          this.rows = this.tableData.content.map(item => Object.assign({}, item));
+          this.rows = data.content.map(item => Object.assign({}, item));
         }
       }
     );
@@ -120,31 +79,6 @@ export class CampaignsComponent implements OnDestroy {
     this.getCampaignsList();
   }
 
-  toggleNewCampaignForm(): void {
-    this.newCampaignModalShowing = !this.newCampaignModalShowing;
-  }
-
-  addCampaign(): void {
-    this.api.post('/campaigns', this.newCampaign).subscribe(
-      () => {
-        this.toastr.success('toastr.success.createCampaign');
-        this.getCampaignsList();
-      },
-      error => {
-        this.toastr.error(error);
-        console.error('Create campaign fail', error);
-      }
-    );
-
-    this.newCampaign = fillCampaign();
-    this.toggleNewCampaignForm();
-  };
-
-  isPresent(value: string): boolean {
-    const item = this.newCampaignForm.get(value);
-    return item.touched && item.errors != null && item.errors.required;
-  }
-
   showDeleteModal(event: MouseEvent, name: string): void {
     event.stopPropagation();
     this.deletingCampaignName = name;
@@ -164,6 +98,10 @@ export class CampaignsComponent implements OnDestroy {
         this.warnModalVisible = false;
       }
     );
+  }
+
+  goToCreate(): void {
+    this.router.navigateByUrl('platform/campaigns/create');
   }
 
   changeLimit(newLimit: number): void {

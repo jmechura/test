@@ -1,7 +1,8 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
-    <div class="mss-title">{{'campaigns.detail.title' | translate}} - {{campaignName}}</div>
-    <div class="button-container">
+    <div class="mss-title" *ngIf="mode !== ComponentMode.Create">{{'campaigns.detail.title' | translate}} - {{campaignName}}</div>
+    <div class="mss-title" *ngIf="mode === ComponentMode.Create">{{'campaigns.list.addCampaign' | translate}}</div>
+    <div class="mss-buttons-row" *ngIf="mode !== ComponentMode.Create">
       <mss-button class="mss-action-button right-margin" *ngIf="campaignDetail"
                   [label]="campaignDetail.running ?  ('basic.deactivate' | translate) : ('basic.activate' | translate)"
                   (click)="toggleCampaign()"></mss-button>
@@ -10,48 +11,50 @@
     </div>
   </div>
 
-  <form [formGroup]="campaingForm" (ngSubmit)="editCampaign()" *ngIf="campaignDetail">
+  <form [formGroup]="campaignForm" (ngSubmit)="handleCampaignSubmit()" *ngIf="mode === ComponentMode.Create || campaignDetail">
     <div class="content">
       <div class="column">
-        <mss-input *ngIf="editingCampaign" class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
-        <div *ngIf="!editingCampaign" class="mss-input-like-container item">
+        <mss-input *ngIf="mode !== ComponentMode.View" class="item" [label]="'basic.name' | translate" formControlName="name"></mss-input>
+        <div *ngIf="mode === ComponentMode.View" class="mss-input-like-container item">
           <div class="label">{{'basic.name' | translate}}</div>
           <div class="value">{{campaignDetail.name}}</div>
         </div>
-        <mss-select *ngIf="editingCampaign" class="item" [options]="campaignFactories"
+        <mss-select *ngIf="mode !== ComponentMode.View" class="item" [options]="campaignFactories"
                     [label]="'campaigns.dictionary.campaignName' | translate"
                     formControlName="campaignName"></mss-select>
-        <div *ngIf="!editingCampaign" class="mss-input-like-container item">
+        <div *ngIf="mode === ComponentMode.View" class="mss-input-like-container item">
           <div class="label">{{'campaigns.dictionary.campaignName' | translate}}</div>
           <div class="value">{{campaignDetail.campaignName}}</div>
         </div>
       </div>
       <div class="column">
-        <mss-input *ngIf="editingCampaign" class="item" type="number" formControlName="orderCampaign"
+        <mss-input *ngIf="mode !== ComponentMode.View" class="item" type="number" formControlName="orderCampaign"
                    [label]="'campaigns.dictionary.orderCampaign' | translate"></mss-input>
-        <div *ngIf="!editingCampaign" class="mss-input-like-container item">
+        <div *ngIf="mode === ComponentMode.View" class="mss-input-like-container item">
           <div class="label">{{'campaigns.dictionary.orderCampaign' | translate}}</div>
           <div class="value">{{campaignDetail.orderCampaign}}</div>
         </div>
-        <mss-toggle *ngIf="editingCampaign" [label]="'campaigns.dictionary.runAfterStart' | translate"
+        <mss-toggle *ngIf="mode !== ComponentMode.View" [label]="'campaigns.dictionary.runAfterStart' | translate"
                     formControlName="runAfterStart"></mss-toggle>
-        <div *ngIf="!editingCampaign" class="mss-input-like-container item">
+        <div *ngIf="mode === ComponentMode.View" class="mss-input-like-container item">
           <div class="label">{{'campaigns.dictionary.runAfterStart' | translate}}</div>
           <div class="value">{{campaignDetail.runAfterStart ? ('basic.yes' | translate) : ('basic.no' | translate)}}</div>
         </div>
       </div>
     </div>
     <div class="mss-buttons-row">
-      <mss-button [label]="'basic.edit' | translate" *ngIf="!editingCampaign" type="button" (click)="startEditing()"
+      <mss-button [label]="'basic.edit' | translate" *ngIf="mode === ComponentMode.View" type="button" (click)="startEditing()"
                   class="mss-action-button"></mss-button>
-      <mss-button [label]="'basic.dismiss' | translate" *ngIf="editingCampaign" type="button" (click)="cancelEditing()"
-                  class="mss-action-button right-margin"></mss-button>
-      <mss-button [label]="'basic.save' | translate" *ngIf="editingCampaign" type="submit" [disabled]="campaingForm.invalid"
+      <mss-button [label]="'basic.dismiss' | translate" *ngIf="mode === ComponentMode.Edit" type="button"
+                  (click)="cancelEditing()" class="mss-action-button right-margin"></mss-button>
+      <mss-button [label]="'basic.dismiss' | translate" *ngIf="mode === ComponentMode.Create" type="button"
+                  (click)="goToList()" class="mss-action-button right-margin"></mss-button>
+      <mss-button [label]="'basic.save' | translate" *ngIf="mode !== ComponentMode.View" type="submit" [disabled]="campaignForm.invalid"
                   class="mss-action-button"></mss-button>
     </div>
   </form>
 
-  <div class="properties">
+  <div class="properties" *ngIf="mode !== ComponentMode.Create">
     <div class="mss-header-row">
       <div class="mss-title">{{'campaigns.detail.properties' | translate}}</div>
       <mss-button class="mss-action-button" (click)="toggleProperties()"
