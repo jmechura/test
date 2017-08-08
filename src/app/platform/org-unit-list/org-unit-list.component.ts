@@ -61,6 +61,16 @@ export class OrgUnitListComponent implements OnDestroy {
               private roles: RoleService,
               private route: ActivatedRoute,
               private toastr: ExtendedToastrService) {
+
+    this.filterForm = this.fb.group({
+      code: [''],
+      merchantId: [{value: '', disabled: true}],
+      merchantName: [''],
+      name: [''],
+      networkCode: [{value: '', disabled: true}],
+      networkName: ['']
+    });
+
     this.filterOptions = Object.keys(OrgUnitFilterSections).filter(key => isNaN(Number(key)))
       .map(item => ({
         label: this.language.translate(`orgUnits.list.sections.${item}`),
@@ -86,17 +96,9 @@ export class OrgUnitListComponent implements OnDestroy {
       (params: ListRouteParamsModel) => {
         this.pageNumber = Math.max(Number(params.page) || 0, 1);
         this.itemLimit = ITEM_LIMIT_OPTIONS.find(limit => limit === Number(params.limit)) || ITEM_LIMIT_OPTIONS[0];
+        this.getOrgUnits();
       }
     );
-
-    this.filterForm = this.fb.group({
-      code: [''],
-      merchantId: [{value: '', disabled: true}],
-      merchantName: [''],
-      name: [''],
-      networkCode: [{value: '', disabled: true}],
-      networkName: ['']
-    });
 
     this.filterOptions = Object.keys(OrgUnitFilterSections).filter(key => isNaN(Number(key)))
       .map(item => ({

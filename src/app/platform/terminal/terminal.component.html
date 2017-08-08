@@ -48,20 +48,18 @@
                  [rows]="terminalRows" [selectionType]="'single'" (select)="onSelect($event)"
                  (page)="setPage($event)" (sort)="getSortedTerminals($event)"
                  [offset]="terminalData ? terminalData.number : 0">
+    <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
     <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [cellClass]="'mss-click-able'"
                           [sortable]="true"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode"
-                          [sortable]="true" *mssRoleIf="'createEdit.orgUnitCodeSelect'">
-    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'dictionary.networkCode' | translate" prop="networkCode"
+                          [sortable]="true" *mssRoleIf="'createEdit.networkCodeSelect'"></ngx-datatable-column>
     <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode"
-                          [sortable]="true" *mssRoleIf="'createEdit.merchantCodeSelect'">
-    </ngx-datatable-column>
-    <ngx-datatable-column [name]="'basic.street' | translate" prop="street" [sortable]="false"></ngx-datatable-column>
+                          [sortable]="true" *mssRoleIf="'createEdit.merchantCodeSelect'"></ngx-datatable-column>
+    <ngx-datatable-column [name]="'dictionary.orgUnitCode' | translate" prop="orgUnitCode"
+                          [sortable]="true" *mssRoleIf="'createEdit.orgUnitCodeSelect'"></ngx-datatable-column>
     <ngx-datatable-column [name]="'basic.city' | translate" prop="city" [sortable]="false"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'basic.region' | translate" prop="region" [sortable]="false"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'basic.country' | translate" prop="country" [sortable]="false"></ngx-datatable-column>
-    <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column [name]="'basic.street' | translate" prop="street" [sortable]="false"></ngx-datatable-column>
+    <ngx-datatable-column [name]="'basic.zip' | translate" prop="zip" [sortable]="false"></ngx-datatable-column>
     <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
     <ngx-datatable-footer>
       <ng-template

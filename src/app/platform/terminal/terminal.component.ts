@@ -88,8 +88,8 @@ export class TerminalComponent implements OnDestroy {
         code: '',
         name: '',
         networkCode: '',
-      merchantCode: {value: '', disabled: true},
-      orgUnitCode: {value: '', disabled: true},
+        merchantCode: {value: '', disabled: true},
+        orgUnitCode: {value: '', disabled: true},
       }
     );
 
@@ -181,7 +181,7 @@ export class TerminalComponent implements OnDestroy {
           return;
         }
         if (data != undefined) {
-          this.merchantCodes = data.map(item => ({value: item.id, label: item.code}));
+          this.merchantCodes = data.map(item => ({value: item.code + ';' + item.id, label: item.name}));
           this.newTerminalForm.get('merchantId').enable();
           this.filterForm.get('merchantCode').enable();
         }
@@ -195,7 +195,7 @@ export class TerminalComponent implements OnDestroy {
           return;
         }
         if (data != undefined) {
-          this.orgUnitCodes = data.map(item => ({value: item.id, label: item.code}));
+          this.orgUnitCodes = data.map(item => ({value: item.code, label: item.code}));
           this.newTerminalForm.get('orgUnitId').enable();
           this.filterForm.get('orgUnitCode').enable();
         }
@@ -237,6 +237,10 @@ export class TerminalComponent implements OnDestroy {
   }
 
   get requestModel(): RequestOptions<TerminalPredicateObject> {
+    let filterFormValue = this.filterForm.get('merchantCode').value;
+    if (filterFormValue && filterFormValue !== '') {
+      filterFormValue = filterFormValue.split(';')[0];
+    }
     return {
       pagination: {
         number: this.rowLimit,
@@ -244,7 +248,7 @@ export class TerminalComponent implements OnDestroy {
         start: (this.pageNumber - 1) * this.rowLimit,
       },
       search: {
-        predicateObject: this.filterForm ? this.filterForm.value : {},
+        predicateObject: this.filterForm ? {...this.filterForm.value, merchantCode: filterFormValue} : {},
       },
       sort: this.sortOption != null ? this.sortOption : {},
     };
@@ -334,7 +338,7 @@ export class TerminalComponent implements OnDestroy {
   }
 
   merchantSelect(merchantCode: string): void {
-    this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: merchantCode});
+    this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: merchantCode.split(';')[1]});
   }
 
   isPresent(value: string): boolean {

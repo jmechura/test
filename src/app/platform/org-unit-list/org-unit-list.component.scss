@@ -2,10 +2,6 @@
 
 $filter-item-width: 500px;
 
-.org-unit-list {
-  @include mss-datatable-row-break(11, true);
-}
-
 .row-action {
   display: inline-block;
   margin-right: 10px;

@@ -38,28 +38,23 @@
 
   <div class="org-unit-list">
     <div class="data-table-container">
-      <ngx-datatable #table [rows]="tableRows" [headerHeight]="70" [footerHeight]="50" rowHeight="auto"
+      <ngx-datatable #table [rows]="tableRows" [headerHeight]="70" [footerHeight]="50" rowHeight="auto" [columnMode]="'force'"
                      [externalPaging]="true" [externalSorting]="true" (sort)="getSortedOrgUnits($event)" (activate)="onRowActivate($event)"
                      [count]="totalItems" [limit]="itemLimit" [offset]="pageNumber" (page)="setPage($event)">
         <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="true"></ngx-datatable-column>
         <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'basic.id' | translate" prop="id" [sortable]="true"></ngx-datatable-column>
         <ngx-datatable-column [name]="'dictionary.networkCode' | translate" prop="networkCode" [sortable]="false" *mssRoleIf="'admin.view'">
         </ngx-datatable-column>
         <ngx-datatable-column [name]="'dictionary.merchantCode' | translate" prop="merchantCode" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'dictionary.externalCode' | translate" prop="externalCode" [sortable]="false"></ngx-datatable-column>
         <ngx-datatable-column [name]="'basic.street' | translate" prop="street" [sortable]="false"></ngx-datatable-column>
         <ngx-datatable-column [name]="'basic.city' | translate" prop="city" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'basic.region' | translate" prop="region" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'basic.country' | translate" prop="country" [sortable]="false"></ngx-datatable-column>
-        <ngx-datatable-column [name]="'basic.note' | translate" prop="note" [sortable]="false" *mssRoleIf="'admin.view'">
-        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'basic.zip' | translate" prop="zip" [sortable]="false"></ngx-datatable-column>
         <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-value="value">
             <span class="mss-datatable-state-value" [ngClass]="{'disabled': value === 'DISABLED'}">{{value}}</span>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column [name]="'basic.options' | translate" [sortable]="false">
+        <ngx-datatable-column [name]="'basic.options' | translate" [sortable]="false" [maxWidth]="105">
           <ng-template ngx-datatable-cell-template let-row="row">
             <ng-container *mssRoleIf="'orgUnits.edit'">
               <a class="row-action" *ngIf="row.state !== 'DISABLED'">
