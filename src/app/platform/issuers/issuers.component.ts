@@ -9,6 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { LanguageService } from '../../shared/services/language.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const ISSUER_ROUTE = 'platform/reports';
@@ -31,11 +34,21 @@ export class IssuersComponent implements OnDestroy {
     reverse: boolean;
   };
   rowLimit = ITEM_LIMIT_OPTIONS[0];
+  filterForm: FormGroup;
+
+  stateOptions: SelectItem[] = [{value: 'ENABLED'}, {value: 'DISABLED'}];
 
   constructor(private store: Store<AppStateModel>,
               private route: ActivatedRoute,
               private router: Router,
+              private language: LanguageService,
+              private fb: FormBuilder,
               private toastr: ExtendedToastrService) {
+
+    this.filterForm = this.fb.group({
+      code: '',
+      name: ''
+    });
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: ListRouteParamsModel) => {
@@ -107,13 +120,16 @@ export class IssuersComponent implements OnDestroy {
         numberOfPages: 0,
         start: (this.pageNumber - 1 ) * this.rowLimit
       },
-      search: this.predicateObject,
+      search: {predicateObject: this.predicateObject},
       sort: this.sortOptions ? this.sortOptions : {}
     };
   }
 
-  // TODO: ADD FILTER FORM
+  clearFilter(): void {
+    this.filterForm.reset();
+  }
+
   private get predicateObject(): IssuerPredicateObject {
-    return {};
+    return this.filterForm.value;
   }
 }

@@ -315,6 +315,9 @@
     "titleDetail": "Vydavatel karty - detail",
     "required": {
       "passwordHashValidityMinute": "passwordHashValidityMinute je povinny udaj"
+    },
+    "list": {
+      "name": "Nazev"
     }
   },
   "routingTables": {

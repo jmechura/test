@@ -6,6 +6,17 @@
     <mss-button class="mss-action-button" [label]="'issuers.addIssuer' | translate" (click)="goToCreate()"></mss-button>
   </div>
 
+  <div class="filter-container">
+    <div class="filters" [formGroup]="filterForm">
+      <mss-input class="filter-item" formControlName="code" [label]="'basic.code' | translate"></mss-input>
+      <mss-input class="filter-item" formControlName="name" [label]="'issuers.list.name' | translate"></mss-input>
+    </div>
+    <mss-button class="mss-action-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+  <div class="mss-action-button">
+    <mss-button [label]="'basic.search' | translate" (click)="getIssuers()"></mss-button>
+  </div>
+
   <!--issuers data table-->
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [externalPaging]="true"
@@ -13,7 +24,7 @@
                    (page)="setPage($event)"
                    [externalSorting]="true"
                    (sort)="getSortedIssuers($event)"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">>
+                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">
 
       <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true" [cellClass]="'mss-click-able'">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
