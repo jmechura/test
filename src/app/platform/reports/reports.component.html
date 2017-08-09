@@ -5,7 +5,7 @@
 
   <div class="row">
     <div class="column" [formGroup]="filterForm">
-      <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+      <mss-tabs class="tabs" *ngIf="filterSections.length > 1" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
       <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
         <div class="row wrapped">
           <mss-input class="filter-item" formControlName="reportName" [label]="'basic.name' | translate"></mss-input>
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <mss-button class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button [ngClass]="{'top-margin': filterSections.length <= 1}" class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
   <div class="mss-action-button">
