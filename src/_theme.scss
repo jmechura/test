@@ -156,7 +156,7 @@ $label-width: 136px;
 $header-background-color: #d7d7d7;
 $header-text-color: #888888;
 $row-text-color: #747474;
-$side-padding: 20px;
+$item-padding: 12px;
 $pages-padding: 8px 13px;
 $pager-active-color: #4c4c4c;
 
@@ -176,6 +176,7 @@ $pager-active-color: #4c4c4c;
 
 @mixin mss-datatable-header-cell {
   white-space: normal !important;
+  padding: $item-padding;
 }
 
 @mixin mss-header-row-center {
@@ -186,7 +187,6 @@ $pager-active-color: #4c4c4c;
 @mixin mss-data-table {
   width: 100%;
   margin-top: $default-margin;
-  overflow: visible !important;
 }
 
 @mixin mss-datatable-header {
@@ -195,7 +195,6 @@ $pager-active-color: #4c4c4c;
   font-weight: 600;
   display: flex !important;
   align-items: center;
-  padding: 0 $side-padding;
 }
 
 @mixin mss-datatable-header-sortable {
@@ -218,7 +217,6 @@ $pager-active-color: #4c4c4c;
 
 @mixin mss-datatable-body-row {
   background-color: $contrast-color;
-  padding: 0 $side-padding;
   color: $row-text-color;
 
   &:hover {
@@ -238,7 +236,7 @@ $pager-active-color: #4c4c4c;
 @mixin mss-datatable-body-cell {
   display: flex !important;
   align-items: center;
-  padding: 10px;
+  padding: $item-padding;
   user-select: text !important;
 }
 

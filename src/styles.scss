@@ -114,6 +114,16 @@ input {
   margin-top: 12px;
 }
 
+.mss-header-cell-align-right {
+  display: inline-block;
+  height: 100%;
+  float: right;
+}
+
+.mss-cell-align-right {
+  text-align: right;
+}
+
 // data-table related classes
 
 .data-table-container {

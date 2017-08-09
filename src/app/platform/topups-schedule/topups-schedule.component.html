@@ -53,12 +53,15 @@
       </ngx-datatable-column>
       <ngx-datatable-column prop="variableSymbol" [name]="'dictionary.variableSymbol' | translate" [sortable]="true">
       </ngx-datatable-column>
-      <ngx-datatable-column prop="amountAll" [name]="'dictionary.amount' | translate" [sortable]="false">
-        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-          <div>{{value | currency:row['currency']['code']:true:'1.' + row['currency']['digits']}}</div>
-        </ng-template>
-      </ngx-datatable-column>
       <ngx-datatable-column prop="state" [name]="'basic.state' | translate" [sortable]="false">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="amountAll" [sortable]="false" class="test">
+        <ng-template ngx-datatable-header-template>
+          <div class="mss-header-cell-align-right">{{'dictionary.amount' | translate}}</div>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+          <div class="mss-cell-align-right">{{value | currency:row['currency']['code']:true:'1.' + row['currency']['digits']}}</div>
+        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-footer>
         <ng-template
