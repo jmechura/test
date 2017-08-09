@@ -182,6 +182,11 @@ $pager-active-color: #4c4c4c;
 @mixin mss-header-row-center {
   display: flex;
   align-items: center;
+  width: auto !important;
+}
+
+@mixin mss-header-inner {
+  width: auto !important;
 }
 
 @mixin mss-data-table {

@@ -15,6 +15,10 @@
 .datatable-header {
   @include mss-datatable-header;
 
+  .datatable-header-inner {
+    @include mss-header-inner;
+  }
+
   .datatable-row-center {
     @include mss-header-row-center;
   }
