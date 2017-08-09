@@ -56,7 +56,7 @@ export class IssuerDetailComponent implements OnDestroy {
       email: ['', optionalEmailValidator],
       ico: ['', Validators.required],
       maskedClnUse: [false, Validators.required],
-      name: [{value: '', disabled: true}],
+      name: ['', Validators.required],
       passwordHashValidityMinute: [0, Validators.required],
       phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
       state: [''],
@@ -109,6 +109,9 @@ export class IssuerDetailComponent implements OnDestroy {
   }
 
   handleSaveButton(): void {
+    if (this.editIssuerForm.invalid) {
+      return;
+    }
     if (this.mode === ComponentMode.Edit) {
       this.store.dispatch({
         type: issuerDetailActions.ISSUER_DETAIL_PUT_REQUEST,
