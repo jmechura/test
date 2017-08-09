@@ -363,7 +363,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       },
     }),
     BrowserAnimationsModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({positionClass: 'toast-top-center'}),
   ],
   providers: [
     ApiService,
