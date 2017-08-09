@@ -175,6 +175,8 @@ import { TopupsScheduleItemEffect } from './shared/effects/topup-schedule-item.e
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ExtendedToastrService } from './shared/services/extended-toastr.service';
+import { employeeCardsReducer } from './shared/reducers/employee-cards.reducer';
+import { EmployeeCardsEffect } from './shared/effects/employee-cards.effect';
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/languages/', '.json');
@@ -272,6 +274,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       paymentTopupsState: paymentTopupsStateReducer,
       topupsScheduleDetail: topupsScheduleDetailReducer,
       topupsScheduleItem: topupsScheduleItemReducer,
+      employeeCards: employeeCardsReducer,
     }),
     EffectsModule.runAfterBootstrap(CardEffect),
     EffectsModule.runAfterBootstrap(AddressDetailEffect),
@@ -350,6 +353,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(PaymentTopupsStateEffect),
     EffectsModule.runAfterBootstrap(TopupsScheduleDetailEffect),
     EffectsModule.runAfterBootstrap(TopupsScheduleItemEffect),
+    EffectsModule.runAfterBootstrap(EmployeeCardsEffect),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     TranslateModule.forRoot({
       loader: {

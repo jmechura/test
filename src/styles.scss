@@ -32,19 +32,16 @@ input {
 .mss-title {
   color: $secondary-color;
   font-size: 36px;
+
+  &.small {
+    font-size: 26px;
+  }
 }
 
 .mss-click-able {
   font-weight: 700;
   text-decoration: underline;
   cursor: pointer;
-}
-
-.mss-form-container {
-  display: flex;
-  flex-direction: column;
-  background-color: $default-background-color;
-  padding: 35px;
 }
 
 .mss-validation-label {
@@ -112,6 +109,7 @@ input {
   display: flex;
   justify-content: flex-end;
   margin-top: 12px;
+  align-items: center;
 }
 
 .mss-header-cell-align-right {

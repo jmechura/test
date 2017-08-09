@@ -234,7 +234,8 @@
       "sections": {
         "BASIC": "Základní informace",
         "OWNER": "Vlastník",
-        "ACCOUNT": "Účet"
+        "ACCOUNT": "Účet",
+        "PIN": "PIN"
       },
       "expirationDate": "Expiration date",
       "track2": "Track2",
@@ -885,10 +886,11 @@
   },
   "menu": {
     "dashboard": "Přehled transakcí",
-    "card": "Moje karta",
+    "employee-card": "Moje karta",
     "settings": "Nastavení",
     "users": "Uživatelé",
     "cards": "Přehled karet",
+    "employee-cards": "Přehled karet",
     "card-groups": "Zaměstnavatelé",
     "issuers": "Vydavatelé karet",
     "card-request": "Žádosti o kartu",

@@ -10,6 +10,17 @@ import { ProfileModel } from '../../shared/models/profile.model';
 import { cardDetailActions } from '../../shared/reducers/card-detail.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { LanguageService } from '../../shared/services/language.service';
+import { Pagination } from '../../shared/models/pagination.model';
+import { Transfer } from '../../shared/models/transfer.model';
+import { transfersActions } from '../../shared/reducers/transfers.reducer';
+import { RoleService } from '../../shared/services/role.service';
+import { AppConfigService } from '../../shared/services/app-config.service';
+import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
+
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 
 interface PinblocKeyModel {
   alg: string;
@@ -48,25 +59,66 @@ export class CardViewComponent implements OnDestroy {
   };
   private unsubscribe$ = new UnsubscribeSubject();
 
+  tabsOptions: SelectItem[] = [
+    {value: 'BASIC', label: this.language.translate('cards.cardDetail.sections.BASIC')},
+    {value: 'ACCOUNT', label: this.language.translate('cards.cardDetail.sections.ACCOUNT')},
+    {value: 'PIN', label: this.language.translate('cards.cardDetail.sections.PIN')}
+  ];
+  visibleTab = this.tabsOptions[0];
+
+  accountOptions: SelectItem[] = [];
+  selectedAccountOption: SelectItem;
+  transferLoading = false;
+  transferRows: any[] = [];
+
+  sortOption: {
+    predicate: string;
+    reverse: boolean;
+  };
+
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
+  pageNumber = 0;
+  totalItems = 0;
+
+  dateFormat = 'DD. MM. YYYY';
+
   constructor(private fb: FormBuilder,
               private crypto: EncryptPinBlockService,
               private store: Store<AppStateModel>,
               private api: ApiService,
+              private roles: RoleService,
+              private route: ActivatedRoute,
+              private configService: AppConfigService,
+              private language: LanguageService,
               private toastr: ExtendedToastrService) {
 
-    this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
-      ({data, error}: StateModel<ProfileModel>) => {
-        if (error instanceof MissingTokenResponse) {
-          return;
-        }
+    this.configService.get('dateFormat').subscribe(
+      format => this.dateFormat = format
+    );
 
-        if (error) {
-          console.error('Error occurred while getting profile', error);
-          return;
-        }
+    this.route.params.takeUntil(this.unsubscribe$).subscribe(
+      (params: { uuid: string }) => {
+        // BANCIBO ONLY FIX, OTHER PORTALS SHOULD HAVE LIST OF CARD VISIBLE -> DETAIL
+        if (!params.uuid) {
+          this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
+            ({data, error, loading}: StateModel<ProfileModel>) => {
+              if (error instanceof MissingTokenResponse) {
+                return;
+              }
 
-        if (data != null) {
-          this.store.dispatch({type: cardDetailActions.CARD_DETAIL_GET_REQUEST, payload: data.cardUuid});
+              if (error) {
+                console.error('Error occurred while getting profile', error);
+                return;
+              }
+
+              if (data != null && !loading) {
+                this.store.dispatch({type: cardDetailActions.CARD_DETAIL_GET_REQUEST, payload: data.cardUuid});
+              }
+            }
+          );
+        } else {
+          // REDIRECTED FROM LIST, USE ITS ID
+          this.store.dispatch({type: cardDetailActions.CARD_DETAIL_GET_REQUEST, payload: params.uuid});
         }
       }
     );
@@ -80,6 +132,44 @@ export class CardViewComponent implements OnDestroy {
         if (data.data != undefined && !data.loading) {
           this.card = data.data;
           this.encryptModel.pan = data.data.card.cln;
+          if (this.card.accounts.length > 0) {
+            this.roles.isVisible('accounts.read').subscribe(
+              result => {
+                if (result) {
+                  this.store.dispatch({
+                    type: transfersActions.TRANSFERS_GET_REQUEST, payload: {
+                      predicatedObject: this.requestModel,
+                      uuid: this.card.accounts[0].uuid,
+                      type: 'CARD'
+                    }
+                  });
+                  this.accountOptions = this.card.accounts.map(
+                    account => ({
+                      value: account.uuid,
+                      label: `${account.name} - ${account.type}`
+                    })
+                  );
+                  this.selectedAccountOption = this.accountOptions[0];
+                } else {
+                  this.tabsOptions = this.tabsOptions.filter(opt => opt.value !== 'ACCOUNT');
+                }
+              }
+            );
+          }
+        }
+      }
+    );
+
+    this.store.select('transfers').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<Pagination<Transfer>>) => {
+        this.transferLoading = data.loading;
+        if (data.error) {
+          console.error('Error occurred while retrieving card detail.', data.error);
+          return;
+        }
+        if (data.data != undefined && !data.loading) {
+          this.transferRows = data.data.content.map(item => item);
+          this.totalItems = data.data.totalElements;
         }
       }
     );
@@ -147,6 +237,58 @@ export class CardViewComponent implements OnDestroy {
 
   toggleCardPin(): void {
     this.cardPinChangeVisible = !this.cardPinChangeVisible;
+  }
+
+  getFormattedDate(date: Date | string): string {
+    return moment(date).format(this.dateFormat);
+  }
+
+  setSelectedAccountOption(item: SelectItem): void {
+    this.selectedAccountOption = item;
+    this.pageNumber = 0;
+    this.getTransfers();
+  }
+
+  getTransfers(): void {
+    const uuid = this.selectedAccountOption.value;
+    const account = this.card.accounts.find((element) => element.uuid === uuid);
+    this.store.dispatch({
+      type: transfersActions.TRANSFERS_GET_REQUEST, payload: {
+        predicatedObject: this.requestModel,
+        uuid: account.uuid,
+        type: 'CARD'
+      }
+    });
+  }
+
+  getSortedTransfers(sortInfo: any): void {
+    this.sortOption = {
+      predicate: sortInfo.sorts[0].prop,
+      reverse: sortInfo.sorts[0].dir === 'asc'
+    };
+    this.getTransfers();
+  }
+
+  setPage(pageInfo: { offset: number }): void {
+    this.pageNumber = pageInfo.offset;
+    this.getTransfers();
+  }
+
+  changeLimit(limit: number): void {
+    this.rowLimit = limit;
+    this.getTransfers();
+  }
+
+  get requestModel(): any {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: (this.pageNumber) * this.rowLimit,
+      },
+      search: {},
+      sort: this.sortOption != null ? this.sortOption : {},
+    };
   }
 
   ngOnDestroy(): void {

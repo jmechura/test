@@ -42,6 +42,7 @@ import { PaymentTopupsComponent } from './payment-topups/payment-topups.componen
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
 import { TopupsScheduleDetailComponent } from './topups-schedule-detail/topups-schedule-detail.component';
+import { EmployeeCardListComponent } from './employee-card-list/employee-card-list.component';
 
 export const routes: Routes = [
   {
@@ -51,7 +52,9 @@ export const routes: Routes = [
       {path: 'dashboard', component: DashboardComponent},
       {path: 'showcase', component: ShowcaseComponent},
       {path: 'settings', component: SettingsComponent},
-      {path: 'card', component: CardViewComponent},
+      {path: 'employee-cards', component: EmployeeCardListComponent},
+      {path: 'employee-card/:uuid', component: CardViewComponent},
+      {path: 'employee-card', component: CardViewComponent},
       {path: 'users', component: UsersComponent},
       {path: 'users/:id', component: UserDetailComponent},
       {path: 'cards', component: CardListComponent},

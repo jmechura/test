@@ -1,0 +1,46 @@
+<div class="mss-view-container">
+  <div class="mss-header-row">
+    <div class="mss-title">{{'cards.cardList.title' | translate}}</div>
+  </div>
+
+  <div *ngIf="rows" class="data-table-container">
+    <ngx-datatable #table [loadingIndicator]="loading"
+                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   (activate)="goToDetail($event.row)"
+                   [limit]="rowLimit" [rows]="rows">
+      <ngx-datatable-column [name]="'dictionary.cln'| translate" prop="cln" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.cardGroupName'| translate" prop="cardGroupName" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.expiryDate'| translate" prop="expiryDate"
+                            [sortable]="true">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <span>{{getFormatedExpiration(value)}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.panSequenceNumber' | translate" prop="panSequenceNumber"
+                            [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column *mssRoleIf="'createEdit.cardGroupCodeSelect'" [name]="'dictionary.cardGroupPrimaryCode' | translate"
+                            prop="cardGroupPrimaryCode" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column *mssRoleIf="'createEdit.issuerCodeSelect'" [name]="'dictionary.issuerCode' | translate" prop="issuerCode"
+                            [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column *mssRoleIf="'cards.servisCodeSelect'" [name]="'dictionary.serviceCode' | translate" prop="serviceCode"
+                            [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-footer>
+        <ng-template
+          ngx-datatable-footer-template
+          let-rowCount="rowCount"
+          let-pageSize="pageSize"
+          let-curPage="curPage">
+          <mss-table-footer
+            [page]="curPage"
+            [rowsShown]="pageSize"
+            [rowCount]="rowCount"
+            (rowsShownChange)="changeLimit($event)"
+            (changePage)="table.onFooterPage($event)"
+            class="d-table-footer">
+          </mss-table-footer>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+  </div>
+</div>

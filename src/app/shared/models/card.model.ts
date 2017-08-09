@@ -19,6 +19,7 @@ export interface Card {
   state: string;
   track2: string;
   type: string;
+  login?: string;
 }
 
 export interface CardPredicateObject {

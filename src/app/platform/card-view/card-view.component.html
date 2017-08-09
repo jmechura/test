@@ -1,7 +1,7 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
     <div class="mss-title">{{'cards.userCard.title' | translate}}</div>
-    <div *ngIf="card" class="card-status-container">
+    <div *ngIf="card" class="mss-buttons-row">
       <div class="card-status-label">{{'cards.userCard.cardState.title' | translate}}:
         <span class="card-status-enabled" [ngClass]="{'card-status-disabled': card.card.state !== 'ENABLED'}">
           {{card.card.state === 'ENABLED' ? ('cards.userCard.cardState.ENABLED' | translate) : ('cards.userCard.cardState.DISABLED' |
@@ -13,23 +13,137 @@
                   (click)="toggleStatusChange()"></mss-button>
     </div>
   </div>
-  <div class="form-wrapper">
-    <form class="mss-form-container" [formGroup]="cardForm" (ngSubmit)="toggleCardPin()">
-      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.newPin' | translate" formControlName="newPin"></mss-input>
-      <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.confirmPin' | translate" formControlName="confirmPin">
-      </mss-input>
-      <div class="mss-validation-label">
-        <span *ngIf="this.cardForm.get('newPin').touched &&
+
+  <div class="content">
+    <div class="tabs">
+      <mss-tabs [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
+    </div>
+
+    <div class="section" *ngIf="visibleTab.value === 'BASIC' && card">
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'dictionary.uuid' | translate}}</div>
+          <div class="value">{{card.card.cardUuid}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'dictionary.cln' | translate}}</div>
+          <div class="value">{{card.card.cln}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'dictionary.panSequenceNumber' | translate}}</div>
+          <div class="value">{{card.card.panSequenceNumber}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'dictionary.typeOfCard' | translate}}</div>
+          <div class="value">{{card.card.type}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+      <div class="column">
+        <div class="mss-input-like-container">
+          <div class="label">{{'dictionary.state' | translate}}</div>
+          <div class="value">{{card.card.state}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'dictionary.expiration' | translate}}</div>
+          <div class="value">{{card.card.expiration}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+        <div class="mss-input-like-container">
+          <div class="label">{{'cards.cardDetail.expirationDate' | translate}}</div>
+          <div class="value">{{card.card.expiryDate}}</div>
+        </div>
+        <div class="mss-validation-label"></div>
+      </div>
+    </div>
+
+    <ng-container *mssRoleIf="'accounts.read'">
+      <div *ngIf="card?.accounts.length === 0 && visibleTab.value === 'ACCOUNT'" class="no-account-text">
+        {{'cards.cardDetail.account.noAccount' | translate}}
+      </div>
+      <div class="data-table-container"
+           *ngIf="card?.accounts.length > 0 && visibleTab.value === 'ACCOUNT'">
+        <mss-tabs [items]="accountOptions" (itemChanged)="setSelectedAccountOption($event)" *ngIf="accountOptions.length > 1"></mss-tabs>
+        <div class="mss-title small" *ngIf="accountOptions.length <= 1">{{accountOptions[0].label}}</div>
+        <ngx-datatable #table [loadingIndicator]="transferLoading" [rows]="transferRows" [columnMode]="'force'"
+                       [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
+                       [limit]="rowLimit" [count]="totalItems"
+                       [externalSorting]="true" [externalPaging]="true"
+                       (sort)="getSortedTransfers($event)" (page)="setPage($event)">
+          <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <span [title]="value" class="mss-limited-text">{{value}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.trxUuid' | translate" prop="trxUuid">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <span [title]="value" class="mss-limited-text">{{value}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <div>{{getFormattedDate(value)}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <div>{{getFormattedDate(value)}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+              <div>{{value | currency:row['currency']['code']:true:'1.' + row['currency']['digits']}}</div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.type' | translate" prop="type"></ngx-datatable-column>
+          <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state"></ngx-datatable-column>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-curPage="curPage">
+              <mss-table-footer
+                [page]="curPage"
+                [rowsShown]="pageSize"
+                [rowCount]="rowCount"
+                (rowsShownChange)="changeLimit($event)"
+                (changePage)="table.onFooterPage($event)"
+                class="d-table-footer">
+              </mss-table-footer>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </ng-container>
+
+    <div class="section" *ngIf="visibleTab.value === 'PIN'">
+      <div class="column">
+        <form [formGroup]="cardForm" (ngSubmit)="toggleCardPin()">
+          <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.newPin' | translate"
+                     formControlName="newPin"></mss-input>
+          <div class="mss-validation-label"></div>
+          <mss-input class="pin-input" type="password" [label]="'cards.userCard.pin.confirmPin' | translate" formControlName="confirmPin">
+          </mss-input>
+          <div class="mss-validation-label">
+            <span *ngIf="this.cardForm.get('newPin').touched &&
       this.cardForm.get('confirmPin').touched &&
       (this.cardForm.get('newPin').value !== this.cardForm.get('confirmPin').value)">{{'cards.userCard.pin.pinDoNotMatch' | translate}}
-        </span>
+            </span>
+          </div>
+          <div class="pin-button-container">
+            <div class="message">{{'cards.userCard.pin.pinContain' | translate}}</div>
+            <mss-button class="card-view-button" [type]="'submit'" [label]="'cards.userCard.pin.changePin' | translate"
+                        [disabled]="disabledChange"></mss-button>
+          </div>
+        </form>
       </div>
-      <div class="pin-button-container">
-        <div class="message">{{'cards.userCard.pin.pinContain' | translate}}</div>
-        <mss-button class="card-view-button" [type]="'submit'" [label]="'cards.userCard.pin.changePin' | translate"
-                    [disabled]="disabledChange"></mss-button>
-      </div>
-    </form>
+      <div class="column"></div>
+    </div>
   </div>
 </div>
 

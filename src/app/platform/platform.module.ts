@@ -50,6 +50,7 @@ import { PaymentTopupsComponent } from './payment-topups/payment-topups.componen
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
 import { TopupsScheduleDetailComponent } from './topups-schedule-detail/topups-schedule-detail.component';
+import { EmployeeCardListComponent } from './employee-card-list/employee-card-list.component';
 
 @NgModule({
   imports: [
@@ -109,6 +110,7 @@ import { TopupsScheduleDetailComponent } from './topups-schedule-detail/topups-s
     FileUploadComponent,
     PaymentTopupsDetailComponent,
     TopupsScheduleDetailComponent,
+    EmployeeCardListComponent,
   ]
 })
 export class PlatformModule {}

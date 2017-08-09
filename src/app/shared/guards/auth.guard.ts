@@ -30,7 +30,8 @@ export const routeToRule: { [childRoute: string]: string } = {
   'reports': 'reports.read',
   'file-upload': 'fileUpload.read',
   'payment-topups': 'paymentTopups.read',
-  'card': 'card.read',
+  'employee-card': 'card.read',
+  'employee-cards': 'card.read',
   'topups-schedule': 'topupsSchedule.read'
 };
 

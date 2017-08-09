@@ -14,10 +14,11 @@ interface ToolbarItem {
 
 const TOOLBAR_ITEMS: ToolbarItem[] = [
   {path: 'dashboard', icon: 'dashboard'},
-  {path: 'card', icon: 'credit_card'},
+  {path: 'employee-card', icon: 'credit_card'},
   {path: 'settings', icon: 'settings'},
   {path: 'users', icon: 'group'},
   {path: 'cards', icon: 'markunread_mailbox'},
+  {path: 'employee-cards', icon: 'markunread_mailbox'},
   {path: 'card-groups', icon: 'markunread_mailbox'},
   {path: 'issuers', icon: 'card_giftcard'},
   {path: 'card-request', icon: 'markunread_mailbox'},
