@@ -24,6 +24,10 @@
       &.select-button-small {
         @include mss-select-button-small;
       }
+
+      .select-action-container {
+        @include mss-select-action-container;
+      }
     }
   }
 }

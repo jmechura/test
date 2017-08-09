@@ -29,7 +29,7 @@
                      formControlName="specificSymbol">
           </mss-input>
           <mss-select class="filter-item" [label]="'basic.state' | translate"
-                      [options]="stateOptions" formControlName="state">
+                      [options]="stateOptions" [clearAble]="true" formControlName="state">
           </mss-select>
         </div>
       </div>
@@ -38,11 +38,11 @@
         <div class="row wrapped">
           <mss-select class="filter-item" [label]="'dictionary.issuerCode' | translate"
                       *mssRoleIf="'paymentTopups.issuerCodeSelect'"
-                      [options]="issuerCodes" formControlName="issuerCode">
+                      [options]="issuerCodes" [clearAble]="true" formControlName="issuerCode">
           </mss-select>
           <mss-select class="filter-item" [label]="'dictionary.cardGroupCode' | translate"
                       *mssRoleIf="'paymentTopups.cardGroupCodeSelect'"
-                      [options]="cardGroupCodes" formControlName="cardGroupCode">
+                      [options]="cardGroupCodes" [clearAble]="true" formControlName="cardGroupCode">
           </mss-select>
         </div>
       </div>

@@ -1,4 +1,5 @@
 $form-item-width: 400px;
+$filter-item-width: 500px;
 
 .icon {
   cursor: pointer;
@@ -47,5 +48,29 @@ $form-item-width: 400px;
     &.visible {
       display: flex;
     }
+  }
+}
+
+.row {
+  display: flex;
+
+  &.wrapped {
+    flex-wrap: wrap;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .filter-item {
+    margin-right: 60px;
+    margin-bottom: 15px;
+    width: $filter-item-width;
   }
 }

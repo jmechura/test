@@ -152,10 +152,10 @@ export class TopupsScheduleComponent implements OnDestroy {
 
     this.filterForm.get('issuerCode').valueChanges.subscribe(
       (id) => {
-        if (id && id.length > 0) {
+        this.cardGroupCodes = [];
+        this.disableFormItem('cardGroupId');
+        if (id != null && id.length > 0) {
           this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
-          this.cardGroupCodes = [];
-          this.disableFormItem('cardGroupId');
         }
       }
     );

@@ -28,14 +28,18 @@
           <div class="column">
             <mss-select [disabled]="issuerCodes.length === 0"
                         [label]="'dictionary.issuerCode' | translate"
-                        [options]="issuerCodes" *mssRoleIf="'cards.issuerCodeSelect'"
+                        [options]="issuerCodes"
+                        [clearAble]="true"
+                        *mssRoleIf="'cards.issuerCodeSelect'"
                         [selectedOption]="requestModel.search.predicateObject.issuerCode"
                         (selectedOptionChange)="selectIssuerCode($event)"
                         class="form-item"></mss-select>
           </div>
           <div class="column">
             <mss-select [disabled]="cardGroupCodes.length === 0"
-                        [options]="cardGroupCodes" *mssRoleIf="'cards.cardGroupCodeSelect'"
+                        [options]="cardGroupCodes"
+                        [clearAble]="true"
+                        *mssRoleIf="'cards.cardGroupCodeSelect'"
                         [label]="'dictionary.cardGroupCode' | translate"
                         [(selectedOption)]="requestModel.search.predicateObject.cardGroupCode"
                         class="form-item"></mss-select>

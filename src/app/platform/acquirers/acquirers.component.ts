@@ -42,8 +42,8 @@ export class AcquirersComponent implements OnDestroy {
   tabsOptions: SelectItem[] = [];
   visibleTab: SelectItem;
   newAcquirerForm: FormGroup;
-  AcquirerSections = AcquirerSections;
   countries: SelectItem[] = [];
+  filterForm: FormGroup;
 
   constructor(private store: Store<AppStateModel>,
               private router: Router,
@@ -52,6 +52,12 @@ export class AcquirersComponent implements OnDestroy {
               private language: LanguageService,
               private route: ActivatedRoute,
               private toastr: ExtendedToastrService) {
+
+    this.filterForm = this.fb.group({
+      code: [''],
+      name: [''],
+    });
+
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
     this.store.select('acquirers').takeUntil(this.unsubscribe$).subscribe(
       (data: AcquirerState) => {
@@ -184,9 +190,20 @@ export class AcquirersComponent implements OnDestroy {
         numberOfPages: 0,
         start: (this.pageNumber - 1) * this.rowLimit
       },
-      search: {},
+      search: {
+        predicateObject: this.predicateObject
+      },
       sort: this.sortOptions ? this.sortOptions : {}
     };
   }
 
+  private get predicateObject(): AcquirerPredicateObject {
+    return {
+      ...this.filterForm.value
+    };
+  }
+
+  clearFilter(): void {
+    this.filterForm.reset();
+  }
 }

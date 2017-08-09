@@ -307,7 +307,9 @@ export class MerchantsComponent implements OnDestroy {
     this.networkCode = id;
     // clear it before new data arrives
     this.merchantCodes = [];
-    this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
+    if (id != null) {
+      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
+    }
   }
 
   clearFilter(): void {

@@ -936,6 +936,11 @@ $select-height: $input-height;
   height: 26px;
 }
 
+@mixin mss-select-action-container {
+  display: flex;
+  align-items: center;
+}
+
 @mixin mss-select-button-disabled {
   background-color: $disabled-color;
 }

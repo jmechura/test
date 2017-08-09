@@ -18,13 +18,13 @@
       <div class="content column" *ngIf="visibleFilter.value ===  OrgUnitFilterSections.NETWORK">
         <div class="row wrapped" *mssRoleIf="'orgUnits.networkCodeSelect'">
           <mss-input class="filter-item" formControlName="networkName" [label]="'orgUnits.dictionary.networkName' | translate"></mss-input>
-          <mss-select class="filter-item" formControlName="networkCode" [options]="networkCodes"
+          <mss-select class="filter-item" formControlName="networkCode" [options]="networkCodes" [clearAble]="true"
                       [label]="'dictionary.networkCode' | translate"></mss-select>
         </div>
         <div class="row wrapped" *mssRoleIf="'orgUnits.merchantCodeSelect'">
           <mss-input class="filter-item" formControlName="merchantName"
                      [label]="'orgUnits.dictionary.merchantName' | translate"></mss-input>
-          <mss-select class="filter-item" formControlName="merchantId" [options]="merchantCodes"
+          <mss-select class="filter-item" formControlName="merchantId" [options]="merchantCodes" [clearAble]="true"
                       [label]="'orgUnits.dictionary.merchantId' | translate"></mss-select>
         </div>
       </div>

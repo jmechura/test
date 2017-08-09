@@ -22,7 +22,8 @@
             class="filter-item"
             formControlName="state"
             [label]="'basic.state' | translate"
-            [options]="userStates"></mss-select>
+            [options]="userStates"
+            [clearAble]="true"></mss-select>
         </div>
       </div>
 
@@ -32,12 +33,14 @@
           <mss-select class="filter-item"
                       [label]="'dictionary.issuerCode' | translate"
                       [options]="itemsForSelect['ISSUER']"
+                      [clearAble]="true"
                       (selectedOptionChange)="selectCode($event, 'CARD_GROUP')"
                       *mssRoleIf="'users.issuerCodeSelect'"
                       formControlName="issuerCode"></mss-select>
           <mss-select class="filter-item"
                       [label]="'dictionary.cardGroupCode' | translate"
                       [options]="itemsForSelect['CARD_GROUP']"
+                      [clearAble]="true"
                       *mssRoleIf="'users.cardGroupCodeSelect'"
                       formControlName="cardGroupCode"></mss-select>
         </div>
@@ -49,18 +52,21 @@
           <mss-select class="filter-item"
                       [label]="'dictionary.networkCode' | translate"
                       [options]="itemsForSelect['NETWORK']"
+                      [clearAble]="true"
                       (selectedOptionChange)="selectCode($event, 'MERCHANT')"
                       *mssRoleIf="'users.networkCodeSelect'"
                       formControlName="networkCode"></mss-select>
           <mss-select class="filter-item"
                       [label]="'dictionary.merchantCode' | translate"
                       [options]="itemsForSelect['MERCHANT']"
+                      [clearAble]="true"
                       (selectedOptionChange)="selectCode($event, 'ORG_UNIT')"
                       *mssRoleIf="'users.merchantCodeSelect'"
                       formControlName="merchantCode"></mss-select>
           <mss-select class="filter-item"
                       [label]="'dictionary.orgUnitCode' | translate"
                       [options]="itemsForSelect['ORG_UNIT']"
+                      [clearAble]="true"
                       *mssRoleIf="'users.orgUnitCodeSelect'"
                       formControlName="orgUnitCode"></mss-select>
         </div>

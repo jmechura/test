@@ -472,7 +472,9 @@ export class DashboardComponent implements OnDestroy {
     this.pagination.search.predicateObject.issuerCode = id;
     // clear it before new data arrives
     this.cardGroupCodes = [];
-    this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
+    if (id != null) {
+      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
+    }
   }
 
   /**
@@ -483,7 +485,10 @@ export class DashboardComponent implements OnDestroy {
     this.pagination.search.predicateObject.networkCode = id;
     // clear it before new data arrives
     this.merchantCodes = [];
-    this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
+    this.orgUnitCodes = [];
+    if (id != null) {
+      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
+    }
   }
 
   /**
@@ -494,13 +499,16 @@ export class DashboardComponent implements OnDestroy {
     this.pagination.search.predicateObject.merchantCode = id;
     // clear it before new data arrives
     this.orgUnitCodes = [];
-    this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id});
+    if (id != null) {
+      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id});
+    }
   }
 
   getSortedTransactions(sortInfo: any): void {
     this.pagination.sort = {
       predicate: (sortInfo.sorts[0].prop === 'termDttm') ? `pk.${sortInfo.sorts[0].prop}` : sortInfo.sorts[0].prop,
-      reverse: sortInfo.sorts[0].dir === 'asc'};
+      reverse: sortInfo.sorts[0].dir === 'asc'
+    };
     this.getTransactions();
   }
 

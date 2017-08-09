@@ -260,7 +260,9 @@ export class CardListComponent implements OnDestroy {
     this.requestModel.search.predicateObject.issuerCode = id;
     // clear it before new data arrives
     this.cardGroupCodes = [];
-    this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
+    if (id != null) {
+      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
+    }
   }
 
   ngOnDestroy(): void {

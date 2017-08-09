@@ -20,12 +20,14 @@
                   [label]="'dictionary.issuerCode' | translate"
                   labelPosition="top"
                   [options]="issuerCodes"
+                  [clearAble]="true"
                   [selectedOption]="searchModel.search.predicateObject.issuerCode"
                   (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
       <mss-select [disabled]="cardGroupCodes.length === 0"
                   *mssRoleIf="'cardRequests.cardGroupCodeSelect'"
                   class="filter-item"
                   [options]="cardGroupCodes"
+                  [clearAble]="true"
                   [label]="'dictionary.cardGroupCode' | translate"
                   labelPosition="top"
                   [(selectedOption)]="searchModel.search.predicateObject.cardGroupCode"></mss-select>

@@ -248,12 +248,23 @@ export class TerminalComponent implements OnDestroy {
   }
 
   networkSelect(networkCode: string): void {
+    this.merchantCodes = [];
+    this.orgUnitCodes = [];
+    this.filterForm.get('merchantCode').reset();
+    this.filterForm.get('orgUnitCode').reset();
     this.filterForm.get('merchantCode').disable();
     this.filterForm.get('orgUnitCode').disable();
-    this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: networkCode});
+    if (networkCode != null) {
+      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: networkCode});
+    }
   }
 
   merchantSelect(merchantCode: string): void {
-    this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: merchantCode.split(';')[1]});
+    this.orgUnitCodes = [];
+    this.filterForm.get('orgUnitCode').reset();
+    this.filterForm.get('orgUnitCode').disable();
+    if (merchantCode != null) {
+      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: merchantCode.split(';')[1]});
+    }
   }
 }

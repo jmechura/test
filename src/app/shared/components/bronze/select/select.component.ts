@@ -76,7 +76,12 @@ export class SelectComponent implements ControlValueAccessor {
 
   clearInput(event: MouseEvent): void {
     event.stopPropagation();
-    typeof this.selectedOption === 'number' ? this.selectedOptionChange.emit(null) : this.selectedOptionChange.emit('');
+    this.selectedOption = null;
+    this.selectedOptionChange.emit(null);
+    if (this.changeCallback) {
+      this.changeCallback(null);
+      this.writeValue(null);
+    }
   }
 
   switchDropdown(): void {

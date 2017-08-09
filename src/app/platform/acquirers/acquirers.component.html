@@ -5,6 +5,24 @@
                 (click)="goToCreateAcquirer()"></mss-button>
   </div>
 
+  <!-- START FILTERS -->
+  <div class="row">
+    <div class="column" [formGroup]="filterForm">
+      <div class="content column">
+        <div class="row wrapped">
+          <mss-input class="filter-item" formControlName="code" [label]="'basic.code' | translate"></mss-input>
+          <mss-input class="filter-item" formControlName="name" [label]="'basic.name' | translate"></mss-input>
+        </div>
+      </div>
+    </div>
+    <mss-button class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+  </div>
+
+  <div class="mss-action-button">
+    <mss-button [label]="'basic.search' | translate" (click)="getAcquirers()"></mss-button>
+  </div>
+  <!-- END FILTERS -->
+
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="tableRows"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"

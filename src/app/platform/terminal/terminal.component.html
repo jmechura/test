@@ -11,6 +11,7 @@
       <mss-select *mssRoleIf="'terminals.networkCodeSelect'"
                   class="filter-item"
                   [options]="networkCodes"
+                  [clearAble]="true"
                   [label]="'dictionary.networkCode' | translate"
                   formControlName="networkCode"
                   labelPosition="top"
@@ -18,6 +19,7 @@
       <mss-select *mssRoleIf="'terminals.merchantCodeSelect'"
                   class="filter-item"
                   [options]="merchantCodes"
+                  [clearAble]="true"
                   [label]="'dictionary.merchantCode' | translate"
                   formControlName="merchantCode"
                   labelPosition="top"
@@ -25,6 +27,7 @@
       <mss-select *mssRoleIf="'terminals.orgUnitCodeSelect'"
                   class="filter-item"
                   [options]="orgUnitCodes"
+                  [clearAble]="true"
                   [label]="'dictionary.orgUnitCode' | translate"
                   formControlName="orgUnitCode"
                   labelPosition="top"></mss-select>

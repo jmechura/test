@@ -12,15 +12,15 @@
         <div class="row wrapped">
           <mss-input class="filter-item" [label]="'dictionary.specificSymbol' | translate" formControlName="specificSymbol"></mss-input>
           <mss-input class="filter-item" [label]="'dictionary.variableSymbol' | translate" formControlName="variableSymbol"></mss-input>
-          <mss-select class="filter-item" [options]="stateOptions"
+          <mss-select class="filter-item" [options]="stateOptions" [clearAble]="true"
                       [label]="'dictionary.state' | translate" formControlName="state"></mss-select>
         </div>
       </div>
       <div class="content" *ngIf="visibleSection.value === topUpsScheduleFilterSections[1]">
         <div class="row wrapped">
-          <mss-select class="filter-item" formControlName="issuerCode" [options]="issuerCodes"
+          <mss-select class="filter-item" formControlName="issuerCode" [options]="issuerCodes" [clearAble]="true"
                       [label]="'dictionary.issuerCode' | translate" *mssRoleIf="'topupsSchedule.issuerCodeSelect'"></mss-select>
-          <mss-select class="filter-item" formControlName="cardGroupId" [options]="cardGroupCodes"
+          <mss-select class="filter-item" formControlName="cardGroupId" [options]="cardGroupCodes" [clearAble]="true"
                       [label]="'dictionary.cardGroupCode' | translate" *mssRoleIf="'topupsSchedule.cardGroupCodeSelect'"></mss-select>
         </div>
       </div>

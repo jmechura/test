@@ -36,11 +36,13 @@
                       *mssRoleIf="'transactions.transactionType'"
                       [label]="'dictionary.transactionType' | translate"
                       [options]="types"
+                      [clearAble]="true"
                       [(selectedOption)]="pagination.search.predicateObject.transactionType"></mss-select>
           <mss-select [disabled]="states.length === 0"
                       *mssRoleIf="'transactions.transactionState'"
                       class="filter-item"
                       [options]="states"
+                      [clearAble]="true"
                       [label]="'dictionary.transactionState' | translate"
                       [(selectedOption)]="pagination.search.predicateObject.state"></mss-select>
         </div>
@@ -73,12 +75,14 @@
                       [label]="'dictionary.issuerCode' | translate"
                       labelPosition="top"
                       [options]="issuerCodes"
+                      [clearAble]="true"
                       [selectedOption]="pagination.search.predicateObject.issuerCode"
                       (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
           <mss-select [disabled]="cardGroupCodes.length === 0"
                       *mssRoleIf="'dashboard.cardGroupCodeSelect'"
                       class="filter-item"
                       [options]="cardGroupCodes"
+                      [clearAble]="true"
                       [label]="'dictionary.cardGroupCode' | translate"
                       labelPosition="top"
                       [(selectedOption)]="pagination.search.predicateObject.cardGroupCode"></mss-select>
@@ -88,6 +92,7 @@
                       [label]="'dictionary.networkCode' | translate"
                       labelPosition="top"
                       [options]="networkCodes"
+                      [clearAble]="true"
                       [selectedOption]="pagination.search.predicateObject.networkCode"
                       (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
           <mss-select [disabled]="merchantCodes.length === 0"
@@ -96,6 +101,7 @@
                       [label]="'dictionary.merchantCode' | translate"
                       labelPosition="top"
                       [options]="merchantCodes"
+                      [clearAble]="true"
                       [selectedOption]="pagination.search.predicateObject.merchantCode"
                       (selectedOptionChange)="selectMerchantCode($event)"></mss-select>
           <mss-select [disabled]="orgUnitCodes.length === 0"
@@ -104,6 +110,7 @@
                       [label]="'dictionary.orgUnitCode' | translate"
                       labelPosition="top"
                       [options]="orgUnitCodes"
+                      [clearAble]="true"
                       [(selectedOption)]="pagination.search.predicateObject.orgUnitCode"></mss-select>
         </div>
       </div>

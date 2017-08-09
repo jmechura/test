@@ -176,11 +176,11 @@ export class OrgUnitListComponent implements OnDestroy {
 
     this.filterForm.get('networkCode').valueChanges.subscribe(
       (code: string) => {
-        if (code && code.length > 0) {
+        this.merchantCodes = [];
+        this.filterForm.get('merchantId').reset();
+        this.filterForm.get('merchantId').disable();
+        if (code != null && code.length > 0) {
           this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: code});
-          this.merchantCodes = [];
-          this.filterForm.get('merchantId').patchValue('');
-          this.filterForm.get('merchantId').disable();
         }
       }
     );

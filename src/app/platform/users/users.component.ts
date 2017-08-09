@@ -338,15 +338,25 @@ export class UsersComponent implements OnDestroy {
   selectCode(value: string, type: string): void {
     switch (type) {
       case 'ORG_UNIT':
-        this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
+        this.itemsForSelect['ORG_UNIT'] = [];
+        if (value != null) {
+          this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
+        }
         break;
 
       case 'MERCHANT':
-        this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
+        this.itemsForSelect['MERCHANT'] = [];
+        this.itemsForSelect['ORG_UNIT'] = [];
+        if (value != null) {
+          this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
+        }
         break;
 
       case 'CARD_GROUP':
-        this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: value});
+        this.itemsForSelect['CARD_GROUP'] = [];
+        if (value != null) {
+          this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: value});
+        }
         break;
     }
   }

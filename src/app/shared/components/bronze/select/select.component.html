@@ -5,9 +5,11 @@
     <button (click)="switchDropdown()" [ngClass]="{'disabled': disabled, 'select-button-small': variant === 'small'}" [disabled]="disabled"
             type="button" class="select-button">
       <span>{{selectedOptionLabel}}</span>
-      <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
-      <div *ngIf="clearAble" (click)="clearInput($event)" class="clear-container">
-        <div class="clear">+</div>
+      <div class="select-action-container">
+        <img class="arrow" [ngClass]="{'rotate': show}" src="assets/icons/select-arrow.svg">
+        <div *ngIf="clearAble" (click)="clearInput($event)" class="clear-container">
+          <div class="clear">+</div>
+        </div>
       </div>
     </button>
     <div *ngIf="options && options.length > 0" [ngClass]="{'show': show}" class="select-content">

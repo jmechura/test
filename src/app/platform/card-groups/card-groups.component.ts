@@ -224,7 +224,9 @@ export class CardGroupsComponent implements OnDestroy {
 
   issuerSelect(issuerCode: string): void {
     this.filterForm.get('cardGroupCode').disable();
-    this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: issuerCode});
+    if (issuerCode != null) {
+      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: issuerCode});
+    }
   }
 
   goToCreate(): void {

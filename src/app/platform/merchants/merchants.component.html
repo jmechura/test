@@ -28,12 +28,14 @@
                       class="filter-item"
                       [label]="'dictionary.networkCode' | translate"
                       [options]="networkCodes"
+                      [clearAble]="true"
                       [selectedOption]="networkCode"
                       (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
           <mss-select [disabled]="merchantCodes.length === 0"
                       *mssRoleIf="'merchants.merchantCodeSelect'"
                       class="filter-item"
                       [options]="merchantCodes"
+                      [clearAble]="true"
                       [label]="'dictionary.merchantCode' | translate"
                       [(selectedOption)]="merchantCode"></mss-select>
         </div>

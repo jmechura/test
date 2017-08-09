@@ -31,14 +31,18 @@
       <div class="content column" *ngIf="visibleSection.value ===  cardFilterSection[1]">
         <div class="row wrapped">
           <div class="column">
-            <mss-select [options]="issuerCodes" *mssRoleIf="'cardGroups.issuerCodeSelect'"
+            <mss-select [options]="issuerCodes"
+                        [clearAble]="true"
+                        *mssRoleIf="'cardGroups.issuerCodeSelect'"
                         formControlName="issuerCode"
                         [label]="'dictionary.issuerCode' | translate"
                         (selectedOptionChange)="issuerSelect($event)"
                         class="form-item"></mss-select>
           </div>
           <div class="column">
-            <mss-select [options]="cardGroupCodes" *mssRoleIf="'cardGroups.cardGroupCodeSelect'"
+            <mss-select [options]="cardGroupCodes"
+                        [clearAble]="true"
+                        *mssRoleIf="'cardGroups.cardGroupCodeSelect'"
                         formControlName="cardGroupCode"
                         [label]="'dictionary.cardGroupCode' | translate"
                         class="form-item"></mss-select>
