@@ -1,24 +1,19 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStateModel } from '../../shared/models/app-state.model';
-import { Router } from '@angular/router';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../shared/services/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { StateModel } from '../../shared/models/state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { TemplateModel, TemplatePredicateObject } from '../../shared/models/template.model';
 import { templatesActions } from '../../shared/reducers/template.reducer';
-import { userAuthorityActions } from '../../shared/reducers/user-authorities.reducer';
 import { userResourceActions } from '../../shared/reducers/user-resource.reducer';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
-import { SystemModel } from '../../shared/models/system.model';
-import { systemsActions } from '../../shared/reducers/system.reducer';
-import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 
-interface Role {
-  value: string;
-}
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
+const TEMPLATE_ROUTE = 'platform/templates';
 
 @Component({
   selector: 'mss-templates',
@@ -29,48 +24,38 @@ export class TemplatesComponent implements OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
   loading = true;
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
+  totalItems = 0;
+  pageNumber = 0;
+  sortOptions: {
+    predicate: string;
+    reverse: boolean
+  };
   templates: TemplateModel[] = [];
   resourcesArray: SelectItem[] = [];
-  rolesArray: SelectItem[] = [];
-  systemsArray: SelectItem[] = [];
-  newTemplateForm: FormGroup;
-  newTemplateModalShowing = false;
 
-  templatesRequest: RequestOptions<TemplatePredicateObject> = {
-    pagination: {
-      number: 5,
-      numberOfPages: 0,
-      start: 0,
-    },
-    search: {
-      predicateObject: {},
-    },
-    sort: {}
-  };
-  rowLimitOptions: SelectItem[] = [{value: 5}, {value: 10}, {value: 15}, {value: 20}];
-  totalElements = 0;
+  filterForm: FormGroup;
+
 
   constructor(private store: Store<AppStateModel>,
               private router: Router,
               private fb: FormBuilder,
-              private api: ApiService,
-              private toastr: ExtendedToastrService) {
-    this.newTemplateForm = fb.group({
-      code: ['', Validators.required],
-      description: [''],
-      name: ['', Validators.required],
-      resource: [''],
-      resources: fb.array([
-        fb.group({
-          resource: '',
-          roles: fb.array([
-            ''
-          ])
-        })
-      ]),
+              private route: ActivatedRoute) {
+
+    this.filterForm = this.fb.group({
+      name: [''],
       system: [''],
-      systemReceiver: ['']
+      resource: [{value: null, disabled: true}]
     });
+
+    this.route.params.takeUntil(this.unsubscribe$).subscribe(
+      (params: ListRouteParamsModel) => {
+        this.pageNumber = Math.max(Number(params.page) || 0, 1);
+        this.rowLimit = ITEM_LIMIT_OPTIONS.find(limit => limit === Number(params.limit)) || ITEM_LIMIT_OPTIONS[0];
+        this.getTemplates();
+      }
+    );
+
     this.store.select('templates').takeUntil(this.unsubscribe$).subscribe(
       ({data, error, loading}: StateModel<Pagination<TemplateModel>>) => {
         this.loading = loading;
@@ -80,87 +65,24 @@ export class TemplatesComponent implements OnDestroy {
         }
         if (data != null) {
           this.templates = data.content;
-          this.totalElements = data.totalElements;
+          this.totalItems = data.totalElements;
         }
       }
     );
-    this.store.select('userAuthority').takeUntil(this.unsubscribe$).subscribe(
-      ({data, error}: StateModel<string[]>) => {
-        if (error) {
-          console.error('User authority API call has returned error', error);
-          return;
-        }
-        if (data != null) {
-          this.rolesArray = data.map(val => ({value: val}));
-          this.newTemplateForm.patchValue({
-            resources: [{roles: [this.rolesArray[0].value]}]
-          });
-        }
-      }
-    );
+
     this.store.select('userResource').takeUntil(this.unsubscribe$).subscribe(
-      ({data, error}: StateModel<string[]>) => {
+      ({data, error, loading}: StateModel<string[]>) => {
         if (error) {
           console.error('User resource API call has returned error', error);
           return;
         }
-        if (data != null) {
+        if (data != null && !loading) {
           this.resourcesArray = data.map(val => ({value: val}));
-          this.newTemplateForm.patchValue({
-            resource: this.resourcesArray[0].value,
-            resources: [{resource: this.resourcesArray[0].value}]
-          });
+          this.filterForm.get('resource').enable();
         }
       }
     );
-    this.store.select('systems').takeUntil(this.unsubscribe$).subscribe(
-      ({data, error}: StateModel<SystemModel[]>) => {
-        if (error) {
-          console.error('System API call has returned error', error);
-          return;
-        }
-        if (data != null) {
-          this.systemsArray = data.map(val => ({value: val.name}));
-          this.newTemplateForm.patchValue({
-            system: this.systemsArray[0].value,
-            systemReceiver: this.systemsArray[0].value,
-          });
-        }
-      }
-    );
-    this.store.dispatch({type: templatesActions.TEMPLATES_GET_REQUEST, payload: this.templatesRequest});
-    this.store.dispatch({type: userAuthorityActions.USER_AUTHORITY_GET_REQUEST});
     this.store.dispatch({type: userResourceActions.USER_RESOURCE_GET_REQUEST});
-    this.store.dispatch({type: systemsActions.SYSTEMS_GET_REQUEST});
-  }
-
-  get resources(): FormArray {
-    return this.newTemplateForm.get('resources') as FormArray;
-  };
-
-  getRoles(res: FormControl): FormArray {
-    return res.get('roles') as FormArray;
-  }
-
-  addResource(): void {
-    this.resources.push(this.fb.group({
-      resource: this.resourcesArray[0].value,
-      roles: this.fb.array([
-        this.rolesArray[0].value
-      ])
-    }));
-  }
-
-  addRole(res: FormControl): void {
-    this.getRoles(res).push(new FormControl(this.rolesArray[0].value));
-  }
-
-  removeResource(index: number): void {
-    this.resources.removeAt(index);
-  }
-
-  removeRole(res: FormControl, index: number): void {
-    this.getRoles(res).removeAt(index);
   }
 
   ngOnDestroy(): void {
@@ -168,16 +90,12 @@ export class TemplatesComponent implements OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  toggleNewTemplateModal(): void {
-    this.newTemplateModalShowing = !this.newTemplateModalShowing;
-  }
-
   changeLimit(limit: number): void {
-    if (this.templatesRequest.pagination.number === limit) {
-      return;
-    }
-    this.templatesRequest.pagination.number = limit;
-    this.store.dispatch({type: templatesActions.TEMPLATES_GET_REQUEST, payload: this.templatesRequest});
+    const routeParams: ListRouteParamsModel = {
+      page: '1',
+      limit: String(limit)
+    };
+    this.router.navigate([`${TEMPLATE_ROUTE}`, routeParams]);
   }
 
   onSelect({selected}: { selected: TemplateModel[] }): void {
@@ -187,36 +105,37 @@ export class TemplatesComponent implements OnDestroy {
   }
 
   setPage(pageInfo: any): void {
-    this.templatesRequest.pagination.start = pageInfo.offset * this.templatesRequest.pagination.number;
-    this.store.dispatch({type: templatesActions.TEMPLATES_GET_REQUEST, payload: this.templatesRequest});
+    const routeParams: ListRouteParamsModel = {
+      page: String(pageInfo.offset + 1),
+      limit: String(this.rowLimit)
+    };
+    this.router.navigate([`${TEMPLATE_ROUTE}`, routeParams]);
   }
 
-  identifyRole(index: number): number {
-    return index;
+  getTemplates(): void {
+    this.store.dispatch({type: templatesActions.TEMPLATES_GET_REQUEST, payload: this.requestModel});
   }
 
-  identifyResource(index: number): number {
-    return index;
+  clearFilter(): void {
+    this.filterForm.reset();
   }
 
-  addTemplate(): void {
-    this.api.post('/users/templates', this.newTemplateForm.value).subscribe(
-      () => {
-        this.toastr.success('toastr.success.createTemplate');
-        this.newTemplateForm.reset();
-        this.store.dispatch({type: templatesActions.TEMPLATES_GET_REQUEST, payload: this.templatesRequest});
+  private get requestModel(): RequestOptions<TemplatePredicateObject> {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: (this.pageNumber - 1 ) * this.rowLimit
       },
-      error => {
-        this.toastr.error(error);
-        console.error('Create template fail', error);
-      }
-    );
-    this.toggleNewTemplateModal();
+      search: {
+        predicateObject: this.predicateObject,
+      },
+      sort: this.sortOptions ? this.sortOptions : {}
+    };
   }
 
-  isPresent(value: string): boolean {
-    const item = this.newTemplateForm.get(value);
-    return item.touched && item.errors != null && item.errors.required;
+  private get predicateObject(): TemplatePredicateObject {
+    return this.filterForm.value;
   }
 
 }

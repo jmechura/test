@@ -10,6 +10,10 @@ import { importTypeActions } from '../../shared/reducers/import-type.reducer';
 import { ApiService } from '../../shared/services/api.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 import { UnsubscribeSubject } from '../../shared/utils';
+import { StateModel } from '../../shared/models/state.model';
+import { SelectItem } from '../../shared/components/bronze/select/select.component';
+import { LanguageService } from '../../shared/services/language.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 const IMPORT_ROUTE = 'platform/imports';
 const IMPORT_ENDPOINT = '/imports';
@@ -36,13 +40,23 @@ export class ImportsComponent implements OnDestroy {
   loading = false;
   deletingName: string;
   deleteModalVisible = false;
+  importTypes: SelectItem[] = [];
+  filterForm: FormGroup;
 
   constructor(private store: Store<AppStateModel>,
               private route: ActivatedRoute,
               private api: ApiService,
               private router: Router,
+              private fb: FormBuilder,
+              private language: LanguageService,
               private toastr: ExtendedToastrService) {
     this.store.dispatch({type: importTypeActions.IMPORT_TYPE_GET_REQUEST});
+
+    this.filterForm = this.fb.group({
+      name: [''],
+      type: [null]
+    });
+
     this.store.select('imports').takeUntil(this.unsubscribe$).subscribe(
       (data: ImportState) => {
         this.loading = data.loading;
@@ -62,6 +76,21 @@ export class ImportsComponent implements OnDestroy {
         this.pageNumber = Math.max(Number(params.page) || 0, 1);
         this.rowLimit = ITEM_LIMIT_OPTIONS.find(limit => limit === Number(params.limit)) || ITEM_LIMIT_OPTIONS[0];
         this.getImports();
+      }
+    );
+
+    this.store.select('importTypes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting imports.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.importTypes = data.data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.importTypes.${item}`)
+          }));
+        }
       }
     );
   }
@@ -87,6 +116,10 @@ export class ImportsComponent implements OnDestroy {
     event.stopPropagation();
     this.deletingName = name;
     this.deleteModalVisible = true;
+  }
+
+  clearFilter(): void {
+    this.filterForm.reset();
   }
 
   deleteImport(): void {
@@ -135,8 +168,18 @@ export class ImportsComponent implements OnDestroy {
         numberOfPages: 0,
         start: (this.pageNumber - 1) * this.rowLimit
       },
-      search: {},
+      search: {
+        predicateObject: this.predicateObject
+      },
       sort: this.sortOption ? this.sortOption : {}
+    };
+  }
+
+  private get predicateObject(): ImportPredicateObject {
+    const reportType = this.filterForm.get('type').value;
+    return {
+      name: this.filterForm.get('name').value,
+      ...(reportType && reportType.length > 0 ? {type: reportType} : {})
     };
   }
 

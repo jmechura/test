@@ -7,10 +7,35 @@
                 routerLink="/platform/templates/add"></mss-button>
   </div>
 
+  <!--Filters-->
+  <div [formGroup]="filterForm">
+    <div class="row">
+      <div class="column">
+        <div class="row wrapped">
+          <mss-input class="filter-item" formControlName="name"
+                     [label]="'basic.name' | translate" labelPosition="top">
+          </mss-input>
+          <mss-input class="filter-item" formControlName="system"
+                     [label]="'templates.dictionary.system' | translate" labelPosition="top">
+          </mss-input>
+          <mss-select class="filter-item" formControlName="resource" [options]="resourcesArray"
+                      [label]="'basic.resource' | translate" labelPosition="top" [clearAble]="true">
+          </mss-select>
+        </div>
+      </div>
+      <div class="column">
+        <mss-button class="mss-action-button clear" (click)="clearFilter()" [label]="'basic.clearFilter' | translate"></mss-button>
+      </div>
+    </div>
+    <div class="mss-buttons-row start">
+      <mss-button class="mss-action-button" (click)="getTemplates()" [label]="'basic.search' | translate"></mss-button>
+    </div>
+  </div>
+
   <!--template data table-->
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [externalPaging]="true"
-                   [count]="totalElements" [limit]="templatesRequest.pagination.number" [rows]="templates"
+                   [count]="totalItems" [limit]="rowLimit" [rows]="templates"
                    (page)="setPage($event)"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">>
 
@@ -40,14 +65,11 @@
 
       <ngx-datatable-footer>
         <ng-template
-          ngx-datatable-footer-template
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-curPage="curPage">
+          ngx-datatable-footer-template>
           <mss-table-footer
-            [page]="curPage"
-            [rowsShown]="pageSize"
-            [rowCount]="rowCount"
+            [page]="pageNumber"
+            [rowsShown]="rowLimit"
+            [rowCount]="totalItems"
             (rowsShownChange)="changeLimit($event)"
             (changePage)="table.onFooterPage($event)"
             class="d-table-footer">

@@ -8,5 +8,5 @@ export interface ImportModel {
 
 export interface ImportPredicateObject {
   name: string;
-  type: string;
+  type?: string;
 }

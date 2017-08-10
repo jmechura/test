@@ -16,8 +16,7 @@ export interface ResourceModel {
 }
 
 export interface TemplatePredicateObject {
-  code?: string;
   name?: string;
-  networkCode?: string;
-  networkName?: string;
+  resource?: string;
+  system?: string;
 }

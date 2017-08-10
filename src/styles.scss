@@ -110,6 +110,10 @@ input {
   justify-content: flex-end;
   margin-top: 12px;
   align-items: center;
+
+  &.start {
+    justify-content: flex-start;
+  }
 }
 
 .mss-header-cell-align-right {

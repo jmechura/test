@@ -7,5 +7,5 @@ export interface AdminReportModel {
 
 export interface AdminReportPredicateObject {
   name: string;
-  type: string;
+  type?: string;
 }

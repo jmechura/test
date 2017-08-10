@@ -1,3 +1,28 @@
+$filter-item-width: 500px;
+
 .icon {
   cursor: pointer;
+}
+
+.row {
+  display: flex;
+
+  &.filter-container {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &.wrapped {
+    flex-wrap: wrap;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .filter-item {
+    margin-right: 30px;
+    width: $filter-item-width;
+    margin-bottom: 5px;
+  }
 }

@@ -13,6 +13,7 @@ import { AppStateModel } from '../../shared/models/app-state.model';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const REPORT_ROUTE = 'platform/admin-reports';
@@ -40,14 +41,22 @@ export class AdminReportsComponent implements OnDestroy {
   tableRows: AdminReportModel[] = [];
   deleteModalVisible = false;
   deletingName: string;
+  filterForm: FormGroup;
 
   constructor(private store: Store<AppStateModel>,
               private language: LanguageService,
               private router: Router,
               private route: ActivatedRoute,
               private api: ApiService,
+              private fb: FormBuilder,
               private toastr: ExtendedToastrService) {
     this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
+
+    this.filterForm = this.fb.group({
+      name: [''],
+      type: [null]
+    });
+
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: ListRouteParamsModel) => {
         this.pageNumber = Math.max(Number(params.page) || 0, 1);
@@ -93,6 +102,10 @@ export class AdminReportsComponent implements OnDestroy {
   getSortedReports(sortInfo: any): void {
     this.sortOptions = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
     this.getReports();
+  }
+
+  clearFilter(): void {
+    this.filterForm.reset();
   }
 
   showDeleteModal(event: MouseEvent, name: string): void {
@@ -163,8 +176,18 @@ export class AdminReportsComponent implements OnDestroy {
         numberOfPages: 0,
         start: (this.pageNumber - 1 ) * this.rowLimit
       },
-      search: {},
+      search: {
+        predicateObject: this.predicateObject
+      },
       sort: this.sortOptions ? this.sortOptions : {}
+    };
+  }
+
+  private get predicateObject(): AdminReportPredicateObject {
+    const reportType = this.filterForm.get('type').value;
+    return {
+      name: this.filterForm.get('name').value,
+      ...(reportType && reportType.length > 0 ? {type: reportType} : {})
     };
   }
 

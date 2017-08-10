@@ -5,6 +5,21 @@
                 (click)="goToCreate()"></mss-button>
   </div>
 
+  <div [formGroup]="filterForm">
+    <div class="row wrapped filter-container">
+      <div class="row wrapped">
+        <mss-input class="filter-item" formControlName="name"
+                   [label]="'basic.name' | translate" labelPosition="top"></mss-input>
+        <mss-select class="filter-item" formControlName="type" [options]="importTypes"
+                    [label]="'dictionary.type' | translate" labelPosition="top" [clearAble]="true"></mss-select>
+      </div>
+      <mss-button class="mss-action-button" (click)="clearFilter()" [label]="'basic.clearFilter' | translate"></mss-button>
+    </div>
+    <div class="mss-buttons-row start">
+      <mss-button class="mss-action-button" (click)="getImports()" [label]="'basic.search' | translate"></mss-button>
+    </div>
+  </div>
+
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="tableRows"
                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
