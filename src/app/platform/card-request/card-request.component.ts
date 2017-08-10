@@ -41,7 +41,7 @@ export class CardRequestComponent {
       predicateObject: {
         cardGroupCode: '',
         issuerCode: '',
-        state: 'NEW'
+        state: ''
       }
     },
     sort: {}
@@ -191,7 +191,7 @@ export class CardRequestComponent {
     this.fromDate = null;
     this.toDate = null;
     this.searchModel.search.predicateObject.cardGroupCode = '';
-    this.searchModel.search.predicateObject.state = 'NEW';
+    this.searchModel.search.predicateObject.state = '';
     this.searchModel.search.predicateObject.issuerCode = '';
   }
 

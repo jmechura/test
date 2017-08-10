@@ -2,6 +2,7 @@
 
 $header-text-color: #4a4a4a;
 $calendar-text-color: #747474;
+$item-width: 400px;
 
 .issuer-card-container {
   padding: 40px 50px;
@@ -12,17 +13,29 @@ $calendar-text-color: #747474;
   justify-content: space-between;
   margin-bottom: 25px;
 
-  .filters {
+  .filters-column {
     display: flex;
+    flex-direction: column;
 
-    .filter-item {
-      margin-right: 30px;
+    .filters-row {
+      display: flex;
+      flex-wrap: wrap;
 
-      .label {
-        margin-bottom: 10px;
+      .filter-item {
+        margin-right: 30px;
+        margin-bottom: 15px;
+        width: $item-width;
+
+        .label {
+          margin-bottom: 10px;
+        }
       }
     }
   }
+}
+
+.bottom {
+  margin-top: 29px;
 }
 
 .table-container {

@@ -11,13 +11,13 @@
       <div class="content" *ngIf="visibleFilter.value === transactionFilters[0]">
         <div class="row wrapped">
           <div class="calendar-select filter-item">
-            <span class="label">{{'dictionary.from' | translate}}</span>
-            <mss-date-time-picker-input [pickedDate]="fromDate"
+            <div class="label">{{'dictionary.from' | translate}}</div>
+            <mss-date-time-picker-input [pickedDate]="fromDate" class="calendar-input"
                                         (pickedDateChange)="changeFromDate($event)"></mss-date-time-picker-input>
           </div>
           <div class="calendar-select filter-item">
-            <span class="label">{{'dictionary.to' | translate}}</span>
-            <mss-date-time-picker-input [pickedDate]="toDate"
+            <div class="label">{{'dictionary.to' | translate}}</div>
+            <mss-date-time-picker-input [pickedDate]="toDate" class="calendar-input"
                                         (pickedDateChange)="changeToDate($event)"></mss-date-time-picker-input>
           </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="row wrapped">
           <mss-input [label]="'dictionary.responseCode' | translate"
                      class="filter-item"
-                     *mssRoleIf="'transactions.responseCode'"
+                     *mssRoleIf="'admin.view'"
                      [(value)]="pagination.search.predicateObject.responseCode">
           </mss-input>
           <mss-select [disabled]="types.length === 0"

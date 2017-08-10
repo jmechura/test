@@ -41,6 +41,11 @@ $filter-label-width: 136px;
 
     .label {
       width: $filter-label-width;
+      margin-bottom: 10px;
+    }
+
+    .calendar-input {
+      width: $filter-item-width - $filter-label-width;
     }
   }
 }
@@ -50,6 +55,7 @@ $filter-label-width: 136px;
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
   color: $calendar-text-color;
 }
 

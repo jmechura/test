@@ -462,7 +462,7 @@ $date-picker-selected-date-color: $primary-color;
 // ---------------- date picker input ----------------
 
 $date-input-height: 46px;
-$date-input-width: 212px;
+$date-input-width: 100%;
 $date-picker-icon-background-color: #4a4a4a;
 
 @mixin mss-date-picker-input-container {
