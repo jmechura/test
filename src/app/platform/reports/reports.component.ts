@@ -237,35 +237,33 @@ export class ReportsComponent implements OnDestroy {
 
     this.filterForm.get('networkCode').valueChanges.subscribe(
       (id) => {
-        if (id && id.length > 0) {
+        this.merchantCodes = [];
+        this.orgUnitCodes = [];
+        this.disableFormItem('merchantCode');
+        this.disableFormItem('orgUnitCode');
+        if (id != null && id.length > 0) {
           this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
-          this.merchantCodes = [];
-          this.orgUnitCodes = [];
-          this.disableFormItem('merchantCode');
-          this.disableFormItem('orgUnitCode');
         }
       }
     );
 
     this.filterForm.get('merchantCode').valueChanges.subscribe(
       (id) => {
+        this.orgUnitCodes = [];
+        this.disableFormItem('orgUnitCode');
         if (id && id.length > 0) {
           this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id});
-          this.orgUnitCodes = [];
-          this.disableFormItem('orgUnitCode');
         }
-
       }
     );
 
     this.filterForm.get('issuerCode').valueChanges.subscribe(
       (id) => {
+        this.cardGroupCodes = [];
+        this.disableFormItem('cardGroupCode');
         if (id && id.length > 0) {
           this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
-          this.cardGroupCodes = [];
-          this.disableFormItem('cardGroupCode');
         }
-
       }
     );
   }

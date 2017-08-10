@@ -684,6 +684,7 @@ $input-width: 100%;
 $border-color: #979797;
 
 $input-label-width: 136px;
+$input-container-min-width: 364px;
 
 @mixin mss-input-container {
   display: flex;
@@ -708,6 +709,7 @@ $input-label-width: 136px;
 @mixin mss-input {
   height: $input-height;
   width: $input-width;
+  min-width: $input-container-min-width;
   padding: 13px 21px;
   border: 1px solid $border-color;
   border-radius: 5px;
@@ -948,6 +950,7 @@ $select-height: $input-height;
 
 @mixin mss-select-container {
   display: flex;
+  min-width: $input-container-min-width;
 
   &.left {
     align-items: center;
