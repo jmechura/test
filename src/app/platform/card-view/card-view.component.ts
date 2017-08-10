@@ -16,8 +16,6 @@ import { Pagination } from '../../shared/models/pagination.model';
 import { Transfer } from '../../shared/models/transfer.model';
 import { transfersActions } from '../../shared/reducers/transfers.reducer';
 import { RoleService } from '../../shared/services/role.service';
-import { AppConfigService } from '../../shared/services/app-config.service';
-import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -80,21 +78,14 @@ export class CardViewComponent implements OnDestroy {
   pageNumber = 0;
   totalItems = 0;
 
-  dateFormat = 'DD. MM. YYYY';
-
   constructor(private fb: FormBuilder,
               private crypto: EncryptPinBlockService,
               private store: Store<AppStateModel>,
               private api: ApiService,
               private roles: RoleService,
               private route: ActivatedRoute,
-              private configService: AppConfigService,
               private language: LanguageService,
               private toastr: ExtendedToastrService) {
-
-    this.configService.get('dateFormat').subscribe(
-      format => this.dateFormat = format
-    );
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: { uuid: string }) => {
@@ -237,10 +228,6 @@ export class CardViewComponent implements OnDestroy {
 
   toggleCardPin(): void {
     this.cardPinChangeVisible = !this.cardPinChangeVisible;
-  }
-
-  getFormattedDate(date: Date | string): string {
-    return moment(date).format(this.dateFormat);
   }
 
   setSelectedAccountOption(item: SelectItem): void {

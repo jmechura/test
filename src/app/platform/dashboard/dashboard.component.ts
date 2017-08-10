@@ -22,7 +22,6 @@ import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { ProfileModel } from '../../shared/models/profile.model';
-import * as moment from 'moment';
 import { AppConfigService } from '../../shared/services/app-config.service';
 
 const TRANSACTIONS_FILTERS = ['DATE', 'LOCATION', 'PAYMENT', 'TRANSACTION'];
@@ -151,8 +150,6 @@ export class DashboardComponent implements OnDestroy {
 
   showLocationFilterTab = false;
 
-  dateFormat = 'DD. MM. YYYY';
-
   transactionTypeIcons: { [ key: string]: string };
 
   readonly transactionFilters = TRANSACTIONS_FILTERS;
@@ -164,10 +161,6 @@ export class DashboardComponent implements OnDestroy {
               private configService: AppConfigService) {
 
     this.visibleFilter = this.filterOptions[0];
-
-    this.configService.get('dateFormat').subscribe(
-      format => this.dateFormat = format
-    );
 
     this.configService.get('transactionTypeIcons').subscribe(
       icons => this.transactionTypeIcons = icons
@@ -510,10 +503,6 @@ export class DashboardComponent implements OnDestroy {
       reverse: sortInfo.sorts[0].dir === 'asc'
     };
     this.getTransactions();
-  }
-
-  getFormatedDate(date: Date | string): string {
-    return moment(date).format(this.dateFormat);
   }
 
   /**

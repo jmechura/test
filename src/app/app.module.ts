@@ -177,6 +177,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ExtendedToastrService } from './shared/services/extended-toastr.service';
 import { employeeCardsReducer } from './shared/reducers/employee-cards.reducer';
 import { EmployeeCardsEffect } from './shared/effects/employee-cards.effect';
+import { PipesModule } from './shared/pipes/pipes.module';
 
 export function createTranslateLoader(http: Http): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/languages/', '.json');
@@ -196,6 +197,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     BronzeComponentsModule,
     SilverComponentsModule,
     GoldComponentsModule,
+    PipesModule,
     StoreModule.provideStore({
       card: cardReducer,
       addressType: addressTypeReducer,

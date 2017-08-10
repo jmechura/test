@@ -67,12 +67,12 @@
       </ngx-datatable-column>
       <ngx-datatable-column prop="created" [name]="'paymentTopups.createdAt' | translate" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-          <div>{{getFormatedDate(value)}}</div>
+          <div>{{value | mssDate}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column prop="settlemntDate" [name]="'paymentTopups.settlementDate' | translate" [sortable]="false">
         <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-          <div>{{getFormatedDate(value)}}</div>
+          <div>{{value | mssDate}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column prop="variableSymbol" [name]="'dictionary.variableSymbol' | translate" [sortable]="false">

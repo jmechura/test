@@ -14,7 +14,7 @@
       </div>
       <div class="mss-input-like-container item">
         <div class="label">{{'dictionary.terminalDate' | translate}}</div>
-        <div class="value">{{transaction.termDttm}}</div>
+        <div class="value">{{transaction.termDttm | mssDate}}</div>
       </div>
       <div class="mss-input-like-container item">
         <div class="label">{{'dictionary.serverDate' | translate}}</div>
@@ -175,7 +175,11 @@
   <div class="data-table-container">
     <ngx-datatable columnMode="force" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [rows]="transfers">.
       <ngx-datatable-column [name]="'dictionary.uuid' | translate" prop="uuid"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'transactions.detail.transfers.dttm' | translate" prop="dttm"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'transactions.detail.transfers.dttm' | translate" prop="dttm">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          {{value | mssDate}}
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount"></ngx-datatable-column>
       <ngx-datatable-column [name]="'transactions.detail.transfers.type' | translate" prop="type"></ngx-datatable-column>
       <ngx-datatable-column [name]="'transactions.detail.transfers.state' | translate" prop="state"></ngx-datatable-column>

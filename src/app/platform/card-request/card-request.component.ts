@@ -17,8 +17,6 @@ import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
-import { AppConfigService } from '../../shared/services/app-config.service';
-import * as moment from 'moment';
 
 const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
 const API_ENDPOINT = '/cards/requests';
@@ -59,18 +57,11 @@ export class CardRequestComponent {
   modalDisplaying: 'confirm' | 'decline';
   confirmDeclineUuid: string;
 
-  dateFormat = 'DD. MM. YYYY';
-
   constructor(private store: Store<AppStateModel>,
               private router: Router,
               private language: LanguageService,
               private api: ApiService,
-              private roles: RoleService,
-              private configService: AppConfigService) {
-
-    this.configService.get('dateFormat').subscribe(
-      format => this.dateFormat = format
-    );
+              private roles: RoleService) {
 
     this.store.dispatch({type: cardRequestStateActions.CARD_REQUEST_STATE_GET_REQUEST});
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
@@ -305,9 +296,4 @@ export class CardRequestComponent {
       }
     );
   }
-
-  getFormattedDate(date: Date | string): string {
-    return moment(date).format(this.dateFormat);
-  }
-
 }

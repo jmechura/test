@@ -6,8 +6,6 @@ import { Store } from '@ngrx/store';
 import { paymentTopupsDetailActions } from '../../shared/reducers/payment-topups-detail.reducer';
 import { PaymentTopupsModel } from '../../shared/models/payment-topups.model';
 import { StateModel } from '../../shared/models/state.model';
-import * as moment from 'moment';
-import { AppConfigService } from '../../shared/services/app-config.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { ApiService } from '../../shared/services/api.service';
@@ -26,7 +24,6 @@ export class PaymentTopupsDetailComponent {
   private unsubscribe$ = new UnsubscribeSubject();
   paymentTopup: PaymentTopupsModel;
   isEditing = false;
-  dateFormat = 'DD. MM. YYYY';
 
   paymentTopupsForm: FormGroup;
 
@@ -34,7 +31,6 @@ export class PaymentTopupsDetailComponent {
 
   constructor(private route: ActivatedRoute,
               private store: Store<AppStateModel>,
-              private configService: AppConfigService,
               private language: LanguageService,
               private api: ApiService,
               private fb: FormBuilder) {
@@ -43,10 +39,6 @@ export class PaymentTopupsDetailComponent {
       (params: Params) => {
         this.store.dispatch({type: paymentTopupsDetailActions.TOPUPS_DETAIL_GET_REQUEST, payload: params.id});
       }
-    );
-
-    this.configService.get('dateFormat').subscribe(
-      format => this.dateFormat = format
     );
 
     this.paymentTopupsForm = this.fb.group({
@@ -79,10 +71,6 @@ export class PaymentTopupsDetailComponent {
         }
       }
     );
-  }
-
-  getFormatedDate(date: Date | string): string {
-    return moment(date).format(this.dateFormat);
   }
 
   toggleEditing(): void {

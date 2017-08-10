@@ -132,8 +132,11 @@
                       (click)="toggleUpdateIssuer()"></mss-button>
           <mss-button *ngIf="mode === ComponentMode.Create" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
                       (click)="goToTable()"></mss-button>
-          <mss-button *ngIf="mode !== ComponentMode.View" [label]="'basic.save' | translate" class="mss-action-button"
-                      (click)="handleSaveButton()"
+          <mss-button *ngIf="mode === ComponentMode.Edit" [label]="'basic.save' | translate" class="mss-action-button"
+                      (click)="handleSaveButton()" type="submit"
+                      [disabled]="editIssuerForm.invalid"></mss-button>
+          <mss-button *ngIf="mode === ComponentMode.Create" [label]="'basic.add' | translate" class="mss-action-button"
+                      (click)="handleSaveButton()" type="submit"
                       [disabled]="editIssuerForm.invalid"></mss-button>
         </div>
       </form>

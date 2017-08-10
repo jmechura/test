@@ -19,6 +19,12 @@
               <span *ngIf="isInvalid('name')">{{'basic.required.name' | translate}}</span>
             </div>
           </div>
+          <div *ngIf="mode === ComponentMode.Create">
+            <mss-input [label]="('basic.code' | translate) + '*'" formControlName="code" [warn]="isInvalid('code')"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isInvalid('code')">{{'basic.required.code' | translate}}</span>
+            </div>
+          </div>
           <div>
             <mss-input formControlName="note" [label]="'basic.note' | translate"></mss-input>
             <div class="mss-validation-label"></div>
@@ -64,14 +70,16 @@
         </div>
       </div>
       <div class="mss-buttons-row">
-        <mss-button class="mss-action-button right-margin" *ngIf="mode === ComponentMode.Create" [label]="'basic.save' | translate"
+        <mss-button class="mss-action-button right-margin" [label]="'basic.dismiss' | translate"
+                    (click)="dismissForm()">
+        </mss-button>
+        <mss-button class="mss-action-button" *ngIf="mode === ComponentMode.Create" [disabled]="form.invalid"
+                    [label]="'basic.add' | translate"
                     (click)="addOrgUnit()">
         </mss-button>
-        <mss-button class="mss-action-button right-margin" *ngIf="mode === ComponentMode.Edit" [label]="'basic.save' | translate"
+        <mss-button class="mss-action-button" *ngIf="mode === ComponentMode.Edit" [disabled]="form.invalid"
+                    [label]="'basic.save' | translate"
                     (click)="updateOrgUnit()">
-        </mss-button>
-        <mss-button class="mss-action-button" [label]="'basic.dismiss' | translate"
-                    (click)="dismissForm()">
         </mss-button>
       </div>
     </form>
@@ -94,7 +102,6 @@
           </div>
         </div>
         <div class="column">
-          <div class="mss-validation-label"></div>
           <ng-container *mssRoleIf="'createEdit.networkCodeSelect'">
             <div class="mss-input-like-container">
               <div class="label">{{'dictionary.networkCode' | translate}}</div>

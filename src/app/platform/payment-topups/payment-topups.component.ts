@@ -9,8 +9,6 @@ import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
-import { AppConfigService } from '../../shared/services/app-config.service';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { LanguageService } from '../../shared/services/language.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -41,7 +39,6 @@ export class PaymentTopupsComponent {
   rowLimit = ITEM_LIMIT_OPTIONS[0];
   pageNumber = 0;
   totalItems = 0;
-  dateFormat = 'DD.MM.YYYY';
 
   topupsFilterSections = FILTER_SECTIONS;
   filterSections: SelectItem[] = [];
@@ -57,8 +54,7 @@ export class PaymentTopupsComponent {
               private fb: FormBuilder,
               private roles: RoleService,
               private language: LanguageService,
-              private route: ActivatedRoute,
-              private configService: AppConfigService) {
+              private route: ActivatedRoute) {
 
     this.filterForm = this.fb.group({
       variableSymbol: [''],
@@ -85,11 +81,6 @@ export class PaymentTopupsComponent {
       label: this.language.translate(`paymentTopups.filterSections.${item}`)
     }));
     this.visibleSection = this.filterSections[0];
-
-    this.configService.get('dateFormat').subscribe(
-      format => this.dateFormat = format
-    );
-
 
     this.store.select('paymentTopups').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<Pagination<PaymentTopupsModel>>) => {
@@ -263,10 +254,6 @@ export class PaymentTopupsComponent {
         },
         {}
       );
-  }
-
-  getFormatedDate(date: Date | string): string {
-    return moment(date).format(this.dateFormat);
   }
 
   onSelect(select: { selected: PaymentTopupsModel[] }): void {

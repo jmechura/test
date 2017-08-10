@@ -1,6 +1,8 @@
 <div [ngClass]="{'mss-view-container' : completeView}">
   <div class="mss-header-row" *ngIf="completeView">
-    <span class="mss-title title" *ngIf="!adding && merchant">{{'merchants.detail.title' | translate}} - {{merchant.id}}</span>
+    <span class="mss-title title" *ngIf="mode !== ComponentMode.Create && merchant">{{'merchants.detail.title' | translate}} -
+      {{merchant.id}}</span>
+    <span class="mss-title title" *ngIf="mode === ComponentMode.Create">{{'merchants.addMerchant' | translate}}</span>
   </div>
   <div class="content">
     <div class="tabs-container">
@@ -11,7 +13,7 @@
         </mss-tabs>
       </div>
       <!-- EDITING VIEW -->
-      <form *ngIf="editing" class="merchant-detail-content"
+      <form *ngIf="mode !== ComponentMode.View" class="merchant-detail-content"
             [formGroup]="merchantForm">
         <div class="tab-content"
              [ngClass]="{'visible': visibleTab.value === MerchantDetailSections.BASIC}">
@@ -24,6 +26,18 @@
             <div class="mss-validation-label">
               <span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span>
             </div>
+
+            <!-- CODE -->
+            <ng-container *ngIf="mode === ComponentMode.Create">
+              <mss-input [label]="('basic.code' | translate) + '*'"
+                         formControlName="code"
+                         [warn]="isPresent('code')">
+              </mss-input>
+              <div class="mss-validation-label">
+                <span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span>
+              </div>
+            </ng-container>
+
             <!-- NOTE -->
             <mss-input class="tab-item-not-required"
                        [label]="'basic.note' | translate"
@@ -138,7 +152,7 @@
 
 
       <!-- NON EDITING VIEW -->
-      <div *ngIf="!editing && merchant" class="merchant-detail-content">
+      <div *ngIf="mode === ComponentMode.View && merchant" class="merchant-detail-content">
         <div class="tab-content"
              [ngClass]="{'visible': visibleTab.value === MerchantDetailSections.BASIC}">
           <div class="column">
@@ -248,17 +262,23 @@
       <div *mssRoleIf="'users.edit'">
         <div class="mss-buttons-row">
           <mss-button [label]="'basic.edit' | translate"
-                      *ngIf="!editing && !adding"
+                      *ngIf="mode === ComponentMode.View"
                       (click)="startEditing()"
                       class="mss-action-button">
           </mss-button>
           <mss-button [label]="'basic.dismiss' | translate"
                       (click)="cancelEditing()"
-                      *ngIf="editing || adding"
+                      *ngIf="mode !== ComponentMode.View"
                       class="mss-action-button right-margin">
           </mss-button>
           <mss-button [label]="'basic.save' | translate"
-                      *ngIf="editing || adding"
+                      *ngIf="mode === ComponentMode.Edit"
+                      (click)="submitEdit()"
+                      [disabled]="merchantForm.invalid"
+                      class="mss-action-button">
+          </mss-button>
+          <mss-button [label]="'basic.add' | translate"
+                      *ngIf="mode === ComponentMode.Create"
                       (click)="submitEdit()"
                       [disabled]="merchantForm.invalid"
                       class="mss-action-button">

@@ -104,12 +104,12 @@
           </ngx-datatable-column>
           <ngx-datatable-column [name]="'dictionary.dttm' | translate" prop="dttm" [sortable]="false">
             <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-              <div>{{getFormattedDate(value)}}</div>
+              <div>{{value | mssDate}}</div>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column [name]="'dictionary.trxDttm' | translate" prop="trxTermDttm">
             <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-              <div>{{getFormattedDate(value)}}</div>
+              <div>{{value | mssDate}}</div>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column [name]="'dictionary.amount' | translate" prop="amount">

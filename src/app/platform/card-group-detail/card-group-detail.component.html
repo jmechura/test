@@ -284,7 +284,10 @@
             <mss-button [label]="'basic.dismiss' | translate" type="button" (click)="goToList()"
                         *ngIf="mode === ComponentMode.Create"
                         class="mss-action-button right-margin"></mss-button>
-            <mss-button [label]="'basic.save' | translate"
+            <mss-button [label]="'basic.save' | translate" *ngIf="mode === ComponentMode.Edit"
+                        type="submit" [disabled]="editForm.invalid"
+                        class="mss-action-button"></mss-button>
+            <mss-button [label]="'basic.add' | translate" *ngIf="mode === ComponentMode.Create"
                         type="submit" [disabled]="editForm.invalid"
                         class="mss-action-button"></mss-button>
           </div>

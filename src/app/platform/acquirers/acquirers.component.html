@@ -7,7 +7,7 @@
 
   <!-- START FILTERS -->
   <div class="row">
-    <div class="column" [formGroup]="filterForm">
+    <div class="column" [formGroup]="filterForm" *ngIf="filterForm">
       <div class="content column">
         <div class="row wrapped">
           <mss-input class="filter-item" formControlName="code" [label]="'basic.code' | translate"></mss-input>

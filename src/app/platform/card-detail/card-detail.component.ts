@@ -13,8 +13,6 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Transfer } from '../../shared/models/transfer.model';
 import { transfersActions } from '../../shared/reducers/transfers.reducer';
 import { Pagination } from '../../shared/models/pagination.model';
-import * as moment from 'moment';
-import { AppConfigService } from 'app/shared/services/app-config.service';
 import { RoleService } from '../../shared/services/role.service';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -31,7 +29,6 @@ export class CardDetailComponent implements OnDestroy {
 
   accountOptions: SelectItem[] = [];
   selectedAccountData: Pagination<Transfer>;
-  dateFormat = 'DD. MM. YYYY';
 
   cardForm: FormGroup;
 
@@ -60,12 +57,7 @@ export class CardDetailComponent implements OnDestroy {
               private langService: LanguageService,
               private route: ActivatedRoute,
               private fb: FormBuilder,
-              private roles: RoleService,
-              private configService: AppConfigService) {
-
-    this.configService.get('dateFormat').subscribe(
-      format => this.dateFormat = format
-    );
+              private roles: RoleService) {
 
     this.cardForm = this.fb.group(
       {
@@ -198,7 +190,4 @@ export class CardDetailComponent implements OnDestroy {
     this.getTransfers();
   }
 
-  getFormattedDate(date: Date | string): string {
-    return moment(date).format(this.dateFormat);
-  }
 }

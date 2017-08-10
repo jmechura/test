@@ -51,6 +51,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
 import { TopupsScheduleDetailComponent } from './topups-schedule-detail/topups-schedule-detail.component';
 import { EmployeeCardListComponent } from './employee-card-list/employee-card-list.component';
+import { PipesModule } from '../shared/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { EmployeeCardListComponent } from './employee-card-list/employee-card-li
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    DirectivesModule
+    DirectivesModule,
+    PipesModule
   ],
   declarations: [
     PlatformComponent,

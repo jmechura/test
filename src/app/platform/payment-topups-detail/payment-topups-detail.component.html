@@ -21,15 +21,15 @@
       </div>
       <div class="mss-input-like-container">
         <div class="label">{{'paymentTopups.createdAt' | translate}}</div>
-        <div class="value">{{getFormatedDate(paymentTopup.created)}}</div>
+        <div class="value">{{paymentTopup.created | mssDate}}</div>
       </div>
       <div class="mss-input-like-container">
         <div class="label">{{'paymentTopups.changedAt' | translate}}</div>
-        <div class="value">{{getFormatedDate(paymentTopup.changed)}}</div>
+        <div class="value">{{paymentTopup.changed | mssDate}}</div>
       </div>
       <div class="mss-input-like-container">
         <div class="label">{{'paymentTopups.settlementDate' | translate}}</div>
-        <div class="value">{{getFormatedDate(paymentTopup.settlemntDate)}}</div>
+        <div class="value">{{paymentTopup.settlemntDate | mssDate}}</div>
       </div>
     </div>
     <div class="content-column">

@@ -17,6 +17,7 @@ import { MerchantDetailSections } from 'app/shared/enums/merchant-detail-section
 import { ApiService } from '../../shared/services/api.service';
 import { optionalEmailValidator } from '../../shared/validators/optional-email.validator';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { ComponentMode } from '../../shared/enums/detail-component-mode.enum';
 
 @Component({
   selector: 'mss-merchants-detail',
@@ -25,8 +26,6 @@ import { ExtendedToastrService } from '../../shared/services/extended-toastr.ser
 })
 export class MerchantsDetailComponent implements OnDestroy {
   merchant: MerchantModel;
-  editing = false;
-  adding = false;
   merchantForm: FormGroup;
   stateOptions: SelectItem[] = [
     {value: 'ENABLED'},
@@ -38,6 +37,8 @@ export class MerchantsDetailComponent implements OnDestroy {
   tabsOptions: SelectItem[] = [];
   visibleTab: SelectItem;
   private unsubscribe$ = new UnsubscribeSubject();
+  mode = ComponentMode.View;
+  ComponentMode = ComponentMode;
 
   completeView = true;
 
@@ -45,6 +46,7 @@ export class MerchantsDetailComponent implements OnDestroy {
   set merchantId(id: string) {
     this.store.dispatch({type: merchantDetailActions.MERCHANT_DETAIL_GET_REQUEST, payload: id});
     this.completeView = false;
+    this.mode = ComponentMode.View;
   }
 
   constructor(private route: ActivatedRoute,
@@ -102,10 +104,10 @@ export class MerchantsDetailComponent implements OnDestroy {
           return;
         }
         if (params.id === 'create') {
-          this.adding = true;
-          this.editing = true;
           this.merchantForm.get('networkCode').enable();
+          this.mode = ComponentMode.Create;
         } else {
+          this.mode = ComponentMode.View;
           this.store.dispatch({type: merchantDetailActions.MERCHANT_DETAIL_GET_REQUEST, payload: params.id});
         }
       }
@@ -119,7 +121,7 @@ export class MerchantsDetailComponent implements OnDestroy {
         }
         if (data != null && !loading) {
           this.merchant = data;
-          if (!this.adding) {
+          if (this.mode !== ComponentMode.Create) {
             this.merchantForm.patchValue(this.merchant);
           }
         }
@@ -188,11 +190,11 @@ export class MerchantsDetailComponent implements OnDestroy {
   }
 
   startEditing(): void {
-    this.editing = true;
+    this.mode = ComponentMode.Edit;
   }
 
   submitEdit(): void {
-    if (this.adding) {
+    if (this.mode === ComponentMode.Create) {
       const merch = {...this.merchantForm.value};
       for (const key in merch) {
         if (merch[key] === '') {
@@ -211,17 +213,17 @@ export class MerchantsDetailComponent implements OnDestroy {
         }
       );
     } else {
-      this.editing = false;
       const editedMerchant = {...this.merchant, ...this.merchantForm.value};
       this.store.dispatch({type: merchantDetailActions.MERCHANT_DETAIL_POST_REQUEST, payload: editedMerchant});
     }
+    this.mode = ComponentMode.View;
   }
 
   cancelEditing(): void {
-    if (this.adding) {
+    if (this.mode === ComponentMode.Create) {
       this.router.navigateByUrl('platform/merchants');
     } else {
-      this.editing = false;
+      this.mode = ComponentMode.View;
       this.merchantForm.patchValue(this.merchant);
     }
   }
