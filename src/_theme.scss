@@ -709,7 +709,6 @@ $border-color: #979797;
 @mixin mss-input {
   height: $input-height;
   width: $input-width;
-  min-width: $default-input-width-label-top;
   padding: 13px 21px;
   border: 1px solid $border-color;
   border-radius: 5px;
@@ -950,7 +949,6 @@ $select-height: $input-height;
 
 @mixin mss-select-container {
   display: flex;
-  min-width: $default-input-width-label-top;
 
   &.left {
     align-items: center;
