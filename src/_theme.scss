@@ -5,16 +5,21 @@ $secondary-color: #4a4a4a;
 $contrast-color: #ffffff;
 $warn-color: #b00b13;
 $disabled-color: #aaaaaa;
-$default-background-color: #ffffff;
+$default-component-background-color: #ffffff;
+$content-background-color: #f2f2f2;
 $primary-text-color: #747474;
 $positive-number-color: #6ab11d;
 $negative-number-color: $warn-color;
-$data-table-hover-color: #F2F2F2;
+$data-table-hover-color: #f2f2f2;
 
 $animation-time: 0.25s;
 
 $default-margin: 12px;
 $default-padding: 12px;
+$default-component-height: 46px;
+$default-input-width: 500px;
+$default-label-width: 136px;
+$default-input-width-label-top: $default-input-width - $default-label-width;
 
 $modal-window-z-index: 999;
 
@@ -118,7 +123,7 @@ $checkbox-size: 18px;
   height: $checkbox-size;
   width: $checkbox-size;
 
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
 
   border: 1px solid $secondary-color;
   border-radius: 2px;
@@ -143,19 +148,17 @@ $checkbox-size: 18px;
   }
 }
 
-$label-width: 136px;
-
 @mixin mss-checkbox-label {
   @include default-component-label;
 
-  width: $label-width;
+  width: $default-label-width;
 }
 
 // ---------------- data-table ----------------
 
 $header-background-color: #d7d7d7;
 $header-text-color: #888888;
-$row-text-color: #747474;
+$row-text-color: $primary-text-color;
 $item-padding: 12px;
 $pages-padding: 8px 13px;
 $pager-active-color: #4c4c4c;
@@ -356,11 +359,11 @@ $pager-active-color: #4c4c4c;
 // ---------------- date picker ----------------
 
 $calendar-day-size: 27px;
-$date-picker-main-color: #4a4a4a;
+$date-picker-main-color: $secondary-color;
 $date-picker-selected-date-color: $primary-color;
 
 @mixin mss-date-picker-container {
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   overflow: hidden;
 
   &.bordered {
@@ -461,9 +464,9 @@ $date-picker-selected-date-color: $primary-color;
 
 // ---------------- date picker input ----------------
 
-$date-input-height: 46px;
+$date-input-height: $default-component-height;
 $date-input-width: 100%;
-$date-picker-icon-background-color: #4a4a4a;
+$date-picker-icon-background-color: $secondary-color;
 
 @mixin mss-date-picker-input-container {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
@@ -532,7 +535,7 @@ $extended-header-height: 49px;
 }
 
 @mixin mss-date-time-picker-time-holder {
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   display: flex;
   height: calc(100% - #{$extended-header-height});
   flex-direction: column;
@@ -555,7 +558,7 @@ $extended-header-height: 49px;
 @mixin mss-pages {
   background-color: #ffffff;
   border-radius: 5px;
-  color: #4a4a4a;
+  color: $secondary-color;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -566,10 +569,10 @@ $extended-header-height: 49px;
 
 @mixin mss-page-input {
   width: 30px;
-  border-bottom: 1px solid #4a4a4a;
+  border-bottom: 1px solid $secondary-color;
   text-align: center;
   font-size: 17px;
-  color: #4a4a4a;
+  color: $secondary-color;
   margin-right: 5px;
 }
 
@@ -584,7 +587,7 @@ $extended-header-height: 49px;
   cursor: pointer;
 
   &:hover {
-    background-color: #4a4a4a;
+    background-color: $secondary-color;
 
     .icon {
       filter: brightness(400%);
@@ -679,12 +682,9 @@ $extended-header-height: 49px;
 
 // ---------------- input ----------------
 
-$input-height: 46px;
+$input-height: $default-component-height;
 $input-width: 100%;
 $border-color: #979797;
-
-$input-label-width: 136px;
-$input-container-min-width: 364px;
 
 @mixin mss-input-container {
   display: flex;
@@ -702,14 +702,14 @@ $input-container-min-width: 364px;
   @include default-component-label;
 
   display: block;
-  min-width: $input-label-width;
-  max-width: $input-label-width;
+  min-width: $default-label-width;
+  max-width: $default-label-width;
 }
 
 @mixin mss-input {
   height: $input-height;
   width: $input-width;
-  min-width: $input-container-min-width;
+  min-width: $default-input-width-label-top;
   padding: 13px 21px;
   border: 1px solid $border-color;
   border-radius: 5px;
@@ -718,7 +718,7 @@ $input-container-min-width: 364px;
   font-weight: 400;
 
   color: $primary-text-color;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
 
   &::placeholder {
     color: #cdcdcd;
@@ -751,7 +751,7 @@ $multiselect-height: $input-height;
   height: $select-height;
   cursor: pointer;
   border-radius: 5px;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   padding: 0 $default-padding;
   border: none;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
@@ -809,8 +809,8 @@ $multiselect-height: $input-height;
   @include default-component-label;
 
   &.left {
-    min-width: $input-label-width;
-    max-width: $input-label-width;
+    min-width: $default-label-width;
+    max-width: $default-label-width;
   }
 
   &.top {
@@ -832,7 +832,7 @@ $multiselect-height: $input-height;
   overflow-x: hidden;
   overflow-y: auto;
   transition: max-height $animation-time;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   margin-top: 2px;
@@ -921,7 +921,7 @@ $select-height: $input-height;
   height: $select-height;
   cursor: pointer;
   border-radius: 5px;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   padding: 0 $default-padding;
   border: none;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
@@ -950,7 +950,7 @@ $select-height: $input-height;
 
 @mixin mss-select-container {
   display: flex;
-  min-width: $input-container-min-width;
+  min-width: $default-input-width-label-top;
 
   &.left {
     align-items: center;
@@ -985,8 +985,8 @@ $select-height: $input-height;
   @include default-component-label;
 
   &.left {
-    min-width: $input-label-width;
-    max-width: $input-label-width;
+    min-width: $default-label-width;
+    max-width: $default-label-width;
   }
 
   &.top {
@@ -1008,7 +1008,7 @@ $select-height: $input-height;
   overflow-x: hidden;
   overflow-y: auto;
   transition: max-height $animation-time;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   margin-top: 2px;
@@ -1065,7 +1065,7 @@ $select-height: $input-height;
 @mixin mss-modal-window {
   pointer-events: auto;
   position: relative;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   padding: 24px;
   border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -1079,7 +1079,7 @@ $progress-bar-height: 16px;
 @mixin mss-progress-bar-container {
   width: 500px;
   height: $progress-bar-height;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   border-radius: $progress-bar-height;
   box-shadow: none;
   padding: $progress-bar-height * 0.2;
@@ -1209,12 +1209,12 @@ $slider-padding: $default-padding;
 // ---------------- tabs ----------------
 
 @mixin mss-tabs-container {
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   width: 100%;
 }
 
 @mixin mss-tabs-header-row {
-  height: 45px;
+  height: 41px;
   width: 100%;
   display: flex;
 }
@@ -1226,13 +1226,13 @@ $slider-padding: $default-padding;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   color: $primary-text-color;
   text-transform: uppercase;
   font-size: 16px;
 
   &.selected {
-    background-color: $default-background-color;
+    background-color: $default-component-background-color;
   }
 }
 
@@ -1246,7 +1246,7 @@ $slider-padding: $default-padding;
 // ---------------- time picker ----------------
 
 @mixin mss-time-picker-container {
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   padding: $default-padding;
   border-radius: 8px;
   overflow: hidden;
@@ -1328,7 +1328,7 @@ $toggle-height: $input-height;
 @mixin mss-toggle-label {
   @include default-component-label;
 
-  width: $input-label-width;
+  width: $default-label-width;
 }
 
 // ---------------- toolbar ----------------
@@ -1338,13 +1338,11 @@ $side-toolbar-width: 236px;
 
 $toolbar-text-color: #a8a8a8;
 
-$content-background-color: #f2f2f2;
-
 @mixin mss-toolbar-container {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: $default-background-color;
+  background-color: $default-component-background-color;
   padding: 28px;
   box-sizing: border-box;
   box-shadow: 0 2px 33px 0 rgba(0, 0, 0, 0.08);

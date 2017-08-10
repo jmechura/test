@@ -1,9 +1,5 @@
 @import 'theme';
 
-$filter-item-width: 500px;
-$calendar-text-color: #747474;
-$date-label-width: 136px;
-
 .mss-action-button {
   &.shifted {
     margin-left: 50px;
@@ -31,14 +27,14 @@ $date-label-width: 136px;
   .filter-item {
     margin-right: 60px;
     margin-bottom: 15px;
-    width: $filter-item-width;
+    width: $default-input-width;
 
     .label {
-      width: $date-label-width;
+      width: $default-label-width;
     }
 
     .calendar-input {
-      width: $filter-item-width - $date-label-width;
+      width: $default-input-width-label-top;
     }
   }
 }
@@ -49,7 +45,6 @@ $date-label-width: 136px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: $calendar-text-color;
 }
 
 .top-margin {

@@ -6,6 +6,7 @@ body, html {
 
 body {
   line-height: 1.2;
+  background-color: $content-background-color;
 }
 
 * {
@@ -90,7 +91,7 @@ input {
 .mss-action-button {
   width: 225px;
   min-width: 225px;
-  height: 43px;
+  height: $default-component-height;
 
   &.bottom {
     align-self: flex-end;

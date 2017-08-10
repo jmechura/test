@@ -5,13 +5,13 @@
   flex-wrap: wrap;
 
   .upload-select {
-    width: 500px;
+    width: $default-input-width;
     margin-right: 24px;
     margin-bottom: 24px;
   }
 
   .file-upload {
-    min-width: 500px;
+    min-width: $default-input-width;
     margin-bottom: 24px;
     margin-right: 24px;
   }

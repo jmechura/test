@@ -1,7 +1,5 @@
 @import 'theme';
 
-$filter-item-width: 500px;
-
 .row-action {
   display: inline-block;
   margin-right: 10px;
@@ -54,7 +52,7 @@ $filter-item-width: 500px;
   .filter-item {
     margin-right: 60px;
     margin-bottom: 15px;
-    width: $filter-item-width;
+    width: $default-input-width;
 
     .label {
       margin-right: 12px;

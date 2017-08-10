@@ -1,4 +1,4 @@
-$filter-item-width: 500px;
+@import 'theme';
 
 .icon {
   cursor: pointer;
@@ -22,7 +22,7 @@ $filter-item-width: 500px;
 
   .filter-item {
     margin-right: 30px;
-    width: $filter-item-width;
+    width: $default-input-width;
     margin-bottom: 5px;
   }
 }

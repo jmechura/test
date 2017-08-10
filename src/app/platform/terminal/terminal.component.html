@@ -46,7 +46,7 @@
   </div>
 
   <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="terminalData ? terminalData.totalElements : 0 "
-                 [headerHeight]="70" [footerHeight]="50"
+                 [headerHeight]="70" [footerHeight]="50" columnMode="force"
                  [rowHeight]="'auto'" [externalSorting]="true" [limit]="rowLimit"
                  [rows]="terminalRows" [selectionType]="'single'" (select)="onSelect($event)"
                  (page)="setPage($event)" (sort)="getSortedTerminals($event)"

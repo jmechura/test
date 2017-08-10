@@ -16,7 +16,7 @@ $divider-color: rgba($primary-text-color, 0.3);
     align-items: center;
     font-size: $line-font-size;
     padding: $line-padding;
-    background-color: $default-background-color;
+    background-color: $default-component-background-color;
 
     &:not(:last-child) {
       border-bottom: 1px solid $divider-color;

@@ -1,7 +1,5 @@
 @import 'theme';
 
-$filter-item-width: 500px;
-
 .row {
   display: flex;
 
@@ -27,6 +25,6 @@ $filter-item-width: 500px;
   .filter-item {
     margin-right: 60px;
     margin-bottom: 15px;
-    width: $filter-item-width;
+    width: $default-input-width;
   }
 }

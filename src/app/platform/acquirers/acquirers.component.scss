@@ -1,5 +1,6 @@
+@import 'theme';
+
 $form-item-width: 400px;
-$filter-item-width: 500px;
 
 .icon {
   cursor: pointer;
@@ -71,6 +72,6 @@ $filter-item-width: 500px;
   .filter-item {
     margin-right: 60px;
     margin-bottom: 15px;
-    width: $filter-item-width;
+    width: $default-input-width;
   }
 }

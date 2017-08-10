@@ -1,12 +1,8 @@
 @import 'theme';
 
 $header-text-color: $secondary-color;
-$button-width: 200px;
-$form-item-width: 400px;
 
 .terminal-container {
-  @include mss-datatable-row-break(10, false);
-
   padding: 40px 50px;
 }
 
@@ -17,13 +13,12 @@ $form-item-width: 400px;
 
   .filters {
     display: flex;
+    flex-wrap: wrap;
 
     .filter-item {
       margin-right: 30px;
-
-      .label {
-        margin-bottom: 10px;
-      }
+      width: $default-input-width-label-top;
+      margin-bottom: 6px;
     }
   }
 }

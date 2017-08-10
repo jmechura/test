@@ -1,7 +1,6 @@
 @import 'theme';
 
-$header-text-color: #4a4a4a;
-$calendar-text-color: #747474;
+$header-text-color: $secondary-color;
 $item-width: 400px;
 
 .issuer-card-container {
@@ -48,8 +47,6 @@ $item-width: 400px;
 
 .calendar-select {
   @include default-component-label;
-
-  color: $calendar-text-color;
 }
 
 .modal-buttons {

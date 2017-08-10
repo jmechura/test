@@ -1,15 +1,12 @@
 @import 'theme';
 
-$header-text-color: #4a4a4a;
-$calendar-text-color: #747474;
-
 .filter-container {
   display: flex;
   justify-content: space-between;
 }
 
 .filter-item {
-  width: 500px;
+  width: $default-input-width;
   margin-bottom: 10px;
 }
 
