@@ -11,20 +11,21 @@
       <mss-tabs *ngIf="issuerTab" class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
       <div class="content column" *ngIf="visibleSection.value ===  cardFilterSection[0]">
         <div class="row wrapped">
-          <div class="tab-content">
-            <mss-input [label]="'cardGroups.name' | translate" formControlName="name" class="form-item"></mss-input>
+          <div class="column">
+            <div class="tab-content">
+              <mss-input [label]="'cardGroups.name' | translate" formControlName="name" class="form-item"></mss-input>
+            </div>
+            <div class="tab-content">
+              <mss-input [label]="'basic.city' | translate" formControlName="city" class="form-item"></mss-input>
+            </div>
           </div>
-          <div class="tab-content">
-            <mss-input [label]="'basic.id' | translate" formControlName="id" class="form-item"></mss-input>
-          </div>
-          <div class="tab-content">
-            <mss-input [label]="'basic.ico' | translate" formControlName="ico" class="form-item"></mss-input>
-          </div>
-          <div class="tab-content">
-            <mss-input [label]="'basic.dic' | translate" formControlName="dic" class="form-item"></mss-input>
-          </div>
-          <div class="tab-content">
-            <mss-input [label]="'basic.city' | translate" formControlName="city" class="form-item"></mss-input>
+          <div class="column">
+            <div class="tab-content">
+              <mss-input [label]="'basic.dic' | translate" formControlName="dic" class="form-item"></mss-input>
+            </div>
+            <div class="tab-content">
+              <mss-input [label]="'basic.ico' | translate" formControlName="ico" class="form-item"></mss-input>
+            </div>
           </div>
         </div>
       </div>
@@ -65,12 +66,12 @@
                    [externalSorting]="true"
                    (sort)="getSortedCardGroups($event)"
                    [limit]="requestModel.pagination.number" [rows]="rows" (page)="setPage($event)">
-      <ngx-datatable-column [name]="'basic.name' | translate" prop="name" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'cardGroups.name' | translate" prop="name" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.ico' | translate" prop="ico" [sortable]="true"></ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.dic' | translate" prop="dic" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.specificSymbol' | translate" prop="specificSymbol" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'dictionary.state' | translate" prop="state" [sortable]="false"></ngx-datatable-column>
 
       <ngx-datatable-footer>
         <ng-template

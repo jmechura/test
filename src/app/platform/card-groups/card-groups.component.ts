@@ -73,7 +73,6 @@ export class CardGroupsComponent implements OnDestroy {
         issuerCode: {value: '', disabled: true},
         cardGroupCode: {value: '', disabled: true},
         name: '',
-        id: '',
         ico: '',
         dic: '',
         city: ''
@@ -155,7 +154,7 @@ export class CardGroupsComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.issuerCodes = data.data.map(code => ({value: code.id, label: code.code}));
+          this.issuerCodes = data.data.map(code => ({value: `${code.id};${code.code}`, label: code.name}));
           this.filterForm.get('issuerCode').enable();
         }
       }
@@ -168,7 +167,7 @@ export class CardGroupsComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.cardGroupCodes = data.data.map(code => ({value: code.name}));
+          this.cardGroupCodes = data.data.map(code => ({value: code.code, label: code.name}));
           this.filterForm.get('cardGroupCode').enable();
         }
       }
@@ -189,10 +188,16 @@ export class CardGroupsComponent implements OnDestroy {
   }
 
   getCardGroups(): void {
+    let issuerCodeValue = this.filterForm.get('issuerCode').value;
+    if (issuerCodeValue && issuerCodeValue !== '') {
+      issuerCodeValue = issuerCodeValue.split(';')[1];
+
+    }
+
     this.store.dispatch(
       {
         type: cardGroupActions.CARD_GROUPS_GET_REQUEST,
-        payload: Object.assign({}, this.requestModel, {search: {predicateObject: this.filterForm.value}})
+        payload: {... this.requestModel, search: {predicateObject: {... this.filterForm.value, issuerCode: issuerCodeValue}}},
       }
     );
   }
@@ -225,7 +230,7 @@ export class CardGroupsComponent implements OnDestroy {
   issuerSelect(issuerCode: string): void {
     this.filterForm.get('cardGroupCode').disable();
     if (issuerCode != null) {
-      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: issuerCode});
+      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: issuerCode.split(';')[0]});
     }
   }
 
