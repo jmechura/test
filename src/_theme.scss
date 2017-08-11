@@ -447,7 +447,12 @@ $date-picker-selected-date-color: $primary-color;
   user-select: none;
   border-radius: 4px;
 
-  &.selectedDate {
+  &.today {
+    background-color: $secondary-color;
+    color: $contrast-color;
+  }
+
+  &.selected-date {
     background-color: $date-picker-selected-date-color;
     color: $contrast-color;
     font-weight: 600;
@@ -455,6 +460,7 @@ $date-picker-selected-date-color: $primary-color;
 
   &:hover {
     background-color: rgba($date-picker-selected-date-color, 0.5);
+    color: $contrast-color;
   }
 
   &:active {

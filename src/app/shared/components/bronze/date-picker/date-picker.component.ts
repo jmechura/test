@@ -62,9 +62,16 @@ export class DatePickerComponent {
   }
 
   isSelectedDate(day: Moment): boolean {
-    if (this.pickedDate == null) {
+    if (this.pickedDate == null || day == null) {
       return false;
     }
     return moment(this.pickedDate).isSame(moment(day), 'day');
+  }
+
+  isToday(day: Moment): boolean {
+    if (day == null) {
+      return false;
+    }
+    return day.isSame(moment(), 'day');
   }
 }
