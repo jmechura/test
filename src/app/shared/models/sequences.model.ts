@@ -7,16 +7,3 @@ export interface SequencesModel {
     type: string
   };
 }
-
-
-export function fillSequence(): SequencesModel {
-  return {
-    order: null,
-    template: '',
-    pk: {
-      resource: '',
-      resourceId: '',
-      type: ''
-    }
-  };
-}

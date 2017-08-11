@@ -24,36 +24,6 @@ export class SequencesEffect {
       );
   }
 
-  @Effect() createSequence(): Observable<Action> {
-    return this.actions$
-      .ofType(sequencesActions.SEQUENCES_POST_REQUEST)
-      .switchMap(action => this.api.post(SEQUENCES_ENDPOINT, action.payload)
-        .map(res => {
-          this.toastr.success('toastr.success.createSequence');
-          return {type: sequencesActions.SEQUENCES_POST, payload: res};
-        })
-        .catch(res => {
-          this.toastr.error(res);
-          return Observable.of({type: sequencesActions.SEQUENCES_POST_FAIL});
-        })
-      );
-  }
-
-  @Effect() updateSequence(): Observable<Action> {
-    return this.actions$
-      .ofType(sequencesActions.SEQUENCES_PUT_REQUEST)
-      .switchMap(action => this.api.put(SEQUENCES_ENDPOINT, action.payload)
-        .map(res => {
-          this.toastr.success('toastr.success.updateSequence');
-          return {type: sequencesActions.SEQUENCES_PUT, payload: res};
-        })
-        .catch(res => {
-          this.toastr.error(res);
-          return Observable.of({type: sequencesActions.SEQUENCES_PUT_FAIL});
-        })
-      );
-  }
-
   @Effect() deleteSequence(): Observable<Action> {
     return this.actions$
       .ofType(sequencesActions.SEQUENCES_DELETE_REQUEST)

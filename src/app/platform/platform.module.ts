@@ -52,6 +52,7 @@ import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-to
 import { TopupsScheduleDetailComponent } from './topups-schedule-detail/topups-schedule-detail.component';
 import { EmployeeCardListComponent } from './employee-card-list/employee-card-list.component';
 import { PipesModule } from '../shared/pipes/pipes.module';
+import { SequencesDetailComponent } from './sequences-detail/sequences-detail.component';
 
 @NgModule({
   imports: [
@@ -113,6 +114,7 @@ import { PipesModule } from '../shared/pipes/pipes.module';
     PaymentTopupsDetailComponent,
     TopupsScheduleDetailComponent,
     EmployeeCardListComponent,
+    SequencesDetailComponent,
   ]
 })
 export class PlatformModule {}

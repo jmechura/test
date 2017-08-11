@@ -1,0 +1,100 @@
+<div class="mss-view-container">
+  <div class="mss-header-row">
+    <span class="mss-title"
+          *ngIf="sequenceState != ComponentMode.Create">{{'sequences.title' | translate}} {{sequence?.pk.resourceId}}</span>
+    <span class="mss-title" *ngIf="sequenceState == ComponentMode.Create">{{'sequences.addSequence' | translate}} </span>
+  </div>
+  <!--ADDING/EDITING SEQUENCE-->
+  <form *ngIf="sequenceState == ComponentMode.Create || sequenceState == ComponentMode.Edit && sequence" [formGroup]="sequencesForm">
+    <div class="sequences-detail-tab-content">
+      <div class="sequences-detail-column">
+        <mss-input class="sequences-input" formControlName="order" [type]="'number'" [label]="'sequences.dictionary.order' | translate">
+        </mss-input>
+        <div class="mss-validation-label">
+          <span *ngIf="isValuePresent(sequencesForm.get('order'))">{{'templates.detail.required.order' | translate}}</span>
+        </div>
+        <mss-input class="sequences-input" formControlName="template" [label]="'sequences.dictionary.template' | translate">
+        </mss-input>
+        <div class="mss-validation-label">
+          <span *ngIf="isValuePresent(sequencesForm.get('template'))">{{'templates.detail.required.template' | translate}}</span>
+        </div>
+      </div>
+      <div class="sequences-detail-column" formGroupName="pk">
+        <ng-container *ngIf="sequenceState == ComponentMode.Create">
+          <mss-select class="sequences-select" formControlName="type" [label]="'sequences.dictionary.type' | translate"
+                      [options]="sequencesType"></mss-select>
+          <div class="mss-validation-label">
+            <span *ngIf="isValuePresent(sequencesForm.get('pk').get('type'))">{{'templates.detail.required.type' | translate}}</span>
+          </div>
+          <mss-select class="sequences-select" formControlName="resource" [label]="'sequences.dictionary.resource' | translate"
+                      (selectedOptionChange)="changeResource($event)" [options]="userResource">
+          </mss-select>
+          <div class="mss-validation-label">
+            <span *ngIf="isValuePresent(sequencesForm.get('pk').get('resource'))">{{'templates.detail.required.resource' | translate}}</span>
+          </div>
+          <mss-select class="sequences-select sequences-sub-select" *ngIf="showSubSelect"
+                      [label]="showSubSelect === 'CARD_GROUP' ?  ('dictionary.issuerCode' | translate): ('dictionary.networkCode' | translate)"
+                      [selectedOption]="subSelectValue" (selectedOptionChange)="subMenuSelect($event)" [options]="subSelectMenu">
+          </mss-select>
+          <mss-select class="sequences-select sequences-sub-select" *ngIf="showSubSelect === 'ORG_UNIT'" [disabled]="!subSelectValue"
+                      class="modal-input"
+                      [label]="'dictionary.merchantCode' | translate" [selectedOption]="thirdSelectValue"
+                      (selectedOptionChange)="thirdMenuSelect($event)" [options]="thirdSelectMenu">
+          </mss-select>
+          <mss-select class="sequences-select sequences-sub-select" formControlName="resourceId" [label]="'basic.code' | translate"
+                      [options]="resourceIds">
+          </mss-select>
+          <div class="mss-validation-label">
+            <span *ngIf="isValuePresent(sequencesForm.get('pk').get('resourceId'))">{{'templates.detail.required.resourceId' | translate}}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <!--VIEWING SEQUENCE-->
+  <div class="sequences-detail-tab-content" *ngIf="sequenceState == ComponentMode.View && sequence">
+    <div class="sequences-detail-column">
+      <div class="mss-input-like-container">
+        <div class="label">{{ 'sequences.dictionary.order' | translate }}</div>
+        <div class="value">{{sequence.order}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{ 'sequences.dictionary.template' | translate }}</div>
+        <div class="value">{{sequence.template}}</div>
+      </div>
+    </div>
+    <div class="sequences-detail-column">
+      <div class="mss-input-like-container">
+        <div class="label">{{ 'sequences.dictionary.resource' | translate }}</div>
+        <div class="value">{{sequence.pk.resource}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{ 'sequences.dictionary.resourceId' | translate }}</div>
+        <div class="value">{{sequence.pk.resourceId}}</div>
+      </div>
+      <div class="mss-input-like-container">
+        <div class="label">{{ 'sequences.dictionary.type' | translate }}</div>
+        <div class="value">{{sequence.pk.type}}</div>
+      </div>
+    </div>
+  </div>
+  <!--BUTTONS-->
+  <div class="mss-buttons-row">
+    <mss-button *ngIf="sequenceState == ComponentMode.View"
+                [label]="'basic.edit' | translate"
+                (click)="startEditingSequence()"
+                class="mss-action-button">
+    </mss-button>
+    <mss-button *ngIf="sequenceState != ComponentMode.View"
+                [label]="'basic.dismiss' | translate"
+                (click)="dismissSequence()"
+                class="mss-action-button right-margin">
+    </mss-button>
+    <mss-button *ngIf="sequenceState != ComponentMode.View"
+                [label]="'basic.save' | translate"
+                [disabled]="sequencesForm.invalid"
+                (click)="saveSequence()"
+                class="mss-action-button">
+    </mss-button>
+  </div>
+</div>

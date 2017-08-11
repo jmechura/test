@@ -175,6 +175,8 @@ import { TopupsScheduleItemEffect } from './shared/effects/topup-schedule-item.e
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ExtendedToastrService } from './shared/services/extended-toastr.service';
+import { SequencesDetailEffect } from './shared/effects/sequences-detail.effect';
+import { sequencesDetailReducer } from './shared/reducers/sequences-detail.reducer';
 import { employeeCardsReducer } from './shared/reducers/employee-cards.reducer';
 import { EmployeeCardsEffect } from './shared/effects/employee-cards.effect';
 import { PipesModule } from './shared/pipes/pipes.module';
@@ -224,6 +226,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
       systems: systemReducer,
       sequences: sequencesReducer,
       sequencesType: sequencesTypeReducer,
+      sequencesDetail: sequencesDetailReducer,
       userResource: userResourceReducer,
       orgUnitList: orgUnitListReducer,
       orgUnit: orgUnitReducer,
@@ -310,6 +313,7 @@ export function createTranslateLoader(http: Http): TranslateHttpLoader {
     EffectsModule.runAfterBootstrap(CardGroupCodeEffect),
     EffectsModule.runAfterBootstrap(SequencesEffect),
     EffectsModule.runAfterBootstrap(SequencesTypeEffect),
+    EffectsModule.runAfterBootstrap(SequencesDetailEffect),
     EffectsModule.runAfterBootstrap(UserResourceEffect),
     EffectsModule.runAfterBootstrap(TerminalEffect),
     EffectsModule.runAfterBootstrap(TerminalDetailEffect),

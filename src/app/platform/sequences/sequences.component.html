@@ -2,12 +2,11 @@
   <div class="mss-header-row">
     <span class="mss-title">{{'sequences.title' | translate}}</span>
     <mss-button class="mss-action-button" [label]="'sequences.addSequence' | translate"
-                (click)="switchModal()" *mssRoleIf="'terminals.create'">
+                (click)="redirectToSequenceCreation()" *mssRoleIf="'terminals.create'">
     </mss-button>
   </div>
-
   <div class="data-table-container">
-    <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+    <ngx-datatable (activate)="redirectToDetail($event)" #table [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
                    [rowHeight]="'auto'" [limit]="rowLimit" [rows]="sequenceRows">
       <ngx-datatable-column [name]="'sequences.dictionary.resource' | translate" prop="resource">
         <ng-template ngx-datatable-cell-template let-value="value">
@@ -32,17 +31,9 @@
           <input class="table-input" autofocus *ngIf="edit === row.$$index" type="text" [(ngModel)]="editTemplate"/>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'basic.edit' | translate" [maxWidth]="140">
+      <ngx-datatable-column [name]="'basic.delete' | translate" [maxWidth]="100">
         <ng-template ngx-datatable-cell-template let-row="row">
-          <i *ngIf="edit !== row.$$index" (click)="editing(row)" class="material-icons click-able">edit</i>
-          <i *ngIf="edit === row.$$index" (click)="changeSequence(row)" class="material-icons click-able">done</i>
-          <i *ngIf="edit === row.$$index" (click)="clearEdit()" class="material-icons click-able">not_interested</i>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column [name]="'basic.delete' | translate" [maxWidth]="80">
-        <ng-template ngx-datatable-cell-template let-row="row">
-          <i (click)="showDeleteModal(row)" class="material-icons click-able">clear</i>
+          <i (click)="showDeleteModal(row, $event)" class="material-icons click-able">clear</i>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-footer>
@@ -64,49 +55,8 @@
     </ngx-datatable>
   </div>
 </div>
-
-<mss-modal-window [(visible)]="modalShowing">
-  <form *ngIf="sequencesType && userResource" [formGroup]="newSequenceForm" (ngSubmit)="addSequence()">
-    <div class="sequence-modal-container">
-      <div class="close-wrapper" (click)="switchModal()">
-        <div class="close">+</div>
-      </div>
-      <h3 class="mss-modal-title">{{'sequences.addSequence' | translate}}</h3>
-      <div class="new-sequence-container">
-        <mss-select formControlName="type" class="modal-input" [label]="'sequences.dictionary.type' | translate"
-                    [(selectedOption)]="newSequence.pk.type"
-                    [options]="sequencesType"></mss-select>
-        <mss-select formControlName="resource" class="modal-input" [label]="'sequences.dictionary.type' | translate"
-                    [selectedOption]="newSequence.pk.resource"
-                    (selectedOptionChange)="changeResource($event)" [options]="userResource"></mss-select>
-        <mss-select *ngIf="showSubSelect" class="modal-input"
-                    [label]="showSubSelect === 'CARD_GROUP' ?  ('dictionary.issuerCode' | translate): ('dictionary.networkCode' | translate)"
-                    [selectedOption]="subSelectValue" (selectedOptionChange)="subMenuSelect($event)" [options]="subSelectMenu">
-        </mss-select>
-        <mss-select *ngIf="showSubSelect === 'ORG_UNIT'" [disabled]="!subSelectValue" class="modal-input"
-                    [label]="'dictionary.merchantCode' | translate" [selectedOption]="thirdSelectValue"
-                    (selectedOptionChange)="thirdMenuSelect($event)" [options]="thirdSelectMenu">
-        </mss-select>
-        <mss-select formControlName="code" class="modal-input" [label]="'basic.code' | translate"
-                    [(selectedOption)]="newSequence.pk.resourceId" [options]="code"></mss-select>
-        <mss-input formControlName="order" class="modal-input" [type]="'number'" [label]="'sequences.dictionary.order' | translate"
-                   [(value)]="newSequence.order">
-        </mss-input>
-        <mss-input formControlName="template" class="modal-input" [label]="'sequences.dictionary.template' | translate"
-                   [(value)]="newSequence.template"></mss-input>
-        <div class="mss-buttons-row">
-          <mss-button label="{{'basic.dismiss' | translate}}" class="mss-action-button right-margin" type="button"
-                      (click)="switchModal()"></mss-button>
-          <mss-button label="{{'basic.add' | translate}}" class="mss-action-button" type="submit"
-                      [disabled]="newSequenceForm.invalid"></mss-button>
-        </div>
-      </div>
-    </div>
-  </form>
-</mss-modal-window>
-
 <mss-modal-window [(visible)]="warnModalVisible">
-  <h3 class="mss-modal-title">Opravdu odstranit zaznam?</h3>
+  <h3 class="mss-modal-title">{{'sequences.deleteSequenceConfirmation' | translate}}</h3>
   <div class="warn-buttons">
     <mss-button class="button" (click)="toggleWarnModal()" label="Zavřít"></mss-button>
     <mss-button class="button" (click)="deleteRow()" label="Ano"></mss-button>

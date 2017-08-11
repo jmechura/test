@@ -381,6 +381,7 @@
   "sequences": {
     "title": "Sekvence",
     "addSequence": "Přidat sekvenci",
+    "deleteSequenceConfirmation": "Opravdu chcete sekvenci odstranit?",
     "dictionary": {
       "resource": "Resource",
       "resourceId": "Resource ID",
@@ -454,8 +455,11 @@
       },
       "required": {
         "resource": "Zdroj je povinný údaj",
+        "resourceId": "ID zdroje je povinný údaj",
         "type": "Typ konfigurace je povinný údaj",
-        "name": "Jméno konfigurace je povinný údaj"
+        "name": "Jméno konfigurace je povinný údaj",
+        "order": "Zdroj je povinný údaj",
+        "template": "Template je povinný údaj"
       }
     },
     "dictionary": {

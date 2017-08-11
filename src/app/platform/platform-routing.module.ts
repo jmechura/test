@@ -43,6 +43,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PaymentTopupsDetailComponent } from './payment-topups-detail/payment-topups-detail.component';
 import { TopupsScheduleDetailComponent } from './topups-schedule-detail/topups-schedule-detail.component';
 import { EmployeeCardListComponent } from './employee-card-list/employee-card-list.component';
+import { SequencesDetailComponent } from './sequences-detail/sequences-detail.component';
 
 export const routes: Routes = [
   {
@@ -64,6 +65,7 @@ export const routes: Routes = [
       {path: 'merchants', component: MerchantsComponent},
       {path: 'merchants/:id', component: MerchantsDetailComponent},
       {path: 'sequences', component: SequencesComponent},
+      {path: 'sequences/:id', component: SequencesDetailComponent},
       {path: 'org-units', component: OrgUnitListComponent},
       {path: 'org-units/:id', component: OrgUnitDetailComponent},
       {path: 'issuers', component: IssuersComponent},
