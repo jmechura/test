@@ -17,8 +17,8 @@ export class LoginComponent {
               private api: ApiService,
               private toastr: ExtendedToastrService) {
     this.loginForm = fb.group({
-      login: ['', Validators.required],
-      password: ['', Validators.required],
+      login: [null, Validators.required],
+      password: [null, Validators.required],
       system: 'DEFAULT'
     });
   }

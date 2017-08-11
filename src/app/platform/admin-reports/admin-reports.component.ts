@@ -53,7 +53,7 @@ export class AdminReportsComponent implements OnDestroy {
     this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
 
     this.filterForm = this.fb.group({
-      name: [''],
+      name: [null],
       type: [null]
     });
 

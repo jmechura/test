@@ -42,9 +42,9 @@ export class PaymentTopupsDetailComponent {
     );
 
     this.paymentTopupsForm = this.fb.group({
-      variableSymbol: [''],
-      specificSymbol: [''],
-      state: ['']
+      variableSymbol: [null],
+      specificSymbol: [null],
+      state: [null]
     });
 
     this.stateOptions = [

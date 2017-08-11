@@ -61,18 +61,18 @@ export class CardDetailComponent implements OnDestroy {
 
     this.cardForm = this.fb.group(
       {
-        uuid: ['', Validators.required],
-        cln: '',
-        pan: '',
-        dic: '',
-        email: '',
-        phone: '',
-        bankAccount: '',
-        street: '',
-        city: '',
-        zip: '',
-        region: '',
-        country: '',
+        uuid: [null, Validators.required],
+        cln: [null],
+        pan: [null],
+        dic: [null],
+        email: [null],
+        phone: [null],
+        bankAccount: [null],
+        street: [null],
+        city: [null],
+        zip: [null],
+        region: [null],
+        country: [null],
       }
     );
 

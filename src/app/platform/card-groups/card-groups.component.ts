@@ -70,12 +70,12 @@ export class CardGroupsComponent implements OnDestroy {
     this.visibleSection = this.filterSections[0];
     this.filterForm = fb.group(
       {
-        issuerCode: {value: '', disabled: true},
-        cardGroupCode: {value: '', disabled: true},
-        name: '',
-        ico: '',
-        dic: '',
-        city: ''
+        issuerCode: {value: null, disabled: true},
+        cardGroupCode: {value: null, disabled: true},
+        name: [null],
+        ico: [null],
+        dic: [null],
+        city: [null]
       }
     );
 

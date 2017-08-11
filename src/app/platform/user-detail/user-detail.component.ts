@@ -68,34 +68,34 @@ export class UserDetailComponent implements OnDestroy {
               private roles: RoleService) {
 
     this.addUserForm = fb.group({
-      login: ['', Validators.required],
-      password: ['', Validators.required],
-      passwordAgain: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [optionalEmailValidator, Validators.required]],
-      phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
-      city: [''],
-      street: [''],
-      zip: [''],
-      template: ['', Validators.required],
+      login: [null, Validators.required],
+      password: [null, Validators.required],
+      passwordAgain: [null, Validators.required],
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      email: [null, [optionalEmailValidator, Validators.required]],
+      phone: [null, Validators.pattern(/^\+42[0-9]{10}$/)],
+      city: [null],
+      street: [null],
+      zip: [null],
+      template: [null, Validators.required],
       resources: fb.array([]),
     });
 
     this.userForm = this.fb.group({
-      id: ['', Validators.required],
-      login: ['', Validators.required],
+      id: [null, Validators.required],
+      login: [null, Validators.required],
       blocked: [false],
       state: ['ENABLED'],
       firstLogon: [false],
       passwordExpired: [false],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [optionalEmailValidator, Validators.required]],
-      phone: ['', Validators.pattern(/^\+42[0-9]{10}$/)],
-      street: [''],
-      city: [''],
-      zip: [''],
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      email: [null, [optionalEmailValidator, Validators.required]],
+      phone: [null, Validators.pattern(/^\+42[0-9]{10}$/)],
+      street: [null],
+      city: [null],
+      zip: [null],
     });
 
     this.tabsOptions = [
@@ -394,8 +394,8 @@ export class UserDetailComponent implements OnDestroy {
       this.fb.group({
         id: [id],
         resource: [resource],
-        resourceId: ['', Validators.required],
-        networkCode: ['']
+        resourceId: [null, Validators.required],
+        networkCode: [null]
       })
     );
   }

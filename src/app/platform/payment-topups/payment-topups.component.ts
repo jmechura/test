@@ -57,11 +57,11 @@ export class PaymentTopupsComponent {
               private route: ActivatedRoute) {
 
     this.filterForm = this.fb.group({
-      variableSymbol: [''],
-      specificSymbol: [''],
-      state: [''],
-      issuerCode: [{value: '', disabled: true}],
-      cardGroupCode: [{value: '', disabled: true}],
+      variableSymbol: [null],
+      specificSymbol: [null],
+      state: [null],
+      issuerCode: [{value: null, disabled: true}],
+      cardGroupCode: [{value: null, disabled: true}],
       createdFrom: [null],
       createdTo: [null]
     });

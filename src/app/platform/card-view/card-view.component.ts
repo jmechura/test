@@ -177,8 +177,8 @@ export class CardViewComponent implements OnDestroy {
     );
 
     this.cardForm = this.fb.group({
-      newPin: ['', [Validators.required, Validators.pattern(/^[0-9]{4}$/)]],
-      confirmPin: ['', [Validators.required, Validators.pattern(/^[0-9]{4}$/)]]
+      newPin: [null, [Validators.required, Validators.pattern(/^[0-9]{4}$/)]],
+      confirmPin: [null, [Validators.required, Validators.pattern(/^[0-9]{4}$/)]]
     });
   }
 

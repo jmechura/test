@@ -54,8 +54,8 @@ export class AcquirersComponent implements OnDestroy {
               private toastr: ExtendedToastrService) {
 
     this.filterForm = this.fb.group({
-      code: [''],
-      name: [''],
+      code: [null],
+      name: [null],
     });
 
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
@@ -95,16 +95,16 @@ export class AcquirersComponent implements OnDestroy {
     );
 
     this.newAcquirerForm = this.fb.group({
-      name: ['', Validators.required],
-      code: ['', Validators.required],
-      acquiringInstitutionCode: ['', Validators.required],
-      hsmKeyName: ['', Validators.required],
-      hsmTransitKeyName: ['', Validators.required],
+      name: [null, Validators.required],
+      code: [null, Validators.required],
+      acquiringInstitutionCode: [null, Validators.required],
+      hsmKeyName: [null, Validators.required],
+      hsmTransitKeyName: [null, Validators.required],
       country: [null],
-      region: [''],
-      city: [''],
-      street: [''],
-      zip: [''],
+      region: [null],
+      city: [null],
+      street: [null],
+      zip: [null],
     });
 
     this.tabsOptions = [{

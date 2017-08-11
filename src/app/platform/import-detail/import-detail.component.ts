@@ -55,10 +55,10 @@ export class ImportDetailComponent implements OnDestroy {
 
     this.importEditForm = this.fb.group(
       {
-        name: [{value: '', disabled: true}],
-        nameRead: [''],
+        name: [{value: null, disabled: true}],
+        nameRead: [null],
         runAfterStart: [false],
-        type: ['']
+        type: [null]
       }
     );
 

@@ -51,12 +51,12 @@ export class SequencesDetailComponent implements OnDestroy {
               private language: LanguageService) {
 
     this.sequencesForm = this.fb.group({
-      order: ['', Validators.required],
-      template: ['', Validators.required],
+      order: [null, Validators.required],
+      template: [null, Validators.required],
       pk: this.fb.group({
-        resource: ['', Validators.required],
-        resourceId: ['', Validators.required],
-        type: ['', Validators.required],
+        resource: [null, Validators.required],
+        resourceId: [null, Validators.required],
+        type: [null, Validators.required],
       }),
     });
 

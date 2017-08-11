@@ -43,8 +43,8 @@ export class TemplatesComponent implements OnDestroy {
               private route: ActivatedRoute) {
 
     this.filterForm = this.fb.group({
-      name: [''],
-      system: [''],
+      name: [null],
+      system: [null],
       resource: [{value: null, disabled: true}]
     });
 

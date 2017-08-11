@@ -8,9 +8,7 @@ import { IssuerModel, IssuerPredicateObject } from '../../shared/models/issuer.m
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnsubscribeSubject } from '../../shared/utils';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
-import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
-import { LanguageService } from '../../shared/services/language.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
@@ -41,13 +39,11 @@ export class IssuersComponent implements OnDestroy {
   constructor(private store: Store<AppStateModel>,
               private route: ActivatedRoute,
               private router: Router,
-              private language: LanguageService,
-              private fb: FormBuilder,
-              private toastr: ExtendedToastrService) {
+              private fb: FormBuilder) {
 
     this.filterForm = this.fb.group({
-      code: '',
-      name: ''
+      code: [null],
+      name: [null]
     });
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(

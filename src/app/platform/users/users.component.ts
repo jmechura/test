@@ -74,17 +74,17 @@ export class UsersComponent implements OnDestroy {
               private roles: RoleService) {
 
     this.filterForm = this.fb.group({
-      email: [''],
-      login: [''],
-      firstName: [''],
-      lastName: [''],
+      email: [null],
+      login: [null],
+      firstName: [null],
+      lastName: [null],
       state: [null],
-      merchantCode: [{value: '', disabled: true}],
-      networkCode: [{value: '', disabled: true}],
-      orgUnitCode: [{value: '', disabled: true}],
-      issuerCode: [{value: '', disabled: true}],
-      cardGroupCode: [{value: '', disabled: true}],
-      terminalCode: [{value: '', disabled: true}],
+      merchantCode: [{value: null, disabled: true}],
+      networkCode: [{value: null, disabled: true}],
+      orgUnitCode: [{value: null, disabled: true}],
+      issuerCode: [{value: null, disabled: true}],
+      cardGroupCode: [{value: null, disabled: true}],
+      terminalCode: [{value: null, disabled: true}],
     });
 
     this.filterSections = USER_FILTER_SECTIONS.filter(key => isNaN(Number(key)))
@@ -104,17 +104,17 @@ export class UsersComponent implements OnDestroy {
 
 
     this.newUserForm = fb.group({
-      city: [''],
-      email: ['', Validators.email],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      login: ['', Validators.required],
-      password: ['', Validators.required],
-      passwordAgain: ['', Validators.required],
-      phone: [''],
-      street: [''],
-      zip: [''],
-      template: ['', Validators.required],
+      city: [null],
+      email: [null, Validators.email],
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      login: [null, Validators.required],
+      password: [null, Validators.required],
+      passwordAgain: [null, Validators.required],
+      phone: [null],
+      street: [null],
+      zip: [null],
+      template: [null, Validators.required],
       resources: fb.array([]),
     });
 

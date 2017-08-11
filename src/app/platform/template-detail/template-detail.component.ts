@@ -56,27 +56,27 @@ export class TemplateDetailComponent implements OnDestroy {
               private route: ActivatedRoute) {
 
     this.templateForm = fb.group({
-      code: [{value: '', disabled: true}, Validators.required],
-      description: [''],
-      name: ['', Validators.required],
-      resource: [''],
+      code: [{value: null, disabled: true}, Validators.required],
+      description: [null],
+      name: [null, Validators.required],
+      resource: [null],
       resources: fb.array([
         fb.group({
-          resource: '',
+          resource: [null],
           roles: fb.array([
-            ''
+            null
           ]),
           id: 0
         })
       ]),
-      system: [''],
-      systemReceiver: ['']
+      system: [null],
+      systemReceiver: [null]
     });
 
     this.newConfigurationForm = fb.group({
-      type: ['', Validators.required],
-      name: [{value: '', disabled: true}, Validators.required],
-      resource: ['', Validators.required],
+      type: [null, Validators.required],
+      name: [{value: null, disabled: true}, Validators.required],
+      resource: [null, Validators.required],
       userAuthorityResourceId: 0
     });
 

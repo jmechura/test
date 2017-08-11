@@ -56,8 +56,8 @@ export class RoutesComponent implements OnDestroy {
 
     this.routingTableForm = this.fb.group(
       {
-        name: [{value: '', disabled: true}, Validators.required],
-        description: '',
+        name: [{value: null, disabled: true}, Validators.required],
+        description: [null],
       }
     );
 
@@ -102,11 +102,11 @@ export class RoutesComponent implements OnDestroy {
     this.store.dispatch({type: targetActions.TARGET_API_GET});
 
     this.newRouteForm = fb.group({
-      rule: ['', Validators.required],
-      ruleParam: '',
-      target: ['', Validators.required],
-      targetParam: '',
-      description: ''
+      rule: [null, Validators.required],
+      ruleParam: null,
+      target: [null, Validators.required],
+      targetParam: null,
+      description: null
     });
 
     this.store.select('routes').takeUntil(this.unsubscribe$).subscribe(

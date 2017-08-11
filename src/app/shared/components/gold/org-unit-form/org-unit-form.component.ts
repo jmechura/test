@@ -30,17 +30,17 @@ export class OrgUnitFormComponent implements OnDestroy {
 
   constructor(private store: Store<AppStateModel>, private fb: FormBuilder, private roles: RoleService) {
     this.form = this.fb.group({
-      city: '',
-      code: ['', Validators.required],
-      id: '',
-      merchantId: ['', Validators.required],
-      name: ['', Validators.required],
-      note: '',
-      networkCode: ['', Validators.required],
-      region: '',
+      city: [null],
+      code: [null, Validators.required],
+      id: [null],
+      merchantId: [null, Validators.required],
+      name: [null, Validators.required],
+      note: [null],
+      networkCode: [null, Validators.required],
+      region: [null],
       state: 'ENABLED',
-      street: '',
-      zip: ''
+      street: [null],
+      zip: [null]
     });
 
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(

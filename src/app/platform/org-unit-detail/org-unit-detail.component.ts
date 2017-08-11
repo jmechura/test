@@ -65,17 +65,17 @@ export class OrgUnitDetailComponent implements OnDestroy {
     this.visibleTab = this.tabOptions[0];
 
     this.form = this.fb.group({
-      city: '',
-      code: ['', Validators.required],
-      id: [''],
-      merchantId: [{value: '', disabled: true}, Validators.required],
-      name: ['', Validators.required],
-      note: [''],
-      networkCode: [{value: '', disabled: true}, Validators.required],
-      region: [''],
+      city: [null],
+      code: [null, Validators.required],
+      id: [null],
+      merchantId: [{value: null, disabled: true}, Validators.required],
+      name: [null, Validators.required],
+      note: [null],
+      networkCode: [{value: null, disabled: true}, Validators.required],
+      region: [null],
       state: 'ENABLED',
-      street: [''],
-      zip: ['']
+      street: [null],
+      zip: [null]
     });
 
     this.route.params.subscribe(

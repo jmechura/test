@@ -52,9 +52,9 @@ export class ReportDetailComponent implements OnDestroy {
 
     this.reportEditForm = this.fb.group(
       {
-        name: [{value: '', disabled: true}],
+        name: [{value: null, disabled: true}],
         runAfterStart: [false],
-        type: ['']
+        type: [null]
       }
     );
 

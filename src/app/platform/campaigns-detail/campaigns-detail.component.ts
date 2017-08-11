@@ -51,7 +51,7 @@ export class CampaignsDetailComponent implements OnDestroy {
               private toastr: ExtendedToastrService) {
     this.campaignForm = fb.group(
       {
-        name: [{value: '', disabled: true}],
+        name: [{value: null, disabled: true}],
         campaignName: ['DEFAULT', Validators.required],
         orderCampaign: [0],
         runAfterStart: [false]

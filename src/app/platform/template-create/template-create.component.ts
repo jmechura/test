@@ -33,20 +33,20 @@ export class TemplateCreateComponent implements OnDestroy {
               private api: ApiService,
               private toastr: ExtendedToastrService) {
     this.templateForm = fb.group({
-      code: ['', Validators.required],
-      description: [''],
-      name: ['', Validators.required],
-      resource: [''],
+      code: [null, Validators.required],
+      description: [null],
+      name: [null, Validators.required],
+      resource: [null],
       resources: fb.array([
         fb.group({
-          resource: '',
+          resource: [null],
           roles: fb.array([
-            ''
+            null
           ])
         })
       ]),
-      system: [''],
-      systemReceiver: ['']
+      system: [null],
+      systemReceiver: [null]
     });
 
     this.store.select('userAuthority').takeUntil(this.unsubscribe$).subscribe(

@@ -68,18 +68,18 @@ export class TerminalDetailComponent implements OnDestroy {
 
     this.terminalForm = this.fb.group(
       {
-        name: ['', Validators.required], // Edit
-        code: ['', Validators.required],
-        orgUnitId: [{value: '', disabled: true}, Validators.required],
-        merchantId: [{value: '', disabled: true}, Validators.required],
-        state: {value: '', disabled: true},
-        street: [''],
-        city: [''],
-        zip: [''],
-        region: [''],
+        name: [null, Validators.required], // Edit
+        code: [null, Validators.required],
+        orgUnitId: [{value: null, disabled: true}, Validators.required],
+        merchantId: [{value: null, disabled: true}, Validators.required],
+        state: {value: null, disabled: true},
+        street: [null],
+        city: [null],
+        zip: [null],
+        region: [null],
         country: [null],
-        networkCode: [{value: '', disabled: true}, Validators.required], // Create
-        note: [{value: '', disabled: true}],
+        networkCode: [{value: null, disabled: true}, Validators.required], // Create
+        note: [{value: null, disabled: true}],
       }
     );
 

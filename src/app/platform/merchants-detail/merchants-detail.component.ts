@@ -60,22 +60,22 @@ export class MerchantsDetailComponent implements OnDestroy {
 
     this.merchantForm = this.fb.group(
       {
-        name: ['', Validators.required],
-        code: ['', Validators.required],
-        id: '',
-        state: '',
-        ico: ['', Validators.required],
-        dic: ['', Validators.required],
-        email: ['', optionalEmailValidator],
-        phone: '',
-        bankAccount: '',
-        street: ['', Validators.required],
-        city: ['', Validators.required],
-        zip: ['', Validators.required],
-        region: '',
-        country: ['', Validators.required],
-        note: '',
-        networkCode: [{value: '', disabled: true}, Validators.required],
+        name: [null, Validators.required],
+        code: [null, Validators.required],
+        id: [null],
+        state: [null],
+        ico: [null, Validators.required],
+        dic: [null, Validators.required],
+        email: [null, optionalEmailValidator],
+        phone: [null],
+        bankAccount: [null],
+        street: [null, Validators.required],
+        city: [null, Validators.required],
+        zip: [null, Validators.required],
+        region: [null],
+        country: [null, Validators.required],
+        note: [null],
+        networkCode: [{value: null, disabled: true}, Validators.required],
       }
     );
 

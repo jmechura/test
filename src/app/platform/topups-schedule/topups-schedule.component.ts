@@ -75,11 +75,11 @@ export class TopupsScheduleComponent implements OnDestroy {
     );
 
     this.filterForm = this.fb.group({
-      cardGroupId: [{value: '', disabled: true}],
-      issuerCode: [{value: '', disabled: true}],
-      specificSymbol: [''],
-      variableSymbol: [''],
-      state: ['']
+      cardGroupId: [{value: null, disabled: true}],
+      issuerCode: [{value: null, disabled: true}],
+      specificSymbol: [null],
+      variableSymbol: [null],
+      state: [null]
     });
 
     this.filterSections = this.topUpsScheduleFilterSections.map(item => ({

@@ -47,6 +47,7 @@
   <div class="mss-action-button">
     <mss-button [label]="'basic.search' | translate" (click)="getMerchantList()"></mss-button>
   </div>
+
   <!--merchants data table-->
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [rows]="rows" [columnMode]="'force'"
@@ -69,11 +70,6 @@
       <ngx-datatable-column prop="state" [name]="'dictionary.state' | translate" [sortable]="false">
       </ngx-datatable-column>
       <ngx-datatable-footer>
-      <!--
-      <ngx-datatable-column prop="email" [name]="'basic.email' | translate" [sortable]="true">
-      </ngx-datatable-column>
-      <ngx-datatable-column prop="bankAccount" [name]="'dictionary.bankAccount' | translate" [sortable]="true">
-      </ngx-datatable-column>-->
         <ng-template
           ngx-datatable-footer-template
           let-rowCount="rowCount"

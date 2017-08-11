@@ -64,11 +64,11 @@ export class TerminalComponent implements OnDestroy {
               private toastr: ExtendedToastrService) {
 
     this.filterForm = fb.group({
-        code: '',
-        name: '',
-        networkCode: '',
-        merchantCode: {value: '', disabled: true},
-        orgUnitCode: {value: '', disabled: true},
+        code: [null],
+        name: [null],
+        networkCode: [null],
+        merchantCode: {value: null, disabled: true},
+        orgUnitCode: {value: null, disabled: true},
       }
     );
 

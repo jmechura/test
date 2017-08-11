@@ -2,11 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Pagination, RequestOptions } from '../../shared/models/pagination.model';
-import { fillMerchant, MerchantModel, MerchantPredicateObject } from '../../shared/models/merchant.model';
+import { MerchantModel, MerchantPredicateObject } from '../../shared/models/merchant.model';
 import { StateModel } from '../../shared/models/state.model';
 import { merchantsActions } from '../../shared/reducers/merchant.reducer';
 import { ApiService } from '../../shared/services/api.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MissingTokenResponse, UnsubscribeSubject } from '../../shared/utils';
 import { ListRouteParamsModel } from '../../shared/models/list-route-params.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,9 +32,6 @@ const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 export class MerchantsComponent implements OnDestroy {
 
   private unsubscribe$ = new UnsubscribeSubject();
-
-  newMerchant: MerchantModel = fillMerchant();
-  newMerchantForm: FormGroup;
 
   networkCodes: SelectItem[] = [];
   merchantCodes: SelectItem[] = [];
@@ -81,24 +78,6 @@ export class MerchantsComponent implements OnDestroy {
               private route: ActivatedRoute,
               private roles: RoleService,
               private toastr: ExtendedToastrService) {
-
-    this.newMerchantForm = fb.group({
-      name: ['', Validators.required],
-      code: ['', Validators.required],
-      country: ['', Validators.required],
-      region: [''],
-      city: ['', Validators.required],
-      zip: ['', Validators.required],
-      street: ['', Validators.required],
-      email: ['', control => control.value === '' ? null : Validators.email(control)],
-      phone: [''],
-      bankAccount: [''],
-      ico: ['', Validators.required],
-      dic: ['', Validators.required],
-      note: [''],
-      networkCode: [{value: '', disabled: true}, Validators.required],
-      state: [''],
-    });
 
     this.store.dispatch({type: countryCodeActions.COUNTRY_CODE_GET_REQUEST});
 
@@ -163,7 +142,6 @@ export class MerchantsComponent implements OnDestroy {
         }
         if (data.data != null && !data.loading) {
           this.networkCodes = data.data.map(item => ({label: item.code, value: item.id}));
-          this.newMerchantForm.get('networkCode').enable();
         }
       }
     );
@@ -232,55 +210,12 @@ export class MerchantsComponent implements OnDestroy {
     this.router.navigateByUrl('/platform/merchants/create');
   }
 
-  addMerchant(): void {
-    if (this.newMerchantForm.invalid) {
-      // show some error messages maybe ?
-      return;
-    }
-    for (const key in this.newMerchant) {
-      if (this.newMerchant[key] === '') {
-        delete this.newMerchant[key];
-      }
-    }
-    this.newMerchant.id = `${this.newMerchant.networkCode}:${this.newMerchant.code}`;
-    this.api.post('/merchants', this.newMerchant).subscribe(
-      () => {
-        this.toastr.success('toastr.success.createMerchant');
-        this.getMerchantList();
-      },
-      error => {
-        this.toastr.error(error);
-        console.error('Create merchant fail', error);
-      }
-    );
-  }
-
   changeLimit(limit: { offset: number }): void {
     const routeParams: ListRouteParamsModel = {
       page: '1',
       limit: String(limit),
     };
     this.router.navigate([MERCHANT_ROUTE, routeParams]);
-  }
-
-  isPresent(value: string): boolean {
-    const item = this.newMerchantForm.get(value);
-    return item.touched && item.errors != null && item.errors.required;
-  }
-
-  isPresentCountry(): boolean {
-    const item = this.newMerchantForm.get('country');
-    return (item.value === null || item.value === '') && item.touched;
-  }
-
-  isPresentNetworkCode(): boolean {
-    const item = this.newMerchantForm.get('networkCode');
-    return (item.value === null || item.value === '') && item.touched;
-  }
-
-  isValidEmail(value: string): boolean {
-    const item = this.newMerchantForm.get(value);
-    return item.touched && item.value !== '' && item.errors != null;
   }
 
   getMerchantList(): void {
@@ -313,13 +248,13 @@ export class MerchantsComponent implements OnDestroy {
   }
 
   clearFilter(): void {
-    this.name = '';
-    this.ico = '';
-    this.dic = '';
-    this.city = '';
-    this.zip = '';
-    this.networkCode = '';
-    this.merchantCode = '';
+    this.name = null;
+    this.ico = null;
+    this.dic = null;
+    this.city = null;
+    this.zip = null;
+    this.networkCode = null;
+    this.merchantCode = null;
   }
 
   onSelect(select: { selected: MerchantModel[] }): void {

@@ -63,12 +63,12 @@ export class OrgUnitListComponent implements OnDestroy {
               private toastr: ExtendedToastrService) {
 
     this.filterForm = this.fb.group({
-      code: [''],
-      merchantId: [{value: '', disabled: true}],
-      merchantName: [''],
-      name: [''],
-      networkCode: [{value: '', disabled: true}],
-      networkName: ['']
+      code: [null],
+      merchantId: [{value: null, disabled: true}],
+      merchantName: [null],
+      name: [null],
+      networkCode: [{value: null, disabled: true}],
+      networkName: [null]
     });
 
     this.filterOptions = Object.keys(OrgUnitFilterSections).filter(key => isNaN(Number(key)))

@@ -88,11 +88,11 @@ export class ReportsComponent implements OnDestroy {
       createdTo: [null],
       reportName: [null],
       type: [null],
-      networkCode: [{value: '', disabled: true}],
-      merchantCode: [{value: '', disabled: true}],
-      orgUnitCode: [{value: '', disabled: true}],
-      issuerCode: [{value: '', disabled: true}],
-      cardGroupCode: [{value: '', disabled: true}],
+      networkCode: [{value: [null], disabled: true}],
+      merchantCode: [{value: [null], disabled: true}],
+      orgUnitCode: [{value: [null], disabled: true}],
+      issuerCode: [{value: [null], disabled: true}],
+      cardGroupCode: [{value: [null], disabled: true}],
     });
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(

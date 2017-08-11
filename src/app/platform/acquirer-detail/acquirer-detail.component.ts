@@ -60,16 +60,16 @@ export class AcquirerDetailComponent implements OnDestroy {
               private store: Store<AppStateModel>,
               private toastr: ExtendedToastrService) {
     this.acquirerForm = this.fb.group({
-      name: ['', Validators.required],
-      code: [{value: '', disabled: true}, Validators.required],
-      acquiringInstitutionCode: ['', Validators.required],
-      hsmKeyName: ['', Validators.required],
-      hsmTransitKeyName: ['', Validators.required],
+      name: [null, Validators.required],
+      code: [{value: null, disabled: true}, Validators.required],
+      acquiringInstitutionCode: [null, Validators.required],
+      hsmKeyName: [null, Validators.required],
+      hsmTransitKeyName: [null, Validators.required],
       country: [null],
-      region: [''],
-      city: [''],
-      street: [''],
-      zip: [''],
+      region: [null],
+      city: [null],
+      street: [null],
+      zip: [null],
     });
 
     this.tabsOptions = [
@@ -153,8 +153,8 @@ export class AcquirerDetailComponent implements OnDestroy {
     );
 
     this.newKeyForm = this.fb.group({
-      keyName: ['', Validators.required],
-      keyValue: [''],
+      keyName: [null, Validators.required],
+      keyValue: [null],
       last: [false]
     });
   }

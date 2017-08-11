@@ -53,7 +53,7 @@ export class ImportsComponent implements OnDestroy {
     this.store.dispatch({type: importTypeActions.IMPORT_TYPE_GET_REQUEST});
 
     this.filterForm = this.fb.group({
-      name: [''],
+      name: [null],
       type: [null]
     });
 

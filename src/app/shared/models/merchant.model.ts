@@ -26,24 +26,3 @@ export interface MerchantPredicateObject {
   networkCode?: string;
   merchantCode?: string;
 }
-
-export function fillMerchant(): MerchantModel {
-  return {
-    bankAccount: '',
-    city: '',
-    code: '',
-    country: '',
-    dic: '',
-    email: '',
-    ico: '',
-    id: '',
-    name: '',
-    networkCode: 'bancibo',
-    note: '',
-    phone: '',
-    region: '',
-    state: 'ENABLED',
-    street: '',
-    zip: '',
-  };
-}

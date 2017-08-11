@@ -42,8 +42,8 @@ export class RoutingTableComponent implements OnDestroy {
               private router: Router) {
     this.store.dispatch({type: routingTableActions.ROUTING_TABLE_API_GET});
     this.newTableForm = fb.group({
-      name: ['', [Validators.required, this.validateUnique.bind(this)]],
-      description: '',
+      name: [null, [Validators.required, this.validateUnique.bind(this)]],
+      description: [null],
     });
 
     this.store.select('routingTable').takeUntil(this.unsubscribe$).subscribe(

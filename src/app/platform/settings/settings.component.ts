@@ -35,9 +35,9 @@ export class SettingsComponent implements OnDestroy {
               private toastr: ExtendedToastrService) {
 
     this.passwordForm = fb.group({
-      oldPassword: '',
-      newPassword: '',
-      newPasswordConfirmation: '',
+      oldPassword: [null],
+      newPassword: [null],
+      newPasswordConfirmation: [null],
     });
 
     this.sections = SECTIONS.map(section => ({
