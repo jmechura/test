@@ -9,6 +9,8 @@
       <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
         <div class="row wrapped">
           <mss-input class="filter-item" formControlName="reportName" [label]="'basic.name' | translate"></mss-input>
+          <mss-select class="filter-item" formControlName="type" [options]="reportTypes"
+                      [label]="'dictionary.type' | translate" labelPosition="left" [clearAble]="true"></mss-select>
         </div>
         <div class="row wrapped">
           <div class="calendar-select filter-item">

@@ -23,6 +23,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Moment } from 'moment';
 import { ApiService } from '../../shared/services/api.service';
 import * as FileSaver from 'file-saver';
+import { reportTypeActions } from '../../shared/reducers/report-types.reducer';
 
 const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const REPORT_ROUTE = 'platform/reports';
@@ -56,6 +57,7 @@ export class ReportsComponent implements OnDestroy {
   issuerCodes: SelectItem[] = [];
   cardGroupCodes: SelectItem[] = [];
   filterForm: FormGroup;
+  reportTypes: SelectItem[] = [];
 
   constructor(private store: Store<AppStateModel>,
               private route: ActivatedRoute,
@@ -64,11 +66,28 @@ export class ReportsComponent implements OnDestroy {
               private fb: FormBuilder,
               private api: ApiService,
               private language: LanguageService) {
+    this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
+
+    this.store.select('reportTypes').takeUntil(this.unsubscribe$).subscribe(
+      (data: StateModel<string[]>) => {
+        if (data.error) {
+          console.error(`Error occurred while getting report types.`, data.error);
+          return;
+        }
+        if (data.data !== undefined && !data.loading) {
+          this.reportTypes = data.data.map(item => ({
+            value: item,
+            label: this.language.translate(`enums.reportTypes.${item}`)
+          }));
+        }
+      }
+    );
 
     this.filterForm = this.fb.group({
       createdFrom: [null],
       createdTo: [null],
-      reportName: [''],
+      reportName: [null],
+      type: [null],
       networkCode: [{value: '', disabled: true}],
       merchantCode: [{value: '', disabled: true}],
       orgUnitCode: [{value: '', disabled: true}],
@@ -324,7 +343,7 @@ export class ReportsComponent implements OnDestroy {
         numberOfPages: 0,
         start: (this.pageNumber - 1 ) * this.rowLimit
       },
-      search: this.predicateObject,
+      search: {predicateObject: this.predicateObject},
       sort: this.sortOptions ? this.sortOptions : {}
     };
   }
@@ -344,4 +363,5 @@ export class ReportsComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
   }
+
 }

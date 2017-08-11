@@ -20,6 +20,7 @@ export interface ReportModel {
 
 export interface ReportPredicateObject {
   reportName: string;
+  type?: string;
   createdFrom: string | Moment;
   createdTo: string | Moment;
   networkCode: string;
