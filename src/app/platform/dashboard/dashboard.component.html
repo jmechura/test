@@ -10,12 +10,12 @@
       <!--DATE TAB-->
       <div class="content" *ngIf="visibleFilter.value === transactionFilters[0]">
         <div class="row wrapped">
-          <div class="calendar-select filter-item">
+          <div class="mss-filter-item-label-top">
             <div class="label">{{'dictionary.from' | translate}}</div>
             <mss-date-time-picker-input [pickedDate]="fromDate" class="calendar-input"
                                         (pickedDateChange)="changeFromDate($event)"></mss-date-time-picker-input>
           </div>
-          <div class="calendar-select filter-item">
+          <div class="mss-filter-item-label-top">
             <div class="label">{{'dictionary.to' | translate}}</div>
             <mss-date-time-picker-input [pickedDate]="toDate" class="calendar-input"
                                         (pickedDateChange)="changeToDate($event)"></mss-date-time-picker-input>
@@ -27,12 +27,12 @@
       <div class="content column" *ngIf="visibleFilter.value === transactionFilters[3]">
         <div class="row wrapped">
           <mss-input [label]="'dictionary.responseCode' | translate"
-                     class="filter-item"
+                     class="mss-filter-item"
                      *mssRoleIf="'admin.view'"
                      [(value)]="pagination.search.predicateObject.responseCode">
           </mss-input>
           <mss-select [disabled]="types.length === 0"
-                      class="filter-item"
+                      class="mss-filter-item"
                       *mssRoleIf="'transactions.transactionType'"
                       [label]="'dictionary.transactionType' | translate"
                       [options]="types"
@@ -40,7 +40,7 @@
                       [(selectedOption)]="pagination.search.predicateObject.transactionType"></mss-select>
           <mss-select [disabled]="states.length === 0"
                       *mssRoleIf="'transactions.transactionState'"
-                      class="filter-item"
+                      class="mss-filter-item"
                       [options]="states"
                       [clearAble]="true"
                       [label]="'dictionary.transactionState' | translate"
@@ -48,17 +48,17 @@
         </div>
         <div class="row wrapped">
           <mss-input [label]="'dictionary.approvalCode' | translate"
-                     class="filter-item"
+                     class="mss-filter-item"
                      *mssRoleIf="'transactions.approvalCode'"
                      [(value)]="pagination.search.predicateObject.approvalCode">
           </mss-input>
           <mss-input [label]="'dictionary.uuid' | translate"
-                     class="filter-item"
+                     class="mss-filter-item"
                      *mssRoleIf="'transactions.uuid'"
                      [(value)]="pagination.search.predicateObject.uuid">
           </mss-input>
           <mss-input [label]="'dictionary.rrn' | translate"
-                     class="filter-item"
+                     class="mss-filter-item"
                      *mssRoleIf="'transactions.rrn'"
                      [(value)]="pagination.search.predicateObject.rrn">
           </mss-input>
@@ -71,7 +71,7 @@
         <div class="row wrapped">
           <mss-select [disabled]="issuerCodes.length === 0"
                       *mssRoleIf="'dashboard.issuerCodeSelect'"
-                      class="filter-item"
+                      class="mss-filter-item"
                       [label]="'dictionary.issuerCode' | translate"
                       labelPosition="top"
                       [options]="issuerCodes"
@@ -80,14 +80,14 @@
                       (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
           <mss-select [disabled]="cardGroupCodes.length === 0"
                       *mssRoleIf="'dashboard.cardGroupCodeSelect'"
-                      class="filter-item"
+                      class="mss-filter-item"
                       [options]="cardGroupCodes"
                       [clearAble]="true"
                       [label]="'dictionary.cardGroupCode' | translate"
                       labelPosition="top"
                       [(selectedOption)]="pagination.search.predicateObject.cardGroupCode"></mss-select>
           <mss-select [disabled]="networkCodes.length === 0"
-                      class="filter-item"
+                      class="mss-filter-item"
                       *mssRoleIf="'dashboard.networkCodeSelect'"
                       [label]="'dictionary.networkCode' | translate"
                       labelPosition="top"
@@ -96,7 +96,7 @@
                       [selectedOption]="pagination.search.predicateObject.networkCode"
                       (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
           <mss-select [disabled]="merchantCodes.length === 0"
-                      class="filter-item"
+                      class="mss-filter-item"
                       *mssRoleIf="'dashboard.merchantCodeSelect'"
                       [label]="'dictionary.merchantCode' | translate"
                       labelPosition="top"
@@ -106,7 +106,7 @@
                       (selectedOptionChange)="selectMerchantCode($event)"></mss-select>
           <mss-select [disabled]="orgUnitCodes.length === 0"
                       *mssRoleIf="'dashboard.orgUnitCodeSelect'"
-                      class="filter-item"
+                      class="mss-filter-item"
                       [label]="'dictionary.orgUnitCode' | translate"
                       labelPosition="top"
                       [options]="orgUnitCodes"
@@ -119,32 +119,32 @@
       <div class="content column" *ngIf="visibleFilter.value === transactionFilters[2]">
         <div class="row wrapped">
           <mss-input [label]="'dictionary.cln' | translate"
-                     class="filter-item"
+                     class="mss-filter-item"
                      *mssRoleIf="'transactions.cln'"
                      [(value)]="pagination.search.predicateObject.cln">
           </mss-input>
           <mss-input [label]="'dictionary.terminalCode' | translate"
-                     class="filter-item"
+                     class="mss-filter-item"
                      *mssRoleIf="'transactions.terminalCode'"
                      [(value)]="pagination.search.predicateObject.terminalCode">
           </mss-input>
           <mss-input [label]="'dictionary.amount' | translate"
-                     class="filter-item" [type]="'number'"
+                     class="mss-filter-item" [type]="'number'"
                      *mssRoleIf="'transactions.amount'"
                      [(value)]="pagination.search.predicateObject.amount">
           </mss-input>
           <mss-input [label]="'dictionary.dstStan' | translate"
-                     class="filter-item" [type]="'number'"
+                     class="mss-filter-item" [type]="'number'"
                      *mssRoleIf="'transactions.dstStan'"
                      [(value)]="pagination.search.predicateObject.dstStan">
           </mss-input>
           <mss-input [label]="'dictionary.specificSymbol' | translate"
-                     class="filter-item" [placeholder]="'Specific Symbol'"
+                     class="mss-filter-item" [placeholder]="'Specific Symbol'"
                      *mssRoleIf="'transactions.specificSymbol'"
                      [(value)]="pagination.search.predicateObject.specificSymbol">
           </mss-input>
           <mss-input [label]="'dictionary.variableSymbol' | translate"
-                     class="filter-item" [placeholder]="'Variable Symbol'"
+                     class="mss-filter-item" [placeholder]="'Variable Symbol'"
                      *mssRoleIf="'transactions.variableSymbol'"
                      [(value)]="pagination.search.predicateObject.vs">
           </mss-input>

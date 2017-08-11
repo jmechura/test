@@ -5,7 +5,7 @@
 
   <div *ngIf="rows" class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading"
-                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    (activate)="goToDetail($event.row)"
                    [limit]="rowLimit" [rows]="rows">
       <ngx-datatable-column [name]="'dictionary.cln'| translate" prop="cln" [sortable]="true"></ngx-datatable-column>

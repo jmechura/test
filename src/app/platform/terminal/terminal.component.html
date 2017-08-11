@@ -1,4 +1,4 @@
-<div class="terminal-container">
+<div class="mss-view-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'terminals.title' | translate}}</span>
     <mss-button class="mss-action-button" [label]="'terminals.addTerminal' | translate"
@@ -9,7 +9,7 @@
   <div class="filter-container">
     <div class="filters" [formGroup]="filterForm">
       <mss-select *mssRoleIf="'terminals.networkCodeSelect'"
-                  class="filter-item"
+                  class="mss-filter-item-label-top"
                   [options]="networkCodes"
                   [clearAble]="true"
                   [label]="'dictionary.networkCode' | translate"
@@ -17,7 +17,7 @@
                   labelPosition="top"
                   (selectedOptionChange)="networkSelect($event)"></mss-select>
       <mss-select *mssRoleIf="'terminals.merchantCodeSelect'"
-                  class="filter-item"
+                  class="mss-filter-item-label-top"
                   [options]="merchantCodes"
                   [clearAble]="true"
                   [label]="'dictionary.merchantCode' | translate"
@@ -25,20 +25,20 @@
                   labelPosition="top"
                   (selectedOptionChange)="merchantSelect($event)"></mss-select>
       <mss-select *mssRoleIf="'terminals.orgUnitCodeSelect'"
-                  class="filter-item"
+                  class="mss-filter-item-label-top"
                   [options]="orgUnitCodes"
                   [clearAble]="true"
                   [label]="'dictionary.orgUnitCode' | translate"
                   formControlName="orgUnitCode"
                   labelPosition="top"></mss-select>
-      <mss-input formControlName="code" class="filter-item"
+      <mss-input formControlName="code" class="mss-filter-item-label-top"
                  [label]="'basic.code' | translate" labelPosition="top">
       </mss-input>
-      <mss-input formControlName="name" class="filter-item"
+      <mss-input formControlName="name" class="mss-filter-item-label-top"
                  [label]="'basic.name' | translate" labelPosition="top">
       </mss-input>
     </div>
-    <mss-button class="mss-action-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button class="mss-action-button clear" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
   <div class="mss-action-button">

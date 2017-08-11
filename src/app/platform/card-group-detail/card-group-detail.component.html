@@ -9,7 +9,7 @@
       <div class="tabs-row">
         <mss-tabs class="tabs column" [items]="cardGroupTabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
         <ng-container *ngIf="mode !== ComponentMode.Create">
-          <mss-button class="mss-action-button shifted activate-button" *mssRoleIf="'cardGroups.edit'"
+          <mss-button class="mss-action-button shifted" *mssRoleIf="'cardGroups.edit'"
                       [label]="cardGroupDetail?.state === 'ENABLED' ?
                   ('cardGroupDetail.deactivateEmployer' | translate) : ('cardGroupDetail.activateEmployer' | translate)"
                       (click)="modalVisible = true"></mss-button>

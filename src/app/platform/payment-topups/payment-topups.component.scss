@@ -22,20 +22,18 @@
   margin: 25px 0 20px 0;
   display: flex;
 
-  .filter-item {
-    margin-right: 60px;
-    margin-bottom: 15px;
-    width: $default-input-width;
+  .calendar-input {
+    width: $default-input-width-label-top;
+  }
 
-    .label {
-      width: $default-label-width;
-    }
+  .label {
+    @include default-component-label;
+
+    width: $default-label-width;
   }
 }
 
 .calendar-select {
-  @include default-component-label;
-
   display: flex;
   align-items: center;
 }

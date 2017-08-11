@@ -2,39 +2,12 @@
 
 $header-text-color: $secondary-color;
 
-.terminal-container {
-  padding: 40px 50px;
-}
-
 .filter-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 25px;
 
   .filters {
     display: flex;
     flex-wrap: wrap;
-
-    .filter-item {
-      margin-right: 30px;
-      width: $default-input-width-label-top;
-      margin-bottom: 6px;
-    }
-  }
-}
-
-.new-terminal-form {
-  display: flex;
-  flex-direction: column;
-
-  .new-terminal-inputs {
-    display: flex;
-    justify-content: space-between;
-
-    .new-terminal-input-side {
-      display: flex;
-      flex-direction: column;
-      width: 45%;
-    }
   }
 }

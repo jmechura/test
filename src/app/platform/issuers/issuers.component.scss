@@ -7,13 +7,6 @@
 
   .filters {
     display: flex;
-
-    .filter-item {
-      margin-right: 30px;
-
-      .label {
-        margin-bottom: 10px;
-      }
-    }
+    flex-wrap: wrap;
   }
 }

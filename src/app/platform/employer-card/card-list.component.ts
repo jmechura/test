@@ -61,7 +61,6 @@ export class CardListComponent implements OnDestroy {
   visibleSection: SelectItem;
   cardFilterSection = CardFilterSections;
   issuerTab = false;
-  dateFormat = 'DD. MM. YYYY';
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -231,18 +230,9 @@ export class CardListComponent implements OnDestroy {
   }
 
   getCards(): void {
-    const search = Object.keys(this.requestModel.search.predicateObject)
-      .filter(key => this.requestModel.search.predicateObject[key].length > 0)
-      .reduce(
-        (acc, item) => {
-          acc[item] = this.requestModel.search.predicateObject[item];
-          return acc;
-        },
-        {}
-      );
     this.store.dispatch({
       type: cardActions.CARD_API_GET,
-      payload: Object.assign(this.requestModel, {search: {predicateObject: search}})
+      payload: this.requestModel
     });
   }
 

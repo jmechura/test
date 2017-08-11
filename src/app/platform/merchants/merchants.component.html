@@ -14,18 +14,18 @@
       <mss-tabs class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event" *ngIf="showNetworkTab"></mss-tabs>
       <div class="content" *ngIf="visibleSection.value === merchantsFilterSections.BASIC">
         <div class="row wrapped">
-          <mss-input [(value)]="name" [label]="'basic.name' | translate" class="filter-item"></mss-input>
-          <mss-input [(value)]="ico" [label]="'basic.ico' | translate" class="filter-item"></mss-input>
-          <mss-input [(value)]="dic" [label]="'basic.dic' | translate" class="filter-item"></mss-input>
-          <mss-input [(value)]="city" [label]="'basic.city' | translate" class="filter-item"></mss-input>
-          <mss-input [(value)]="zip" [label]="'basic.zip' | translate" class="filter-item"></mss-input>
+          <mss-input [(value)]="name" [label]="'basic.name' | translate" class="mss-filter-item"></mss-input>
+          <mss-input [(value)]="ico" [label]="'basic.ico' | translate" class="mss-filter-item"></mss-input>
+          <mss-input [(value)]="dic" [label]="'basic.dic' | translate" class="mss-filter-item"></mss-input>
+          <mss-input [(value)]="city" [label]="'basic.city' | translate" class="mss-filter-item"></mss-input>
+          <mss-input [(value)]="zip" [label]="'basic.zip' | translate" class="mss-filter-item"></mss-input>
         </div>
       </div>
       <div class="content" *ngIf="visibleSection.value === merchantsFilterSections.NETWORK">
         <div class="row wrapped">
           <mss-select [disabled]="networkCodes.length === 0"
                       *mssRoleIf="'merchants.networkCodeSelect'"
-                      class="filter-item"
+                      class="mss-filter-item"
                       [label]="'dictionary.networkCode' | translate"
                       [options]="networkCodes"
                       [clearAble]="true"
@@ -33,7 +33,7 @@
                       (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
           <mss-select [disabled]="merchantCodes.length === 0"
                       *mssRoleIf="'merchants.merchantCodeSelect'"
-                      class="filter-item"
+                      class="mss-filter-item"
                       [options]="merchantCodes"
                       [clearAble]="true"
                       [label]="'dictionary.merchantCode' | translate"

@@ -5,11 +5,6 @@
   justify-content: space-between;
 }
 
-.filter-item {
-  width: $default-input-width;
-  margin-bottom: 10px;
-}
-
 .row {
   display: flex;
 
@@ -17,26 +12,16 @@
     flex-wrap: wrap;
   }
 
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
-
   .column {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    width: 100%;
   }
 
   .tab-content {
     display: flex;
     flex-direction: column;
-    width: 500px;
   }
-}
-
-.form-item {
-  margin-right: 60px;
-  margin-bottom: 15px;
 }
 
 .right-padding-tabs {

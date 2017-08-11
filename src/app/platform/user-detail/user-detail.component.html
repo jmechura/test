@@ -200,7 +200,7 @@
         <div class="tab-content" [ngClass]="{'visible': visibleTab.value === UserSections.ROLES}">
 
           <ngx-datatable #table *ngIf="roleInfo" [rows]="roleInfo"
-                         [headerHeight]="60" [footerHeight]="50"
+                         [headerHeight]="70" [footerHeight]="50"
                          [columnMode]="'force'" [rowHeight]="'auto'">
             <ngx-datatable-column [name]="'users.detail.authorities' | translate" prop="authorities"></ngx-datatable-column>
             <ngx-datatable-column [name]="'users.dictionary.resource' | translate" prop="resource" [maxWidth]="200"></ngx-datatable-column>
@@ -361,7 +361,7 @@
         <div class="tab-content" [ngClass]="{'visible': visibleTab.value === UserSections.ROLES}">
 
           <ngx-datatable #table *ngIf="roleInfo" [rows]="roleInfo"
-                         [headerHeight]="60" [footerHeight]="50"
+                         [headerHeight]="70" [footerHeight]="50"
                          [columnMode]="'force'" [rowHeight]="'auto'">
             <ngx-datatable-column [name]="'users.detail.authorities' | translate" prop="authorities"></ngx-datatable-column>
             <ngx-datatable-column [name]="'users.dictionary.resource' | translate" prop="resource" [maxWidth]="200"></ngx-datatable-column>

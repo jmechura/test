@@ -6,8 +6,10 @@
 
 .row {
   display: flex;
+  justify-content: space-between;
 
-  &.wrapped {
+  .filters-container {
+    display: flex;
     flex-wrap: wrap;
   }
 
@@ -15,18 +17,8 @@
     display: flex;
     flex-direction: column;
   }
-
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
-
-  .filter-item {
-    margin-right: 30px;
-    width: $default-input-width;
-    margin-bottom: 10px;
-  }
 }
 
-.clear {
-  margin-top: 19px; // margin of label
+.clear-container {
+  display: flex;
 }

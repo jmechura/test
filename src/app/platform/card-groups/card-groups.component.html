@@ -1,4 +1,4 @@
-<div class="card-groups-container">
+<div class="mss-view-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'cardGroups.title' | translate}}</span>
     <mss-button class="mss-action-button" (click)="goToCreate()" [label]="'cardGroups.addCardGroup' | translate"
@@ -11,43 +11,29 @@
       <mss-tabs *ngIf="issuerTab" class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
       <div class="content column" *ngIf="visibleSection.value ===  cardFilterSection[0]">
         <div class="row wrapped">
-          <div class="column">
-            <div class="tab-content">
-              <mss-input [label]="'cardGroups.name' | translate" formControlName="name" class="form-item"></mss-input>
-            </div>
-            <div class="tab-content">
-              <mss-input [label]="'basic.city' | translate" formControlName="city" class="form-item"></mss-input>
-            </div>
-          </div>
-          <div class="column">
-            <div class="tab-content">
-              <mss-input [label]="'basic.dic' | translate" formControlName="dic" class="form-item"></mss-input>
-            </div>
-            <div class="tab-content">
-              <mss-input [label]="'basic.ico' | translate" formControlName="ico" class="form-item"></mss-input>
-            </div>
-          </div>
+          <mss-input [label]="'cardGroups.name' | translate" formControlName="name" class="mss-filter-item"></mss-input>
+          <mss-input [label]="'basic.city' | translate" formControlName="city" class="mss-filter-item"></mss-input>
+          <mss-input [label]="'basic.dic' | translate" formControlName="dic" class="mss-filter-item"></mss-input>
+          <mss-input [label]="'basic.ico' | translate" formControlName="ico" class="mss-filter-item"></mss-input>
         </div>
       </div>
       <div class="content column" *ngIf="visibleSection.value ===  cardFilterSection[1]">
         <div class="row wrapped">
-          <div class="column">
-            <mss-select [options]="issuerCodes"
-                        [clearAble]="true"
-                        *mssRoleIf="'cardGroups.issuerCodeSelect'"
-                        formControlName="issuerCode"
-                        [label]="'dictionary.issuerCode' | translate"
-                        (selectedOptionChange)="issuerSelect($event)"
-                        class="form-item"></mss-select>
-          </div>
-          <div class="column">
-            <mss-select [options]="cardGroupCodes"
-                        [clearAble]="true"
-                        *mssRoleIf="'cardGroups.cardGroupCodeSelect'"
-                        formControlName="cardGroupCode"
-                        [label]="'dictionary.cardGroupCode' | translate"
-                        class="form-item"></mss-select>
-          </div>
+          <mss-select [options]="issuerCodes"
+                      [clearAble]="true"
+                      *mssRoleIf="'cardGroups.issuerCodeSelect'"
+                      formControlName="issuerCode"
+                      [label]="'dictionary.issuerCode' | translate"
+                      (selectedOptionChange)="issuerSelect($event)"
+                      class="mss-filter-item">
+          </mss-select>
+          <mss-select [options]="cardGroupCodes"
+                      [clearAble]="true"
+                      *mssRoleIf="'cardGroups.cardGroupCodeSelect'"
+                      formControlName="cardGroupCode"
+                      [label]="'dictionary.cardGroupCode' | translate"
+                      class="mss-filter-item">
+          </mss-select>
         </div>
         <div class="row wrapped">
         </div>
@@ -61,7 +47,7 @@
 
   <div *ngIf="rows" class="data-table-container">
     <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="tableData ? tableData.totalElements : 0 "
-                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    (activate)="goToDetail($event)"
                    [externalSorting]="true"
                    (sort)="getSortedCardGroups($event)"

@@ -9,26 +9,26 @@
 
       <div class="content" *ngIf="visibleSection.value === topupsFilterSections[0]">
         <div class="row wrapped">
-          <div class="calendar-select filter-item">
+          <div class="calendar-select mss-filter-item">
             <span class="label">{{'dictionary.from' | translate}}</span>
-            <mss-date-time-picker-input formControlName="createdFrom"></mss-date-time-picker-input>
+            <mss-date-time-picker-input formControlName="createdFrom" class="calendar-input"></mss-date-time-picker-input>
           </div>
-          <div class="calendar-select filter-item">
+          <div class="calendar-select mss-filter-item">
             <span class="label">{{'dictionary.to' | translate}}</span>
-            <mss-date-time-picker-input formControlName="createdTo"></mss-date-time-picker-input>
+            <mss-date-time-picker-input formControlName="createdTo" class="calendar-input"></mss-date-time-picker-input>
           </div>
         </div>
       </div>
 
       <div class="content" *ngIf="visibleSection.value === topupsFilterSections[1]">
         <div class="row wrapped">
-          <mss-input class="filter-item" [label]="'dictionary.variableSymbol' | translate"
+          <mss-input class="mss-filter-item" [label]="'dictionary.variableSymbol' | translate"
                      formControlName="variableSymbol">
           </mss-input>
-          <mss-input class="filter-item" [label]="'dictionary.specificSymbol' | translate"
+          <mss-input class="mss-filter-item" [label]="'dictionary.specificSymbol' | translate"
                      formControlName="specificSymbol">
           </mss-input>
-          <mss-select class="filter-item" [label]="'basic.state' | translate"
+          <mss-select class="mss-filter-item" [label]="'basic.state' | translate"
                       [options]="stateOptions" [clearAble]="true" formControlName="state">
           </mss-select>
         </div>
@@ -36,11 +36,11 @@
 
       <div class="content" *ngIf="visibleSection.value === topupsFilterSections[2]">
         <div class="row wrapped">
-          <mss-select class="filter-item" [label]="'dictionary.issuerCode' | translate"
+          <mss-select class="mss-filter-item" [label]="'dictionary.issuerCode' | translate"
                       *mssRoleIf="'paymentTopups.issuerCodeSelect'"
                       [options]="issuerCodes" [clearAble]="true" formControlName="issuerCode">
           </mss-select>
-          <mss-select class="filter-item" [label]="'dictionary.cardGroupCode' | translate"
+          <mss-select class="mss-filter-item" [label]="'dictionary.cardGroupCode' | translate"
                       *mssRoleIf="'paymentTopups.cardGroupCodeSelect'"
                       [options]="cardGroupCodes" [clearAble]="true" formControlName="cardGroupCode">
           </mss-select>

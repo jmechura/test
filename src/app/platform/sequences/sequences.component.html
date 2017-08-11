@@ -6,7 +6,8 @@
     </mss-button>
   </div>
   <div class="data-table-container">
-    <ngx-datatable (activate)="redirectToDetail($event)" #table [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+    <ngx-datatable (activate)="redirectToDetail($event)" #table [loadingIndicator]="loading"
+                   [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50"
                    [rowHeight]="'auto'" [limit]="rowLimit" [rows]="sequenceRows">
       <ngx-datatable-column [name]="'sequences.dictionary.resource' | translate" prop="resource">
         <ng-template ngx-datatable-cell-template let-value="value">
@@ -20,16 +21,8 @@
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'sequences.dictionary.order' | translate" prop="order">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <div class="cell" *ngIf="edit !== row.$$index">{{value}}</div>
-          <input class="table-input" autofocus *ngIf="edit === row.$$index" type="number" [(ngModel)]="editOrder"/>
-        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'sequences.dictionary.template' | translate" prop="template">
-        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <div class="cell" *ngIf="edit !== row.$$index">{{value}}</div>
-          <input class="table-input" autofocus *ngIf="edit === row.$$index" type="text" [(ngModel)]="editTemplate"/>
-        </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'basic.delete' | translate" [maxWidth]="100">
         <ng-template ngx-datatable-cell-template let-row="row">

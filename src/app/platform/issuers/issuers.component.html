@@ -8,10 +8,12 @@
 
   <div class="filter-container">
     <div class="filters" [formGroup]="filterForm">
-      <mss-input class="filter-item" formControlName="code" [label]="'basic.code' | translate"></mss-input>
-      <mss-input class="filter-item" formControlName="name" [label]="'issuers.list.name' | translate"></mss-input>
+      <mss-input class="mss-filter-item-label-top" formControlName="code" labelPosition="top" [label]="'basic.code' | translate">
+      </mss-input>
+      <mss-input class="mss-filter-item-label-top" formControlName="name" labelPosition="top" [label]="'issuers.list.name' | translate">
+      </mss-input>
     </div>
-    <mss-button class="mss-action-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button class="mss-action-button clear" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
   <div class="mss-action-button">
     <mss-button [label]="'basic.search' | translate" (click)="getIssuers()"></mss-button>
@@ -24,7 +26,7 @@
                    (page)="setPage($event)"
                    [externalSorting]="true"
                    (sort)="getSortedIssuers($event)"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">
+                   [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'" selectionType="single" (select)="onSelect($event)">
 
       <ngx-datatable-column [name]="'basic.code' | translate" prop="code" [sortable]="true" [cellClass]="'mss-click-able'">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">

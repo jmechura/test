@@ -8,9 +8,9 @@
   <div [formGroup]="filterForm">
     <div class="row wrapped filter-container">
       <div class="row wrapped">
-        <mss-input class="filter-item" formControlName="name"
+        <mss-input class="mss-filter-item-label-top" formControlName="name"
                    [label]="'basic.name' | translate" labelPosition="top"></mss-input>
-        <mss-select class="filter-item" formControlName="type" [options]="reportTypes"
+        <mss-select class="mss-filter-item-label-top" formControlName="type" [options]="reportTypes"
                     [label]="'dictionary.type' | translate" labelPosition="top" [clearAble]="true"></mss-select>
       </div>
       <mss-button class="mss-action-button" (click)="clearFilter()" [label]="'basic.clearFilter' | translate"></mss-button>
@@ -22,7 +22,7 @@
 
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="tableRows"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    [externalPaging]="true" [limit]="rowLimit"
                    [externalSorting]="true" (sort)="getSortedReports($event)"
                    [selectionType]="'single'"

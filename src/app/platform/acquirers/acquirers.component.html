@@ -10,22 +10,24 @@
     <div class="column" [formGroup]="filterForm" *ngIf="filterForm">
       <div class="content column">
         <div class="row wrapped">
-          <mss-input class="filter-item" formControlName="code" [label]="'basic.code' | translate"></mss-input>
-          <mss-input class="filter-item" formControlName="name" [label]="'basic.name' | translate"></mss-input>
+          <mss-input class="mss-filter-item-label-top" formControlName="code" labelPosition="top" [label]="'basic.code' | translate">
+          </mss-input>
+          <mss-input class="mss-filter-item-label-top" formControlName="name" labelPosition="top" [label]="'basic.name' | translate">
+          </mss-input>
         </div>
       </div>
     </div>
-    <mss-button class="mss-action-button shifted" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+    <mss-button class="mss-action-button clear" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
   </div>
 
-  <div class="mss-action-button">
-    <mss-button [label]="'basic.search' | translate" (click)="getAcquirers()"></mss-button>
+  <div class="mss-buttons-row start">
+    <mss-button class="mss-action-button" [label]="'basic.search' | translate" (click)="getAcquirers()"></mss-button>
   </div>
   <!-- END FILTERS -->
 
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="loading" [columnMode]="'force'" [rows]="tableRows"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    [externalPaging]="true" [limit]="rowLimit"
                    [externalSorting]="true" (sort)="getSortedAcquirers($event)"
                    [selectionType]="'single'"

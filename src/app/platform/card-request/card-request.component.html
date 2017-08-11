@@ -1,4 +1,4 @@
-<div class="issuer-card-container">
+<div class="mss-view-container">
   <div class="mss-header-row">
     <span class="mss-title">{{'cards.cardRequests.title' | translate}}</span>
   </div>
@@ -6,19 +6,19 @@
   <div class="filter-container">
     <div class="filters-column">
       <div class="filters-row">
-        <div class="calendar-select filter-item">
+        <div class="mss-filter-item-label-top">
           <div class="label">{{'dictionary.from' | translate}}</div>
           <mss-date-picker-input class="date-picker" [pickedDate]="fromDate"
                                  (pickedDateChange)="changeFromDate($event)"></mss-date-picker-input>
         </div>
-        <div class="calendar-select filter-item">
+        <div class="mss-filter-item-label-top">
           <div class="label">{{'dictionary.to' | translate}}</div>
           <mss-date-picker-input class="date-picker" [pickedDate]="toDate"
                                  (pickedDateChange)="changeToDate($event)"></mss-date-picker-input>
         </div>
         <mss-select [disabled]="issuerCodes.length === 0"
                     *mssRoleIf="'cardRequests.issuerCodeSelect'"
-                    class="filter-item"
+                    class="mss-filter-item-label-top"
                     [label]="'dictionary.issuerCode' | translate"
                     labelPosition="top"
                     [options]="issuerCodes"
@@ -27,14 +27,14 @@
                     (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
         <mss-select [disabled]="cardGroupCodes.length === 0"
                     *mssRoleIf="'cardRequests.cardGroupCodeSelect'"
-                    class="filter-item"
+                    class="mss-filter-item-label-top"
                     [options]="cardGroupCodes"
                     [clearAble]="true"
                     [label]="'dictionary.cardGroupCode' | translate"
                     labelPosition="top"
                     [(selectedOption)]="searchModel.search.predicateObject.cardGroupCode"></mss-select>
         <mss-select [disabled]="requestStates.length === 0"
-                    class="filter-item"
+                    class="mss-filter-item-label-top"
                     [options]="requestStates"
                     [clearAble]="true"
                     labelPosition="top"
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="filters-column">
-      <mss-button class="mss-action-button bottom" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
+      <mss-button class="mss-action-button clear" [label]="'basic.clearFilter' | translate" (click)="clearFilter()"></mss-button>
     </div>
   </div>
 
@@ -57,7 +57,7 @@
                    (page)="setPage($event)"
                    [externalSorting]="true"
                    (sort)="getSortedCardRequests($event)"
-                   [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="48" [limit]="searchModel.pagination.number"
+                   [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50" [rowHeight]="48" [limit]="searchModel.pagination.number"
                    [rows]="rows">
       <ngx-datatable-column [name]="'basic.id' | translate" prop="uuid" [sortable]="true">
         <ng-template ngx-datatable-cell-template let-row="row" let-value="value">

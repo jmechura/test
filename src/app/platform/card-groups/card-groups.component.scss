@@ -1,11 +1,5 @@
 @import 'theme';
 
-$form-item-width: 400px;
-
-.card-groups-container {
-  padding: 40px 50px;
-}
-
 .row {
   display: flex;
 
@@ -22,17 +16,6 @@ $form-item-width: 400px;
     flex-direction: column;
     flex-grow: 1;
   }
-
-  .tab-content {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-  }
-}
-
-.form-item {
-  margin-right: 60px;
-  margin-bottom: 15px;
 }
 
 .right-padding-tabs {
@@ -58,10 +41,6 @@ $form-item-width: 400px;
 
       &:last-child {
         margin-left: 30px;
-      }
-
-      .form-item {
-        width: $form-item-width;
       }
     }
 

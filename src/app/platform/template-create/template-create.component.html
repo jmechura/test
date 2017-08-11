@@ -1,7 +1,6 @@
 <div class="mss-view-container">
   <div class="mss-header-row">
     <div class="mss-title">{{'templates.list.addTemplate' | translate}}</div>
-    <mss-button class="mss-action-button" [label]="'basic.back' | translate" routerLink="/platform/templates"></mss-button>
   </div>
 
   <form [formGroup]="templateForm" class="new-template-form">
@@ -55,6 +54,7 @@
       </div>
     </div>
     <div class="mss-buttons-row">
+      <mss-button class="mss-action-button right-margin" [label]="'basic.dismiss' | translate" routerLink="/platform/templates"></mss-button>
       <mss-button [label]="'basic.add' | translate" class="mss-action-button" (click)="addTemplate()"
                   [disabled]="templateForm.invalid"></mss-button>
     </div>

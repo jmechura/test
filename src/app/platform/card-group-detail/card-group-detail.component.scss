@@ -18,10 +18,6 @@ $blocks-bottom-margin: 30px;
   }
 }
 
-.activate-button {
-  min-width: 220px;
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -72,7 +68,7 @@ $blocks-bottom-margin: 30px;
 
 .typeSelect {
   margin-bottom: 15px;
-  max-width: 500px;
+  max-width: $default-input-width;
 }
 
 .invisible {

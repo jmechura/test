@@ -47,7 +47,9 @@
                   class="mss-action-button right-margin"></mss-button>
       <mss-button [label]="'basic.dismiss' | translate" *ngIf="mode === ComponentMode.Create" type="button" (click)="goToList()"
                   class="mss-action-button right-margin"></mss-button>
-      <mss-button [label]="'basic.save' | translate" *ngIf="mode !== ComponentMode.View" type="submit" [disabled]="reportEditForm.invalid"
+      <mss-button [label]="'basic.save' | translate" *ngIf="mode === ComponentMode.Edit" type="submit" [disabled]="reportEditForm.invalid"
+                  class="mss-action-button"></mss-button>
+      <mss-button [label]="'basic.add' | translate" *ngIf="mode === ComponentMode.Create" type="submit" [disabled]="reportEditForm.invalid"
                   class="mss-action-button"></mss-button>
     </div>
   </form>

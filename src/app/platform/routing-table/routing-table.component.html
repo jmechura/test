@@ -4,7 +4,7 @@
     <mss-button class="mss-action-button" (click)="switchModal()" [label]="'routingTables.list.addTable' | translate"></mss-button>
   </div>
   <div *ngIf="rows.length > 0" class="data-table-container">
-    <ngx-datatable #table [columns]="columns" [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+    <ngx-datatable #table [columns]="columns" [loadingIndicator]="loading" [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50"
                    [rowHeight]="'auto'" [limit]="rowLimit" [rows]="rows" [selectionType]="'single'" (select)="onSelect($event)">
       <ngx-datatable-column [name]="'routingTables.dictionary.name' | translate" prop="name">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
@@ -14,11 +14,11 @@
       <ngx-datatable-column [name]="'routingTables.dictionary.description' | translate" prop="description">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
           <div class="cell" *ngIf="edit !== row.$$index">{{value}}</div>
-          <input class="table-input" autofocus *ngIf="edit === row.$$index" type="text" [(ngModel)]="editModel"/>
+          <input class="table-input" autofocus *ngIf="edit === row.$$index" [(ngModel)]="editModel"/>
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column [name]="'basic.delete' | translate" [maxWidth]="80">
+      <ngx-datatable-column [name]="'basic.delete' | translate" [maxWidth]="100">
         <ng-template ngx-datatable-cell-template let-row="row">
           <i (click)="showDeleteModal($event, row)" class="material-icons click-able">clear</i>
         </ng-template>

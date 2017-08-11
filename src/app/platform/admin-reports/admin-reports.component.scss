@@ -15,14 +15,4 @@
   &.wrapped {
     flex-wrap: wrap;
   }
-
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
-
-  .filter-item {
-    margin-right: 30px;
-    width: $default-input-width;
-    margin-bottom: 5px;
-  }
 }

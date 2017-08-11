@@ -44,7 +44,7 @@
   <!-- DATA TABLE-->
   <div class="data-table-container">
     <ngx-datatable #table [loadingIndicator]="itemLoading" [rows]="tableData?.content ? tableData.content : []" [columnMode]="'force'"
-                   [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                   [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    [limit]="requestModel.pagination.number" [count]="tableData ? tableData.totalElements : 0"
                    [externalSorting]="true" [externalPaging]="true"
                    (sort)="getSortedTopupsScheduleItems($event)"

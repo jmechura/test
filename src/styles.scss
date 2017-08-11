@@ -79,6 +79,7 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: $default-component-height;
   margin-bottom: 15px;
 }
 
@@ -104,6 +105,10 @@ input {
   &.shifted {
     margin-left: 50px;
   }
+
+  &.clear {
+    margin-top: 29px;
+  }
 }
 
 .mss-buttons-row {
@@ -125,6 +130,18 @@ input {
 
 .mss-cell-align-right {
   text-align: right;
+}
+
+.mss-filter-item {
+  margin-right: 60px;
+  margin-bottom: 15px;
+  width: $default-input-width;
+}
+
+.mss-filter-item-label-top {
+  margin-right: 60px;
+  margin-bottom: 15px;
+  width: $default-input-width-label-top;
 }
 
 // data-table related classes

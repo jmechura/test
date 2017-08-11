@@ -3,16 +3,4 @@
 .upload-form-container {
   display: flex;
   flex-wrap: wrap;
-
-  .upload-select {
-    width: $default-input-width;
-    margin-right: 24px;
-    margin-bottom: 24px;
-  }
-
-  .file-upload {
-    min-width: $default-input-width;
-    margin-bottom: 24px;
-    margin-right: 24px;
-  }
 }

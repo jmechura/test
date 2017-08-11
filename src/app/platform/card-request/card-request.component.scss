@@ -1,11 +1,6 @@
 @import 'theme';
 
 $header-text-color: $secondary-color;
-$item-width: 400px;
-
-.issuer-card-container {
-  padding: 40px 50px;
-}
 
 .filter-container {
   display: flex;
@@ -20,21 +15,14 @@ $item-width: 400px;
       display: flex;
       flex-wrap: wrap;
 
-      .filter-item {
-        margin-right: 30px;
-        margin-bottom: 15px;
-        width: $item-width;
+      .label {
+        @include default-component-label;
 
-        .label {
-          margin-bottom: 10px;
-        }
+        width: $default-label-width;
+        margin-bottom: $label-top-margin-bottom;
       }
     }
   }
-}
-
-.bottom {
-  margin-top: 29px;
 }
 
 .table-container {

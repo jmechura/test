@@ -5,9 +5,9 @@
 
   <div class="upload-form-container">
     <mss-select [label]="'upload.importCodeSelect' | translate" [options]="importCodes" [selectedOption]="selectedCode"
-                (selectedOptionChange)="selectCode($event)" class="upload-select"></mss-select>
+                (selectedOptionChange)="selectCode($event)" class="mss-filter-item"></mss-select>
     <mss-upload-input [label]="'upload.uploadFile' | translate" (file)="fileChange($event)"
-                      [type]="'input'" *ngIf="enableUpload" class="file-upload">
+                      [type]="'input'" *ngIf="enableUpload" class="mss-filter-item">
     </mss-upload-input>
     <mss-button [label]="'upload.confirm' | translate" *ngIf="enableConfirm" (click)="uploadFile()" class="mss-action-button"></mss-button>
   </div>

@@ -1,7 +1,5 @@
 @import 'theme';
 
-$form-item-width: 400px;
-
 .icon {
   cursor: pointer;
 }
@@ -24,34 +22,6 @@ $form-item-width: 400px;
   }
 }
 
-.content {
-  .tabs {
-    margin-bottom: 30px;
-  }
-
-  .section {
-    display: none;
-
-    .column {
-      &:first-child {
-        margin-right: 30px;
-      }
-
-      &:last-child {
-        margin-left: 30px;
-      }
-
-      .form-item {
-        width: $form-item-width;
-      }
-    }
-
-    &.visible {
-      display: flex;
-    }
-  }
-}
-
 .row {
   display: flex;
 
@@ -59,19 +29,9 @@ $form-item-width: 400px;
     flex-wrap: wrap;
   }
 
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
-
   .column {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-  }
-
-  .filter-item {
-    margin-right: 60px;
-    margin-bottom: 15px;
-    width: $default-input-width;
   }
 }

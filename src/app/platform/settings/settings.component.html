@@ -29,16 +29,13 @@
       </div>
     </div>
     <div class="button-container">
-      <mss-button class="mss-action-button save" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
+      <mss-button class="mss-action-button" [label]="'basic.save' | translate" (click)="updatePassword()"></mss-button>
     </div>
   </form>
 
-  <div class="content" *ngIf="visibleSection.value === 'PAGE'">
-    <div class="column">
-      <mss-select [options]="languages" [selectedOption]="selectedLanguage" [label]="'Jazyk'" [labelPosition]="'top'"
+  <div class="content form-item" *ngIf="visibleSection.value === 'PAGE'">
+      <mss-select [options]="languages" [selectedOption]="selectedLanguage" [label]="'Jazyk'"
                   (selectedOptionChange)="selectLanguage($event)"></mss-select>
-    </div>
-    <div class="column"></div>
   </div>
 
   <div class="content" *ngIf="visibleSection.value === 'ISSUER' && profile">

@@ -19,9 +19,6 @@ export class SequencesComponent implements OnDestroy {
   sequenceRows: any[];
   loading = false;
   rowLimit = 10;
-  edit = null;
-  editTemplate = '';
-  editOrder = null;
   userResource: SelectItem[] = [];
   modalShowing = false;
   private unsubscribe$ = new UnsubscribeSubject();
@@ -74,20 +71,8 @@ export class SequencesComponent implements OnDestroy {
   }
 
   deleteRow(): void {
-    this.store.dispatch({type: sequencesActions.SEQUENCES_DELETE_REQUEST, payload: this.mapSequence(this.deletingRow, false)});
+    this.store.dispatch({type: sequencesActions.SEQUENCES_DELETE_REQUEST, payload: this.deletingRow});
     this.toggleWarnModal();
-  }
-
-  mapSequence(input: any, edit?: boolean): SequencesModel {
-    return {
-      order: edit ? this.editOrder : input.order,
-      template: edit ? this.editTemplate : input.template,
-      pk: {
-        resource: input.resource,
-        resourceId: input.resourceId,
-        type: input.type
-      }
-    };
   }
 
   changeLimit(limit: number): void {
