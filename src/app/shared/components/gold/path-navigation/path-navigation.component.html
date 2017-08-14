@@ -1,0 +1,16 @@
+<div class="navigation-container">
+  <div class="navigation-items">
+    <div class="" (click)="redirect({path: '/platform'})">
+      <i class="material-icons toolbar-item-icon">home</i>
+    </div>
+    <div *ngFor="let item of path" class="navigation-item"
+         (click)="redirect(item)">
+      <i class="material-icons">keyboard_arrow_right</i>
+      <span class="item-text">{{item.title}}</span>
+    </div>
+  </div>
+  <div class="navigation-item" (click)="back()">
+    <i class="material-icons">keyboard_arrow_right</i>
+    <span class="item-text-back">{{ 'menu.go-back' | translate }}</span>
+  </div>
+</div>

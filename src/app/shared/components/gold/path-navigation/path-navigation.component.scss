@@ -1,0 +1,53 @@
+@import 'theme';
+
+.navigation-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  user-select: none;
+  padding: 0 50px;
+
+  .navigation-items {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.navigation-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .item-text, .item-text-back {
+    color: #000000;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-size: 12px;
+
+    &:hover {
+      color: #ff6d6d;
+      text-decoration: underline;
+    }
+  }
+
+  &:last-child {
+    .item-text {
+      color: $primary-text-color;
+      cursor: default;
+
+      &:hover {
+        color: $primary-text-color;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.toolbar-item-icon {
+  color: #000000;
+  cursor: pointer;
+
+  &:hover {
+    color: #ff6d6d;
+  }
+}

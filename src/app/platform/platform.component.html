@@ -6,6 +6,7 @@
   </div>
 </div>
 <div class="app-content-container" [ngClass]="{'side-toolbar': toolbarPosition === 'side', 'top-toolbar': toolbarPosition === 'top'}">
+  <mss-path-navigation></mss-path-navigation>
   <router-outlet></router-outlet>
 </div>
 <mss-toolbar [position]="toolbarPosition" [userData]="profile"></mss-toolbar>

@@ -9,6 +9,7 @@ import { BronzeComponentsModule } from '../bronze/bronze-components.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { DirectivesModule } from '../../directives/directives.module';
+import { PathNavigationComponent } from './path-navigation/path-navigation.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { DirectivesModule } from '../../directives/directives.module';
     AuthFormComponent,
     OrgUnitFormComponent,
     EmployeeFormComponent,
+    PathNavigationComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { DirectivesModule } from '../../directives/directives.module';
     AuthFormComponent,
     OrgUnitFormComponent,
     EmployeeFormComponent,
+    PathNavigationComponent,
   ],
   providers: [],
 })

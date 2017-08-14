@@ -21,6 +21,8 @@ import { ListComponent } from './list/list.component';
 import { RouterModule } from '@angular/router';
 import { DirectivesModule } from '../../directives/directives.module';
 import { MultiselectComponent } from './multiselect/multiselect.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from '../../services/language.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { MultiselectComponent } from './multiselect/multiselect.component';
     HttpModule,
     RouterModule,
     DirectivesModule,
+    TranslateModule,
   ],
   exports: [
     AvatarComponent,
@@ -68,7 +71,9 @@ import { MultiselectComponent } from './multiselect/multiselect.component';
     ListComponent,
     MultiselectComponent,
   ],
-  providers: [],
+  providers: [
+    LanguageService,
+  ],
 })
 export class BronzeComponentsModule {
 }

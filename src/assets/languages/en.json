@@ -915,7 +915,10 @@
     "admin-reports": "Admin reporty",
     "reports": "Reporty",
     "payment-topups": "Přehled plateb",
-    "file-upload": "File Upload"
+    "file-upload": "File Upload",
+    "detail": "Detail",
+    "go-back": "Go back",
+    "create": "Create"
   },
   "toastr": {
     "error": {
