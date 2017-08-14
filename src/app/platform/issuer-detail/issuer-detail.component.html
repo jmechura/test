@@ -39,7 +39,7 @@
             <div class="mss-validation-label"></div>
           </ng-container>
         </div>
-        <div class="edit-issuer-input-side">
+        <div class="detail-container">
           <mss-input formControlName="email" [label]="'basic.email' | translate">></mss-input>
           <div class="mss-validation-label"><span *ngIf="editIssuerForm.get('email').hasError('email')">
             {{'basic.required.badEmail' | translate}}</span></div>
@@ -145,5 +145,8 @@
   </div>
   <div *ngIf="visibleTab.value === 'TRANSACTIONS'">
     <mss-dashboard [embeded]="embedObject"></mss-dashboard>
+  </div>
+  <div *ngIf="visibleTab.value === 'CARDS'">
+    <mss-card-list [embeded]="embedObject"></mss-card-list>
   </div>
 </div>

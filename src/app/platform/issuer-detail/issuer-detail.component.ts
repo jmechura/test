@@ -15,6 +15,8 @@ import { ExtendedToastrService } from '../../shared/services/extended-toastr.ser
 import { LanguageService } from '../../shared/services/language.service';
 import { EmbededComponentModel } from '../../shared/models/embeded-component.model';
 
+const SECTIONS = ['BASIC', 'TRANSACTIONS', 'CARDS'];
+
 @Component({
   selector: 'mss-issuer-detail',
   templateUrl: './issuer-detail.component.html',
@@ -70,10 +72,10 @@ export class IssuerDetailComponent implements OnDestroy {
       zip: [null, Validators.required],
     });
 
-    this.tabsOptions = [{
-      label: this.language.translate('issuers.sections.BASIC'),
-      value: 'BASIC'
-    }];
+    this.tabsOptions = SECTIONS.map(sect => ({
+      label: this.language.translate(`issuers.sections.${sect}`),
+      value: sect
+    }));
     this.visibleTab = this.tabsOptions[0];
 
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
@@ -86,15 +88,12 @@ export class IssuerDetailComponent implements OnDestroy {
           this.id = params.id;
           this.mode = ComponentMode.View;
           this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_GET_REQUEST, payload: this.id});
-          this.tabsOptions.push({
-            label: this.language.translate('issuers.sections.TRANSACTIONS'),
-            value: 'TRANSACTIONS'
-          });
         } else {
           this.mode = ComponentMode.Create;
           // default is disabled therefore it needs to be enabled when creating
           this.editIssuerForm.get('code').enable();
           this.editIssuerForm.get('name').enable();
+          this.tabsOptions = this.tabsOptions.filter(sect => sect.value !== 'TRANSACTIONS' && sect.value !== 'CARDS');
         }
       }
     );

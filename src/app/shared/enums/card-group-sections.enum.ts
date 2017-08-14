@@ -4,5 +4,6 @@ export enum CardGroupSections {
   CONTACTS,
   ADDRESS,
   DELIVERYADRESS,
-  TRANSACTIONS
+  TRANSACTIONS,
+  CARDS
 }

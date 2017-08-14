@@ -1,6 +1,5 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { StateModel } from '../../shared/models/state.model';
@@ -19,14 +18,10 @@ import { RoleService } from '../../shared/services/role.service';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 import { CardFilterSections } from '../../shared/enums/card-sections.enum';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { EmbededComponentModel } from '../../shared/models/embeded-component.model';
 
-const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
-  cardGroupCode: '',
-  cln: '',
-  issuerCode: '',
-  lastname: '',
-  state: 'INIT'
-};
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 
 @Component({
   selector: 'mss-card-list',
@@ -34,42 +29,63 @@ const DEFAULT_SEARCH_OBJECT: CardPredicateObject = {
   styleUrls: ['./card-list.component.scss']
 })
 
-export class CardListComponent implements OnDestroy {
+export class CardListComponent implements OnDestroy, OnInit {
 
   rows: any[] = [];
   loading = false;
   tableData: Pagination<Card>;
   issuerCodes: SelectItem[] = [];
-  requestModel: RequestOptions<CardPredicateObject> = {
-    pagination: {
-      number: 10,
-      numberOfPages: 0,
-      start: 0
-    },
-    search: {
-      predicateObject: Object.assign({}, DEFAULT_SEARCH_OBJECT)
-    },
-    sort: {}
-  };
-  editingRow = -1;
-  editedCard: Card;
   cardStates: SelectItem[] = [];
   cardGroupCodes: SelectItem[] = [];
-  issuer = false;
   private unsubscribe$ = new UnsubscribeSubject();
   filterSections: SelectItem[] = [];
   visibleSection: SelectItem;
   cardFilterSection = CardFilterSections;
-  issuerTab = false;
+  filterForm: FormGroup;
+  editingRow = -1;
+  editedCard: Card;
+  pageNumber = 0;
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
+  totalItems = 0;
+  sortOptions: {
+    predicate: string;
+    reverse: boolean;
+  };
+  embeddedObject: EmbededComponentModel;
 
-  @ViewChild(DatatableComponent) table: DatatableComponent;
+  @Input()
+  set embeded(obj: EmbededComponentModel) {
+    this.embeddedObject = obj;
+    if (obj.issuerCode) {
+      this.filterForm.get('issuerCode').patchValue(obj.issuerCode);
+      this.filterForm.get('issuerCode').enable();
+      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: obj.issuerId});
+    }
+
+    if (obj.cardGroupCode) {
+      this.filterForm.get('cardGroupCode').patchValue(obj.cardGroupCode);
+      this.filterForm.get('cardGroupCode').enable();
+      // all selects are hidden
+      this.filterSections = this.filterSections.filter(sect => sect.value !== CardFilterSections.ISSUER);
+    }
+  }
+
 
   constructor(private store: Store<AppStateModel>,
               private api: ApiService,
               private language: LanguageService,
               private router: Router,
               private roles: RoleService,
+              private fb: FormBuilder,
               private toastr: ExtendedToastrService) {
+    this.filterForm = this.fb.group({
+      cardGroupCode: [{value: null, disabled: true}],
+      cln: [null],
+      issuerCode: [{value: null, disabled: true}],
+      lastname: [null],
+      state: [{value: null, disabled: true}]
+    });
+
     this.store.dispatch({type: cardStateActions.CARD_STATE_GET_REQUEST});
 
     this.filterSections = Object.keys(CardFilterSections).filter(key => isNaN(Number(key)))
@@ -86,10 +102,13 @@ export class CardListComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.cardStates = [{value: 'INIT'}, ...data.data.map(item => ({
+          this.cardStates = data.data.map(item => ({
             value: item,
             label: this.language.translate(`enums.cardStates.${item}`)
-          }))];
+          }));
+          if (this.cardStates.length > 0) {
+            this.filterForm.get('state').enable();
+          }
         }
       }
     );
@@ -101,7 +120,11 @@ export class CardListComponent implements OnDestroy {
           return;
         }
         if (data != null && !loading) {
-          this.issuerCodes = data.map(item => ({value: item.id, label: item.code}));
+          // for issuer code and is are equal, no need to join id and code
+          this.issuerCodes = data.map(item => ({value: item.id, label: item.name}));
+          if (this.issuerCodes.length > 0) {
+            this.filterForm.get('issuerCode').enable();
+          }
         }
       }
     );
@@ -116,6 +139,7 @@ export class CardListComponent implements OnDestroy {
         if (data != undefined && !loading) {
           this.tableData = data;
           this.rows = data.content.map(item => item);
+          this.totalItems = data.totalElements;
         }
       }
     );
@@ -134,14 +158,14 @@ export class CardListComponent implements OnDestroy {
           this.roles.isVisible('cards.issuerCodeSelect').subscribe(
             issuerResult => {
               if (issuerResult) {
-                this.issuerTab = true;
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
                 this.roles.isVisible('cards.cardGroupCodeSelect').subscribe(
                   cardGroupCodeResult => {
                     if (cardGroupCodeResult) {
-                      this.issuerTab = true;
                       this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: data.resourceId});
+                    } else {
+                      this.filterSections = this.filterSections.filter(sect => sect.value !== CardFilterSections.ISSUER);
                     }
                   }
                 );
@@ -159,23 +183,24 @@ export class CardListComponent implements OnDestroy {
           return;
         }
         if (data.data !== undefined && !data.loading) {
-          this.cardGroupCodes = data.data.map(item => ({value: item.name}));
+          this.cardGroupCodes = data.data.map(item => ({value: item.code, label: item.name}));
+          if (this.cardGroupCodes.length > 0) {
+            this.filterForm.get('cardGroupCode').enable();
+          }
         }
       }
     );
-
-    this.getCards();
   }
 
   setPage(pageInfo: any): void {
-    this.requestModel.pagination.start = pageInfo.offset * this.requestModel.pagination.number;
-    this.store.dispatch({type: cardActions.CARD_API_GET, payload: this.requestModel});
+    this.pageNumber = pageInfo.offset;
+    this.getCards();
   }
 
   changeLimit(limit: number): void {
-    if (this.requestModel.pagination.number !== limit) {
-      this.requestModel.pagination.number = limit;
-      this.store.dispatch({type: cardActions.CARD_API_GET, payload: this.requestModel});
+    if (this.rowLimit !== limit) {
+      this.rowLimit = limit;
+      this.getCards();
     }
   }
 
@@ -199,7 +224,48 @@ export class CardListComponent implements OnDestroy {
   }
 
   clearFilter(): void {
-    this.requestModel.search.predicateObject = Object.assign({}, DEFAULT_SEARCH_OBJECT);
+    this.filterForm.reset();
+    this.filterForm.get('cardGroupCode').disable();
+    this.cardGroupCodes = [];
+  }
+
+  getCards(): void {
+    this.store.dispatch({
+      type: cardActions.CARD_API_GET,
+      payload: this.requestModel
+    });
+  }
+
+  goToDetail(event: any): void {
+    this.router.navigateByUrl(`platform/cards/${event.row.cardUuid}`);
+  }
+
+  getSortedCards(sortInfo: any): void {
+    sortInfo.sorts[0].prop = (sortInfo.sorts[0].prop === 'cardGroupPrimaryCode') ? 'cardGroupCode' : sortInfo.sorts[0].prop;
+    this.requestModel.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
+    this.getCards();
+  }
+
+  selectIssuerCode(id: string): void {
+    // clear it before new data arrives
+    this.filterForm.get('cardGroupCode').reset();
+    this.filterForm.get('cardGroupCode').disable();
+    this.cardGroupCodes = [];
+    if (id != null) {
+      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.fire();
+  }
+
+  ngOnInit(): void {
+    this.getCards();
+  }
+
+  getFormatedExpiration(date: string): string {
+    return (date != null && date.length > 0) ? `${date.slice(0, 2)}/${date.slice(2, 4)}` : '';
   }
 
   startEditing(row: any, event: MouseEvent): void {
@@ -229,37 +295,21 @@ export class CardListComponent implements OnDestroy {
     );
   }
 
-  getCards(): void {
-    this.store.dispatch({
-      type: cardActions.CARD_API_GET,
-      payload: this.requestModel
-    });
+  private get predicateObject(): CardPredicateObject {
+    return this.filterForm.value;
   }
 
-  goToDetail(event: any): void {
-    this.router.navigateByUrl(`platform/cards/${event.row.cardUuid}`);
-  }
-
-  getSortedCards(sortInfo: any): void {
-    sortInfo.sorts[0].prop = (sortInfo.sorts[0].prop === 'cardGroupPrimaryCode') ? 'cardGroupCode' : sortInfo.sorts[0].prop;
-    this.requestModel.sort = {predicate: sortInfo.sorts[0].prop, reverse: sortInfo.sorts[0].dir === 'asc'};
-    this.getCards();
-  }
-
-  selectIssuerCode(id: string): void {
-    this.requestModel.search.predicateObject.issuerCode = id;
-    // clear it before new data arrives
-    this.cardGroupCodes = [];
-    if (id != null) {
-      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.fire();
-  }
-
-  getFormatedExpiration(date: string): string {
-    return (date != null && date.length > 0) ? `${date.slice(0, 2)}/${date.slice(2, 4)}` :  '';
+  private get requestModel(): RequestOptions<CardPredicateObject> {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: this.pageNumber * this.rowLimit
+      },
+      search: {
+        predicateObject: this.predicateObject
+      },
+      sort: this.sortOptions ? this.sortOptions : {}
+    };
   }
 }

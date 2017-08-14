@@ -303,7 +303,8 @@
       "ADDRESS": "Adresa",
       "DELIVERYADRESS": "Doručovací adresa",
       "ISSUER": "Issuer",
-      "TRANSACTIONS": "Transakce"
+      "TRANSACTIONS": "Transakce",
+      "CARDS": "Karty"
     },
     "createSpecificSymbol": "Vytvořit specifický symbol",
     "useDeliveryAddress": "Použit doručovací adresu"
@@ -322,7 +323,8 @@
     },
     "sections": {
       "BASIC": "Zakladni informace",
-      "TRANSACTIONS": "Transakce"
+      "TRANSACTIONS": "Transakce",
+      "CARDS": "Karty"
     }
   },
   "routingTables": {

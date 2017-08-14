@@ -132,14 +132,18 @@
         </div>
         <div *mssRoleIf="'users.edit'">
           <div class="mss-buttons-row"
-               *ngIf="visibleTab.value !== CardGroupSections.DELIVERYADRESS && visibleTab.value !== CardGroupSections.TRANSACTIONS">
+               *ngIf="visibleTab.value !== CardGroupSections.DELIVERYADRESS && visibleTab.value !== CardGroupSections.TRANSACTIONS &&
+               visibleTab.value !== CardGroupSections.CARDS">
             <mss-button [label]="'basic.edit' | translate" type="button" (click)="startEditing()"
                         class="mss-action-button"></mss-button>
           </div>
         </div>
-        <div *ngIf="visibleTab.value === CardGroupSections.TRANSACTIONS">
-          <mss-dashboard *ngIf="embedObj" [embeded]="embedObj"></mss-dashboard>
-        </div>
+      </div>
+      <div *ngIf="visibleTab.value === CardGroupSections.TRANSACTIONS">
+        <mss-dashboard *ngIf="embedObj" [embeded]="embedObj"></mss-dashboard>
+      </div>
+      <div *ngIf="visibleTab.value === CardGroupSections.CARDS">
+        <mss-card-list [embeded]="embedObj"></mss-card-list>
       </div>
       <form [formGroup]="editForm" novalidate (ngSubmit)="handleFormSubmit()"
             *ngIf="edit">
@@ -281,7 +285,9 @@
           <div class="column"></div>
         </div>
         <div>
-          <div class="mss-buttons-row" *ngIf="visibleTab.value !== CardGroupSections.DELIVERYADRESS">
+          <div class="mss-buttons-row"
+               *ngIf="visibleTab.value !== CardGroupSections.DELIVERYADRESS && visibleTab.value !== CardGroupSections.TRANSACTIONS &&
+                      visibleTab.value !== CardGroupSections.CARDS">
             <mss-button [label]="'basic.dismiss' | translate" type="button" (click)="cancelEditing()"
                         *ngIf="mode === ComponentMode.Edit"
                         class="mss-action-button right-margin"></mss-button>
@@ -435,7 +441,7 @@
               </div>
             </div>
           </div>
-          </div>
+        </div>
         <div *mssRoleIf="'users.edit'">
           <div class="mss-buttons-row" *ngIf="visibleTab.value === CardGroupSections.DELIVERYADRESS">
             <mss-button [label]="'basic.dismiss' | translate" type="button" (click)="cancelAddressEditing()"

@@ -31,6 +31,8 @@ interface TabOptions {
   value: CardGroupSections;
 }
 
+const HIDDEN_WHEN_CREATE = [CardGroupSections.DELIVERYADRESS, CardGroupSections.TRANSACTIONS, CardGroupSections.CARDS];
+
 @Component({
   selector: 'mss-card-group-detail',
   templateUrl: './card-group-detail.component.html',
@@ -127,28 +129,11 @@ export class CardGroupDetailComponent implements OnDestroy {
       }
     );
 
-    this.tabsOptions = [
-      {
-        label: this.langService.translate('cardGroups.sections.BASIC'),
-        value: CardGroupSections.BASIC
-      },
-      {
-        label: this.langService.translate('cardGroups.sections.LIMITS'),
-        value: CardGroupSections.LIMITS
-      },
-      {
-        label: this.langService.translate('cardGroups.sections.CONTACTS'),
-        value: CardGroupSections.CONTACTS
-      },
-      {
-        label: this.langService.translate('cardGroups.sections.ADDRESS'),
-        value: CardGroupSections.ADDRESS
-      },
-      {
-        label: this.langService.translate('cardGroups.sections.DELIVERYADRESS'),
-        value: CardGroupSections.DELIVERYADRESS
-      }
-    ];
+    this.tabsOptions = Object.keys(CardGroupSections).filter(key => isNaN(Number(key)))
+      .map(item => ({
+        label: this.langService.translate(`cardGroups.sections.${item}`),
+        value: CardGroupSections[item]
+      }));
     this.visibleTab = this.tabsOptions[0];
 
     this.route.params.subscribe(
@@ -159,14 +144,10 @@ export class CardGroupDetailComponent implements OnDestroy {
         if (params.id !== 'create') {
           this.mode = ComponentMode.View;
           this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
-          this.tabsOptions = [...this.tabsOptions, {
-            label: this.langService.translate('cardGroups.sections.TRANSACTIONS'),
-            value: CardGroupSections.TRANSACTIONS
-          }];
         } else {
           this.mode = ComponentMode.Create;
           this.edit = true;
-          this.tabsOptions = this.tabsOptions.filter(opt => opt.value !== CardGroupSections.DELIVERYADRESS);
+          this.tabsOptions = this.tabsOptions.filter(opt => HIDDEN_WHEN_CREATE.some(hiddenOpt => hiddenOpt === opt.value));
         }
       }
     );
@@ -198,8 +179,6 @@ export class CardGroupDetailComponent implements OnDestroy {
             this.cardGroupDetail = data.data;
             this.editForm.patchValue(this.cardGroupDetail);
             this.embedObj = {
-              issuerCode: data.data.issuerCode,
-              cardGroupId: data.data.id,
               cardGroupCode: data.data.code,
             };
           } else {

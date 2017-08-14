@@ -1,49 +1,54 @@
-<div class="mss-view-container">
-  <div class="mss-header-row">
+<div [ngClass]="{'mss-view-container': !embeddedObject}">
+  <div class="mss-header-row" *ngIf="!embeddedObject">
     <span class="mss-title">{{'cards.cardList.title' | translate}}</span>
   </div>
 
   <div class="row">
-    <div class="column right-padding-tabs">
-      <mss-tabs *ngIf="issuerTab" class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
-      <div class="content column" *ngIf="visibleSection.value ===  cardFilterSection.BASIC">
+    <div class="column right-padding-tabs" [formGroup]="filterForm">
+      <mss-tabs *ngIf="filterSections.length > 1" class="tabs" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
+      <div class="column" *ngIf="visibleSection.value ===  cardFilterSection.BASIC">
         <div class="row wrapped">
           <div class="tab-content">
-            <mss-input [label]="'dictionary.cln' | translate" [(value)]="requestModel.search.predicateObject.cln"
+            <mss-input [label]="'dictionary.cln' | translate" formControlName="cln"
                        class="mss-filter-item"></mss-input>
           </div>
           <div class="tab-content">
-            <mss-input [label]="'cards.cardList.lastName' | translate" [(value)]="requestModel.search.predicateObject.lastname"
+            <mss-input [label]="'cards.cardList.lastName' | translate" formControlName="lastname"
                        class="mss-filter-item"></mss-input>
           </div>
           <div class="tab-content">
-            <mss-select [disabled]="cardStates.length === 0"
-                        [options]="cardStates"
-                        [label]="'cards.cardList.cardState' | translate"
-                        [(selectedOption)]="requestModel.search.predicateObject.state"
-                        class="mss-filter-item"></mss-select>
+            <mss-select
+              [options]="cardStates"
+              [label]="'cards.cardList.cardState' | translate"
+              formControlName="state"
+              [clearAble]="true"
+              class="mss-filter-item"></mss-select>
           </div>
         </div>
       </div>
       <div class="content column" *ngIf="visibleSection.value ===  cardFilterSection.ISSUER">
         <div class="row wrapped">
-          <mss-select [disabled]="issuerCodes.length === 0"
-                      [label]="'dictionary.issuerCode' | translate"
-                      [options]="issuerCodes"
-                      [clearAble]="true"
-                      *mssRoleIf="'cards.issuerCodeSelect'"
-                      [selectedOption]="requestModel.search.predicateObject.issuerCode"
-                      (selectedOptionChange)="selectIssuerCode($event)"
-                      class="mss-filter-item">
-          </mss-select>
-          <mss-select [disabled]="cardGroupCodes.length === 0"
-                      [options]="cardGroupCodes"
-                      [clearAble]="true"
-                      *mssRoleIf="'cards.cardGroupCodeSelect'"
-                      [label]="'dictionary.cardGroupCode' | translate"
-                      [(selectedOption)]="requestModel.search.predicateObject.cardGroupCode"
-                      class="mss-filter-item">
-          </mss-select>
+          <ng-container *ngIf="!embeddedObject?.issuerCode && !embeddedObject?.cardGroupCode">
+            <mss-select
+              [label]="'dictionary.issuerCode' | translate"
+              [options]="issuerCodes"
+              [clearAble]="true"
+              *mssRoleIf="'cards.issuerCodeSelect'"
+              formControlName="issuerCode"
+              (selectedOptionChange)="selectIssuerCode($event)"
+              class="mss-filter-item">
+            </mss-select>
+          </ng-container>
+          <ng-container *ngIf="!embeddedObject?.cardGroupCode">
+            <mss-select
+              [options]="cardGroupCodes"
+              [clearAble]="true"
+              *mssRoleIf="'cards.cardGroupCodeSelect'"
+              [label]="'dictionary.cardGroupCode' | translate"
+              formControlName="cardGroupCode"
+              class="mss-filter-item">
+            </mss-select>
+          </ng-container>
         </div>
         <div class="row wrapped">
         </div>
@@ -57,12 +62,12 @@
 
 
   <div *ngIf="rows" class="data-table-container">
-    <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="tableData ? tableData.totalElements : 0 "
+    <ngx-datatable #table [externalPaging]="true" [loadingIndicator]="loading" [count]="totalItems"
                    [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50" [rowHeight]="'auto'"
                    (activate)="goToDetail($event)"
                    [externalSorting]="true"
                    (sort)="getSortedCards($event)"
-                   [limit]="requestModel.pagination.number" [rows]="rows" (page)="setPage($event)">
+                   [limit]="rowLimit" [rows]="rows" (page)="setPage($event)">
       <ngx-datatable-column [name]="'dictionary.cln'| translate" prop="cln" [sortable]="true"></ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.cardGroupName'| translate" prop="cardGroupName" [sortable]="false"></ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.expiryDate'| translate" prop="expiryDate"
@@ -112,14 +117,11 @@
 
       <ngx-datatable-footer>
         <ng-template
-          ngx-datatable-footer-template
-          let-rowCount="rowCount"
-          let-pageSize="pageSize"
-          let-curPage="curPage">
+          ngx-datatable-footer-template>
           <mss-table-footer
-            [page]="curPage"
-            [rowsShown]="pageSize"
-            [rowCount]="rowCount"
+            [page]="pageNumber"
+            [rowsShown]="rowLimit"
+            [rowCount]="totalItems"
             (rowsShownChange)="changeLimit($event)"
             (changePage)="table.onFooterPage($event)"
             class="d-table-footer">
