@@ -132,7 +132,7 @@ export class ReportDetailComponent implements OnDestroy {
                 key: propertyDef.key,
                 type: propertyDef.type,
                 value: [
-                  (propertyDef.type === 'LIST_STRING') ? value.split(',') : value,
+                  (propertyDef.type === 'LIST_STRING') ? (value != null ? value.split(',') : [value]) : value,
                   ...propertyDef.required ? [Validators.required] : []
                 ],
                 required: propertyDef.required,

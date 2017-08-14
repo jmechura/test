@@ -184,8 +184,6 @@ export class OrgUnitListComponent implements OnDestroy {
         }
       }
     );
-
-    this.getOrgUnits();
   }
 
   clearFilter(): void {

@@ -63,7 +63,7 @@ export class SettingsComponent implements OnDestroy {
           this.sections = [...this.sections, ...this.profile.roles.map(role => ({
             value: role.resource,
             label: this.language.translate(`settings.sections.${role.resource}`)
-          }))].filter(item => item.value !== 'SYSTEM');
+          }))].filter(item => item.value !== 'SYSTEM' && item.value !== 'CARD');
         }
       }
     );

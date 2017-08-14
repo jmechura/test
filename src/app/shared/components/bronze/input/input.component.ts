@@ -28,6 +28,8 @@ export class InputComponent implements ControlValueAccessor {
   private changeCallback: any;
   private touchedCallback: any;
 
+  defaultPlaceholder: string;
+
 
   get inputValue(): string | number {
     return this.value;
@@ -42,7 +44,7 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   constructor(private language: LanguageService) {
-    this.placeholder = this.language.translate('components.input.placeholder');
+    this.defaultPlaceholder = this.language.translate('components.input.placeholder');
   }
 
   touched(): void {

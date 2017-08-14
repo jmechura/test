@@ -2,7 +2,7 @@
   <div class="mss-header-row">
     <div class="mss-title" *ngIf="mode !== ComponentMode.Create">{{'reports.detail.title' | translate}} - {{reportName}}</div>
     <div class="mss-title" *ngIf="mode === ComponentMode.Create">{{'reports.list.addReport' | translate}}</div>
-    <div class="mss-buttons-row" *ngIf="mode !== ComponentMode.Create">
+    <div class="mss-buttons-row no-margin" *ngIf="mode !== ComponentMode.Create">
       <mss-button class="mss-action-button right-margin" *ngIf="reportDetail"
                   [label]="reportDetail.running ?  ('basic.deactivate' | translate) : ('basic.activate' | translate)"
                   (click)="toggleReport()"></mss-button>
@@ -85,12 +85,16 @@
                        [label]="property.key + (property.required ? '*' : '')" formControlName="value"></mss-input>
             <mss-toggle *ngIf="property.type === 'BOOLEAN'" [label]="property.key + (property.required ? '*' : '')"
                         formControlName="value"></mss-toggle>
-            <mss-multiselect *ngIf="property.type === 'LIST_STRING'" [showName]="('components.select.placeholder' | translate) + '  -  ' + property.placeholder"
+            <mss-multiselect *ngIf="property.type === 'LIST_STRING'"
+                             [showName]="('components.select.placeholder' | translate) + (property.placeholder != null ? '  -  ' + property.placeholder : '')"
+                             [label]="property.key + (property.required ? '*' : '')"
+                             formControlName="value" [options]="property.data">
+            </mss-multiselect>
+            <mss-select *ngIf="property.data && property.type !== 'LIST_STRING'"
+                        [showName]="('components.select.placeholder' | translate) + (property.placeholder != null ? '  -  ' + property.placeholder : '')"
                         [label]="property.key + (property.required ? '*' : '')"
-                        formControlName="value" [options]="property.data"></mss-multiselect>
-            <mss-select *ngIf="property.data && property.type !== 'LIST_STRING'" [showName]="('components.select.placeholder' | translate) + '  -  ' + property.placeholder"
-                        [label]="property.key + (property.required ? '*' : '')"
-                        formControlName="value" [options]="property.data"></mss-select>
+                        formControlName="value" [options]="property.data">
+            </mss-select>
           </div>
         </div>
         <div class="column"></div>

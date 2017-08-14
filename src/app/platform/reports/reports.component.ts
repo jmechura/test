@@ -66,7 +66,14 @@ export class ReportsComponent implements OnDestroy {
               private fb: FormBuilder,
               private api: ApiService,
               private language: LanguageService) {
-    this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
+
+    this.roles.isVisible('reports.type').subscribe(
+      (typeResult: boolean) => {
+        if (typeResult) {
+          this.store.dispatch({type: reportTypeActions.REPORT_TYPE_GET_REQUEST});
+        }
+      }
+    );
 
     this.store.select('reportTypes').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<string[]>) => {
@@ -253,38 +260,32 @@ export class ReportsComponent implements OnDestroy {
         }
       }
     );
+  }
 
-    this.filterForm.get('networkCode').valueChanges.subscribe(
-      (id) => {
-        this.merchantCodes = [];
-        this.orgUnitCodes = [];
-        this.disableFormItem('merchantCode');
-        this.disableFormItem('orgUnitCode');
-        if (id != null && id.length > 0) {
-          this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
-        }
-      }
-    );
+  onNetworkCodeSelect(value: string): void {
+    this.merchantCodes = [];
+    this.orgUnitCodes = [];
+    this.disableFormItem('merchantCode');
+    this.disableFormItem('orgUnitCode');
+    if (value != null && value.length > 0) {
+      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: value});
+    }
+  }
 
-    this.filterForm.get('merchantCode').valueChanges.subscribe(
-      (id) => {
-        this.orgUnitCodes = [];
-        this.disableFormItem('orgUnitCode');
-        if (id && id.length > 0) {
-          this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id});
-        }
-      }
-    );
+  onMerchantCodeSelect(value: string): void {
+    this.orgUnitCodes = [];
+    this.disableFormItem('orgUnitCode');
+    if (value != null && value.length > 0) {
+      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: value});
+    }
+  }
 
-    this.filterForm.get('issuerCode').valueChanges.subscribe(
-      (id) => {
-        this.cardGroupCodes = [];
-        this.disableFormItem('cardGroupCode');
-        if (id && id.length > 0) {
-          this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
-        }
-      }
-    );
+  onIssuerCodeSelect(value: string): void {
+    this.cardGroupCodes = [];
+    this.disableFormItem('cardGroupCode');
+    if (value && value.length > 0) {
+      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: value});
+    }
   }
 
   clearFilter(): void {

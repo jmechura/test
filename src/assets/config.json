@@ -365,6 +365,10 @@
       "id": [
         "ROLE_ADMIN"
       ],
+      "state": [
+        "ROLE_ADMIN",
+        "NETWORK_ROLE_RESOURCE_EDIT"
+      ],
       "issuerCodeSelect": [
         "ROLE_ADMIN"
       ],
@@ -476,6 +480,9 @@
         "ROLE_ADMIN"
       ],
       "path": [
+        "ROLE_ADMIN"
+      ],
+      "type": [
         "ROLE_ADMIN"
       ],
       "issuerCodeSelect": [

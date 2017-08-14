@@ -8,11 +8,6 @@
       <mss-tabs class="tabs" *ngIf="filterSections.length > 1" [items]="filterSections" (itemChanged)="visibleSection = $event"></mss-tabs>
       <div class="content column" *ngIf="visibleSection.value ===  reportFilterSection.BASIC">
         <div class="row wrapped">
-          <mss-input class="mss-filter-item" formControlName="reportName" [label]="'basic.name' | translate"></mss-input>
-          <mss-select class="mss-filter-item" formControlName="type" [options]="reportTypes"
-                      [label]="'dictionary.type' | translate" [clearAble]="true"></mss-select>
-        </div>
-        <div class="row wrapped">
           <div class="calendar-select mss-filter-item">
             <span class="label">{{'dictionary.from' | translate}}</span>
             <mss-date-time-picker-input class="calendar-input" formControlName="createdFrom"></mss-date-time-picker-input>
@@ -22,25 +17,44 @@
             <mss-date-time-picker-input class="calendar-input" formControlName="createdTo"></mss-date-time-picker-input>
           </div>
         </div>
+        <div class="row wrapped">
+          <mss-input class="mss-filter-item" formControlName="reportName" [label]="'basic.name' | translate"></mss-input>
+          <mss-select class="mss-filter-item" formControlName="type" [options]="reportTypes"
+                      *mssRoleIf="'reports.type'" [label]="'dictionary.type' | translate" [clearAble]="true">
+          </mss-select>
+        </div>
       </div>
 
       <div class="content" *ngIf="visibleSection.value === reportFilterSection.ACQUIRER">
         <div class="row wrapped">
-          <mss-select class="mss-filter-item" formControlName="networkCode" *mssRoleIf="'reports.networkCodeSelect'" [options]="networkCodes"
-                      [clearAble]="true" [label]="'dictionary.networkCode' | translate"></mss-select>
-          <mss-select class="mss-filter-item" formControlName="merchantCode" *mssRoleIf="'reports.merchantCodeSelect'" [options]="merchantCodes"
-                      [clearAble]="true" [label]="'dictionary.merchantCode' | translate"></mss-select>
-          <mss-select class="mss-filter-item" formControlName="orgUnitCode" *mssRoleIf="'reports.orgUnitCodeSelect'" [options]="orgUnitCodes"
-                      [clearAble]="true" [label]="'dictionary.orgUnitCode' | translate"></mss-select>
+          <mss-select class="mss-filter-item" formControlName="networkCode"
+                      *mssRoleIf="'reports.networkCodeSelect'" [options]="networkCodes"
+                      [clearAble]="true" [label]="'dictionary.networkCode' | translate"
+                      (selectedOptionChange)="onNetworkCodeSelect($event)">
+          </mss-select>
+          <mss-select class="mss-filter-item" formControlName="merchantCode"
+                      *mssRoleIf="'reports.merchantCodeSelect'" [options]="merchantCodes"
+                      [clearAble]="true" [label]="'dictionary.merchantCode' | translate"
+                      (selectedOptionChange)="onMerchantCodeSelect($event)">
+          </mss-select>
+          <mss-select class="mss-filter-item" formControlName="orgUnitCode"
+                      *mssRoleIf="'reports.orgUnitCodeSelect'" [options]="orgUnitCodes"
+                      [clearAble]="true" [label]="'dictionary.orgUnitCode' | translate">
+          </mss-select>
         </div>
       </div>
 
       <div class="content" *ngIf="visibleSection.value === reportFilterSection.ISSUER">
         <div class="row wrapped">
-          <mss-select class="mss-filter-item" formControlName="issuerCode" [options]="issuerCodes" [clearAble]="true"
-                      *mssRoleIf="'reports.issuerCodeSelect'" [label]="'dictionary.issuerCode' | translate"></mss-select>
-          <mss-select class="mss-filter-item" formControlName="cardGroupCode" [options]="cardGroupCodes" [clearAble]="true"
-                      *mssRoleIf="'reports.cardGroupCodeSelect'" [label]="'dictionary.cardGroupCode' | translate"></mss-select>
+          <mss-select class="mss-filter-item" formControlName="issuerCode"
+                      *mssRoleIf="'reports.issuerCodeSelect'" [options]="issuerCodes"
+                      [clearAble]="true" [label]="'dictionary.issuerCode' | translate"
+                      (selectedOptionChange)="onIssuerCodeSelect($event)">
+          </mss-select>
+          <mss-select class="mss-filter-item" formControlName="cardGroupCode"
+                      *mssRoleIf="'reports.cardGroupCodeSelect'" [options]="cardGroupCodes"
+                      [clearAble]="true" [label]="'dictionary.cardGroupCode' | translate">
+          </mss-select>
         </div>
       </div>
     </div>
