@@ -54,11 +54,11 @@ $blocks-bottom-margin: 30px;
         display: flex;
         flex-direction: column;
 
-        &:first-child {
+        &:first-child:not(:last-child) {
           margin-right: 30px;
         }
 
-        &:last-child {
+        &:last-child:not(:first-child) {
           margin-left: 30px;
         }
       }

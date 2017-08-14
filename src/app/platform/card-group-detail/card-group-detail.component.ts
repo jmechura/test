@@ -24,6 +24,7 @@ import { ProfileModel } from '../../shared/models/profile.model';
 import { issuerCodeActions } from '../../shared/reducers/issuer-code.reducer';
 import { CodeModel } from '../../shared/models/code.model';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { EmbededComponentModel } from '../../shared/models/embeded-component.model';
 
 interface TabOptions {
   label: string;
@@ -69,6 +70,8 @@ export class CardGroupDetailComponent implements OnDestroy {
     this.completeView = false;
     this.mode = ComponentMode.View;
   }
+
+  embedObj: EmbededComponentModel;
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
@@ -156,6 +159,10 @@ export class CardGroupDetailComponent implements OnDestroy {
         if (params.id !== 'create') {
           this.mode = ComponentMode.View;
           this.store.dispatch({type: cardGroupDetailActions.CARD_GROUP_DETAIL_GET_REQUEST, payload: params.id});
+          this.tabsOptions = [...this.tabsOptions, {
+            label: this.langService.translate('cardGroups.sections.TRANSACTIONS'),
+            value: CardGroupSections.TRANSACTIONS
+          }];
         } else {
           this.mode = ComponentMode.Create;
           this.edit = true;
@@ -190,6 +197,11 @@ export class CardGroupDetailComponent implements OnDestroy {
           if (this.mode !== ComponentMode.Create) {
             this.cardGroupDetail = data.data;
             this.editForm.patchValue(this.cardGroupDetail);
+            this.embedObj = {
+              issuerCode: data.data.issuerCode,
+              cardGroupId: data.data.id,
+              cardGroupCode: data.data.code,
+            };
           } else {
             this.editForm.reset();
           }

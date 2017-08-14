@@ -17,6 +17,7 @@ import { ApiService } from '../../shared/services/api.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
 import { ACQUIRER_KEYS_ENDPOINT } from '../../shared/effects/acquirer-keys.effect';
 import { ComponentMode } from '../../shared/enums/detail-component-mode.enum';
+import { EmbededComponentModel } from '../../shared/models/embeded-component.model';
 
 
 const ACQUIRERS_ROUTE = 'platform/acquirers';
@@ -43,6 +44,7 @@ export class AcquirerDetailComponent implements OnDestroy {
   mode: ComponentMode;
   deleteModalVisible = false;
   completeView = true;
+  embedObject: EmbededComponentModel;
 
   @Input()
   set acquirerCode(code: string) {
@@ -95,10 +97,16 @@ export class AcquirerDetailComponent implements OnDestroy {
         }
         if (params.code !== 'create') {
           this.mode = ComponentMode.View;
-          this.tabsOptions.push({
-            value: AcquirerSections.KEYS,
-            label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.KEYS]}`)
-          });
+          this.tabsOptions.push(
+            {
+              value: AcquirerSections.KEYS,
+              label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.KEYS]}`)
+            },
+            {
+              value: AcquirerSections.TRANSACTIONS,
+              label: this.language.translate(`enums.acquirerSections.${AcquirerSections[AcquirerSections.TRANSACTIONS]}`)
+            },
+          );
           this.store.dispatch({type: acquirerDetailActions.ACQUIRER_DETAIL_GET_REQUEST, payload: params.code});
         } else {
           this.mode = ComponentMode.Create;
@@ -122,8 +130,12 @@ export class AcquirerDetailComponent implements OnDestroy {
                 type: acquirerKeysActions.ACQUIRER_KEYS_GET_REQUEST,
                 payload: this.acquirerData.acquiringInstitutionCode
               });
+              this.embedObject = {
+                // id === code for issuer and acquirer
+                networkId: this.acquirerData.code,
+                networkCode: this.acquirerData.code
+              };
             }
-
           }
         }
       }

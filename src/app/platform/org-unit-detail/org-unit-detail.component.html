@@ -145,10 +145,14 @@
         </div>
       </div>
 
-      <div class="mss-buttons-row">
+      <div class="mss-buttons-row" *ngIf="visibleTab.value !== 'TRANSACTIONS'">
         <mss-button class="mss-action-button" (click)="mode = ComponentMode.Edit" [label]="'basic.edit' | translate">
         </mss-button>
       </div>
+    </div>
+
+    <div *ngIf="visibleTab.value === 'TRANSACTIONS'">
+      <mss-dashboard [embeded]="embedObject"></mss-dashboard>
     </div>
   </div>
 

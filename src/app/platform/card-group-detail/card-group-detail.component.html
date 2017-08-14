@@ -131,10 +131,14 @@
           <div class="column"></div>
         </div>
         <div *mssRoleIf="'users.edit'">
-          <div class="mss-buttons-row" *ngIf="visibleTab.value !== CardGroupSections.DELIVERYADRESS">
+          <div class="mss-buttons-row"
+               *ngIf="visibleTab.value !== CardGroupSections.DELIVERYADRESS && visibleTab.value !== CardGroupSections.TRANSACTIONS">
             <mss-button [label]="'basic.edit' | translate" type="button" (click)="startEditing()"
                         class="mss-action-button"></mss-button>
           </div>
+        </div>
+        <div *ngIf="visibleTab.value === CardGroupSections.TRANSACTIONS">
+          <mss-dashboard *ngIf="embedObj" [embeded]="embedObj"></mss-dashboard>
         </div>
       </div>
       <form [formGroup]="editForm" novalidate (ngSubmit)="handleFormSubmit()"

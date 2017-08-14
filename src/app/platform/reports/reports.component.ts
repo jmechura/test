@@ -344,7 +344,9 @@ export class ReportsComponent implements OnDestroy {
         numberOfPages: 0,
         start: (this.pageNumber - 1 ) * this.rowLimit
       },
-      search: {predicateObject: this.predicateObject},
+      search: {
+        predicateObject: this.predicateObject
+      },
       sort: this.sortOptions ? this.sortOptions : {}
     };
   }
@@ -364,5 +366,4 @@ export class ReportsComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
   }
-
 }

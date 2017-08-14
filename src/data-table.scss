@@ -149,6 +149,10 @@
   }
 }
 
+.datatable-scroll, .datatable-row-wrapper, .datatable-body-row, .datatable-row-group {
+  width: 100% !important;
+}
+
 .datatable-row-detail {
   @include mss-datatable-row-detail;
 }

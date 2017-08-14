@@ -3,5 +3,6 @@ export enum CardGroupSections {
   LIMITS,
   CONTACTS,
   ADDRESS,
-  DELIVERYADRESS
+  DELIVERYADRESS,
+  TRANSACTIONS
 }

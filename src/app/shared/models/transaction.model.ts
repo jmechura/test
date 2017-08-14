@@ -27,7 +27,7 @@ export interface Transaction {
   vs: string;
 }
 
-export interface TransactionSearch {
+export interface TransactionPredicateObject {
   amount?: number;
   approvalCode?: string;
   cardGroupCode?: string;

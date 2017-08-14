@@ -1,10 +1,10 @@
-<div class="mss-view-container">
-  <div class="mss-header-row">
+<div [ngClass]="{'mss-view-container': !embededObject}">
+  <div class="mss-header-row" *ngIf="!embededObject">
     <span class="mss-title">{{'transactions.list.title' | translate}}</span>
   </div>
 
   <div class="row">
-    <div class="column">
+    <div class="column" [formGroup]="filterForm">
       <mss-tabs class="tabs" [items]="filterOptions" (itemChanged)="visibleFilter = $event"></mss-tabs>
 
       <!--DATE TAB-->
@@ -12,13 +12,11 @@
         <div class="row wrapped">
           <div class="mss-filter-item-label-top">
             <div class="label">{{'dictionary.from' | translate}}</div>
-            <mss-date-time-picker-input [pickedDate]="fromDate" class="calendar-input"
-                                        (pickedDateChange)="changeFromDate($event)"></mss-date-time-picker-input>
+            <mss-date-time-picker-input formControlName="termDttmFrom" class="calendar-input"></mss-date-time-picker-input>
           </div>
           <div class="mss-filter-item-label-top">
             <div class="label">{{'dictionary.to' | translate}}</div>
-            <mss-date-time-picker-input [pickedDate]="toDate" class="calendar-input"
-                                        (pickedDateChange)="changeToDate($event)"></mss-date-time-picker-input>
+            <mss-date-time-picker-input formControlName="termDttmTo" class="calendar-input"></mss-date-time-picker-input>
           </div>
         </div>
       </div>
@@ -29,38 +27,38 @@
           <mss-input [label]="'dictionary.responseCode' | translate"
                      class="mss-filter-item"
                      *mssRoleIf="'admin.view'"
-                     [(value)]="pagination.search.predicateObject.responseCode">
+                     formControlName="responseCode">
           </mss-input>
-          <mss-select [disabled]="types.length === 0"
-                      class="mss-filter-item"
-                      *mssRoleIf="'transactions.transactionType'"
-                      [label]="'dictionary.transactionType' | translate"
-                      [options]="types"
-                      [clearAble]="true"
-                      [(selectedOption)]="pagination.search.predicateObject.transactionType"></mss-select>
-          <mss-select [disabled]="states.length === 0"
-                      *mssRoleIf="'transactions.transactionState'"
-                      class="mss-filter-item"
-                      [options]="states"
-                      [clearAble]="true"
-                      [label]="'dictionary.transactionState' | translate"
-                      [(selectedOption)]="pagination.search.predicateObject.state"></mss-select>
+          <mss-select
+            class="mss-filter-item"
+            *mssRoleIf="'transactions.transactionType'"
+            [label]="'dictionary.transactionType' | translate"
+            [options]="types"
+            [clearAble]="true"
+            formControlName="transactionType"></mss-select>
+          <mss-select
+            *mssRoleIf="'transactions.transactionState'"
+            class="mss-filter-item"
+            [options]="states"
+            [clearAble]="true"
+            [label]="'dictionary.transactionState' | translate"
+            formControlName="state"></mss-select>
         </div>
         <div class="row wrapped">
           <mss-input [label]="'dictionary.approvalCode' | translate"
                      class="mss-filter-item"
                      *mssRoleIf="'transactions.approvalCode'"
-                     [(value)]="pagination.search.predicateObject.approvalCode">
+                     formControlName="approvalCode">
           </mss-input>
           <mss-input [label]="'dictionary.uuid' | translate"
                      class="mss-filter-item"
                      *mssRoleIf="'transactions.uuid'"
-                     [(value)]="pagination.search.predicateObject.uuid">
+                     formControlName="uuid">
           </mss-input>
           <mss-input [label]="'dictionary.rrn' | translate"
                      class="mss-filter-item"
                      *mssRoleIf="'transactions.rrn'"
-                     [(value)]="pagination.search.predicateObject.rrn">
+                     formControlName="rrn">
           </mss-input>
         </div>
 
@@ -69,49 +67,59 @@
       <!--LOCATION TAB-->
       <div class="content column" *ngIf="visibleFilter.value === transactionFilters[1]">
         <div class="row wrapped">
-          <mss-select [disabled]="issuerCodes.length === 0"
-                      *mssRoleIf="'dashboard.issuerCodeSelect'"
-                      class="mss-filter-item"
-                      [label]="'dictionary.issuerCode' | translate"
-                      labelPosition="top"
-                      [options]="issuerCodes"
-                      [clearAble]="true"
-                      [selectedOption]="pagination.search.predicateObject.issuerCode"
-                      (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
-          <mss-select [disabled]="cardGroupCodes.length === 0"
-                      *mssRoleIf="'dashboard.cardGroupCodeSelect'"
-                      class="mss-filter-item"
-                      [options]="cardGroupCodes"
-                      [clearAble]="true"
-                      [label]="'dictionary.cardGroupCode' | translate"
-                      labelPosition="top"
-                      [(selectedOption)]="pagination.search.predicateObject.cardGroupCode"></mss-select>
-          <mss-select [disabled]="networkCodes.length === 0"
-                      class="mss-filter-item"
-                      *mssRoleIf="'dashboard.networkCodeSelect'"
-                      [label]="'dictionary.networkCode' | translate"
-                      labelPosition="top"
-                      [options]="networkCodes"
-                      [clearAble]="true"
-                      [selectedOption]="pagination.search.predicateObject.networkCode"
-                      (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
-          <mss-select [disabled]="merchantCodes.length === 0"
-                      class="mss-filter-item"
-                      *mssRoleIf="'dashboard.merchantCodeSelect'"
-                      [label]="'dictionary.merchantCode' | translate"
-                      labelPosition="top"
-                      [options]="merchantCodes"
-                      [clearAble]="true"
-                      [selectedOption]="pagination.search.predicateObject.merchantCode"
-                      (selectedOptionChange)="selectMerchantCode($event)"></mss-select>
-          <mss-select [disabled]="orgUnitCodes.length === 0"
-                      *mssRoleIf="'dashboard.orgUnitCodeSelect'"
-                      class="mss-filter-item"
-                      [label]="'dictionary.orgUnitCode' | translate"
-                      labelPosition="top"
-                      [options]="orgUnitCodes"
-                      [clearAble]="true"
-                      [(selectedOption)]="pagination.search.predicateObject.orgUnitCode"></mss-select>
+          <ng-container *ngIf="!embededObject?.issuerCode && !embededObject?.cardGroupCode">
+            <mss-select
+              *mssRoleIf="'dashboard.issuerCodeSelect'"
+              class="mss-filter-item"
+              [label]="'dictionary.issuerCode' | translate"
+              labelPosition="top"
+              [options]="issuerCodes"
+              [clearAble]="true"
+              formControlName="issuerCode"
+              (selectedOptionChange)="selectIssuerCode($event)"></mss-select>
+          </ng-container>
+          <ng-container *ngIf="!embededObject?.cardGroupCode">
+            <mss-select
+              *mssRoleIf="'dashboard.cardGroupCodeSelect'"
+              class="mss-filter-item"
+              [options]="cardGroupCodes"
+              [clearAble]="true"
+              [label]="'dictionary.cardGroupCode' | translate"
+              labelPosition="top"
+              formControlName="cardGroupCode"></mss-select>
+          </ng-container>
+          <ng-container *ngIf="!embededObject?.networkCode && !embededObject?.merchantCode && !embededObject?.orgUnitCode">
+            <mss-select
+              class="mss-filter-item"
+              *mssRoleIf="'dashboard.networkCodeSelect'"
+              [label]="'dictionary.networkCode' | translate"
+              labelPosition="top"
+              [options]="networkCodes"
+              [clearAble]="true"
+              formControlName="networkCode"
+              (selectedOptionChange)="selectNetworkCode($event)"></mss-select>
+          </ng-container>
+          <ng-container *ngIf="!embededObject?.merchantCode && !embededObject?.orgUnitCode">
+            <mss-select
+              class="mss-filter-item"
+              *mssRoleIf="'dashboard.merchantCodeSelect'"
+              [label]="'dictionary.merchantCode' | translate"
+              labelPosition="top"
+              [options]="merchantCodes"
+              [clearAble]="true"
+              formControlName="merchantCode"
+              (selectedOptionChange)="selectMerchantCode($event)"></mss-select>
+          </ng-container>
+          <ng-container *ngIf="!embededObject?.orgUnitCode">
+            <mss-select
+              *mssRoleIf="'dashboard.orgUnitCodeSelect'"
+              class="mss-filter-item"
+              [label]="'dictionary.orgUnitCode' | translate"
+              labelPosition="top"
+              [options]="orgUnitCodes"
+              [clearAble]="true"
+              formControlName="orgUnitCode"></mss-select>
+          </ng-container>
         </div>
       </div>
 
@@ -121,32 +129,32 @@
           <mss-input [label]="'dictionary.cln' | translate"
                      class="mss-filter-item"
                      *mssRoleIf="'transactions.cln'"
-                     [(value)]="pagination.search.predicateObject.cln">
+                     formControlName="cln">
           </mss-input>
           <mss-input [label]="'dictionary.terminalCode' | translate"
                      class="mss-filter-item"
                      *mssRoleIf="'transactions.terminalCode'"
-                     [(value)]="pagination.search.predicateObject.terminalCode">
+                     formControlName="terminalCode">
           </mss-input>
           <mss-input [label]="'dictionary.amount' | translate"
                      class="mss-filter-item" [type]="'number'"
                      *mssRoleIf="'transactions.amount'"
-                     [(value)]="pagination.search.predicateObject.amount">
+                     formControlName="amount">
           </mss-input>
           <mss-input [label]="'dictionary.dstStan' | translate"
                      class="mss-filter-item" [type]="'number'"
                      *mssRoleIf="'transactions.dstStan'"
-                     [(value)]="pagination.search.predicateObject.dstStan">
+                     formControlName="dstStan">
           </mss-input>
           <mss-input [label]="'dictionary.specificSymbol' | translate"
                      class="mss-filter-item" [placeholder]="'Specific Symbol'"
                      *mssRoleIf="'transactions.specificSymbol'"
-                     [(value)]="pagination.search.predicateObject.specificSymbol">
+                     formControlName="specificSymbol">
           </mss-input>
           <mss-input [label]="'dictionary.variableSymbol' | translate"
                      class="mss-filter-item" [placeholder]="'Variable Symbol'"
                      *mssRoleIf="'transactions.variableSymbol'"
-                     [(value)]="pagination.search.predicateObject.vs">
+                     formControlName="vs">
           </mss-input>
         </div>
       </div>
@@ -160,7 +168,7 @@
   <div class="data-table-container">
     <ngx-datatable #table [rows]="rows" [loadingIndicator]="loading"
                    [columnMode]="'force'" [headerHeight]="70" [footerHeight]="50" [rowHeight]="48"
-                   [count]="tableData ? tableData.totalElements : 0 " [limit]="pagination.pagination.number"
+                   [count]="totalItems " [limit]="rowLimit"
                    [externalPaging]="true" (page)="setPage($event)"
                    [externalSorting]="true" (sort)="getSortedTransactions($event)"
                    (activate)="goToDetail('transaction', $event)">
@@ -208,7 +216,7 @@
       <ngx-datatable-column [name]="'dictionary.transactionType' | translate" prop="transactionType"
                             [sortable]="false" *mssRoleIf="'transactions.transactionType'">
         <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-            <i class="material-icons" [title]="value">{{getTransactionTypeIcon(value)}}</i>
+          <i class="material-icons" [title]="value">{{getTransactionTypeIcon(value)}}</i>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'dictionary.responseCode' | translate" prop="responseCode" [sortable]="false"

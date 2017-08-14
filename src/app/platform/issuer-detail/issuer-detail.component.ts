@@ -12,6 +12,8 @@ import { SelectItem } from '../../shared/components/bronze/select/select.compone
 import { ComponentMode } from '../../shared/enums/detail-component-mode.enum';
 import { optionalEmailValidator } from '../../shared/validators/optional-email.validator';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { LanguageService } from '../../shared/services/language.service';
+import { EmbededComponentModel } from '../../shared/models/embeded-component.model';
 
 @Component({
   selector: 'mss-issuer-detail',
@@ -31,6 +33,9 @@ export class IssuerDetailComponent implements OnDestroy {
   completeView = true;
   mode = ComponentMode.View;
   ComponentMode = ComponentMode;
+  tabsOptions: SelectItem[] = [];
+  visibleTab: SelectItem;
+  embedObject: EmbededComponentModel;
 
   @Input()
   set issuerId(id: string) {
@@ -44,6 +49,7 @@ export class IssuerDetailComponent implements OnDestroy {
               private fb: FormBuilder,
               private api: ApiService,
               private router: Router,
+              private language: LanguageService,
               private route: ActivatedRoute,
               private toastr: ExtendedToastrService) {
     this.editIssuerForm = fb.group({
@@ -63,6 +69,13 @@ export class IssuerDetailComponent implements OnDestroy {
       street: [null, Validators.required],
       zip: [null, Validators.required],
     });
+
+    this.tabsOptions = [{
+      label: this.language.translate('issuers.sections.BASIC'),
+      value: 'BASIC'
+    }];
+    this.visibleTab = this.tabsOptions[0];
+
     this.route.params.takeUntil(this.unsubscribe$).subscribe(
       (params: { id: string }) => {
         // component is not displayed through router outlet therefore there is no id
@@ -73,6 +86,10 @@ export class IssuerDetailComponent implements OnDestroy {
           this.id = params.id;
           this.mode = ComponentMode.View;
           this.store.dispatch({type: issuerDetailActions.ISSUER_DETAIL_GET_REQUEST, payload: this.id});
+          this.tabsOptions.push({
+            label: this.language.translate('issuers.sections.TRANSACTIONS'),
+            value: 'TRANSACTIONS'
+          });
         } else {
           this.mode = ComponentMode.Create;
           // default is disabled therefore it needs to be enabled when creating
@@ -93,6 +110,11 @@ export class IssuerDetailComponent implements OnDestroy {
           if (this.mode !== ComponentMode.Create) {
             this.issuer = data;
             this.editIssuerForm.patchValue(this.issuer);
+            this.embedObject = {
+              // id === code for RESOURCE === ISSUER
+              issuerCode: this.issuer.code,
+              issuerId: this.issuer.code
+            };
           }
         }
       }

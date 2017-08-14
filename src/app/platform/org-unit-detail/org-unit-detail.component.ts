@@ -17,8 +17,9 @@ import { networkCodeActions, NetworkCodeState } from '../../shared/reducers/netw
 import { merchantCodeActions, MerchantCodeState } from '../../shared/reducers/merchant-code.reducer';
 import { RoleService } from '../../shared/services/role.service';
 import { ExtendedToastrService } from '../../shared/services/extended-toastr.service';
+import { EmbededComponentModel } from '../../shared/models/embeded-component.model';
 
-const TAB_OPTIONS = ['BASIC', 'ADDRESS'];
+const TAB_OPTIONS = ['BASIC', 'ADDRESS', 'TRANSACTIONS'];
 const ORG_UNIT_ENDPOINT = '/orgUnits';
 
 @Component({
@@ -36,6 +37,7 @@ export class OrgUnitDetailComponent implements OnDestroy {
   form: FormGroup;
   networkOptions: SelectItem[] = [];
   merchantOptions: SelectItem[] = [];
+  embedObject: EmbededComponentModel;
 
   @Input()
   set orgUnitId(id: string) {
@@ -85,6 +87,7 @@ export class OrgUnitDetailComponent implements OnDestroy {
           this.mode = ComponentMode.View;
         } else {
           this.mode = ComponentMode.Create;
+          this.tabOptions = this.tabOptions.filter(tab => tab.value !== 'TRANSACTIONS');
         }
 
       }
@@ -140,8 +143,13 @@ export class OrgUnitDetailComponent implements OnDestroy {
         }
 
         if (state.data != undefined && !state.loading) {
-          this.orgUnit = state.data;
-          this.form.patchValue(state.data);
+          if (this.mode !== ComponentMode.Create) {
+            this.orgUnit = state.data;
+            this.form.patchValue(state.data);
+            this.embedObject = {
+              orgUnitCode: this.orgUnit.code
+            };
+          }
         }
       }
     );

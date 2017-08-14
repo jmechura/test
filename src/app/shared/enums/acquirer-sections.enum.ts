@@ -1,5 +1,6 @@
 export enum AcquirerSections {
   BASIC,
   ADDRESS,
-  KEYS
+  KEYS,
+  TRANSACTIONS
 }

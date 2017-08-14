@@ -1,11 +1,11 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectItem } from '../../shared/components/bronze/select/select.component';
 import { Moment } from 'moment';
 import { AppStateModel } from '../../shared/models/app-state.model';
 import { Store } from '@ngrx/store';
 import { transactionActions } from '../../shared/reducers/transactions.reducer';
 import { StateModel } from '../../shared/models/state.model';
-import { Transaction, TransactionSearch } from '../../shared/models/transaction.model';
+import { Transaction, TransactionPredicateObject } from '../../shared/models/transaction.model';
 import { transactionCodesActions } from '../../shared/reducers/transaction-code.reducer';
 import { transactionTypesActions } from '../../shared/reducers/transaction-type.reducer';
 import { transactionStatesActions } from '../../shared/reducers/transaction-state.reducer';
@@ -23,36 +23,25 @@ import { LanguageService } from '../../shared/services/language.service';
 import { RoleService } from '../../shared/services/role.service';
 import { ProfileModel } from '../../shared/models/profile.model';
 import { AppConfigService } from '../../shared/services/app-config.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { EmbededComponentModel } from '../../shared/models/embeded-component.model';
 
 const TRANSACTIONS_FILTERS = ['DATE', 'LOCATION', 'PAYMENT', 'TRANSACTION'];
-
-const DEFAULT_FILTER: TransactionSearch = {
-  uuid: '',
-  rrn: '',
-  responseCode: '',
-  transactionType: '',
-  state: '',
-  approvalCode: '',
-  cardGroupCode: '',
-  cln: '',
-  dstStan: null,
-  issuerCode: '',
-  merchantCode: '',
-  networkCode: '',
-  orgUnitCode: '',
-  specificSymbol: '',
-  terminalCode: '',
-  vs: '',
-  amount: null
-};
+const ITEM_LIMIT_OPTIONS = [5, 10, 15, 20];
 const DATE_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss';
+const CODE_NAMES = ['issuerCode', 'cardGroupCode', 'networkCode', 'merchantCode', 'orgUnitCode'];
+
+function setForm(form: FormGroup, key: string, value: string): void {
+  form.get(key).patchValue(value);
+  form.get(key).enable();
+}
 
 @Component({
   selector: 'mss-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnDestroy {
+export class DashboardComponent implements OnDestroy, OnInit {
   /**
    * From select date
    * @type {moment.Moment}
@@ -78,30 +67,7 @@ export class DashboardComponent implements OnDestroy {
    * @type {boolean}
    */
   loading = false;
-  /**
-   * Stored transaction data with pagination information
-   */
-  tableData: Pagination<Transaction>;
 
-  /**
-   * Pagination and search object for requests, pagination is also used for setting table pagination
-   * @type {{pagination: {number: number; numberOfPages: number; start: number};
-   * search: {predicateObject: ({}&TransactionSearch)}; sort: {}}}
-   */
-  pagination: RequestOptions<TransactionSearch> = {
-    pagination: {
-      number: 10,
-      numberOfPages: 0,
-      start: 0,
-    },
-    search: {
-      predicateObject: Object.assign({}, DEFAULT_FILTER)
-    },
-    sort: {
-      predicate: 'pk.termDttm',
-      reverse: false
-    }
-  };
   /**
    * Holds currently displayed rows of table
    * @type {Array}
@@ -154,17 +120,75 @@ export class DashboardComponent implements OnDestroy {
 
   readonly transactionFilters = TRANSACTIONS_FILTERS;
 
+  pageNumber = 0;
+  rowLimit = ITEM_LIMIT_OPTIONS[0];
+  totalItems = 0;
+  sortOptions = {
+    predicate: 'pk.termDttm',
+    reverse: false
+  };
+
+  filterForm: FormGroup;
+  embededObject: EmbededComponentModel;
+
+  @Input()
+  set embeded(obj: EmbededComponentModel) {
+    this.embededObject = obj;
+    Object.keys(obj).forEach(key => {
+      switch (key) {
+        case 'issuerId':
+          this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: obj.issuerId});
+          break;
+        case 'networkId':
+          this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: obj.networkId});
+          break;
+        case 'merchantId':
+          this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: obj.merchantId});
+          break;
+        default:
+          setForm(this.filterForm, key, obj[key]);
+      }
+    });
+  }
+
   constructor(private store: Store<AppStateModel>,
               private router: Router,
               private language: LanguageService,
               private roles: RoleService,
+              private fb: FormBuilder,
               private configService: AppConfigService) {
 
     this.visibleFilter = this.filterOptions[0];
 
+    this.filterForm = this.fb.group({
+      uuid: null,
+      rrn: null,
+      responseCode: null,
+      transactionType: [{value: null, disabled: true}],
+      state: [{value: null, disabled: true}],
+      approvalCode: null,
+      cardGroupCode: [{value: null, disabled: true}],
+      cln: null,
+      dstStan: null,
+      issuerCode: [{value: null, disabled: true}],
+      merchantCode: [{value: null, disabled: true}],
+      networkCode: [{value: null, disabled: true}],
+      orgUnitCode: [{value: null, disabled: true}],
+      specificSymbol: null,
+      terminalCode: null,
+      vs: null,
+      amount: null,
+      termDttmFrom: null,
+      termDttmTo: null
+    });
+
     this.configService.get('transactionTypeIcons').subscribe(
       icons => this.transactionTypeIcons = icons
     );
+
+    this.store.dispatch({type: transactionCodesActions.TRANSACTION_CODES_GET_REQUEST});
+    this.store.dispatch({type: transactionTypesActions.TRANSACTION_TYPES_GET_REQUEST});
+    this.store.dispatch({type: transactionStatesActions.TRANSACTION_STATES_GET_REQUEST});
 
     this.store.select('profile').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<ProfileModel>) => {
@@ -175,12 +199,12 @@ export class DashboardComponent implements OnDestroy {
           console.error('Profile API call has returned error', data.error);
           return;
         }
-        if (data.data && !data.loading /*because pn would be sad*/) {
+        if (data.data && !data.loading) {
           const user = data.data;
 
           this.roles.isVisible('dashboard.issuerCodeSelect').subscribe(
-            result => {
-              if (result) {
+            (issuerResult: boolean) => {
+              if (issuerResult) {
                 this.showLocationFilterTab = true;
                 this.store.dispatch({type: issuerCodeActions.ISSUER_CODE_GET_REQUEST});
               } else {
@@ -226,14 +250,103 @@ export class DashboardComponent implements OnDestroy {
               }
             }
           );
+
+          this.roles.isVisible('admin.view').subscribe(
+            (adminResult: boolean) => {
+              this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
+                (issuerData: StateModel<CodeModel[]>) => {
+                  if (issuerData.error) {
+                    console.error('Error while getting issuer codes', issuerData.error);
+                    return;
+                  }
+                  if (issuerData.data != null && !issuerData.loading) {
+                    this.issuerCodes = issuerData.data.map(item => ({
+                      label: adminResult ? item.code : item.name,
+                      value: `${item.id};${item.code}`
+                    }));
+                    if (this.issuerCodes.length > 0) {
+                      this.filterForm.get('issuerCode').enable();
+                    }
+                  }
+                }
+              );
+
+              this.store.select('networkCodes').takeUntil(this.unsubscribe$).subscribe(
+                (networkData: StateModel<CodeModel[]>) => {
+                  if (networkData.error) {
+                    console.error('Error while getting network codes', networkData.error);
+                    return;
+                  }
+                  if (networkData.data != null && !networkData.loading) {
+                    this.networkCodes = networkData.data.map(item => ({
+                      label: adminResult ? item.code : item.name,
+                      value: `${item.id};${item.code}`
+                    }));
+                    if (this.networkCodes.length > 0) {
+                      this.filterForm.get('networkCode').enable();
+                    }
+                  }
+                }
+              );
+
+              this.store.select('merchantCodes').takeUntil(this.unsubscribe$).subscribe(
+                (merchantData: StateModel<CodeModel[]>) => {
+                  if (merchantData.error) {
+                    console.error('Error while getting merchant codes', merchantData.error);
+                    return;
+                  }
+                  if (merchantData.data != null && !merchantData.loading) {
+                    this.merchantCodes = merchantData.data.map(item => ({
+                      label: adminResult ? item.code : item.name,
+                      value: `${item.id};${item.code}`
+                    }));
+                    if (this.merchantCodes.length > 0) {
+                      this.filterForm.get('merchantCode').enable();
+                    }
+                  }
+                }
+              );
+
+              this.store.select('orgUnitCodes').takeUntil(this.unsubscribe$).subscribe(
+                (orgUnitData: StateModel<CodeModel[]>) => {
+                  if (orgUnitData.error) {
+                    console.error('Error while getting org unit codes', orgUnitData.error);
+                    return;
+                  }
+                  if (orgUnitData.data != null && !orgUnitData.loading) {
+                    this.orgUnitCodes = orgUnitData.data.map(item => ({
+                      label: adminResult ? item.code : item.name,
+                      value: `${item.id};${item.code}`
+                    }));
+                    if (this.orgUnitCodes.length > 0) {
+                      this.filterForm.get('orgUnitCode').enable();
+                    }
+                  }
+                }
+              );
+
+              this.store.select('cardGroupCodes').takeUntil(this.unsubscribe$).subscribe(
+                (cardGroupData: StateModel<CodeModel[]>) => {
+                  if (cardGroupData.error) {
+                    console.error('Error while getting card group codes', cardGroupData.error);
+                    return;
+                  }
+                  if (cardGroupData.data != null && !cardGroupData.loading) {
+                    this.cardGroupCodes = cardGroupData.data.map(item => ({
+                      label: adminResult ? item.code : item.name,
+                      value: `${item.id};${item.code}`
+                    }));
+                    if (this.cardGroupCodes.length > 0) {
+                      this.filterForm.get('cardGroupCode').enable();
+                    }
+                  }
+                }
+              );
+            }
+          );
         }
       }
     );
-
-
-    this.store.dispatch({type: transactionCodesActions.TRANSACTION_CODES_GET_REQUEST});
-    this.store.dispatch({type: transactionTypesActions.TRANSACTION_TYPES_GET_REQUEST});
-    this.store.dispatch({type: transactionStatesActions.TRANSACTION_STATES_GET_REQUEST});
 
     this.store.select('transactions').takeUntil(this.unsubscribe$).subscribe(
       (data: StateModel<Pagination<Transaction>>) => {
@@ -244,15 +357,8 @@ export class DashboardComponent implements OnDestroy {
         }
         if (data.data != null && !data.loading) {
           // maps data to rows
-          this.tableData = data.data;
           this.rows = data.data.content;
-          // has to be called to set valid grid when number of rows is changed
-          setTimeout(
-            () => {
-              this.table.recalculate();
-            },
-            0
-          );
+          this.totalItems = data.data.totalElements;
         }
       }
     );
@@ -270,6 +376,9 @@ export class DashboardComponent implements OnDestroy {
               label: this.language.translate(`enums.transactionTypes.${item}`)
             }
           ));
+          if (this.types.length > 0) {
+            this.filterForm.get('transactionType').enable();
+          }
         }
       }
     );
@@ -287,71 +396,13 @@ export class DashboardComponent implements OnDestroy {
               label: this.language.translate(`enums.transactionStates.${item}`)
             }
           ));
+          if (this.states.length > 0) {
+            this.filterForm.get('state').enable();
+          }
         }
       }
     );
 
-    this.store.select('issuerCodes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<CodeModel[]>) => {
-        if (data.error) {
-          console.error('Error while getting issuer codes', data.error);
-          return;
-        }
-        if (data.data != null && !data.loading) {
-          this.issuerCodes = data.data.map(item => ({label: item.code, value: item.id}));
-        }
-      }
-    );
-
-    this.store.select('networkCodes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<CodeModel[]>) => {
-        if (data.error) {
-          console.error('Error while getting network codes', data.error);
-          return;
-        }
-        if (data.data != null && !data.loading) {
-          this.networkCodes = data.data.map(item => ({label: item.code, value: item.id}));
-        }
-      }
-    );
-
-    this.store.select('merchantCodes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<CodeModel[]>) => {
-        if (data.error) {
-          console.error('Error while getting merchant codes', data.error);
-          return;
-        }
-        if (data.data != null && !data.loading) {
-          this.merchantCodes = data.data.map(item => ({label: item.code, value: item.id}));
-        }
-      }
-    );
-
-    this.store.select('orgUnitCodes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<CodeModel[]>) => {
-        if (data.error) {
-          console.error('Error while getting org unit codes', data.error);
-          return;
-        }
-        if (data.data != null && !data.loading) {
-          this.orgUnitCodes = data.data.map(item => ({label: item.code, value: item.id}));
-        }
-      }
-    );
-
-    this.store.select('cardGroupCodes').takeUntil(this.unsubscribe$).subscribe(
-      (data: StateModel<CodeModel[]>) => {
-        if (data.error) {
-          console.error('Error while getting card group codes', data.error);
-          return;
-        }
-        if (data.data != null && !data.loading) {
-          this.cardGroupCodes = data.data.map(item => ({label: item.code, value: item.id}));
-        }
-      }
-    );
-
-    this.getTransactions();
   }
 
   get filterOptions(): SelectItem[] {
@@ -395,11 +446,10 @@ export class DashboardComponent implements OnDestroy {
    * @param limit
    */
   changeLimit(limit: number): void {
-    if (this.pagination.pagination.number === limit) {
-      return;
+    if (this.rowLimit !== limit) {
+      this.rowLimit = limit;
+      this.getTransactions();
     }
-    this.pagination.pagination.number = limit;
-    this.store.dispatch({type: transactionActions.TRANSACTIONS_GET_REQUEST, payload: this.pagination});
   }
 
   /**
@@ -408,44 +458,19 @@ export class DashboardComponent implements OnDestroy {
    * @param pageInfo
    */
   setPage(pageInfo: any): void {
-    this.pagination.pagination.start = pageInfo.offset * this.pagination.pagination.number;
-    this.store.dispatch({type: transactionActions.TRANSACTIONS_GET_REQUEST, payload: this.pagination});
-  }
-
-  /**
-   * Sets transaction from date for filtering
-   * @param date
-   */
-  changeFromDate(date: Moment): void {
-    this.fromDate = date;
-    this.pagination.search.predicateObject.termDttmFrom = date.format(DATE_FORMAT);
-  }
-
-  /**
-   * Sets transaction to date for filtering
-   * @param date
-   */
-  changeToDate(date: Moment): void {
-    this.toDate = date;
-    this.pagination.search.predicateObject.termDttmTo = date.format(DATE_FORMAT);
+    if (this.pageNumber !== pageInfo.offset) {
+      this.pageNumber = pageInfo.offset;
+      this.getTransactions();
+    }
   }
 
   /**
    * Removes empty properties from search object and then triggers action for getting transactions
    */
   getTransactions(): void {
-    const search = Object.keys(this.pagination.search.predicateObject)
-      .filter(key => this.pagination.search.predicateObject[key] != null && this.pagination.search.predicateObject[key].length > 0)
-      .reduce(
-        (acc, item) => {
-          acc[item] = this.pagination.search.predicateObject[item];
-          return acc;
-        },
-        {}
-      );
     this.store.dispatch({
       type: transactionActions.TRANSACTIONS_GET_REQUEST,
-      payload: Object.assign(this.pagination, {search: {predicateObject: search}})
+      payload: this.requestModel
     });
   }
 
@@ -453,7 +478,7 @@ export class DashboardComponent implements OnDestroy {
    * Clears all filters
    */
   clearFilter(): void {
-    this.pagination.search.predicateObject = Object.assign({}, DEFAULT_FILTER);
+    this.filterForm.reset();
     this.fromDate = null;
     this.toDate = null;
     this.merchantCodes = [];
@@ -462,12 +487,17 @@ export class DashboardComponent implements OnDestroy {
   }
 
   selectIssuerCode(id: string): void {
-    this.pagination.search.predicateObject.issuerCode = id;
     // clear it before new data arrives
     this.cardGroupCodes = [];
+    this.disableItem('cardGroupCode');
     if (id != null) {
-      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id});
+      this.store.dispatch({type: cardGroupCodeActions.CARD_GROUP_CODE_GET_REQUEST, payload: id.split(';')[0]});
     }
+  }
+
+  disableItem(key: string): void {
+    this.filterForm.get(key).reset();
+    this.filterForm.get(key).disable();
   }
 
   /**
@@ -475,12 +505,13 @@ export class DashboardComponent implements OnDestroy {
    * @param id
    */
   selectNetworkCode(id: string): void {
-    this.pagination.search.predicateObject.networkCode = id;
     // clear it before new data arrives
     this.merchantCodes = [];
     this.orgUnitCodes = [];
+    this.disableItem('merchantCode');
+    this.disableItem('orgUnitCode');
     if (id != null) {
-      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id});
+      this.store.dispatch({type: merchantCodeActions.MERCHANT_CODE_GET_REQUEST, payload: id.split(';')[0]});
     }
   }
 
@@ -489,19 +520,20 @@ export class DashboardComponent implements OnDestroy {
    * @param id
    */
   selectMerchantCode(id: string): void {
-    this.pagination.search.predicateObject.merchantCode = id;
     // clear it before new data arrives
     this.orgUnitCodes = [];
+    this.disableItem('orgUnitCode');
     if (id != null) {
-      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id});
+      this.store.dispatch({type: orgUnitCodeActions.ORG_UNIT_CODE_GET_REQUEST, payload: id.split(';')[0]});
     }
   }
 
   getSortedTransactions(sortInfo: any): void {
-    this.pagination.sort = {
+    this.sortOptions = {
       predicate: (sortInfo.sorts[0].prop === 'termDttm') ? `pk.${sortInfo.sorts[0].prop}` : sortInfo.sorts[0].prop,
       reverse: sortInfo.sorts[0].dir === 'asc'
     };
+
     this.getTransactions();
   }
 
@@ -518,7 +550,52 @@ export class DashboardComponent implements OnDestroy {
     return icon;
   }
 
+  private get requestModel(): RequestOptions<TransactionPredicateObject> {
+    return {
+      pagination: {
+        number: this.rowLimit,
+        numberOfPages: 0,
+        start: this.pageNumber * this.rowLimit
+      },
+      search: {
+        predicateObject: this.predicateObject
+      },
+      sort: this.sortOptions
+    };
+  }
+
+  private get predicateObject(): TransactionPredicateObject {
+    return Object.keys(this.filterForm.value)
+      .filter(key => this.filterForm.get(key).value != null && this.filterForm.get(key).value.length > 0)
+      .reduce(
+        (acc, item) => {
+          if (item === 'termDttmFrom' || item === 'termDttmTo') {
+            acc[item] = this.filterForm.get(item).value.format(DATE_FORMAT);
+          } else {
+            // is it resource code?
+            if (CODE_NAMES.find(name => name === item)) {
+              // code is in embeded object
+              if (this.embededObject && this.embededObject[item]) {
+                acc[item] = this.embededObject[item];
+              } else {
+                // code is in form, but on second position
+                acc[item] = this.filterForm.get(item).value.split(';')[1];
+              }
+            } else {
+              acc[item] = this.filterForm.get(item).value;
+            }
+          }
+          return acc;
+        },
+        {}
+      );
+  };
+
   ngOnDestroy(): void {
     this.unsubscribe$.fire();
+  }
+
+  ngOnInit(): void {
+    this.getTransactions();
   }
 }

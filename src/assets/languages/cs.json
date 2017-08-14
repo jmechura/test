@@ -302,7 +302,8 @@
       "CONTACTS": "Kontakt",
       "ADDRESS": "Adresa",
       "DELIVERYADRESS": "Doručovací adresa",
-      "ISSUER": "Issuer"
+      "ISSUER": "Issuer",
+      "TRANSACTIONS": "Transakce"
     },
     "createSpecificSymbol": "Vytvořit specifický symbol",
     "useDeliveryAddress": "Použit doručovací adresu"
@@ -318,6 +319,10 @@
     },
     "list": {
       "name": "Nazev"
+    },
+    "sections": {
+      "BASIC": "Zakladni informace",
+      "TRANSACTIONS": "Transakce"
     }
   },
   "routingTables": {
@@ -369,7 +374,8 @@
         "BASIC": "Zakladní",
         "MERCHANT": "Obchodník",
         "ADDRESS": "Adresa",
-        "NOTE": "Poznámka"
+        "NOTE": "Poznámka",
+        "TRANSACTIONS": "Transakce"
       }
     },
     "dictionary": {
@@ -876,7 +882,8 @@
     "acquirerSections": {
       "ADDRESS": "Adresa",
       "BASIC": "Základní informace",
-      "KEYS": "Klíče"
+      "KEYS": "Klíče",
+      "TRANSACTIONS": "Transakce"
     },
     "paymentsTypes": {
       "NEW": "NEW",

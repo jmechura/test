@@ -196,11 +196,15 @@
         </ngx-datatable>
       </div>
     </div>
+    <div *ngIf="visibleTab.value === AcquirerSections.TRANSACTIONS">
+      <mss-dashboard [embeded]="embedObject"></mss-dashboard>
+    </div>
     <div class="mss-buttons-row">
-      <mss-button *ngIf="mode === ComponentMode.View && visibleTab.value !== AcquirerSections.KEYS"
-                  class="mss-action-button"
-                  (click)="mode = ComponentMode.Edit"
-                  [label]="'basic.edit' | translate"></mss-button>
+      <mss-button
+        *ngIf="mode === ComponentMode.View && visibleTab.value !== AcquirerSections.KEYS && visibleTab.value !== AcquirerSections.TRANSACTIONS"
+        class="mss-action-button"
+        (click)="mode = ComponentMode.Edit"
+        [label]="'basic.edit' | translate"></mss-button>
     </div>
   </div>
   <!--ACQUIRER VIEW-->

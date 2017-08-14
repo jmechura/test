@@ -4,142 +4,146 @@
     <span class="mss-title" *ngIf="mode === ComponentMode.Create">{{'issuers.addIssuer' | translate}}</span>
   </div>
 
-  <div class="form-wrapper">
-    <div>
-      <form [formGroup]="editIssuerForm" class="edit-issuer-form">
-        <div class="edit-issuer-inputs" *ngIf="mode === ComponentMode.Create || mode === ComponentMode.Edit">
-          <div class="edit-issuer-input-side">
-            <mss-input formControlName="name" [label]="('basic.name' | translate) + '*'"
-                       [warn]="isPresent('name')"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
-            <mss-input formControlName="code" [label]="('basic.code' | translate) + '*'"
-                       [warn]="isPresent('code')"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
-            <mss-input formControlName="contactFirstname"
-                       [label]="'basic.firstName' | translate"></mss-input>
+  <div class="tabs" *ngIf="tabsOptions.length > 1">
+    <mss-tabs [items]="tabsOptions" (itemChanged)="visibleTab = $event"></mss-tabs>
+  </div>
+  <div *ngIf="visibleTab.value === 'BASIC'">
+    <form [formGroup]="editIssuerForm">
+      <div class="edit-issuer-inputs" *ngIf="mode === ComponentMode.Create || mode === ComponentMode.Edit">
+        <div class="detail-container">
+          <mss-input formControlName="name" [label]="('basic.name' | translate) + '*'"
+                     [warn]="isPresent('name')"></mss-input>
+          <div class="mss-validation-label"><span *ngIf="isPresent('name')">{{'basic.required.name' | translate}}</span></div>
+          <mss-input formControlName="code" [label]="('basic.code' | translate) + '*'"
+                     [warn]="isPresent('code')"></mss-input>
+          <div class="mss-validation-label"><span *ngIf="isPresent('code')">{{'basic.required.code' | translate}}</span></div>
+          <mss-input formControlName="contactFirstname"
+                     [label]="'basic.firstName' | translate"></mss-input>
+          <div class="mss-validation-label"></div>
+          <mss-input formControlName="contactLastname"
+                     [label]="'basic.lastName' | translate"></mss-input>
+          <div class="mss-validation-label"></div>
+          <mss-input formControlName="ico" [label]="('basic.ico' | translate) + '*'"></mss-input>
+          <div class="mss-validation-label"><span *ngIf="isPresent('ico')">{{'basic.required.ico' | translate}}</span></div>
+          <mss-input formControlName="dic" [label]="('basic.dic' | translate) + '*' | translate"></mss-input>
+          <div class="mss-validation-label"><span *ngIf="isPresent('dic')">{{'basic.required.dic' | translate}}</span></div>
+          <ng-container *mssRoleIf="'admin.view'">
+            <mss-input formControlName="passwordHashValidityMinute"
+                       [label]="('issuers.passwordHashValidityMinute' | translate) + '*'" type="number"></mss-input>
+            <div class="mss-validation-label">
+              <span *ngIf="isPresent('passwordHashValidityMinute')">{{'issuers.required.passwordHashValidityMinute' | translate}}</span>
+            </div>
+          </ng-container>
+          <ng-container *mssRoleIf="'admin.view'">
+            <mss-toggle formControlName="maskedClnUse" [label]="('issuers.maskedClnUse' | translate) + '*'"></mss-toggle>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="contactLastname"
-                       [label]="'basic.lastName' | translate"></mss-input>
+          </ng-container>
+        </div>
+        <div class="edit-issuer-input-side">
+          <mss-input formControlName="email" [label]="'basic.email' | translate">></mss-input>
+          <div class="mss-validation-label"><span *ngIf="editIssuerForm.get('email').hasError('email')">
+            {{'basic.required.badEmail' | translate}}</span></div>
+          <mss-input formControlName="phone" [label]="'basic.phone' | translate"></mss-input>
+          <div class="mss-validation-label"><span *ngIf="editIssuerForm.get('phone').hasError('pattern')">
+            {{'basic.required.phone' | translate}}</span></div>
+          <mss-input formControlName="addressName" [label]="'basic.address' | translate"></mss-input>
+          <div class="mss-validation-label"></div>
+          <mss-input formControlName="city" [label]="('basic.city' | translate) + '*'"></mss-input>
+          <div class="mss-validation-label"><span *ngIf="isPresent('city')">{{'basic.required.city' | translate}}</span></div>
+          <mss-input formControlName="street" [label]="('basic.street' | translate) + '*'"></mss-input>
+          <div class="mss-validation-label"><span *ngIf="isPresent('street')">{{'basic.required.street' | translate}}</span></div>
+          <ng-container *mssRoleIf="'admin.view'">
+            <mss-input formControlName="zip" [label]="('basic.zip' | translate) + '*' | translate"></mss-input>
+            <div class="mss-validation-label"><span *ngIf="isPresent('zip')">{{'basic.required.zip' | translate}}</span></div>
+            <mss-select [label]="'dictionary.state' | translate" formControlName="state" [options]="stateOptions"></mss-select>
             <div class="mss-validation-label"></div>
-            <mss-input formControlName="ico" [label]="('basic.ico' | translate) + '*'"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('ico')">{{'basic.required.ico' | translate}}</span></div>
-            <mss-input formControlName="dic" [label]="('basic.dic' | translate) + '*' | translate"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('dic')">{{'basic.required.dic' | translate}}</span></div>
-            <ng-container *mssRoleIf="'admin.view'">
-              <mss-input formControlName="passwordHashValidityMinute"
-                         [label]="('issuers.passwordHashValidityMinute' | translate) + '*'" type="number"></mss-input>
-              <div class="mss-validation-label">
-                <span *ngIf="isPresent('passwordHashValidityMinute')">{{'issuers.required.passwordHashValidityMinute' | translate}}</span>
-              </div>
-            </ng-container>
-            <ng-container *mssRoleIf="'admin.view'">
-              <mss-toggle formControlName="maskedClnUse" [label]="('issuers.maskedClnUse' | translate) + '*'"></mss-toggle>
-              <div class="mss-validation-label"></div>
-            </ng-container>
-          </div>
-          <div class="edit-issuer-input-side">
-            <mss-input formControlName="email" [label]="'basic.email' | translate">></mss-input>
-            <div class="mss-validation-label"><span *ngIf="editIssuerForm.get('email').hasError('email')">
-              {{'basic.required.badEmail' | translate}}</span></div>
-            <mss-input formControlName="phone" [label]="'basic.phone' | translate"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="editIssuerForm.get('phone').hasError('pattern')">
-              {{'basic.required.phone' | translate}}</span></div>
-            <mss-input formControlName="addressName" [label]="'basic.address' | translate"></mss-input>
-            <div class="mss-validation-label"></div>
-            <mss-input formControlName="city" [label]="('basic.city' | translate) + '*'"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('city')">{{'basic.required.city' | translate}}</span></div>
-            <mss-input formControlName="street" [label]="('basic.street' | translate) + '*'"></mss-input>
-            <div class="mss-validation-label"><span *ngIf="isPresent('street')">{{'basic.required.street' | translate}}</span></div>
-            <ng-container *mssRoleIf="'admin.view'">
-              <mss-input formControlName="zip" [label]="('basic.zip' | translate) + '*' | translate"></mss-input>
-              <div class="mss-validation-label"><span *ngIf="isPresent('zip')">{{'basic.required.zip' | translate}}</span></div>
-              <mss-select [label]="'dictionary.state' | translate" formControlName="state" [options]="stateOptions"></mss-select>
-              <div class="mss-validation-label"></div>
-            </ng-container>
+          </ng-container>
 
+        </div>
+      </div>
+      <div class="edit-issuer-inputs" *ngIf="mode === ComponentMode.View && issuer">
+        <div class="detail-container">
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.name' | translate}}</div>
+            <div class="value">{{issuer.name}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.code' | translate}}</div>
+            <div class="value">{{issuer.code}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.firstName' | translate}}</div>
+            <div class="value">{{issuer.contactFirstname}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.lastName' | translate}}</div>
+            <div class="value">{{issuer.contactLastname}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.ico' | translate}}</div>
+            <div class="value">{{issuer.ico}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.dic' | translate}}</div>
+            <div class="value">{{issuer.dic}}</div>
+          </div>
+          <div class="mss-input-like-container" *mssRoleIf="'admin.view'">
+            <div class="label">{{'issuers.passwordHashValidityMinute' | translate}}</div>
+            <div class="value">{{issuer.passwordHashValidityMinute}}</div>
+          </div>
+          <div class="mss-input-like-container" *mssRoleIf="'admin.view'">
+            <div class="label">{{'issuers.maskedClnUse' | translate}}</div>
+            <div class="value">{{issuer.maskedClnUse}}</div>
           </div>
         </div>
-        <div class="edit-issuer-inputs" *ngIf="mode === ComponentMode.View && issuer">
-          <div class="detail-container">
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.name' | translate}}</div>
-              <div class="value">{{issuer.name}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.code' | translate}}</div>
-              <div class="value">{{issuer.code}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.firstName' | translate}}</div>
-              <div class="value">{{issuer.contactFirstname}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.lastName' | translate}}</div>
-              <div class="value">{{issuer.contactLastname}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.ico' | translate}}</div>
-              <div class="value">{{issuer.ico}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.dic' | translate}}</div>
-              <div class="value">{{issuer.dic}}</div>
-            </div>
-            <div class="mss-input-like-container" *mssRoleIf="'admin.view'">
-              <div class="label">{{'issuers.passwordHashValidityMinute' | translate}}</div>
-              <div class="value">{{issuer.passwordHashValidityMinute}}</div>
-            </div>
-            <div class="mss-input-like-container"  *mssRoleIf="'admin.view'">
-              <div class="label">{{'issuers.maskedClnUse' | translate}}</div>
-              <div class="value">{{issuer.maskedClnUse}}</div>
-            </div>
+        <div class="detail-container">
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.email' | translate}}</div>
+            <div class="value">{{issuer.email}}</div>
           </div>
-          <div class="detail-container">
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.email' | translate}}</div>
-              <div class="value">{{issuer.email}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.phone' | translate}}</div>
-              <div class="value">{{issuer.phone}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.address' | translate}}</div>
-              <div class="value">{{issuer.addressName}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.city' | translate}}</div>
-              <div class="value">{{issuer.city}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.street' | translate}}</div>
-              <div class="value">{{issuer.street}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'basic.zip' | translate}}</div>
-              <div class="value">{{issuer.zip}}</div>
-            </div>
-            <div class="mss-input-like-container">
-              <div class="label">{{'dictionary.state' | translate}}</div>
-              <div class="value">{{issuer.state}}</div>
-            </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.phone' | translate}}</div>
+            <div class="value">{{issuer.phone}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.address' | translate}}</div>
+            <div class="value">{{issuer.addressName}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.city' | translate}}</div>
+            <div class="value">{{issuer.city}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.street' | translate}}</div>
+            <div class="value">{{issuer.street}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'basic.zip' | translate}}</div>
+            <div class="value">{{issuer.zip}}</div>
+          </div>
+          <div class="mss-input-like-container">
+            <div class="label">{{'dictionary.state' | translate}}</div>
+            <div class="value">{{issuer.state}}</div>
           </div>
         </div>
-        <div class="mss-buttons-row">
-          <mss-button *ngIf="mode === ComponentMode.View" class="mss-action-button" [label]="'basic.edit' | translate"
-                      (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="mode === ComponentMode.Edit" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
-                      (click)="toggleUpdateIssuer()"></mss-button>
-          <mss-button *ngIf="mode === ComponentMode.Create" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
-                      (click)="goToTable()"></mss-button>
-          <mss-button *ngIf="mode === ComponentMode.Edit" [label]="'basic.save' | translate" class="mss-action-button"
-                      (click)="handleSaveButton()" type="submit"
-                      [disabled]="editIssuerForm.invalid"></mss-button>
-          <mss-button *ngIf="mode === ComponentMode.Create" [label]="'basic.add' | translate" class="mss-action-button"
-                      (click)="handleSaveButton()" type="submit"
-                      [disabled]="editIssuerForm.invalid"></mss-button>
-        </div>
-      </form>
-    </div>
+      </div>
+      <div class="mss-buttons-row">
+        <mss-button *ngIf="mode === ComponentMode.View" class="mss-action-button" [label]="'basic.edit' | translate"
+                    (click)="toggleUpdateIssuer()"></mss-button>
+        <mss-button *ngIf="mode === ComponentMode.Edit" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
+                    (click)="toggleUpdateIssuer()"></mss-button>
+        <mss-button *ngIf="mode === ComponentMode.Create" [label]="'basic.dismiss' | translate" class="mss-action-button right-margin"
+                    (click)="goToTable()"></mss-button>
+        <mss-button *ngIf="mode === ComponentMode.Edit" [label]="'basic.save' | translate" class="mss-action-button"
+                    (click)="handleSaveButton()" type="submit"
+                    [disabled]="editIssuerForm.invalid"></mss-button>
+        <mss-button *ngIf="mode === ComponentMode.Create" [label]="'basic.add' | translate" class="mss-action-button"
+                    (click)="handleSaveButton()" type="submit"
+                    [disabled]="editIssuerForm.invalid"></mss-button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="visibleTab.value === 'TRANSACTIONS'">
+    <mss-dashboard [embeded]="embedObject"></mss-dashboard>
   </div>
 </div>
